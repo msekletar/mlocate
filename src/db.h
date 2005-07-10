@@ -23,6 +23,7 @@ struct db_header
   uint8_t magic[8];		/* See DB_MAGIC below */
   uint8_t version;	       /* File format version, see DB_VERSION* below */
 };
+/* Followed by an EOF-terminated sequence of directories */
 
 /* Contains a '\0' byte to unambiguously mark the file as a binary file. */
 #define DB_MAGIC { '\0', 'm', 'l', 'o', 'c', 'a', 't', 'e' }
@@ -32,18 +33,17 @@ struct db_header
 /* Directory header */
 struct db_directory
 {
-  uint64_t ctime;		/* st_ctime of the directory */
+  uint64_t ctime;		/* st_ctime of the directory in big endian */
   uint32_t entries;		/* Number of entries in big endian */
-  uint32_t dir_name_len;
-  /* Followed by dir_name_len bytes containing the directory path */
+  /* Followed by NUL-terminated absolute path of the directory */
 };
+/* Followed by ENTRIES directory entries, sorted by name using strcmp () */
 
 /* Directory entry */
 struct db_entry
 {
-  uint32_t name_len;
-  uint32_t is_directory;
-  /* Followed by name_len bytes containing the name */
+  uint8_t is_directory;
+  /* Followed by NUL-terminated name */
 };
 
 #endif

@@ -12,6 +12,38 @@
 #include "db.h"
 #include "lib.h"
 
+/* Read a NUL-terminated string from DATABASE FILE to BUF from OFFSET on.
+   Return offset after the read string, or (size_t)-1 on I/O error. */
+static size_t
+read_name (struct growbuf *buf, size_t offset, const char *database,
+	   FILE *file)
+{
+  size_t i;
+
+  /* Surprisingly, this seems to be faster than fread () with a known size. */
+  flockfile (file);
+  i = offset;
+  for (;;)
+    {
+      int c;
+
+      c = getc (file);
+      if (c == 0)
+	break;
+      if (c == EOF)
+	{
+	  read_error (database, file, errno);
+	  i = (size_t)-1;
+	  break;
+	}
+      gb_alloc (buf, i + 1);
+      ((char *)buf->p)[i] = c;
+      i++;
+    }
+  funlockfile (file);
+  return i;
+}
+
 /* Search for PATTERN in DATABASE;
    return 0 if ok, -1 on error */
 static int
@@ -19,8 +51,8 @@ search_in_db (const char *database, const char *pattern)
 {
   FILE *f;
   struct db_directory dir;
+  struct growbuf path;
   int res, err;
-  struct growbuf gb;
 
   f = open_db (database);
   if (f == NULL)
@@ -28,31 +60,23 @@ search_in_db (const char *database, const char *pattern)
       res = -1;
       goto err;
     }
-  gb.p = NULL;
-  gb.len = 0;
+  path.p = NULL;
+  path.len = 0;
   while (fread (&dir, sizeof (dir), 1, f) == 1)
     {
       size_t dir_name_len;
       uint32_t entries;
 
-      dir_name_len = ntohl (dir.dir_name_len);
-      if (dir_name_len != ntohl (dir.dir_name_len))
+      dir_name_len = read_name (&path, 0, database, f);
+      if (dir_name_len == (size_t)-1)
 	{
-	  error (0, _("Directory name too long in `%s'"), database);
 	  res = -1;
-	  goto err_gb;
+	  goto err_path;
 	}
-      gb_alloc (&gb, dir_name_len + 1);
-      if (fread (gb.p, 1, dir_name_len, f) != dir_name_len)
-	{
-	  read_error (database, f, errno);
-	  res = -1;
-	  goto err_gb;
-	}
-      ((uint8_t *)gb.p)[dir_name_len] = '/';
+      gb_alloc (&path, dir_name_len + 1);
+      ((char *)path.p)[dir_name_len] = '/';
       dir_name_len++;
-      entries = ntohl (dir.entries);
-      while (entries != 0)
+      for (entries = ntohl (dir.entries); entries != 0; entries--)
 	{
 	  struct db_entry entry;
 	  size_t name_len;
@@ -61,28 +85,18 @@ search_in_db (const char *database, const char *pattern)
 	    {
 	      read_error (database, f, errno);
 	      res = -1;
-	      goto err_gb;
+	      goto err_path;
 	    }
-	  name_len = ntohl (entry.name_len);
-	  if (name_len != ntohl (entry.name_len)
-	      || dir_name_len + name_len + 1 < dir_name_len)
+	  name_len = read_name (&path, dir_name_len, database, f);
+	  if (name_len == (size_t)-1)
 	    {
-	      error (0, _("File name too long in `%s'"), database);
 	      res = -1;
-	      goto err_gb;
+	      goto err_path;
 	    }
-	  gb_alloc (&gb, dir_name_len + name_len + 1);
-	  if (fread ((uint8_t *)gb.p + dir_name_len, 1, name_len, f)
-	      != name_len)
-	    {
-	      read_error (database, f, errno);
-	      res = -1;
-	      goto err_gb;
-	    }
-	  ((uint8_t *)gb.p)[dir_name_len + name_len] = 0;
-	  if (fnmatch (pattern, gb.p, 0) == 0)
-	    puts (gb.p);
-	  entries--;
+	  gb_alloc (&path, name_len + 1);
+	  ((char *)path.p)[name_len] = 0;
+	  if (fnmatch (pattern, path.p, 0) == 0)
+	    puts (path.p);
 	}
     }
   err = errno;
@@ -91,12 +105,12 @@ search_in_db (const char *database, const char *pattern)
     {
       read_error (database, f, errno);
       res = -1;
-      goto err_gb;
+      goto err_path;
     }
   res = 0;
   /* Fall through */
- err_gb:
-  free (gb.p);
+ err_path:
+  free (path.p);
   fclose (f);
  err:
   return res;

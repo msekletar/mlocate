@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-10 00:29+0200\n"
-"PO-Revision-Date: 2005-07-09 23:23+0200\n"
+"POT-Creation-Date: 2005-07-10 02:31+0200\n"
+"PO-Revision-Date: 2005-07-10 02:36+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Neočekávaný konec souboru při čtení `%s'"
 msgid "Can not allocate memory"
 msgstr "Nemohu alokovat paměť"
 
-#: src/lib.c:131 src/updatedb.c:157
+#: src/lib.c:131 src/updatedb.c:217
 #, c-format
 msgid "Can not open `%s'"
 msgstr "Nemohu otevřít `%s'"
@@ -44,37 +44,21 @@ msgstr "`%s' zřejmě není databáze mlocate"
 msgid "`%s' has unknown version %u"
 msgstr "`%s' má neznámou verzi %u"
 
-#: src/locate.c:41
-#, c-format
-msgid "Directory name too long in `%s'"
-msgstr "Název adresáře v `%s' je příliš dlouhý"
-
-#: src/locate.c:70
-#, c-format
-msgid "File name too long in `%s'"
-msgstr "Název souboru v `%s' je příliš dlouhý"
-
-#: src/updatedb.c:97
+#: src/updatedb.c:85
 #, c-format
 msgid "Too many entries in directory `%s'"
 msgstr "Příliš mnoho položek v adresáři `%s'"
 
-#: src/updatedb.c:103
-#, c-format
-msgid "Directory name `%s' too long"
-msgstr "Název adresáře `%s' je příliš dlouhý"
+#: src/updatedb.c:220
+msgid "Can not change directory to `/'"
+msgstr "Nemohu změnit adresář na `/'"
 
-#: src/updatedb.c:116
-#, c-format
-msgid "File name `%s' too long"
-msgstr "Název souboru `%s' je příliš dlouhý"
-
-#: src/updatedb.c:161
+#: src/updatedb.c:223
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:163
-#, fuzzy, c-format
+#: src/updatedb.c:225
+#, c-format
 msgid "I/O error closing `%s'"
-msgstr "Chyba I/O při čtení `%s'"
+msgstr "Chyba I/O při zavírání `%s'"
