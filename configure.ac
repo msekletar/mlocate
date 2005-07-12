@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.02], [mitr@redhat.com])
+AC_INIT([mlocate], [0.03], [mitr@redhat.com])
 AC_COPYRIGHT(
 [Copyright (C) 2005 FIXME])
 AC_PREREQ(2.59)
@@ -27,6 +27,7 @@ AC_CHECK_MEMBERS([struct dirent.d_type], , , [#include <dirent.h>])
 # Checks for compiler characteristics.
 
 # Checks for library functions.
+AC_FUNC_OBSTACK
 
 # Checks for system services.
 AC_SYS_LARGEFILE

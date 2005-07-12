@@ -26,12 +26,17 @@
 /* Convert VAL to big endian */
 extern uint64_t htonll(uint64_t val);
 
+/* Convert VAL from big endian */
+extern uint64_t ntohll(uint64_t val);
+
 /* Report message FMT and potentially ERR if non-zero */
-extern void error (int err, const char *fmt, ...);
+extern void error (int err, const char *fmt, ...)
+  attribute__ ((format (printf, 2, 3)));
 
 /* Report message FMT and potentially ERR if non-zero and
    exit (EXIT_FAILURE) */
-extern void fatal (int err, const char *fmt, ...) attribute__ ((noreturn));
+extern void fatal (int err, const char *fmt, ...) 
+  attribute__ ((format (printf, 2, 3), noreturn));
 
 /* Report read error or unexpected EOF STREAM for FILENAME, using ERR */
 extern void read_error (const char *filename, FILE *stream, int err);
@@ -49,8 +54,13 @@ struct growbuf
 /* Make sure GB is at least LEN bytes large */
 extern void gb_alloc (struct growbuf *gb, size_t len);
 
-/* Open FILENAME, report error on failure.
+/* Open FILENAME, report error on failure if not QUIET.
    Return open database or NULL on error. */
-extern FILE *open_db (const char *filename);
+extern FILE *open_db (const char *filename, _Bool quiet);
+
+/* Read a NUL-terminated string from DATABASE FILE to BUF from OFFSET on.
+   Return offset after the read string, or (size_t)-1 on I/O error. */
+extern size_t read_name (struct growbuf *buf, size_t offset,
+			 const char *database, FILE *file);
 
 #endif

@@ -7,58 +7,61 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-10 02:31+0200\n"
-"PO-Revision-Date: 2005-07-10 02:36+0200\n"
+"POT-Creation-Date: 2005-07-10 05:16+0200\n"
+"PO-Revision-Date: 2005-07-10 05:16+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib.c:76
+#: src/lib.c:89
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "Chyba I/O při čtení `%s'"
 
-#: src/lib.c:78
+#: src/lib.c:91
 #, c-format
 msgid "Unexpected EOF reading `%s'"
 msgstr "Neočekávaný konec souboru při čtení `%s'"
 
-#: src/lib.c:90 src/lib.c:100
+#: src/lib.c:103 src/lib.c:113
 msgid "Can not allocate memory"
 msgstr "Nemohu alokovat paměť"
 
-#: src/lib.c:131 src/updatedb.c:217
+#: src/lib.c:145 src/updatedb.c:399
 #, c-format
 msgid "Can not open `%s'"
 msgstr "Nemohu otevřít `%s'"
 
-#: src/lib.c:142
+#: src/lib.c:158
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' zřejmě není databáze mlocate"
 
-#: src/lib.c:147
+#: src/lib.c:164
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' má neznámou verzi %u"
 
-#: src/updatedb.c:85
-#, c-format
-msgid "Too many entries in directory `%s'"
-msgstr "Příliš mnoho položek v adresáři `%s'"
-
-#: src/updatedb.c:220
+#: src/updatedb.c:403
 msgid "Can not change directory to `/'"
 msgstr "Nemohu změnit adresář na `/'"
 
-#: src/updatedb.c:223
+#: src/updatedb.c:406
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:225
+#: src/updatedb.c:408
 #, c-format
 msgid "I/O error closing `%s'"
 msgstr "Chyba I/O při zavírání `%s'"
+
+#: src/updatedb.c:410
+#, c-format
+msgid "Error replacing `%s'"
+msgstr "Chyba při nahrazování `%s'"
+
+#~ msgid "Too many entries in directory `%s'"
+#~ msgstr "Příliš mnoho položek v adresáři `%s'"

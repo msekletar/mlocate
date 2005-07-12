@@ -34,16 +34,23 @@ struct db_header
 struct db_directory
 {
   uint64_t ctime;		/* st_ctime of the directory in big endian */
-  uint32_t entries;		/* Number of entries in big endian */
   /* Followed by NUL-terminated absolute path of the directory */
 };
-/* Followed by ENTRIES directory entries, sorted by name using strcmp () */
+/* Followed by directory entries terminated by DBE_END, sorted by name using
+   strcmp () */
 
 /* Directory entry */
 struct db_entry
 {
-  uint8_t is_directory;
-  /* Followed by NUL-terminated name */
+  uint8_t type;			/* See DBE_* below */
+  /* Followed by NUL-terminated name if tag != DBE_END */
 };
+
+enum
+  {
+    DBE_NORMAL		= 0,	/* A non-directory file */
+    DBE_DIRECTORY	= 1,	/* A directory */
+    DBE_END		= 2   /* End of directory contents; contains no name */
+  };
 
 #endif

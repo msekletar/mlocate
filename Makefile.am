@@ -20,10 +20,10 @@ noinst_LIBRARIES = src/liblib.a
 
 ## Rules
 src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(DB_CPPFLAGS) $(GETTEXT_CPPFLAGS)
-src_locate_LDADD = src/liblib.a
+src_locate_LDADD = src/liblib.a $(LIBINTL)
 
 src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(DB_CPPFLAGS) $(GETTEXT_CPPFLAGS)
-src_updatedb_LDADD = src/liblib.a
+src_updatedb_LDADD = src/liblib.a $(LIBINTL)
 
 ## Dependency data
 src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h

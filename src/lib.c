@@ -33,6 +33,19 @@ htonll(uint64_t val)
   return ret;
 }
 
+/* Convert VAL from big endian */
+uint64_t
+ntohll(uint64_t val)
+{
+  uint8_t a[8];
+
+  assert (sizeof (a) == sizeof (val));
+  memcpy (a, &val, sizeof (val));
+  return (uint64_t)a[0] << 56 | (uint64_t)a[1] << 48 | (uint64_t)a[2] << 40
+    | (uint64_t)a[3] << 32 | (uint32_t)a[4] << 24
+    | (uint32_t)a[5] << 16 | (unsigned)a[6] << 8 | a[7];
+}
+
 /* Report message FMT with AP and potentially ERR if non-zero */
 static void
 verror (int err, const char *fmt, va_list ap)
@@ -115,10 +128,10 @@ gb_alloc (struct growbuf *gb, size_t len)
   gb->p = xrealloc (gb->p, gb->len);
 }
 
-/* Open FILENAME, report error on failure.
+/* Open FILENAME, report error on failure if not QUIET.
    Return open database or NULL on error. */
 FILE *
-open_db (const char *filename)
+open_db (const char *filename, _Bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
@@ -128,24 +141,28 @@ open_db (const char *filename)
   f = fopen (filename, "rb");
   if (f == NULL)
     {
-      error (errno, _("Can not open `%s'"), filename);
+      if (quiet == 0)
+	error (errno, _("Can not open `%s'"), filename);
       goto err;
     }
   if (fread (&header, sizeof (header), 1, f) != 1)
     {
-      read_error (filename, f, errno);
+      if (quiet == 0)
+	read_error (filename, f, errno);
       goto err_f;
     }
   assert (sizeof (magic) == sizeof (header.magic));
   if (memcmp (header.magic, magic, sizeof (magic)) != 0)
     {
-      error (0, _("`%s' does not seem to be a mlocate database"), filename);
+      if (quiet == 0)
+	error (0, _("`%s' does not seem to be a mlocate database"), filename);
       goto err_f;
     }
   if (header.version != DB_VERSION_0)
     {
-      error (0, _("`%s' has unknown version %u"), filename,
-	     (unsigned)header.version);
+      if (quiet == 0)
+	error (0, _("`%s' has unknown version %u"), filename,
+	       (unsigned)header.version);
       goto err_f;
     }
   return f;
@@ -154,4 +171,36 @@ open_db (const char *filename)
   fclose (f);
  err:
   return NULL;
+}
+
+/* Read a NUL-terminated string from DATABASE FILE to BUF from OFFSET on.
+   Return offset after the read string, or (size_t)-1 on I/O error. */
+size_t
+read_name (struct growbuf *buf, size_t offset, const char *database,
+	   FILE *file)
+{
+  size_t i;
+
+  /* Surprisingly, this seems to be faster than fread () with a known size. */
+  flockfile (file);
+  i = offset;
+  for (;;)
+    {
+      int c;
+
+      c = getc_unlocked (file);
+      if (c == 0)
+	break;
+      if (c == EOF)
+	{
+	  read_error (database, file, errno);
+	  i = (size_t)-1;
+	  break;
+	}
+      gb_alloc (buf, i + 1);
+      ((char *)buf->p)[i] = c;
+      i++;
+    }
+  funlockfile (file);
+  return i;
 }
