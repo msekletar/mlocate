@@ -1,4 +1,5 @@
 # List of source files which contain translatable strings.
+src/conf.c
 src/lib.c
 src/locate.c
 src/updatedb.c

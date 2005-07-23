@@ -1,14 +1,17 @@
 /* Database file format.
-   Copyright (C) 2005 FIXME
 
-   You can use this file without restriction.
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
 
-   This file is distributed in the hope that it will be useful, but WITHOUT
-   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-   FITNESS FOR A PARTICULAR PURPOSE.
+You can use this file without restriction.
 
-   (This file defines a file format, so even the LGPL seems too restrictive.
-   Share and enjoy.) */
+This file is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+(This file defines a file format, so even the LGPL seems too restrictive.
+   Share and enjoy.)
+
+Author: Miloslav Trmac <mitr@redhat.com> */
 
 #ifndef DB_H__
 #define DB_H__
@@ -22,8 +25,15 @@ struct db_header
 {
   uint8_t magic[8];		/* See DB_MAGIC below */
   uint8_t version;	       /* File format version, see DB_VERSION* below */
+  uint8_t check_visibility;	/* Check file visibility in locate(1) */
 };
-/* Followed by an EOF-terminated sequence of directories */
+/* Followed by an EOF-terminated sequence of directories.
+   
+   Directory records are not output for unreadable directories; such
+   directories do have an entry in their parent directory.
+
+   "/" does not have a parent directory, so it is not present in the database
+   at all. */
 
 /* Contains a '\0' byte to unambiguously mark the file as a binary file. */
 #define DB_MAGIC { '\0', 'm', 'l', 'o', 'c', 'a', 't', 'e' }

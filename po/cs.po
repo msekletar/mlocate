@@ -1,4 +1,5 @@
 # Czech translation of mlocate.
+# Copyright (C) 2005 Red Hat, Inc.
 # Copyright (C) 2005 Miloslav Trmac <mitr@volny.cz>
 # This file is distributed under the same license as the mlocate package.
 # Miloslav Trmac <mitr@volny.cz>, 2005.
@@ -7,61 +8,197 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-10 05:16+0200\n"
-"PO-Revision-Date: 2005-07-10 05:16+0200\n"
+"POT-Creation-Date: 2005-07-18 12:51+0200\n"
+"PO-Revision-Date: 2005-07-18 12:52+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib.c:89
+#: src/conf.c:155
+msgid "warning: Line number overflow"
+msgstr "varování: Číslo řádku přeteklo"
+
+#: src/conf.c:169
+msgid "EOF in quoted string"
+msgstr "konec souboru v řetězci v uvozovkách"
+
+#: src/conf.c:212 src/lib.c:117 src/updatedb.c:525
+#, c-format
+msgid "can not open `%s'"
+msgstr "nemohu otevřít `%s'"
+
+#: src/conf.c:245
+msgid "variable name expected"
+msgstr "očekáván název proměnné"
+
+#: src/conf.c:261
+#, c-format
+msgid "unknown variable `%s'"
+msgstr "neznámá proměnná `%s'"
+
+#: src/conf.c:267
+#, c-format
+msgid "variable `%s' was already defined"
+msgstr "proměnná `%s' již byla definována"
+
+#: src/conf.c:275
+msgid "`=' expected after variable name"
+msgstr "po názvu proměnné očekáváno `='"
+
+#: src/conf.c:282
+msgid "value in quotes expected after `='"
+msgstr "po `=' očekávána hodnota v uvozovkách"
+
+#: src/conf.c:290
+msgid "unexpected data after variable value"
+msgstr "neočekávaná data po hodnotě proměnné"
+
+#: src/conf.c:359
+msgid "--prunefs would override earlier command-line argument"
+msgstr "--prunefs by nahradilo dřívejší parametr na příkazovém řádku"
+
+#: src/conf.c:368
+msgid "--prunepaths would override earlier command-line argument"
+msgstr "--prunepaths by nahradilo dřívejší parametr na příkazovém řádku"
+
+#: src/conf.c:377
+msgid "--database-root specified twice"
+msgstr "--database-root zadáno dvakrát"
+
+#: src/conf.c:382
+#, c-format
+msgid ""
+"%s %s \n"
+"Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
+"This software is distributed under the GPL v.2.\n"
+"\n"
+"This program is provided with NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"%s %s \n"
+"Copyright © 2005 Red Hat, Inc. All rights reserved.\n"
+"Toto software je distribuováno pod podmínkami GPL v.2.\n"
+"\n"
+"Tento program je poskutován BEZ ZÁRUKY, je-li to povoleno zákonem.\n"
+
+#: src/conf.c:401
+#, c-format
+msgid ""
+"Usage: updatedb [OPTION]...\n"
+"Update a mlocate database.\n"
+"\n"
+"  -h, --help                     print this help\n"
+"  -V, --version                  print version information\n"
+"      --prunepaths PATHS         paths to omit from database\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s'\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -l, --require-visibility FLAG  check visibility before reporting files\n"
+"                                 (default \"true\")\n"
+"  -v, --verbose                  print paths of files as they are found\n"
+"\n"
+"The lists of paths and filesystems to omit default to values read from\n"
+"`%s'.\n"
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
+"Použití: updatedb [PŘEPÍNAČ]...\n"
+"Aktualizovat databázi mlocate.\n"
+"\n"
+"  -h, --help                        vypsat tuto nápovědu\n"
+"  -V, --version                     vypsat informace o verzi\n"
+"      --prunepaths CESTY            cesty, které vynechat z databáze\n"
+"      --prunefs SS                  systémy souborů, které vynechat z "
+"databáze\n"
+"  -o, --output SOUBOR               databáze, kterou aktualizovat "
+"(implicitně\n"
+"                                    `%s'\n"
+"  -U, --database-root CESTA         podstrom, který uložit do databáze\n"
+"                                    (implicitně \"/\")\n"
+"  -e, --add-prunepaths CESTY        vynechat také CESTY\n"
+"  -f, --add-prunefs SS              vynechat také SS\n"
+"  -l, --require-visibility PŘEPÍNAČ kontrolovat viditelnost před hlášením\n"
+"                                    souborů (implicitně \"true\")\n"
+"  -v, --verbose                     vypisovat cesty nalezených souborů\n"
+"\n"
+"Seznamy cest a systémů souborů, které vynechat, mají implicitní hodnoty "
+"čtené\n"
+"z `%s'.\n"
+"\n"
+"Chyby hlaste na %s.\n"
+
+#: src/conf.c:434
+msgid "--require-visibility specified twice"
+msgstr "--require-visibility zadáno dvakrát"
+
+#: src/conf.c:443
+#, c-format
+msgid "unknown value `%s' of --require-visibility"
+msgstr "neznámá hodnota `%s' přepínače --require-visibility"
+
+#: src/conf.c:449
+msgid "--output specified twice"
+msgstr "--output zadáno dvakrát"
+
+#: src/lib.c:66
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr "Chyba I/O při čtení `%s'"
+msgstr "chyba I/O při čtení `%s'"
 
-#: src/lib.c:91
+#: src/lib.c:68
 #, c-format
-msgid "Unexpected EOF reading `%s'"
-msgstr "Neočekávaný konec souboru při čtení `%s'"
+msgid "unexpected EOF reading `%s'"
+msgstr "neočekávaný konec souboru při čtení `%s'"
 
-#: src/lib.c:103 src/lib.c:113
-msgid "Can not allocate memory"
-msgstr "Nemohu alokovat paměť"
+#: src/lib.c:80 src/lib.c:99
+msgid "can not allocate memory"
+msgstr "nemohu alokovat paměť"
 
-#: src/lib.c:145 src/updatedb.c:399
-#, c-format
-msgid "Can not open `%s'"
-msgstr "Nemohu otevřít `%s'"
-
-#: src/lib.c:158
+#: src/lib.c:130
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' zřejmě není databáze mlocate"
 
-#: src/lib.c:164
+#: src/lib.c:137
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' má neznámou verzi %u"
 
-#: src/updatedb.c:403
-msgid "Can not change directory to `/'"
-msgstr "Nemohu změnit adresář na `/'"
+#: src/locate.c:91 src/updatedb.c:359 src/updatedb.c:411
+#, c-format
+msgid "file name length %zu too large"
+msgstr "délka názvu souboru %zu příliš velká"
 
-#: src/updatedb.c:406
+#: src/updatedb.c:274
+#, c-format
+msgid "path name length %zu too large"
+msgstr "délka názvu cesty %zu příliš velká"
+
+#: src/updatedb.c:330
+#, c-format
+msgid "Race when changing directory to %s/%s, subtree skipped.\n"
+msgstr "Souběh při změně adresáře na %s/%s, podstrom přeskočen.\n"
+
+#: src/updatedb.c:529
+msgid "can not change directory to `/'"
+msgstr "nemohu změnit adresář na `/'"
+
+#: src/updatedb.c:535
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "Chyba I/O při zápisu do `%s'"
+msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:408
+#: src/updatedb.c:538
 #, c-format
 msgid "I/O error closing `%s'"
-msgstr "Chyba I/O při zavírání `%s'"
+msgstr "chyba I/O při zavírání `%s'"
 
-#: src/updatedb.c:410
+#: src/updatedb.c:540
 #, c-format
-msgid "Error replacing `%s'"
-msgstr "Chyba při nahrazování `%s'"
-
-#~ msgid "Too many entries in directory `%s'"
-#~ msgstr "Příliš mnoho položek v adresáři `%s'"
+msgid "error replacing `%s'"
+msgstr "chyba při nahrazování `%s'"

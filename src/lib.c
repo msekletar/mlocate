@@ -1,7 +1,22 @@
 /* Common functions.
-   Copyright (C) 2005 FIXME */
+
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+This copyrighted material is made available to anyone wishing to use, modify,
+copy, or redistribute it subject to the terms and conditions of the GNU General
+Public License v.2.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 
+#include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
@@ -10,75 +25,73 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <error.h>
+#include <obstack.h>
+
 #include "db.h"
 #include "lib.h"
 
 /* Convert VAL to big endian */
 uint64_t
-htonll(uint64_t val)
+htonll (uint64_t val)
 {
-  uint8_t a[8];
+  uint32_t low, high;
   uint64_t ret;
 
-  a[0] = (val >> 56) & 0xFF;
-  a[1] = (val >> 48) & 0xFF;
-  a[2] = (val >> 40) & 0xFF;
-  a[3] = (val >> 32) & 0xFF;
-  a[4] = (val >> 24) & 0xFF;
-  a[5] = (val >> 16) & 0xFF;
-  a[6] = (val >> 8) & 0xFF;
-  a[7] = val & 0xFF;
-  assert (sizeof (ret) == sizeof (a));
-  memcpy (&ret, a, sizeof (ret));
+  low = htonl ((uint32_t)val);
+  high = htonl (val >> 32);
+  assert (sizeof (ret) == sizeof (high) + sizeof (low));
+  memcpy (&ret, &high, sizeof (high));
+  memcpy ((unsigned char *)&ret + sizeof (high), &low, sizeof (low));
   return ret;
 }
 
 /* Convert VAL from big endian */
 uint64_t
-ntohll(uint64_t val)
+ntohll (uint64_t val)
 {
-  uint8_t a[8];
+  uint32_t low, high;
 
-  assert (sizeof (a) == sizeof (val));
-  memcpy (a, &val, sizeof (val));
-  return (uint64_t)a[0] << 56 | (uint64_t)a[1] << 48 | (uint64_t)a[2] << 40
-    | (uint64_t)a[3] << 32 | (uint32_t)a[4] << 24
-    | (uint32_t)a[5] << 16 | (unsigned)a[6] << 8 | a[7];
+  assert (sizeof (high) + sizeof (low) == sizeof (val));
+  memcpy (&high, &val, sizeof (high));
+  memcpy (&low, (unsigned char *)&val + sizeof (high), sizeof (low));
+  return (uint64_t)ntohl (high) << 32 | ntohl (low);
 }
 
-/* Report message FMT with AP and potentially ERR if non-zero */
-static void
-verror (int err, const char *fmt, va_list ap)
-{
-  vfprintf (stderr, fmt, ap);
-  if (err == 0)
-    putc ('\n', stderr);
-  else
-    fprintf (stderr, ": %s\n", strerror (err));
-}
+/* A mapping table for dir_path_cmp: '\0' < '/' < anything else */
+static unsigned char dir_path_cmp_table[UCHAR_MAX + 1];
 
-/* Report message FMT and potentially ERR if non-zero */
+/* Initialize dir_path_cmp_table */
 void
-error (int err, const char *fmt, ...)
+dir_path_cmp_init (void)
 {
-  va_list ap;
+  size_t i;
+  unsigned char val;
 
-  va_start (ap, fmt);
-  verror (err, fmt, ap);
-  va_end (ap);
+  dir_path_cmp_table[0] = 0;
+  dir_path_cmp_table[1] = '/';
+  val = (unsigned char)1;
+  for (i = 2; i < ARRAY_SIZE (dir_path_cmp_table); i++)
+    {
+      if (val == '/')
+	val++;
+      dir_path_cmp_table[i] = val;
+      val++;
+    }
 }
 
-/* Report message FMT and potentially ERR if non-zero and
-   exit (EXIT_FAILURE) */
-void
-fatal (int err, const char *fmt, ...)
+/* Compare two path names using the database directory order. This is not
+   exactly strcmp () order: "a" < "a.b", so "a/z" < "a.b". */
+int
+dir_path_cmp (const char *a, const char *b)
 {
-  va_list ap;
-
-  va_start (ap, fmt);
-  verror (err, fmt, ap);
-  va_end (ap);
-  exit (EXIT_FAILURE);
+  while (*a == *b && *a != 0)
+    {
+      a++;
+      b++;
+    }
+  return ((int)dir_path_cmp_table[(unsigned char)*a]
+	  - (int)dir_path_cmp_table[(unsigned char)*b]);
 }
 
 /* Report read error or unexpected EOF STREAM for FILENAME, using ERROR */
@@ -86,9 +99,9 @@ void
 read_error (const char *filename, FILE *stream, int err)
 {
   if (ferror (stream))
-    error (err, _("I/O error reading `%s'"), filename);
+    error (0, err, _("I/O error reading `%s'"), filename);
   else
-    error (0, _("Unexpected EOF reading `%s'"), filename);
+    error (0, 0, _("unexpected EOF reading `%s'"), filename);
 }
 
 /* Allocate SIZE bytes, terminate on failure */
@@ -100,38 +113,22 @@ xmalloc (size_t size)
   p = malloc (size);
   if (p != NULL || size == 0)
     return p;
-  fatal (errno, _("Can not allocate memory"));
+  error (EXIT_FAILURE, errno, _("can not allocate memory"));
+  abort (); /* Not reached */
 }
 
-/* Reallocate PTR to SIZE bytes, terminate on failure */
-void *
-xrealloc (void *ptr, size_t size)
+/* Used by obstack code */
+struct _obstack_chunk *
+obstack_chunk_alloc (long size)
 {
-  ptr = realloc (ptr, size);
-  if (ptr != NULL || size == 0)
-    return ptr;
-  fatal (errno, _("Can not allocate memory"));
+  return xmalloc (size);
 }
 
-/* Make sure GB is at least LEN bytes large */
-void
-gb_alloc (struct growbuf *gb, size_t len)
-{
-  /* TIME: Total allocations of buffer is O(N), where N is maximal requested
-     buffer size rounded up */
-  if (gb->len >= len)
-    return;
-  if (gb->len == 0)
-    gb->len = 64; /* Arbitrary */
-  while (gb->len < len)
-    gb->len *= 2;
-  gb->p = xrealloc (gb->p, gb->len);
-}
-
-/* Open FILENAME, report error on failure if not QUIET.
+/* Open FILENAME, report error on failure if not QUIET.  Store database
+   visibility check flag to *CHECK_VISIBLITY;
    Return open database or NULL on error. */
 FILE *
-open_db (const char *filename, _Bool quiet)
+open_db (const char *filename, _Bool *check_visibility, _Bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
@@ -142,7 +139,7 @@ open_db (const char *filename, _Bool quiet)
   if (f == NULL)
     {
       if (quiet == 0)
-	error (errno, _("Can not open `%s'"), filename);
+	error (0, errno, _("can not open `%s'"), filename);
       goto err;
     }
   if (fread (&header, sizeof (header), 1, f) != 1)
@@ -155,16 +152,25 @@ open_db (const char *filename, _Bool quiet)
   if (memcmp (header.magic, magic, sizeof (magic)) != 0)
     {
       if (quiet == 0)
-	error (0, _("`%s' does not seem to be a mlocate database"), filename);
+	error (0, 0, _("`%s' does not seem to be a mlocate database"),
+	       filename);
       goto err_f;
     }
   if (header.version != DB_VERSION_0)
     {
       if (quiet == 0)
-	error (0, _("`%s' has unknown version %u"), filename,
+	error (0, 0, _("`%s' has unknown version %u"), filename,
 	       (unsigned)header.version);
       goto err_f;
     }
+  if (header.check_visibility != 0 && header.check_visibility != 1)
+    {
+      if (quiet == 0)
+	error (0, 0, _("`%s' has unknown visibility flag %u"), filename,
+	       (unsigned)header.check_visibility);
+      goto err_f;
+    }
+  *check_visibility = header.check_visibility;
   return f;
 
  err_f:
@@ -173,17 +179,18 @@ open_db (const char *filename, _Bool quiet)
   return NULL;
 }
 
-/* Read a NUL-terminated string from DATABASE FILE to BUF from OFFSET on.
-   Return offset after the read string, or (size_t)-1 on I/O error. */
-size_t
-read_name (struct growbuf *buf, size_t offset, const char *database,
-	   FILE *file)
+/* Read a NUL-terminated string from DATABASE FILE to current object
+   in OBSTACK (without the terminating NULL), report error on failure if not
+   QUIET.
+   Return 0 if OK, or -1 on I/O error. */
+int
+read_name (struct obstack *h, const char *database, FILE *file, _Bool quiet)
 {
-  size_t i;
+  int res;
 
   /* Surprisingly, this seems to be faster than fread () with a known size. */
+  res = 0;
   flockfile (file);
-  i = offset;
   for (;;)
     {
       int c;
@@ -193,14 +200,13 @@ read_name (struct growbuf *buf, size_t offset, const char *database,
 	break;
       if (c == EOF)
 	{
-	  read_error (database, file, errno);
-	  i = (size_t)-1;
+	  if (quiet == 0)
+	    read_error (database, file, errno);
+	  res = -1;
 	  break;
 	}
-      gb_alloc (buf, i + 1);
-      ((char *)buf->p)[i] = c;
-      i++;
+      obstack_1grow (h, c);
     }
   funlockfile (file);
-  return i;
+  return res;
 }
