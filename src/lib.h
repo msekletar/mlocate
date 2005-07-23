@@ -25,6 +25,8 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 
 #include <obstack.h>
 
+#include "db.h"
+
 #ifdef ENABLE_NLS
 #include <libintl.h>
 #else
@@ -70,16 +72,15 @@ extern struct _obstack_chunk *obstack_chunk_alloc (long size);
 enum { OBSTACK_SIZE_MAX = 1024 * 1024 };
 
 /* Open FILENAME, report error on failure if not QUIET.  Store database
-   visibility check flag to *CHECK_VISIBLITY;
+   header to *HEADER;
    Return open database or NULL on error. */
-extern FILE *open_db (const char *filename, _Bool *check_visibility,
+extern FILE *open_db (struct db_header *header, const char *filename,
 		      _Bool quiet);
 
-/* Read a NUL-terminated string from DATABASE FILE to current object
-   in OBSTACK (without the terminating NULL), report error on failure if not
-   QUIET.
+/* Read a NUL-terminated string from FILE to current object in OBSTACK (without
+   the terminating NULL), report error on failure about DATABASE if it is not
+   NULL.
    Return 0 if OK, or -1 on I/O error. */
-extern int read_name (struct obstack *h, const char *database, FILE *file,
-		      _Bool quiet);
+extern int read_name (struct obstack *h, FILE *file, const char *database);
 
 #endif

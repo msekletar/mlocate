@@ -16,6 +16,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 
+#include <arpa/inet.h>
 #include <assert.h>
 #include <ctype.h>
 #include <dirent.h>
@@ -23,7 +24,9 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <fcntl.h>
 #include <limits.h>
 #include <locale.h>
+#include <signal.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -87,7 +90,6 @@ dir_finish (struct directory *dir, struct dir_state *state)
 
 /* The old database or NULL */
 static FILE *old_db;
-static const char *old_db_filename;
 /* Next unprocessed directory from the old database or old_dir.path == NULL */
 static struct directory old_dir; /* = { 0, }; */
 
@@ -113,8 +115,7 @@ next_old_dir (void)
   if (fread (&dir, sizeof (dir), 1, old_db) != 1)
     goto err;
   old_dir.ctime = ntohll (dir.ctime);
-  if (read_name (&old_dir_state.data_obstack, old_db_filename, old_db, 1)
-      != 0)
+  if (read_name (&old_dir_state.data_obstack, old_db, NULL) != 0)
     goto err;
   obstack_1grow (&old_dir_state.data_obstack, 0);
   old_dir.path = obstack_finish (&old_dir_state.data_obstack);
@@ -146,8 +147,7 @@ next_old_dir (void)
       assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
       obstack_blank (&old_dir_state.data_obstack,
 		     offsetof (struct entry, name));
-      if (read_name (&old_dir_state.data_obstack, old_db_filename, old_db, 1)
-	  != 0)
+      if (read_name (&old_dir_state.data_obstack, old_db, NULL) != 0)
 	goto err;
       obstack_1grow (&old_dir_state.data_obstack, 0);
       size = (OBSTACK_OBJECT_SIZE (&old_dir_state.data_obstack)
@@ -176,17 +176,54 @@ next_old_dir (void)
   old_db = NULL;
 }
 
-/* Open the old database FILENAME and prepare for reading it */
+/* Open the old database and prepare for reading it */
 static void
-old_db_open (const char *filename)
+old_db_open (void)
 {
-  _Bool check_visibility;
+  struct obstack obstack;
+  struct db_header hdr;
+  const char *src;
+  uint32_t size;
   
-  old_db_filename = filename;
-  old_db = open_db (filename, &check_visibility, 1);
+  old_db = open_db (&hdr, conf_output, 1);
+  size = ntohl (hdr.conf_size);
+  if (size != conf_block_size)
+    goto err_old_db;
+  obstack_init (&obstack);
+  obstack_alignment_mask (&obstack) = 0;
+  if (read_name (&obstack, old_db, NULL) != 0)
+    goto err_obstack;
+  obstack_1grow (&obstack, 0);
+  if (strcmp (obstack_finish (&obstack), conf_scan_root) != 0)
+    goto err_obstack;
+  obstack_free (&obstack, NULL);
+  src = conf_block;
+  while (size != 0)
+    {
+      char buf[BUFSIZ];
+      size_t run;
+
+      run = sizeof (buf);
+      if (run > size)
+	run = size;
+      run = fread (buf, 1, run,  old_db);
+      if (run == 0)
+	goto err_old_db;
+      if (memcmp (src, buf, run) != 0)
+	goto err_old_db;
+      src += run;
+      size -= run;
+    }
   dir_state_init (&old_dir_state);
   old_dir_data_mark = obstack_alloc (&old_dir_state.data_obstack, 0);
   next_old_dir ();
+  return;
+
+ err_obstack:
+  obstack_free (&obstack, NULL);
+ err_old_db:
+  fclose (old_db);
+  old_db = NULL;
 }
 
  /* $PRUNEFS handling */
@@ -254,6 +291,11 @@ filesystem_is_excluded (const char *path_)
 
  /* Filesystem scanning */
 
+/* The new database */
+static FILE *new_db;
+/* A _temporary_ file name, or NULL if there is no temporary file */
+static char *new_db_filename;
+
 /* Global obstacks for filesystem scanning */
 static struct dir_state scan_dir_state;
 
@@ -261,39 +303,38 @@ static struct dir_state scan_dir_state;
 static size_t conf_prunepaths_index; /* = 0; */
 
 /* Forward declaration */
-static int scan (FILE *f, const char *path, int *cwd_fd,
-		 const struct stat *st_parent, const char *relative);
+static int scan (const char *path, int *cwd_fd, const struct stat *st_parent,
+		 const char *relative);
 
-/* Write DIR to F. */
+/* Write DIR to new_db. */
 static void
-write_directory (FILE *f, const struct directory *dir)
+write_directory (const struct directory *dir)
 {
   struct db_directory header;
   struct db_entry entry;
   size_t i;
 
   header.ctime = htonll (dir->ctime);
-  fwrite (&header, sizeof (header), 1, f);
-  fwrite (dir->path, 1, strlen (dir->path) + 1, f);
+  fwrite (&header, sizeof (header), 1, new_db);
+  fwrite (dir->path, 1, strlen (dir->path) + 1, new_db);
   for (i = 0; i < dir->num_entries; i++)
     {
       struct entry *e;
 
       e = dir->entries[i];
       entry.type = e->is_directory != 0 ? DBE_DIRECTORY : DBE_NORMAL;
-      fwrite (&entry, sizeof (entry), 1, f);
-      fwrite (e->name, 1, e->name_size, f);
+      fwrite (&entry, sizeof (entry), 1, new_db);
+      fwrite (e->name, 1, e->name_size, new_db);
     }
   entry.type = DBE_END;
-  fwrite (&entry, sizeof (entry), 1, f);
+  fwrite (&entry, sizeof (entry), 1, new_db);
 }
 
 /* Scan subdirectories of the current working directory, which has ST, among
-   entries in DIR, and write results to F.  The current working directory is
-   not guaranteed to be preserved on return from this function. */
+   entries in DIR, and write results to new_db.  The current working directory
+   is not guaranteed to be preserved on return from this function. */
 static void
-scan_subdirs (FILE *f, const const struct directory *dir,
-	      const struct stat *st)
+scan_subdirs (const const struct directory *dir, const struct stat *st)
 {
   struct obstack obstack;
   int cwd_fd;
@@ -303,7 +344,7 @@ scan_subdirs (FILE *f, const const struct directory *dir,
   obstack_init (&obstack);
   if (prefix_len > OBSTACK_SIZE_MAX)
     {
-      error (0, 0, _("path name length %zu too large"), prefix_len);
+      error (0, 0, _("path name length %zu is too large"), prefix_len);
       goto err_obstack;
     }
   obstack_grow (&obstack, dir->path, prefix_len);
@@ -324,7 +365,7 @@ scan_subdirs (FILE *f, const const struct directory *dir,
 	  /* Verified in copy_old_dir () and scan_cwd () */
 	  assert (e->name_size <= OBSTACK_SIZE_MAX);
 	  obstack_grow (&obstack, e->name, e->name_size);
-	  if (scan (f, obstack_base (&obstack), &cwd_fd, st, e->name) != 0)
+	  if (scan (obstack_base (&obstack), &cwd_fd, st, e->name) != 0)
 	    goto err_cwd_fd;
 	  obstack_blank (&obstack, -(ssize_t)e->name_size);
 	}
@@ -336,13 +377,11 @@ scan_subdirs (FILE *f, const const struct directory *dir,
   obstack_free (&obstack, NULL);
 }
 
-/* If *CWD_FD != -1, open "." (which is PATH), store fd to *CWD_FD; then 
-   chdir (RELATIVE), failing if there is a race condition; RELATIVE is supposed
-   to match OLD_ST.
+/* If *CWD_FD != -1, open ".", store fd to *CWD_FD; then chdir (RELATIVE),
+   failing if there is a race condition; RELATIVE is supposed to match OLD_ST.
    Return 0 if OK, -1 on error */
 static int
-safe_chdir (int *cwd_fd, const char *path, const char *relative,
-	    const struct stat *old_st)
+safe_chdir (int *cwd_fd, const char *relative, const struct stat *old_st)
 {
   struct stat st;
 
@@ -358,11 +397,7 @@ safe_chdir (int *cwd_fd, const char *path, const char *relative,
   if (chdir (relative) != 0 || lstat (".", &st) != 0)
     return -1;
   if (old_st->st_dev != st.st_dev || old_st->st_ino != st.st_ino)
-    {
-      fprintf (stderr, _("Race when changing directory to %s/%s, subtree "
-			 "skipped.\n"), path, relative);
-      return -1;
-    }
+    return -1; /* Race condition, skip the subtree */
   return 0;
 }
 
@@ -388,7 +423,7 @@ copy_old_dir (struct directory *dest)
       size = offsetof (struct entry, name) + e->name_size;
       if (size > OBSTACK_SIZE_MAX)
 	{
-	  error (0, 0, _("file name length %zu too large"), e->name_size);
+	  error (0, 0, _("file name length %zu is too large"), e->name_size);
 	  continue;
 	}
       copy = obstack_copy (&scan_dir_state.data_obstack, e, size);
@@ -474,16 +509,15 @@ scan_cwd (struct directory *dest, const char *path)
 }
 
 /* Scan filesystem subtree rooted at PATH, which is "./RELATIVE", and write
-   results to F.  Try to preserve current working directory (opening a file
-   descriptor to it in *CWD_FD, if *CWD_FD == -1).  Use ST_PARENT for checking
-   whether a PATH is a mount point.
-   Return -1 if the current working directory couldn't be preserved, 0 
-   otherwise.
+   results to new_db.  Try to preserve current working directory (opening a
+   file descriptor to it in *CWD_FD, if *CWD_FD == -1).  Use ST_PARENT for
+   checking whether a PATH is a mount point.  Return -1 if the current working
+   directory couldn't be preserved, 0 otherwise.
 
    Note that PATH may be longer than PATH_MAX, so relative file names should
    always be used. */
 static int
-scan (FILE *f, const char *path, int *cwd_fd, const struct stat *st_parent,
+scan (const char *path, int *cwd_fd, const struct stat *st_parent,
       const char *relative)
 {
   struct directory dir;
@@ -523,7 +557,7 @@ scan (FILE *f, const char *path, int *cwd_fd, const struct stat *st_parent,
       int res;
 
       did_chdir = 1;
-      if (safe_chdir (cwd_fd, path, relative, &st) != 0)
+      if (safe_chdir (cwd_fd, relative, &st) != 0)
 	goto err;
       res = scan_cwd (&dir, path);
       if (res == -1)
@@ -532,16 +566,16 @@ scan (FILE *f, const char *path, int *cwd_fd, const struct stat *st_parent,
     }
   dir.path = path;
   dir.ctime = st.st_ctime;
-  write_directory (f, &dir);
+  write_directory (&dir);
   if (have_subdir != 0)
     {
       if (did_chdir == 0)
 	{
 	  did_chdir = 1;
-	  if (safe_chdir (cwd_fd, path, relative, &st) != 0)
+	  if (safe_chdir (cwd_fd, relative, &st) != 0)
 	    goto err_entries;
 	}
-      scan_subdirs (f, &dir, &st);
+      scan_subdirs (&dir, &st);
     }
  err_entries:
   obstack_free (&scan_dir_state.list_obstack, dir.entries);
@@ -553,15 +587,55 @@ scan (FILE *f, const char *path, int *cwd_fd, const struct stat *st_parent,
   return 0;
 }
 
-int
-main (int argc, char *argv[])
+ /* Top level */
+
+/* Unlink new_db_filename */
+static void
+unlink_db (void)
+{
+  if (new_db_filename != NULL)
+    unlink (new_db_filename);
+}
+
+/* Open a temporary file for the new database and initialize its header
+   and configuration block.  Exit on error. */
+static void
+new_db_open (void)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
   struct db_header db_header;
+  char *filename;
+  int db_fd;
+  
+  filename = xmalloc (strlen (conf_output) + 8);
+  sprintf (filename, "%s.XXXXXX", conf_output);
+  db_fd = mkstemp (filename);
+  if (db_fd == -1)
+    error (EXIT_FAILURE, 0, _("can not open a temporary file for `%s'"),
+	   conf_output);
+  new_db_filename = filename;
+  /* We still allow termination by signals without removing the file, because
+     it is unsafe to set db_to_unlink to NULL in presence of signals and
+     blind unlinking of the file can remove a file we don't own. */
+  new_db = fdopen (db_fd, "wb");
+  if (new_db == NULL)
+    error (EXIT_FAILURE, errno, _("can not open `%s'"), new_db_filename);
+  memset (&db_header, 0, sizeof (db_header));
+  assert (sizeof (db_header.magic) == sizeof (magic));
+  memcpy (db_header.magic, &magic, sizeof (magic));
+  db_header.conf_size = htonl (conf_block_size);
+  db_header.version = DB_VERSION_0;
+  db_header.check_visibility = conf_check_visibility;
+  fwrite (&db_header, sizeof (db_header), 1, new_db);
+  fwrite (conf_scan_root, 1, strlen (conf_scan_root) + 1, new_db);
+  fwrite (conf_block, 1, conf_block_size, new_db);
+}
+
+int
+main (int argc, char *argv[])
+{
   struct stat st;
-  FILE *f;
-  char *tmp_db;
   int cwd_fd;
 
   dir_path_cmp_init ();
@@ -569,20 +643,9 @@ main (int argc, char *argv[])
   bindtextdomain (PACKAGE_NAME, LOCALEDIR);
   textdomain (PACKAGE_NAME);
   conf_prepare (argc, argv);
-  /* FIXME: ignore if config is different from the old database */
-  old_db_open (conf_output);
-  /* FIXME: security, opening with O_EXCL etc... */
-  /* FIXME: left there on fatal error */
-  tmp_db = xmalloc (strlen (conf_output) + 5);
-  sprintf (tmp_db, "%s.tmp", conf_output);
-  f = fopen (tmp_db, "wb");
-  if (f == NULL)
-    error (EXIT_FAILURE, errno, _("can not open `%s'"), tmp_db);
-  assert (sizeof (db_header.magic) == sizeof (magic));
-  memcpy (db_header.magic, &magic, sizeof (magic));
-  db_header.version = DB_VERSION_0;
-  db_header.check_visibility = conf_check_visibility;
-  fwrite (&db_header, sizeof (db_header), 1, f);
+  old_db_open ();
+  atexit (unlink_db); /* Relevant only while new_db_filename != NULL */
+  new_db_open ();
   dir_state_init (&scan_dir_state);
   if (chdir (conf_scan_root) != 0)
     error (EXIT_FAILURE, errno, _("can not change directory to `%s'"),
@@ -590,15 +653,17 @@ main (int argc, char *argv[])
   if (lstat (".", &st) != 0)
     error (EXIT_FAILURE, errno, _("can not stat () `%s'"), conf_scan_root);
   cwd_fd = -1;
-  scan (f, conf_scan_root, &cwd_fd, &st, ".");
+  scan (conf_scan_root, &cwd_fd, &st, ".");
   if (cwd_fd != -1)
     close (cwd_fd);
-  if (ferror (f))
-    error (EXIT_FAILURE, 0, _("I/O error while writing to `%s'"), tmp_db);
-  if (fclose (f) != 0)
-    error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), tmp_db);
-  if (rename (tmp_db, conf_output) != 0)
+  if (ferror (new_db))
+    error (EXIT_FAILURE, 0, _("I/O error while writing to `%s'"),
+	   new_db_filename);
+  if (fclose (new_db) != 0)
+    error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
+  if (rename (new_db_filename, conf_output) != 0)
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
-  free (tmp_db);
+  free (new_db_filename);
+  new_db_filename = NULL;
   return EXIT_SUCCESS;
 }

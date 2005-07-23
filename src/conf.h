@@ -39,6 +39,10 @@ extern const char *conf_output;
 /* 1 if file names should be written to stdout as they are found */
 extern _Bool conf_verbose;
 
+/* Configuration representation for the database configuration block */
+extern const char *conf_block;
+extern size_t conf_block_size;
+
 /* Parse /etc/updatedb.conf and command-line arguments ARGC, ARGV.
    Exit on error or --help, --version. */
 extern void conf_prepare (int argc, char *argv[]);

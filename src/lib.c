@@ -125,15 +125,14 @@ obstack_chunk_alloc (long size)
 }
 
 /* Open FILENAME, report error on failure if not QUIET.  Store database
-   visibility check flag to *CHECK_VISIBLITY;
+   header to *HEADER;
    Return open database or NULL on error. */
 FILE *
-open_db (const char *filename, _Bool *check_visibility, _Bool quiet)
+open_db (struct db_header *header, const char *filename, _Bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
   FILE *f;
-  struct db_header header;
 
   f = fopen (filename, "rb");
   if (f == NULL)
@@ -142,35 +141,34 @@ open_db (const char *filename, _Bool *check_visibility, _Bool quiet)
 	error (0, errno, _("can not open `%s'"), filename);
       goto err;
     }
-  if (fread (&header, sizeof (header), 1, f) != 1)
+  if (fread (header, sizeof (*header), 1, f) != 1)
     {
       if (quiet == 0)
 	read_error (filename, f, errno);
       goto err_f;
     }
-  assert (sizeof (magic) == sizeof (header.magic));
-  if (memcmp (header.magic, magic, sizeof (magic)) != 0)
+  assert (sizeof (magic) == sizeof (header->magic));
+  if (memcmp (header->magic, magic, sizeof (magic)) != 0)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' does not seem to be a mlocate database"),
 	       filename);
       goto err_f;
     }
-  if (header.version != DB_VERSION_0)
+  if (header->version != DB_VERSION_0)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown version %u"), filename,
-	       (unsigned)header.version);
+	       (unsigned)header->version);
       goto err_f;
     }
-  if (header.check_visibility != 0 && header.check_visibility != 1)
+  if (header->check_visibility != 0 && header->check_visibility != 1)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown visibility flag %u"), filename,
-	       (unsigned)header.check_visibility);
+	       (unsigned)header->check_visibility);
       goto err_f;
     }
-  *check_visibility = header.check_visibility;
   return f;
 
  err_f:
@@ -179,12 +177,12 @@ open_db (const char *filename, _Bool *check_visibility, _Bool quiet)
   return NULL;
 }
 
-/* Read a NUL-terminated string from DATABASE FILE to current object
-   in OBSTACK (without the terminating NULL), report error on failure if not
-   QUIET.
+/* Read a NUL-terminated string from FILE to current object in OBSTACK (without
+   the terminating NULL), report error on failure about DATABASE if it is not
+   NULL.
    Return 0 if OK, or -1 on I/O error. */
 int
-read_name (struct obstack *h, const char *database, FILE *file, _Bool quiet)
+read_name (struct obstack *h, FILE *file, const char *database)
 {
   int res;
 
@@ -200,7 +198,7 @@ read_name (struct obstack *h, const char *database, FILE *file, _Bool quiet)
 	break;
       if (c == EOF)
 	{
-	  if (quiet == 0)
+	  if (database != NULL)
 	    read_error (database, file, errno);
 	  res = -1;
 	  break;

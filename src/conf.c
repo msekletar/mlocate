@@ -51,6 +51,10 @@ const char *conf_output; /* = NULL; */
 /* 1 if file names should be written to stdout as they are found */
 _Bool conf_verbose; /* = 0; */
 
+/* Configuration representation for the database configuration block */
+const char *conf_block;
+size_t conf_block_size;
+
  /* String list handling */
 
 /* A "variable" in progress: a list of whitespace-separated strings */
@@ -425,6 +429,7 @@ parse_arguments (int argc, char *argv[])
 	    error (EXIT_FAILURE, 0, _("--database-root specified twice"));
 	  conf_scan_root = optarg;
 	  if (*conf_scan_root != '/')
+	    /* Not necessarily the canonical path name */
 	    error (EXIT_FAILURE, 0, _("the argument to --database-root must "
 				      "be an absolute path name"));
 	  break;
@@ -510,6 +515,8 @@ parse_arguments (int argc, char *argv[])
 	}
     }
  options_done:
+  if (optind != argc)
+    error (EXIT_FAILURE, 0, _("unexpected operand on command line"));
   if (conf_scan_root == NULL)
     conf_scan_root = "/";
   if (conf_output == NULL)
@@ -518,6 +525,37 @@ parse_arguments (int argc, char *argv[])
 
  /* Conversion of configuration for main code */
 
+static struct obstack conf_block_obstack;
+  
+/* Generate conf_block */
+static void
+gen_conf_block (void)
+{
+  static const char nul; /* = 0; */
+
+  size_t i;
+
+  obstack_init (&conf_block_obstack);
+  obstack_alignment_mask (&conf_block_obstack) = 0;
+#define CONST(S) obstack_grow (&conf_block_obstack, S, sizeof (S))
+  /* conf_check_visibility value is stored in the header */
+  CONST ("prunefs");
+  for (i = 0; i < conf_prunefs_len; i++)
+    obstack_grow (&conf_block_obstack, conf_prunefs[i],
+		  strlen (conf_prunefs[i]) + 1);
+  obstack_grow (&conf_block_obstack, &nul, 1);
+  CONST ("prunepaths");
+  for (i = 0; i < conf_prunepaths_len; i++)
+    obstack_grow (&conf_block_obstack, conf_prunepaths[i],
+		  strlen (conf_prunepaths[i]) + 1);
+  obstack_grow (&conf_block_obstack, &nul, 1);
+  /* scan_root is contained directly in the header */
+  /* conf_output, conf_verbose are not relevant */
+#undef CONST
+  conf_block_size = OBSTACK_OBJECT_SIZE (&conf_block_obstack);
+  conf_block = obstack_finish (&conf_block_obstack);
+}
+  
 /* Compare two string pointers using dir_path_cmp () */
 static int
 cmp_dir_path_pointers (const void *xa, const void *xb)
@@ -550,7 +588,8 @@ conf_prepare (int argc, char *argv[])
 	*p = toupper((unsigned char)*p);
     }
   paths = var_finish (&prunepaths_var, &conf_prunepaths_len);
+  conf_prunepaths = paths;
+  gen_conf_block ();
   qsort (paths, conf_prunepaths_len, sizeof (*conf_prunepaths),
 	 cmp_dir_path_pointers);
-  conf_prunepaths = paths;
 }

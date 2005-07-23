@@ -16,6 +16,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 
+#include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <fnmatch.h>
@@ -39,6 +40,56 @@ static void *path_obstack_mark;
 
 /* Contains a single object */
 static struct obstack check_obstack;
+
+/* Skip SIZE bytes in FILENAME F;
+   Return 0 if OK, -1 on error */
+static int
+f_skip (FILE *f, const char *filename, uint32_t size)
+{
+  _Bool do_fseek;
+
+  do_fseek = 1;
+  while (size != 0)
+    {
+      size_t run;
+
+      if (do_fseek != 0)
+	{
+	  run = LONG_MAX;
+	  if (run > size)
+	    run = size;
+	  if (fseek (f, size, SEEK_CUR) != 0)
+	    {
+	      if (errno != ESPIPE)
+		{
+		  error (0, errno, _("I/O error seeking in `%s'"), filename);
+		  goto err;
+		}
+	      run = 0;
+	      do_fseek = 0;
+	    }
+	}
+      else
+	{
+	  char buf[BUFSIZ];
+
+	  run = sizeof (buf);
+	  if (run > size)
+	    run = size;
+	  run = fread (buf, 1, run, f);
+	  if (run == 0)
+	    {
+	      read_error (filename, f, errno);
+	      goto err;
+	    }
+	}
+      size -= run;
+    }
+  return 0;
+
+ err:
+  return -1;
+}
 
 /* Check permissions of parent directory of PATH; it should be accessible and
    readable.
@@ -64,6 +115,7 @@ check_directory_perms (const char *path)
 
       old = *slash;
       *slash = 0;
+      /* FIXME: caching */
       if (access (copy, slash == last_slash ? R_OK : R_OK | X_OK) != 0)
 	goto err_copy;
       *slash = old;
@@ -97,30 +149,39 @@ static int
 search_in_db (const char *database, const char *pattern)
 {
   FILE *f;
-  _Bool check_visibility;
+  struct db_header hdr;
   struct db_directory dir;
   size_t size;
   int res, err, visible;
 
   res = -1;
-  f = open_db (database, &check_visibility, 0);
+  f = open_db (&hdr, database, 0);
   if (f == NULL)
     goto err;
-  /* FIXME: wrong for databases with a different root */
-  handle_path ("/", &visible, pattern);
+  if (read_name (&path_obstack, f, database) != 0)
+    goto err_path;
+  obstack_1grow (&path_obstack, 0);
+  visible = hdr.check_visibility ? -1 : 1;
+  handle_path (obstack_finish (&path_obstack), &visible, pattern);
+  obstack_free (&path_obstack, path_obstack_mark);
+  if (f_skip (f, database, ntohl (hdr.conf_size)) != 0)
+    goto err_path;
   while (fread (&dir, sizeof (dir), 1, f) == 1)
     {
       size_t dir_name_len;
 
-      if (read_name (&path_obstack, database, f, 0) != 0)
+      if (read_name (&path_obstack, f, database) != 0)
 	goto err_path;
       size = OBSTACK_OBJECT_SIZE (&path_obstack);
       if (size == 0)
-	goto err_path;
+	{
+	  error (0, 0, _("invalid empty directory name in `%s'"), database);
+	  goto err_path;
+	}
       if (size != 1 || *(char *)obstack_base (&path_obstack) != '/')
 	obstack_1grow (&path_obstack, '/');
       dir_name_len = OBSTACK_OBJECT_SIZE (&path_obstack);
-      visible = check_visibility ? -1 : 1;
+      visible = hdr.check_visibility ? -1 : 1;
       for (;;)
 	{
 	  struct db_entry entry;
@@ -132,7 +193,7 @@ search_in_db (const char *database, const char *pattern)
 	    }
 	  if (entry.type == DBE_END)
 	    break;
-	  if (read_name (&path_obstack, database, f, 0) != 0)
+	  if (read_name (&path_obstack, f, database) != 0)
 	    goto err_path;
 	  obstack_1grow (&path_obstack, 0);
 	  handle_path (obstack_base (&path_obstack), &visible, pattern);
@@ -140,8 +201,8 @@ search_in_db (const char *database, const char *pattern)
 	  if (size > OBSTACK_SIZE_MAX)
 	    {
 	      /* No surprises, please */
-	      error (0, 0, _("file name length %zu in `%s' too large"), size,
-		     database);
+	      error (0, 0, _("file name length %zu in `%s' is too large"),
+		     size, database);
 	      goto err_path;
 	    }
 	  obstack_blank (&path_obstack, -(ssize_t)size);

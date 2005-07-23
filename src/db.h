@@ -24,10 +24,19 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 struct db_header
 {
   uint8_t magic[8];		/* See DB_MAGIC below */
+  uint32_t conf_size;		/* Configuration block size, in big endian */
   uint8_t version;	       /* File format version, see DB_VERSION* below */
   uint8_t check_visibility;	/* Check file visibility in locate(1) */
+  uint8_t pad[2];		/* 32-bit total alignment */
+  /* Followed by NUL-terminated path of the root of the database */
 };
-/* Followed by an EOF-terminated sequence of directories.
+/* Followed by a configuration block and an EOF-terminated sequence of
+   directories.
+
+   The configuration block is a sequence of name-values pairs
+   (variable name '\0' (variable value '\0')... '\0'), ordered by name.  If
+   more than one value of a variable is present, they are ordered as if by
+   strcmp ().
    
    Directory records are not output for unreadable directories; such
    directories do have an entry in their parent directory.
