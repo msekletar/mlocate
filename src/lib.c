@@ -24,6 +24,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include <error.h>
 #include <obstack.h>
@@ -124,28 +125,25 @@ obstack_chunk_alloc (long size)
   return xmalloc (size);
 }
 
-/* Open FILENAME, report error on failure if not QUIET.  Store database
-   header to *HEADER;
-   Return open database or NULL on error. */
-FILE *
-open_db (struct db_header *header, const char *filename, _Bool quiet)
+ /* Reading of existing databases */
+
+/* Open FILENAME (already open as FILE), as DB, report error on failure if not
+   QUIET.  Store database header to *HEADER; return 0 if OK, -1 on error.
+   Takes ownership of FILE: it will be closed by db_close () or before return
+   from this function if it fails.
+
+   FILENAME must stay valid until db_close (). */
+int
+db_open (struct db *db, struct db_header *header, FILE *file,
+	 const char *filename, _Bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
-  FILE *f;
-
-  f = fopen (filename, "rb");
-  if (f == NULL)
+  if (fread (header, sizeof (*header), 1, file) != 1)
     {
       if (quiet == 0)
-	error (0, errno, _("can not open `%s'"), filename);
-      goto err;
-    }
-  if (fread (header, sizeof (*header), 1, f) != 1)
-    {
-      if (quiet == 0)
-	read_error (filename, f, errno);
-      goto err_f;
+	read_error (filename, file, errno);
+      goto err_file;
     }
   assert (sizeof (magic) == sizeof (header->magic));
   if (memcmp (header->magic, magic, sizeof (magic)) != 0)
@@ -153,58 +151,180 @@ open_db (struct db_header *header, const char *filename, _Bool quiet)
       if (quiet == 0)
 	error (0, 0, _("`%s' does not seem to be a mlocate database"),
 	       filename);
-      goto err_f;
+      goto err_file;
     }
   if (header->version != DB_VERSION_0)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown version %u"), filename,
 	       (unsigned)header->version);
-      goto err_f;
+      goto err_file;
     }
   if (header->check_visibility != 0 && header->check_visibility != 1)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown visibility flag %u"), filename,
 	       (unsigned)header->check_visibility);
-      goto err_f;
+      goto err_file;
     }
-  return f;
+  db->file = file;
+  db->filename = filename;
+  db->buf_pos = db->buffer;
+  db->buf_end = db->buffer;
+  db->read_bytes = sizeof (*header);
+  return 0;
 
- err_f:
-  fclose (f);
- err:
-  return NULL;
+ err_file:
+  fclose (file);
+  return -1;
 }
 
-/* Read a NUL-terminated string from FILE to current object in OBSTACK (without
-   the terminating NULL), report error on failure about DATABASE if it is not
-   NULL.
-   Return 0 if OK, or -1 on I/O error. */
-int
-read_name (struct obstack *h, FILE *file, const char *database)
+/* Close DB */
+void
+db_close (struct db *db)
 {
-  int res;
+  fclose (db->file);
+}
 
-  /* Surprisingly, this seems to be faster than fread () with a known size. */
-  res = 0;
-  flockfile (file);
+/* Refill DB->buffer;
+   return number of bytes in buffer OK, 0 on error or EOF */
+static size_t
+db_refill (struct db *db)
+{
+  size_t size;
+
+  size = fread (db->buffer, 1, sizeof (db->buffer), db->file);
+  db->buf_pos = db->buffer;
+  db->buf_end = db->buffer + size;
+  db->read_bytes += size;
+  return size;
+}
+
+/* Read SIZE (!= 0) bytes from DB to BUF;
+   return 0 if OK, -1 on error */
+int
+db_read (struct db *db, void *buf, size_t size)
+{
+  assert (size != 0);
+  do
+    {
+      size_t run;
+
+      run = db->buf_end - db->buf_pos;
+      if (run == 0)
+	{
+	  run = db_refill (db);
+	  if (run == 0)
+	    return -1;
+	}
+      if (run > size)
+	run = size;
+      memcpy (buf, db->buf_pos, run);
+      buf = (char *)buf + run;
+      db->buf_pos += run;
+      size -= run;
+    }
+  while (size != 0);
+  return 0;
+}
+
+/* Read a NUL-terminated string from DB to current object in OBSTACK (without
+   the terminating NUL), report error on failure if not QUIET.
+   return 0 if OK, or -1 on I/O error. */
+int
+db_read_name (struct db *db, struct obstack *h, _Bool quiet)
+{
   for (;;)
     {
-      int c;
+      size_t run;
+      char *nul;
 
-      c = getc_unlocked (file);
-      if (c == 0)
-	break;
-      if (c == EOF)
+      run = db->buf_end - db->buf_pos;
+      if (run == 0)
 	{
-	  if (database != NULL)
-	    read_error (database, file, errno);
-	  res = -1;
+	  run = db_refill (db);
+	  if (run == 0)
+	    goto err;
+	}
+      nul = memchr (db->buf_pos, 0, run);
+      if (nul != NULL)
+	{
+	  obstack_grow (h, db->buf_pos, nul - db->buf_pos);
+	  db->buf_pos = nul + 1;
 	  break;
 	}
-      obstack_1grow (h, c);
+      obstack_grow (h, db->buf_pos, run);
+      db->buf_pos = db->buf_end;
     }
-  funlockfile (file);
-  return res;
+  return 0;
+
+ err:
+  if (quiet == 0)
+    read_error (db->filename, db->file, errno);
+  return -1;
+}
+
+/* Skip SIZE bytes in DB, report error on failure if not QUIET;
+   return 0 if OK, -1 on error */
+int
+db_skip (struct db *db, off_t size, _Bool quiet)
+{
+  _Bool do_fseek;
+  size_t run;
+  
+  run = db->buf_end - db->buf_pos;
+  if (run > size)
+    run = size;
+  db->buf_pos += run;
+  size -= run;
+  do_fseek = 1;
+  while (size != 0)
+    {
+      if (do_fseek != 0)
+	{
+	  run = LONG_MAX;
+	  if (run > size)
+	    run = size;
+	  if (fseek (db->file, size, SEEK_CUR) != 0)
+	    {
+	      if (errno != ESPIPE)
+		{
+		  if (quiet == 0)
+		    error (0, errno, _("I/O error seeking in `%s'"),
+			   db->filename);
+		  goto err;
+		}
+	      run = 0;
+	      do_fseek = 0;
+	    }
+	}
+      else
+	{
+	  char buf[BUFSIZ];
+
+	  run = sizeof (buf);
+	  if (run > size)
+	    run = size;
+	  run = fread (buf, 1, run, db->file);
+	  db->read_bytes += size;
+	  if (run == 0)
+	    {
+	      if (quiet == 0)
+		read_error (db->filename, db->file, errno);
+	      goto err;
+	    }
+	}
+      size -= run;
+    }
+  return 0;
+
+ err:
+  return -1;
+}
+
+/* Return number of bytes read from DB so far  */
+uintmax_t
+db_bytes_read (struct db *db)
+{
+  return db->read_bytes - (db->buf_end - db->buf_pos);
 }

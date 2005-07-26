@@ -219,8 +219,7 @@ uc_lex (char **ptr)
 	    {
 	      error_at_line (0, 0, UPDATEDB_CONF, uc_line,
 			     _("EOF in quoted string"));
-	      if (c != EOF)
-		ungetc (c, uc_file);
+	      ungetc (c, uc_file);
 	      break;
 	    }
 	  obstack_1grow (&uc_obstack, c);
@@ -239,8 +238,7 @@ uc_lex (char **ptr)
 	  c = getc_unlocked (uc_file);
 	}
       while (c != EOF && isalnum ((unsigned char)c));
-      if (c != EOF)
-	ungetc (c, uc_file);
+      ungetc (c, uc_file);
       obstack_1grow (&uc_obstack, 0);
       *ptr = obstack_finish (&uc_obstack);
       obstack_mark = *ptr;
@@ -388,11 +386,11 @@ parse_arguments (int argc, char *argv[])
       { NULL, 0, NULL, 0 }
     };
 
-  _Bool prunefs_changed, prunepaths_changed, had_visibility;
+  _Bool prunefs_changed, prunepaths_changed, got_visibility;
 
   prunefs_changed = 0;
   prunepaths_changed = 0;
-  had_visibility = 0;
+  got_visibility = 0;
   for (;;)
     {
       int opt, idx;
@@ -408,8 +406,8 @@ parse_arguments (int argc, char *argv[])
 
 	case 'F':
 	  if (prunefs_changed != 0)
-	    error (EXIT_FAILURE, 0, _("--prunefs would override earlier "
-				      "command-line argument"));
+	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
+				      "command-line argument"), "prunefs");
 	  prunefs_changed = 1;
 	  var_clear (&prunefs_var);
 	  var_add_values (&prunefs_var, optarg);
@@ -417,8 +415,8 @@ parse_arguments (int argc, char *argv[])
 	  
 	case 'P':
 	  if (prunepaths_changed != 0)
-	    error (EXIT_FAILURE, 0, _("--prunepaths would override earlier "
-				      "command-line argument"));
+	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
+				      "command-line argument"), "prunepaths");
 	  prunepaths_changed = 1;
 	  var_clear (&prunepaths_var);
 	  var_add_values (&prunepaths_var, optarg);
@@ -426,7 +424,8 @@ parse_arguments (int argc, char *argv[])
 	  
 	case 'U':
 	  if (conf_scan_root != NULL)
-	    error (EXIT_FAILURE, 0, _("--database-root specified twice"));
+	    error (EXIT_FAILURE, 0, _("--%s specified twice"),
+		   "database-root");
 	  conf_scan_root = optarg;
 	  if (*conf_scan_root != '/')
 	    /* Not necessarily the canonical path name */
@@ -457,38 +456,38 @@ parse_arguments (int argc, char *argv[])
 	  printf (_("Usage: updatedb [OPTION]...\n"
 		    "Update a mlocate database.\n"
 		    "\n"
+		    "  -f, --add-prunefs FS           omit also FS\n"
+		    "  -e, --add-prunepaths PATHS     omit also PATHS\n"
+		    "  -U, --database-root PATH       the subtree to store in "
+		    "database (default \"/\")\n"
 		    "  -h, --help                     print this help\n"
-		    "  -V, --version                  print version "
-		    "information\n"
-		    "      --prunepaths PATHS         paths to omit from "
-		    "database\n"
-		    "      --prunefs FS               filesystems to omit "
-		    "from database\n"
 		    "  -o, --output FILE              database to update "
 		    "(default\n"
 		    "                                 `%s'\n"
-		    "  -U, --database-root PATH       the subtree to store in "
-		    "database (default \"/\")\n"
-		    "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-		    "  -f, --add-prunefs FS           omit also FS\n"
+		    "      --prunefs FS               filesystems to omit "
+		    "from database\n"
+		    "      --prunepaths PATHS         paths to omit from "
+		    "database\n"
 		    "  -l, --require-visibility FLAG  check visibility "
 		    "before reporting files\n"
 		    "                                 (default \"true\")\n"
 		    "  -v, --verbose                  print paths of files as "
 		    "they are found\n"
+		    "  -V, --version                  print version "
+		    "information\n"
 		    "\n"
 		    "The lists of paths and filesystems to omit default to "
 		    "values read from\n"
-		    "`%s'.\n"
-		    "\n"
-		    "Report bugs to %s.\n"), DBFILE, UPDATEDB_CONF,
-		  PACKAGE_BUGREPORT);
+		    "`%s'.\n"), DBFILE, UPDATEDB_CONF);
+	  printf (_("\n"
+		    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
 	  exit (EXIT_SUCCESS);
 
 	case 'l':
-	  if (had_visibility != 0)
-	    error (EXIT_FAILURE, 0, _("--require-visibility specified twice"));
-	  had_visibility = 1;
+	  if (got_visibility != 0)
+	    error (EXIT_FAILURE, 0, _("--%s specified twice"),
+		   "require-visibility");
+	  got_visibility = 1;
 	  if (strcmp (optarg, "0") == 0 || strcmp (optarg, "no") == 0
 	      || strcmp (optarg, "false") == 0)
 	    conf_check_visibility = 0;
@@ -502,7 +501,7 @@ parse_arguments (int argc, char *argv[])
 	  
 	case 'o':
 	  if (conf_output != NULL)
-	    error (EXIT_FAILURE, 0, _("--output specified twice"));
+	    error (EXIT_FAILURE, 0, _("--%s specified twice"), "output");
 	  conf_output = optarg;
 	  break;
 	  

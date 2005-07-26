@@ -20,9 +20,9 @@
 dbdir = $(localstatedir)/mlocate
 localedir = $(datadir)/locale
 ACLOCAL_AMFLAGS = -I m4
+COMMON_CPPFLAGS = -DDBFILE='"$(dbdir)/mlocate.db"' \
+	-DLOCALEDIR='"$(localedir)"' -DGROUPNAME='"mlocate"'
 CONF_CPPFLAGS = -DUPDATEDB_CONF='"$(sysconfdir)/updatedb.conf"'
-DB_CPPFLAGS = -DDBFILE='"$(dbdir)/mlocate.db"'
-GETTEXT_CPPFLAGS = -DLOCALEDIR='"$(localedir)"'
 
 ## Targets
 SUBDIRS = po
@@ -33,12 +33,11 @@ libexec_PROGRAMS = src/updatedb
 noinst_LIBRARIES = src/liblib.a
 
 ## Rules
-src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(DB_CPPFLAGS) $(GETTEXT_CPPFLAGS)
+src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS)
 src_locate_LDADD = src/liblib.a $(LIBINTL)
 
 src_updatedb_SOURCES = src/conf.c src/conf.h src/updatedb.c
-src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(CONF_CPPFLAGS) $(DB_CPPFLAGS) \
-	$(GETTEXT_CPPFLAGS)
+src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS) $(CONF_CPPFLAGS)
 src_updatedb_LDADD = src/liblib.a $(LIBINTL)
 
 ## Dependency data

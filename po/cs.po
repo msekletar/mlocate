@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-24 01:47+0200\n"
-"PO-Revision-Date: 2005-07-24 01:48+0200\n"
+"POT-Creation-Date: 2005-07-26 18:21+0200\n"
+"PO-Revision-Date: 2005-07-26 17:41+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: src/conf.c:207
 msgid "warning: Line number overflow"
@@ -24,54 +25,53 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "EOF in quoted string"
 msgstr "konec souboru v řetězci v uvozovkách"
 
-#: src/conf.c:264 src/lib.c:141 src/updatedb.c:623
+#: src/conf.c:262 src/locate.c:883 src/updatedb.c:630
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
 
-#: src/conf.c:297
+#: src/conf.c:295
 msgid "variable name expected"
 msgstr "očekáván název proměnné"
 
-#: src/conf.c:313
+#: src/conf.c:311
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "neznámá proměnná `%s'"
 
-#: src/conf.c:319
+#: src/conf.c:317
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "proměnná `%s' již byla definována"
 
-#: src/conf.c:327
+#: src/conf.c:325
 msgid "`=' expected after variable name"
 msgstr "po názvu proměnné očekáváno `='"
 
-#: src/conf.c:334
+#: src/conf.c:332
 msgid "value in quotes expected after `='"
 msgstr "po `=' očekávána hodnota v uvozovkách"
 
-#: src/conf.c:342
+#: src/conf.c:340
 msgid "unexpected data after variable value"
 msgstr "neočekávaná data po hodnotě proměnné"
 
-#: src/conf.c:411
-msgid "--prunefs would override earlier command-line argument"
-msgstr "--prunefs by nahradilo dřívejší parametr na příkazovém řádku"
+#: src/conf.c:409 src/conf.c:418 src/locate.c:544 src/locate.c:551
+#: src/locate.c:575 src/locate.c:673
+#, c-format
+msgid "--%s would override earlier command-line argument"
+msgstr "--%s by nahradilo dřívejší parametr na příkazovém řádku"
 
-#: src/conf.c:420
-msgid "--prunepaths would override earlier command-line argument"
-msgstr "--prunepaths by nahradilo dřívejší parametr na příkazovém řádku"
+#: src/conf.c:427 src/conf.c:488 src/conf.c:504 src/locate.c:647
+#, c-format
+msgid "--%s specified twice"
+msgstr "--%s zadáno dvakrát"
 
-#: src/conf.c:429
-msgid "--database-root specified twice"
-msgstr "--database-root zadáno dvakrát"
-
-#: src/conf.c:433
+#: src/conf.c:432
 msgid "the argument to --database-root must be an absolute path name"
 msgstr "parametr --database-root musí být absolutní cesta"
 
-#: src/conf.c:438
+#: src/conf.c:437 src/locate.c:565
 #, c-format
 msgid ""
 "%s %s \n"
@@ -86,158 +86,284 @@ msgstr ""
 "\n"
 "Tento program je poskutován BEZ ZÁRUKY, je-li to povoleno zákonem.\n"
 
-#: src/conf.c:457
+#: src/conf.c:456
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
 "Update a mlocate database.\n"
 "\n"
-"  -h, --help                     print this help\n"
-"  -V, --version                  print version information\n"
-"      --prunepaths PATHS         paths to omit from database\n"
-"      --prunefs FS               filesystems to omit from database\n"
-"  -o, --output FILE              database to update (default\n"
-"                                 `%s'\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
 "  -U, --database-root PATH       the subtree to store in database (default "
 "\"/\")\n"
-"  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -f, --add-prunefs FS           omit also FS\n"
+"  -h, --help                     print this help\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s'\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"      --prunepaths PATHS         paths to omit from database\n"
 "  -l, --require-visibility FLAG  check visibility before reporting files\n"
 "                                 (default \"true\")\n"
 "  -v, --verbose                  print paths of files as they are found\n"
+"  -V, --version                  print version information\n"
 "\n"
 "The lists of paths and filesystems to omit default to values read from\n"
 "`%s'.\n"
-"\n"
-"Report bugs to %s.\n"
 msgstr ""
 "Použití: updatedb [PŘEPÍNAČ]...\n"
 "Aktualizovat databázi mlocate.\n"
 "\n"
+"  -f, --add-prunefs SS              vynechat také SS\n"
+"  -e, --add-prunepaths CESTY        vynechat také CESTY\n"
+"  -U, --database-root CESTA         podstrom, který uložit do databáze\n"
+"                                    (implicitně \"/\")\n"
 "  -h, --help                        vypsat tuto nápovědu\n"
-"  -V, --version                     vypsat informace o verzi\n"
-"      --prunepaths CESTY            cesty, které vynechat z databáze\n"
-"      --prunefs SS                  systémy souborů, které vynechat z "
-"databáze\n"
 "  -o, --output SOUBOR               databáze, kterou aktualizovat "
 "(implicitně\n"
 "                                    `%s'\n"
-"  -U, --database-root CESTA         podstrom, který uložit do databáze\n"
-"                                    (implicitně \"/\")\n"
-"  -e, --add-prunepaths CESTY        vynechat také CESTY\n"
-"  -f, --add-prunefs SS              vynechat také SS\n"
+"      --prunefs SS                  systémy souborů, které vynechat z "
+"databáze\n"
+"      --prunepaths CESTY            cesty, které vynechat z databáze\n"
 "  -l, --require-visibility PŘEPÍNAČ kontrolovat viditelnost před hlášením\n"
 "                                    souborů (implicitně \"true\")\n"
 "  -v, --verbose                     vypisovat cesty nalezených souborů\n"
+"  -V, --version                     vypsat informace o verzi\n"
 "\n"
 "Seznamy cest a systémů souborů, které vynechat, mají implicitní hodnoty "
 "čtené\n"
 "z `%s'.\n"
+
+#: src/conf.c:482 src/locate.c:634
+#, c-format
+msgid ""
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
 "\n"
 "Chyby hlaste na %s.\n"
 
-#: src/conf.c:490
-msgid "--require-visibility specified twice"
-msgstr "--require-visibility zadáno dvakrát"
-
-#: src/conf.c:499
+#: src/conf.c:498
 #, c-format
 msgid "unknown value `%s' of --require-visibility"
 msgstr "neznámá hodnota `%s' přepínače --require-visibility"
 
-#: src/conf.c:505
-msgid "--output specified twice"
-msgstr "--output zadáno dvakrát"
-
-#: src/conf.c:519
+#: src/conf.c:518
 msgid "unexpected operand on command line"
 msgstr "neočekávaný parametr na příkazovém řádku"
 
-#: src/lib.c:102
+#: src/lib.c:103
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "chyba I/O při čtení `%s'"
 
-#: src/lib.c:104
+#: src/lib.c:105
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "neočekávaný konec souboru při čtení `%s'"
 
-#: src/lib.c:116
+#: src/lib.c:117
 msgid "can not allocate memory"
 msgstr "nemohu alokovat paměť"
 
-#: src/lib.c:154
+#: src/lib.c:152
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' zřejmě není databáze mlocate"
 
-#: src/lib.c:161
+#: src/lib.c:159
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' má neznámou verzi %u"
 
-#: src/lib.c:168
+#: src/lib.c:166
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' má neznámý příznak viditelnosti %u"
 
-#: src/locate.c:65
+#: src/lib.c:293
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "chyba I/O při posouvání v `%s'"
 
-#: src/locate.c:178
+#: src/locate.c:369
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "neplatný prázdný název adresáře v `%s'"
 
-#: src/locate.c:204
+#: src/locate.c:397
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "délka názvu souboru %zu v `%s' je příliš velká"
 
-#: src/updatedb.c:347
+#: src/locate.c:419
 #, c-format
-msgid "path name length %zu is too large"
-msgstr "délka názvu cesty %zu je příliš velká"
+msgid "Database %s:\n"
+msgstr "Databáze %s:\n"
 
-#: src/updatedb.c:426
+#: src/locate.c:422
 #, c-format
-msgid "file name length %zu is too large"
-msgstr "délka názvu souboru %zu je příliš velká"
+msgid "\t%ju directory\n"
+msgid_plural "\t%ju directories\n"
+msgstr[0] "\t%ju adresář\n"
+msgstr[1] "\t%ju adresáře\n"
+msgstr[2] "\t%ju adresářů\n"
 
-#: src/updatedb.c:480
+#: src/locate.c:424
 #, c-format
-msgid "file name length %zu too large"
-msgstr "délka názvu souboru %zu příliš velká"
+msgid "\t%ju file\n"
+msgid_plural "\t%ju files\n"
+msgstr[0] "\t%ju soubor\n"
+msgstr[1] "\t%ju soubory\n"
+msgstr[2] "\t%ju souborů\n"
 
-#: src/updatedb.c:615
+#: src/locate.c:426
 #, c-format
-msgid "can not open a temporary file for `%s'"
-msgstr "nemohu otevřít dočasný soubor pro `%s'"
+msgid "\t%ju byte in file names\n"
+msgid_plural "\t%ju bytes in file names\n"
+msgstr[0] "\t%ju bajt v názvech souborů\n"
+msgstr[1] "\t%ju bajty v názvech souborů\n"
+msgstr[2] "\t%ju bajtů v názvech souborů\n"
 
-#: src/updatedb.c:651
+#: src/locate.c:429
 #, c-format
-msgid "can not change directory to `%s'"
-msgstr "nemohu změnit adresář na `%s'"
+msgid "\t%ju byte used to store database\n"
+msgid_plural "\t%ju bytes used to store database\n"
+msgstr[0] "\t%ju bajt použit pro uložení databáze\n"
+msgstr[1] "\t%ju bajty použity pro uložení databáze\n"
+msgstr[2] "\t%ju bajtů použito pro uložení databáze\n"
 
-#: src/updatedb.c:654
+#: src/locate.c:594
+#, c-format
+msgid ""
+"Usage: locate [OPTION]... [PATTERN]...\n"
+"Search for entries in a mlocate database.\n"
+"\n"
+"  -b, --basename         match only the base name of path names\n"
+"  -c, --count            only print number of found entries\n"
+"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"                         %s)\n"
+"  -e, --existing         only print entries for currently existing files\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
+msgstr ""
+"Použití: locate [PŘEPÍNAČ]... [VZOR]...\n"
+"Hledat položky v databázi mlocate.\n"
+"\n"
+"  -b, --basename          porovnávat v cestách k souborům jen názvy\n"
+"  -c, --count             vypsat jen počet nalezených položek\n"
+"  -d, --database CESTADB  používat CESTADB místo implicitní databáze (což "
+"je\n"
+"                          %s)\n"
+"  -e, --existing          vypisovat jen položky pro momentálně existující\n"
+"                          soubory\n"
+"  -L, --follow            při kontrole existence souborů sledovat koncové\n"
+"                          symbolické odkazy (implicitní)\n"
+"  -h, --help              vypsat tuto nápovědu\n"
+"  -i, --ignore-case       při porovnávání vzorů nerozlišovat velikost "
+"písmen\n"
+"  -l, --limit, -n LIMIT   omezit výstup (nebo počítání) na LIMIT položek\n"
+"  -m, --mmap              ignorováno, pro zpětnou kompatibilitu\n"
+"  -P, --nofollow, -H      při kontrole existence souborů nesledovat koncové\n"
+"                          symbolické odkazy\n"
+"  -0, --null              na výstupu oddělovat položky pomocí NUL\n"
+"  -S, --statistics        nehledat položky, vypsat statistiku o každé "
+"použité\n"
+"                          databázi\n"
+"  -q, --quiet             nehlásit chybové zprávy o čtení databází\n"
+"  -r, --regexp REGEXP     hledat základní basic regexp REGEXP místo vzorů\n"
+"      --regex             vzory jsou rozšířené regexpy\n"
+"  -s, --stdio             ignorováno, pro zpětnou kompatibilitu\n"
+"  -V, --version           vypsat informace o verzi\n"
+"  -w, --wholename         porovnávat celé cesty k souborům (implicitní)\n"
+
+#: src/locate.c:653
+#, c-format
+msgid "invalid value `%s' of --limit"
+msgstr "neplatná hodnota `%s' přepínače --limit"
+
+#: src/locate.c:687
+#, c-format
+msgid "non-option arguments are not allowed with --%s"
+msgstr "s --%s nejsou povoleny parametry jiné než přepínače"
+
+#: src/locate.c:703
+msgid "no pattern to search for specified"
+msgstr "nezadán žádný vzor, který hledat"
+
+#: src/locate.c:733
+#, c-format
+msgid "invalid regexp `%s': %s"
+msgstr "neplatná regexp `%s': %s"
+
+#: src/locate.c:873
+msgid "can not read two databases from standard input"
+msgstr "nemohu číst dvě databáze ze standardního vstupu"
+
+#: src/locate.c:889 src/updatedb.c:661
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
 
-#: src/updatedb.c:660
+#: src/locate.c:898
+msgid "can not drop privileges"
+msgstr "nemohu se vzdát oprávnění"
+
+#: src/locate.c:910 src/updatedb.c:677
+msgid "I/O error while writing to standard output"
+msgstr "chyba I/O při zápisu na standardní výstup"
+
+#: src/updatedb.c:352
+#, c-format
+msgid "path name length %zu is too large"
+msgstr "délka názvu cesty %zu je příliš velká"
+
+#: src/updatedb.c:431
+#, c-format
+msgid "file name length %zu is too large"
+msgstr "délka názvu souboru %zu je příliš velká"
+
+#: src/updatedb.c:485
+#, c-format
+msgid "file name length %zu too large"
+msgstr "délka názvu souboru %zu příliš velká"
+
+#: src/updatedb.c:622
+#, c-format
+msgid "can not open a temporary file for `%s'"
+msgstr "nemohu otevřít dočasný soubor pro `%s'"
+
+#: src/updatedb.c:658
+#, c-format
+msgid "can not change directory to `%s'"
+msgstr "nemohu změnit adresář na `%s'"
+
+#: src/updatedb.c:667
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:663
+#: src/updatedb.c:670
 #, c-format
 msgid "I/O error closing `%s'"
 msgstr "chyba I/O při zavírání `%s'"
 
-#: src/updatedb.c:665
+#: src/updatedb.c:672
 #, c-format
 msgid "error replacing `%s'"
 msgstr "chyba při nahrazování `%s'"

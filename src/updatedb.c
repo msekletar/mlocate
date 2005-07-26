@@ -88,8 +88,8 @@ dir_finish (struct directory *dir, struct dir_state *state)
 
  /* Reading of the existing database */
 
-/* The old database or NULL */
-static FILE *old_db;
+/* The old database or old_db.file == NULL */
+static struct db old_db;
 /* Next unprocessed directory from the old database or old_dir.path == NULL */
 static struct directory old_dir; /* = { 0, }; */
 
@@ -105,17 +105,17 @@ next_old_dir (void)
   struct db_directory dir;
   size_t i;
 
-  if (old_db == NULL)
+  if (old_db.file == NULL)
     return;
   if (old_dir.path != NULL)
     {
       obstack_free (&old_dir_state.list_obstack, old_dir.entries);
       obstack_free (&old_dir_state.data_obstack, old_dir_data_mark);
     }
-  if (fread (&dir, sizeof (dir), 1, old_db) != 1)
+  if (db_read (&old_db, &dir, sizeof (dir)) != 0)
     goto err;
   old_dir.ctime = ntohll (dir.ctime);
-  if (read_name (&old_dir_state.data_obstack, old_db, NULL) != 0)
+  if (db_read_name (&old_db, &old_dir_state.data_obstack, 1) != 0)
     goto err;
   obstack_1grow (&old_dir_state.data_obstack, 0);
   old_dir.path = obstack_finish (&old_dir_state.data_obstack);
@@ -126,7 +126,7 @@ next_old_dir (void)
       _Bool is_directory;
       size_t size;
 
-      if (fread (&entry, sizeof (entry), 1, old_db) != 1)
+      if (db_read (&old_db, &entry, sizeof (entry)) != 0)
 	goto err;
       switch (entry.type)
 	{
@@ -147,7 +147,7 @@ next_old_dir (void)
       assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
       obstack_blank (&old_dir_state.data_obstack,
 		     offsetof (struct entry, name));
-      if (read_name (&old_dir_state.data_obstack, old_db, NULL) != 0)
+      if (db_read_name (&old_db, &old_dir_state.data_obstack, 1) != 0)
 	goto err;
       obstack_1grow (&old_dir_state.data_obstack, 0);
       size = (OBSTACK_OBJECT_SIZE (&old_dir_state.data_obstack)
@@ -172,8 +172,8 @@ next_old_dir (void)
 
  err:
   old_dir.path = NULL;
-  fclose (old_db);
-  old_db = NULL;
+  db_close (&old_db);
+  old_db.file = NULL;
 }
 
 /* Open the old database and prepare for reading it */
@@ -181,17 +181,22 @@ static void
 old_db_open (void)
 {
   struct obstack obstack;
+  FILE *f;
   struct db_header hdr;
   const char *src;
   uint32_t size;
-  
-  old_db = open_db (&hdr, conf_output, 1);
+
+  f = fopen (conf_output, "rb");
+  if (f == NULL)
+    goto err;
+  if (db_open (&old_db, &hdr, f, conf_output, 1) != 0)
+    goto err;
   size = ntohl (hdr.conf_size);
   if (size != conf_block_size)
     goto err_old_db;
   obstack_init (&obstack);
   obstack_alignment_mask (&obstack) = 0;
-  if (read_name (&obstack, old_db, NULL) != 0)
+  if (db_read_name (&old_db, &obstack, 1) != 0)
     goto err_obstack;
   obstack_1grow (&obstack, 0);
   if (strcmp (obstack_finish (&obstack), conf_scan_root) != 0)
@@ -206,8 +211,7 @@ old_db_open (void)
       run = sizeof (buf);
       if (run > size)
 	run = size;
-      run = fread (buf, 1, run,  old_db);
-      if (run == 0)
+      if (db_read (&old_db, buf, run) != 0)
 	goto err_old_db;
       if (memcmp (src, buf, run) != 0)
 	goto err_old_db;
@@ -222,8 +226,9 @@ old_db_open (void)
  err_obstack:
   obstack_free (&obstack, NULL);
  err_old_db:
-  fclose (old_db);
-  old_db = NULL;
+  db_close (&old_db);
+ err:
+  old_db.file = NULL;
 }
 
  /* $PRUNEFS handling */
@@ -484,7 +489,9 @@ scan_cwd (struct directory *dest, const char *path)
       e->name_size = name_size;
       memcpy (e->name, de->d_name, name_size);
       e->is_directory = 0;
-#ifdef HAVE_STRUCT_DIRENT_D_TYPE
+      /* The check for DT_DIR is to handle platforms which have d_type, but
+	 require a feature macro to define DT_* */
+#if defined (HAVE_STRUCT_DIRENT_D_TYPE) && defined (DT_DIR)
       if (de->d_type == DT_DIR)
 	e->is_directory = 1;
       else if (de->d_type == DT_UNKNOWN)
@@ -665,5 +672,8 @@ main (int argc, char *argv[])
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
   free (new_db_filename);
   new_db_filename = NULL;
+  fflush (stdout);
+  if (ferror (stdout))
+    error (EXIT_FAILURE, 0, _("I/O error while writing to standard output"));
   return EXIT_SUCCESS;
 }
