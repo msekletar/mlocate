@@ -35,6 +35,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #define ngettext(S, P, N) ((N) != 1 ? (P) : (S))
 #endif
 
+#ifdef __GNUC__
+#define attribute__(X) __attribute__ (X)
+#else
+#define attribute__(X)
+#endif
+
 #define _(X) gettext(X)
 
 /* Number of entries in ARRAY */

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-27 03:11+0200\n"
-"PO-Revision-Date: 2005-07-27 01:36+0200\n"
+"POT-Creation-Date: 2005-07-27 16:55+0200\n"
+"PO-Revision-Date: 2005-07-27 16:56+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "missing closing `\"'"
 msgstr "chybí uzavírající `\"'"
 
-#: src/conf.c:266 src/locate.c:883 src/updatedb.c:634
+#: src/conf.c:266 src/locate.c:883 src/updatedb.c:635
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
@@ -311,7 +311,7 @@ msgstr "neplatná regexp `%s': %s"
 msgid "can not read two databases from standard input"
 msgstr "nemohu číst dvě databáze ze standardního vstupu"
 
-#: src/locate.c:889 src/updatedb.c:667
+#: src/locate.c:889 src/updatedb.c:670
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
@@ -320,50 +320,55 @@ msgstr "nemohu stat () `%s'"
 msgid "can not drop privileges"
 msgstr "nemohu se vzdát oprávnění"
 
-#: src/locate.c:953 src/updatedb.c:684
+#: src/locate.c:953 src/updatedb.c:705
 msgid "I/O error while writing to standard output"
 msgstr "chyba I/O při zápisu na standardní výstup"
 
-#: src/updatedb.c:352
+#: src/updatedb.c:353
 #, c-format
 msgid "path name length %zu is too large"
 msgstr "délka názvu cesty %zu je příliš velká"
 
-#: src/updatedb.c:433
+#: src/updatedb.c:434
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "délka názvu souboru %zu je příliš velká"
 
-#: src/updatedb.c:487
+#: src/updatedb.c:488
 #, c-format
 msgid "file name length %zu too large"
 msgstr "délka názvu souboru %zu příliš velká"
 
-#: src/updatedb.c:625
+#: src/updatedb.c:626
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nemohu otevřít dočasný soubor pro `%s'"
 
-#: src/updatedb.c:639
+#: src/updatedb.c:640
 msgid "configuration is too large"
 msgstr "nastavení je příliš velké"
 
-#: src/updatedb.c:664
+#: src/updatedb.c:667
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nemohu změnit adresář na `%s'"
 
-#: src/updatedb.c:673
+#: src/updatedb.c:676
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:676
+#: src/updatedb.c:679
 #, c-format
 msgid "I/O error closing `%s'"
 msgstr "chyba I/O při zavírání `%s'"
 
-#: src/updatedb.c:679
+#: src/updatedb.c:693
+#, c-format
+msgid "can not change permissions of `%s'"
+msgstr "nemohu změnit oprávnění `%s'"
+
+#: src/updatedb.c:696
 #, c-format
 msgid "error replacing `%s'"
 msgstr "chyba při nahrazování `%s'"

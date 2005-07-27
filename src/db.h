@@ -52,7 +52,15 @@ struct db_header
 /* Directory header */
 struct db_directory
 {
-  uint64_t ctime;		/* st_ctime of the directory in big endian */
+  /* Both values 0 mean "invalid, always reread".  This coincides with what
+     Linux FAT, romfs and cramfs drivers do for unknown data.
+
+     ctime should in theory be sufficient, but several Linux filesystems fill
+     ctime with creation time.  Therefore "time" is actually "max of ctime,
+     mtime". */
+  uint64_t time_sec;	       /* st_[cm]time of the directory in big endian */
+  /* st_[cm]tim.tv_nsec of the directory in big endian or 0 if not available */
+  uint32_t time_nsec;		
   /* Followed by NUL-terminated absolute path of the directory */
 };
 /* Followed by directory entries terminated by DBE_END, sorted by name using

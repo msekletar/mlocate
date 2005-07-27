@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.07], [mitr@redhat.com])
+AC_INIT([mlocate], [0.08], [mitr@redhat.com])
 AC_COPYRIGHT(
 [Copyright (C) 2005 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
@@ -36,6 +36,8 @@ AM_GNU_GETTEXT_VERSION([0.14.3])
 
 # Checks for structures.
 AC_CHECK_MEMBERS([struct dirent.d_type], , , [#include <dirent.h>])
+AC_CHECK_MEMBERS([struct stat.st_ctim, struct stat.st_mtim], , ,
+		 [#include <sys/stat.h>])
 
 # Checks for compiler characteristics.
 

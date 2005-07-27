@@ -22,14 +22,17 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <grp.h>
 #include <limits.h>
 #include <locale.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 #include <error.h>
@@ -57,14 +60,77 @@ struct dir_state
   struct obstack list_obstack;
 };
 
+/* Time representation */
+struct time
+{
+  uint64_t sec;
+  uint32_t nsec;		/* 0 <= nsec < 1e9 */
+};
+
 /* A directory in memory, using storage in obstacks */
 struct directory
 {
-  uint64_t ctime;
+  struct time time;
   void **entries;		/* Pointers to struct entry */
   size_t num_entries;
   const char *path;		/* Absolute path */
 };
+
+ /* Time handling */
+
+/* Get ctime from ST to TIME */
+static void
+time_get_ctime (struct time *time, const struct stat *st)
+{
+  time->sec = st->st_ctime;
+#ifdef HAVE_STRUCT_STAT_ST_CTIM
+  time->nsec = st->st_ctim.tv_nsec;
+#else
+  time->nsec = 0;
+#endif
+  assert (time->nsec < 1000000000);
+}
+
+/* Get mtime from ST to TIME */
+static void
+time_get_mtime (struct time *time, const struct stat *st)
+{
+  time->sec = st->st_mtime;
+#ifdef HAVE_STRUCT_STAT_ST_MTIM
+  time->nsec = st->st_mtim.tv_nsec;
+#else
+  time->nsec = 0;
+#endif
+  assert (time->nsec < 1000000000);
+}
+
+/* Compare times A and B */
+static int
+time_compare (const struct time *a, const struct time *b)
+{
+  if (a->sec < b->sec)
+    return -1;
+  if (a->sec > b->sec)
+    return 1;
+  if (a->nsec < b->nsec)
+    return -1;
+  if (a->nsec > b->nsec)
+    return 1;
+  return 0;
+}
+
+/* Is SEC equal to the current second? */
+static _Bool
+time_is_current (uint64_t sec)
+{
+  static struct timeval cache; /* = { 0, } */
+
+  /* Cache gettimeofday () results to rule out obviously old time stamps */
+  if ((time_t)sec < cache.tv_sec)
+    return 0;
+  gettimeofday (&cache, NULL);
+  return (time_t)sec >= cache.tv_sec;
+}
 
  /* Directory obstack handling */
 
@@ -114,7 +180,10 @@ next_old_dir (void)
     }
   if (db_read (&old_db, &dir, sizeof (dir)) != 0)
     goto err;
-  old_dir.ctime = ntohll (dir.ctime);
+  old_dir.time.sec = ntohll (dir.time_sec);
+  old_dir.time.nsec = ntohl (dir.time_nsec);
+  if (old_dir.time.nsec >= 1000000000)
+    goto err;
   if (db_read_name (&old_db, &old_dir_state.data_obstack) != 0)
     goto err;
   obstack_1grow (&old_dir_state.data_obstack, 0);
@@ -319,7 +388,9 @@ write_directory (const struct directory *dir)
   struct db_entry entry;
   size_t i;
 
-  header.ctime = htonll (dir->ctime);
+  header.time_sec = htonll (dir->time.sec);
+  assert (dir->time.nsec < 1000000000);
+  header.time_nsec = htonl (dir->time.nsec);
   fwrite (&header, sizeof (header), 1, new_db);
   fwrite (dir->path, 1, strlen (dir->path) + 1, new_db);
   for (i = 0; i < dir->num_entries; i++)
@@ -458,11 +529,11 @@ cmp_entries (const void *xa, const void *xb)
   return strcmp (a->name, b->name);
 }
 
-/* Scan current working directory (PATH) to DEST in scan_dir_state;
+/* Scan current working directory (DEST.path) to DEST in scan_dir_state;
    Return -1 if "." can't be opened, 1 if DEST contains a subdirectory,
    0 otherwise. */
 static int
-scan_cwd (struct directory *dest, const char *path)
+scan_cwd (struct directory *dest)
 {
   DIR *dir;
   struct dirent *de;
@@ -508,7 +579,7 @@ scan_cwd (struct directory *dest, const char *path)
 	have_subdir = 1;
       obstack_ptr_grow (&scan_dir_state.list_obstack, e);
       if (conf_verbose != 0)
-	printf ("%s/%s\n", path, e->name);
+	printf ("%s/%s\n", dest->path, e->name);
     }
   closedir (dir);
   dir_finish (dest, &scan_dir_state);
@@ -531,6 +602,7 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
 {
   struct directory dir;
   struct stat st;
+  struct time mtime;
   void *entries_mark;
   int cmp;
   _Bool have_subdir, did_chdir;
@@ -552,11 +624,18 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
   /* "relative" may now become a symlink to somewhere else.  So we use it only
      in safe_chdir (). */
   entries_mark = obstack_alloc (&scan_dir_state.data_obstack, 0);
+  dir.path = path;
+  time_get_ctime (&dir.time, &st);
+  time_get_mtime (&mtime, &st);
+  if (time_compare (&dir.time, &mtime) < 0)
+    dir.time = mtime;
   cmp = 0;
   while (old_dir.path != NULL && (cmp = dir_path_cmp (old_dir.path, path)) < 0)
     next_old_dir ();
   have_subdir = 0;
-  if (old_dir.path != NULL && cmp == 0 && st.st_ctime == (time_t)old_dir.ctime)
+  if (old_dir.path != NULL && cmp == 0
+      && time_compare (&dir.time, &old_dir.time) == 0
+      && (dir.time.sec != 0 || dir.time.nsec != 0))
     {
       have_subdir = copy_old_dir (&dir);
       next_old_dir ();
@@ -565,17 +644,18 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
     {
       int res;
 
-      /* FIXME: nanosecond resolution, "current" ctime */
+      if (dir.time.nsec == 0 && time_is_current (dir.time.sec))
+	/* The directory might be changing right now and we can't be sure
+	   the timestamp will yet change, mark the timestamp invalid */
+	dir.time.sec = 0;
       did_chdir = 1;
       if (safe_chdir (cwd_fd, relative, &st) != 0)
 	goto err_chdir;
-      res = scan_cwd (&dir, path);
+      res = scan_cwd (&dir);
       if (res == -1)
 	goto err_chdir;
       have_subdir = res;
     }
-  dir.path = path;
-  dir.ctime = st.st_ctime;
   write_directory (&dir);
   if (have_subdir != 0)
     {
@@ -597,15 +677,66 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
   return 0;
 }
 
- /* Top level */
+ /* Unlinking of temporary database file */
 
-/* Unlink new_db_filename */
+/* An absolute path to the file to unlink or NULL */
+static const char *unlink_path; /* = NULL; */
+
+/* Signals which try to unlink unlink_path */
+static sigset_t unlink_sigset;
+
+/* Unlink unlink_path */
 static void
 unlink_db (void)
 {
-  if (new_db_filename != NULL)
-    unlink (new_db_filename);
+  if (unlink_path != NULL)
+    unlink (unlink_path);
 }
+
+/* SIGINT/SIGTERM handler */
+static void attribute__ ((noreturn))
+unlink_signal (int sig)
+{
+  sigset_t mask;
+
+  unlink_db ();
+  signal (sig, SIG_DFL);
+  sigemptyset (&mask);
+  sigaddset (&mask, sig);
+  sigprocmask (SIG_UNBLOCK, &mask, NULL);
+  raise (sig);
+  _exit (EXIT_FAILURE);
+}
+
+/* Set unlink_path to PATH (which must remain valid until next unlink_set () */
+static void
+unlink_set (const char *path)
+{
+  sigset_t old;
+
+  sigprocmask (SIG_BLOCK, &unlink_sigset, &old);
+  unlink_path = path;
+  sigprocmask (SIG_SETMASK, &old, NULL);
+}
+
+/* Initialize the unlinking code */
+static void
+unlink_init (void)
+{
+  struct sigaction sa;
+
+  atexit (unlink_db);
+  sigemptyset (&unlink_sigset);
+  sigaddset (&unlink_sigset, SIGINT);
+  sigaddset (&unlink_sigset, SIGTERM);
+  sa.sa_handler = unlink_signal;
+  sa.sa_mask = unlink_sigset;
+  sa.sa_flags = 0;
+  sigaction (SIGINT, &sa, NULL);
+  sigaction (SIGTERM, &sa, NULL);
+}
+
+ /* Top level */
 
 /* Open a temporary file for the new database and initialize its header
    and configuration block.  Exit on error. */
@@ -625,10 +756,7 @@ new_db_open (void)
     error (EXIT_FAILURE, 0, _("can not open a temporary file for `%s'"),
 	   conf_output);
   new_db_filename = filename;
-  /* FIXME: do it */
-  /* We still allow termination by signals without removing the file, because
-     it is unsafe to set new_db_filename to NULL in presence of signals and
-     blind unlinking of the file can remove a file we don't own. */
+  unlink_set (filename);
   new_db = fdopen (db_fd, "wb");
   if (new_db == NULL)
     error (EXIT_FAILURE, errno, _("can not open `%s'"), new_db_filename);
@@ -649,7 +777,9 @@ int
 main (int argc, char *argv[])
 {
   struct stat st;
+  struct group *grp;
   int cwd_fd;
+  mode_t mode;
 
   dir_path_cmp_init ();
   setlocale (LC_ALL, "");
@@ -657,7 +787,7 @@ main (int argc, char *argv[])
   textdomain (PACKAGE_NAME);
   conf_prepare (argc, argv);
   old_db_open ();
-  atexit (unlink_db); /* Relevant only while new_db_filename != NULL */
+  unlink_init ();
   new_db_open ();
   dir_state_init (&scan_dir_state);
   if (chdir (conf_scan_root) != 0)
@@ -674,11 +804,29 @@ main (int argc, char *argv[])
 	   new_db_filename);
   if (fclose (new_db) != 0)
     error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
-  /* FIXME: chmod, chgrp */
+  if (conf_check_visibility != 0 && (grp = getgrnam (GROUPNAME)) != NULL
+      && chown (new_db_filename, (uid_t)-1, grp->gr_gid) == 0)
+    mode = S_IRUSR | S_IWUSR | S_IRGRP;
+  else /* Permissions as if open (..., O_CREAT | O_WRONLY, 0666) */
+    {
+      mode_t mask;
+
+      mask = umask (S_IRWXU | S_IRWXG | S_IRWXG);
+      umask (mask);
+      mode = ((S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+	      & ~mask);
+    }
+  if (chmod (new_db_filename, mode) != 0)
+    error (EXIT_FAILURE, errno, _("can not change permissions of `%s'"),
+	   new_db_filename);
   if (rename (new_db_filename, conf_output) != 0)
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
+  /* There is really no race condition in removing other files now: unlink ()
+     only removes the directory entry (not symlink targets), and the file had
+     to be intentionally placed there to match the mkstemp () result.  So any
+     attacker can at most remove their own data. */
+  unlink_set (NULL);
   free (new_db_filename);
-  new_db_filename = NULL;
   fflush (stdout);
   if (ferror (stdout))
     error (EXIT_FAILURE, 0, _("I/O error while writing to standard output"));
