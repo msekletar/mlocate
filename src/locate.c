@@ -20,6 +20,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <fnmatch.h>
 #include <grp.h>
 #include <inttypes.h>
@@ -46,15 +47,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 static _Bool conf_check_existence; /* = 0; */
 
 /* Follow trailing symlinks when checking for existence.  The default (and
-   probably the existence of the option) look like a historical accident. */
+   probably the existence of the option) looks like a historical accident. */
 static _Bool conf_check_follow_trailing = 1;
 
 /* Databases, "-" is stdin */
 static char *const *conf_dbpath;
 static size_t conf_dbpath_len;
-
-/* Number of databases that need GROUPNAME privileges */
-static size_t conf_dbpath_privileged;
 
 /* Ignore case when matching patterns */
 static _Bool conf_ignore_case; /* = 0; */
@@ -92,8 +90,9 @@ static _Bool conf_quiet; /* = 0; */
 /* Output only statistics */
 static _Bool conf_statistics; /* = 0; */
 
-/* Convert SRC to upper-case in OBSTACK */
-static void
+/* Convert SRC to upper-case in OBSTACK;
+   return result */
+static char *
 uppercase_string (struct obstack *obstack, const char *src)
 {
   mbstate_t src_state, dest_state;
@@ -131,13 +130,14 @@ uppercase_string (struct obstack *obstack, const char *src)
       obstack_grow (obstack, buf, size);
     }
   while (wc != 0);
+  return obstack_finish (obstack);
 }
 
  /* Access permission checking */
 
 /* The cache is a simple stack of paths, each path longer than the previous
-   one.  This allows using calling access() for the object only once (actually,
-   only the R_OK | X_OK acess () calls are cached; the R_OK calls are not). */
+   one.  This allows calling access() for each object only once (actually, only
+   the R_OK | X_OK acess () calls are cached; the R_OK calls are not). */
 struct check_entry
 {
   struct check_entry *next;
@@ -235,25 +235,93 @@ check_directory_perms (const char *path)
   return res;
 }
 
+ /* Statistics */
+
+/* Statistics of the current database */
+static uintmax_t stats_directories;
+static uintmax_t stats_entries;
+static uintmax_t stats_bytes;
+
+/* Clear current statistics */
+static void
+stats_clear (void)
+{
+  stats_directories = 0;
+  stats_entries = 0;
+  stats_bytes = 0;
+}
+
+/* Print current statistics for DB */
+static void
+stats_print (const struct db *db)
+{
+  uintmax_t sz;
+  
+  sz = db_bytes_read (db);
+  printf (_("Database %s:\n"), db->filename);
+  /* The third argument of ngettext () is unsigned long; it is still better
+     to have invalid grammar than truncated numbers. */
+  printf (ngettext ("\t%'ju directory\n", "\t%'ju directories\n",
+		    stats_directories), stats_directories);
+  printf (ngettext ("\t%'ju file\n", "\t%'ju files\n", stats_entries),
+	  stats_entries);
+  printf (ngettext ("\t%'ju byte in file names\n",
+		    "\t%'ju bytes in file names\n", stats_bytes), stats_bytes);
+  printf (ngettext ("\t%'ju byte used to store database\n",
+		    "\t%'ju bytes used to store database\n", sz), sz);
+}
+
  /* Database search */
 
 /* Number of matches so far */
 static uintmax_t matches_found; /* = 0; */
 
-/* Contains a single, never-obstack_finish ()'ed object */
+/* Contains a single, usually not obstack_finish ()'ed object */
 static struct obstack path_obstack;
-/* ... after this zero-length marker */
-static void *path_obstack_mark;
 
 /* Contains a single object */
 static struct obstack uc_obstack;
 /* .. after this zero-length marker */
 static void *uc_obstack_mark;
 
-/* Statistics of the current database */
-static uintmax_t stats_directories;
-static uintmax_t stats_entries;
-static uintmax_t stats_bytes;
+/* Does STRING match one of conf_patterns? */
+static _Bool
+string_matches_pattern (const char *string)
+{
+  size_t i;
+
+  if (conf_match_regexp == 0 && conf_ignore_case != 0)
+    {
+      char *p;
+
+      obstack_free (&uc_obstack, uc_obstack_mark);
+      p = uppercase_string (&uc_obstack, string);
+      uc_obstack_mark = p;
+      string = p;
+    }
+  for (i = 0; i < conf_num_patterns; i++)
+    {
+      if (conf_match_regexp != 0)
+	{
+	  if (regexec (conf_patterns[i], string, 0, NULL, 0) == 0)
+	    return 1;
+	}
+      else
+	{
+	  int flags;
+
+	  flags = 0;
+	  if (conf_patterns_simple[i] != 0)
+	    {
+	      if (strstr (string, conf_patterns[i]) != NULL)
+		return 1;
+	    }
+	  else if (fnmatch (conf_patterns[i], string, flags) == 0)
+	    return 1;
+	}
+    }
+  return 0;
+}
 
 /* PATH was found, handle it as necessary; maintain *VISIBLE: if it is -1,
    check whether the directory containing PATH is accessible and readable and
@@ -263,49 +331,22 @@ static int
 handle_path (const char *path, int *visible)
 {
   const char *s, *matching;
-  size_t i;
 
+  /* Statistics */
   if (conf_statistics != 0)
     {
-      /* Ignore overflow */
-      stats_entries++;
+      stats_entries++; /* Overflow is too unlikely */
       stats_bytes += strlen (path);
       goto done;
     }
+  /* Matches pattern? */
   if (conf_match_basename != 0 && (s = strrchr (path, '/')) != NULL)
     matching = s + 1;
   else
     matching = path;
-  for (i = 0; i < conf_num_patterns; i++)
-    {
-      if (conf_match_regexp != 0)
-	{
-	  if (regexec (conf_patterns[i], matching, 0, NULL, 0) == 0)
-	    goto matched;
-	}
-      else
-	{
-	  int flags;
-
-	  flags = 0;
-	  if (conf_ignore_case != 0)
-	    {
-	      obstack_free (&uc_obstack, uc_obstack_mark);
-	      uppercase_string (&uc_obstack, matching);
-	      matching = obstack_finish (&uc_obstack);
-	    }
-	  if (conf_patterns_simple[i] != 0)
-	    {
-	      if (strstr (matching, conf_patterns[i]) != NULL)
-		goto matched;
-	    }
-	  else if (fnmatch (conf_patterns[i], matching, flags) == 0)
-	    goto matched;
-	}
-    }
-  goto done;
-
- matched:
+  if (!string_matches_pattern (matching))
+    goto done;
+  /* Visible? */
   if (*visible == -1)
     *visible = check_directory_perms (path) == 0;
   if (*visible != 1)
@@ -317,122 +358,119 @@ handle_path (const char *path, int *visible)
       if ((conf_check_follow_trailing ? stat : lstat) (path, &st) != 0)
 	goto done;
     }
-  /* Overflow (>= 2^64 entries) is just too unlikely to warrant bothering
-     about. */
+  /* Output */
   if (conf_output_count == 0)
     {
       fputs (path, stdout);
       putchar (conf_output_separator);
     }
-  matches_found++;
+  matches_found++; /* Overflow is too unlikely */
   if (conf_output_limit_set != 0 && matches_found == conf_output_limit)
     return -1;
  done:
   return 0;
 }
 
-/* Read and handle DATABASE, open as FILE */
+/* Read and handle a directory in DB with HEADER (read just past struct
+   db_directory);
+   return 0 if OK, -1 on error or reached conf_output_limit
+
+   path_obstack may contain a partial object if this function returns -1. */
+static int
+handle_directory (struct db *db, const struct db_header *hdr)
+{
+  size_t size, dir_name_len;
+  int visible;
+  void *p;
+  
+  stats_directories++;
+  if (db_read_name (db, &path_obstack) != 0)
+    goto err;
+  size = OBSTACK_OBJECT_SIZE (&path_obstack);
+  if (size == 0)
+    {
+      if (conf_quiet == 0)
+	error (0, 0, _("invalid empty directory name in `%s'"), db->filename);
+      goto err;
+    }
+  if (size != 1 || *(char *)obstack_base (&path_obstack) != '/')
+    obstack_1grow (&path_obstack, '/');
+  dir_name_len = OBSTACK_OBJECT_SIZE (&path_obstack);
+  visible = hdr->check_visibility ? -1 : 1;
+  for (;;)
+    {
+      struct db_entry entry;
+      
+      if (db_read (db, &entry, sizeof (entry)) != 0)
+	{
+	  db_report_error (db);
+	  goto err;
+	}
+      if (entry.type == DBE_END)
+	break;
+      if (db_read_name (db, &path_obstack) != 0)
+	goto err;
+      obstack_1grow (&path_obstack, 0);
+      if (handle_path (obstack_base (&path_obstack), &visible) != 0)
+	goto err;
+      size = OBSTACK_OBJECT_SIZE (&path_obstack) - dir_name_len;
+      if (size > OBSTACK_SIZE_MAX) /* No surprises, please */
+	{
+	  if (conf_quiet == 0)	      
+	    error (0, 0, _("file name length %zu in `%s' is too large"), size,
+		   db->filename);
+	  goto err;
+	}
+      obstack_blank (&path_obstack, -(ssize_t)size);
+    }
+  p = obstack_finish (&path_obstack);
+  obstack_free (&path_obstack, p);
+  return 0;
+
+ err:
+  return -1;
+}
+
+/* Read and handle DATABASE, open as FD */
 static void
-handle_db (FILE *file, const char *database)
+handle_db (int fd, const char *database)
 {
   struct db db;
   struct db_header hdr;
   struct db_directory dir;
-  size_t size;
-  int err, visible;
+  void *p;
+  int visible;
 
-  if (db_open (&db, &hdr, file, database, conf_quiet) != 0)
+  if (db_open (&db, &hdr, fd, database, conf_quiet) != 0)
     goto err;
-  stats_directories = 0;
-  stats_entries = 0;
-  stats_bytes = 0;
-  if (db_read_name (&db, &path_obstack, conf_quiet) != 0)
+  stats_clear ();
+  if (db_read_name (&db, &path_obstack) != 0)
     goto err_path;
   obstack_1grow (&path_obstack, 0);
   visible = hdr.check_visibility ? -1 : 1;
-  if (handle_path (obstack_finish (&path_obstack), &visible) != 0)
-    goto err_path;
-  obstack_free (&path_obstack, path_obstack_mark);
-  if (db_skip (&db, ntohl (hdr.conf_size), conf_quiet) != 0)
+  p = obstack_finish (&path_obstack);
+  if (handle_path (p, &visible) != 0)
+    goto err_free;
+  obstack_free (&path_obstack, p);
+  if (db_skip (&db, ntohl (hdr.conf_size)) != 0)
     goto err_path;
   while (db_read (&db, &dir, sizeof (dir)) == 0)
     {
-      size_t dir_name_len;
-
-      stats_directories++;
-      if (db_read_name (&db, &path_obstack, conf_quiet) != 0)
+      if (handle_directory (&db, &hdr) != 0)
 	goto err_path;
-      size = OBSTACK_OBJECT_SIZE (&path_obstack);
-      if (size == 0)
-	{
-	  if (conf_quiet == 0)
-	    error (0, 0, _("invalid empty directory name in `%s'"), database);
-	  goto err_path;
-	}
-      if (size != 1 || *(char *)obstack_base (&path_obstack) != '/')
-	obstack_1grow (&path_obstack, '/');
-      dir_name_len = OBSTACK_OBJECT_SIZE (&path_obstack);
-      visible = hdr.check_visibility ? -1 : 1;
-      for (;;)
-	{
-	  struct db_entry entry;
-
-	  if (db_read (&db, &entry, sizeof (entry)) != 0)
-	    {
-	      if (conf_quiet == 0)
-		read_error (database, db.file, errno);
-	      goto err_path;
-	    }
-	  if (entry.type == DBE_END)
-	    break;
-	  if (db_read_name (&db, &path_obstack, conf_quiet) != 0)
-	    goto err_path;
-	  obstack_1grow (&path_obstack, 0);
-	  if (handle_path (obstack_base (&path_obstack), &visible) != 0)
-	    goto err_path;
-	  size = OBSTACK_OBJECT_SIZE (&path_obstack) - dir_name_len;
-	  if (size > OBSTACK_SIZE_MAX) /* No surprises, please */
-	    {
-	      if (conf_quiet == 0)	      
-		error (0, 0, _("file name length %zu in `%s' is too large"),
-		       size, database);
-	      goto err_path;
-	    }
-	  obstack_blank (&path_obstack, -(ssize_t)size);
-	}
-      obstack_finish (&path_obstack);
-      obstack_free (&path_obstack, path_obstack_mark);
     }
-  err = errno;
-  /* fread () returned 0 */
-  if (ferror (db.file))
+  if (db.err != 0)
     {
-      if (conf_quiet == 0)
-	read_error (database, db.file, errno);
+      db_report_error (&db);
       goto err_path;
     }
   if (conf_statistics != 0)
-    {
-      uintmax_t sz;
-
-      sz = db_bytes_read (&db);
-      printf (_("Database %s:\n"), database);
-      /* The third argument of ngettext () is unsigned long; it is still better
-	 to have invalid grammar than truncated numbers. */
-      printf (ngettext ("\t%ju directory\n", "\t%ju directories\n",
-		       stats_directories), stats_directories);
-      printf (ngettext ("\t%ju file\n", "\t%ju files\n", stats_entries),
-	      stats_entries);
-      printf (ngettext ("\t%ju byte in file names\n",
-			"\t%ju bytes in file names\n", stats_bytes),
-	      stats_bytes);
-      printf (ngettext ("\t%ju byte used to store database\n",
-			"\t%ju bytes used to store database\n", sz), sz);
-    }
+    stats_print (&db);
   /* Fall through */
  err_path:
-  obstack_finish (&path_obstack);
-  obstack_free (&path_obstack, path_obstack_mark);
+  p = obstack_finish (&path_obstack);
+ err_free:
+  obstack_free (&path_obstack, p);
   db_close (&db);
  err:
   ;
@@ -451,14 +489,14 @@ static struct obstack pattern_obstack;
 /* GID of GROUPNAME, or (gid_t)-1 if unknown */
 static gid_t privileged_gid;
 
+/* STDIN_FILENO was already used as a database */
+static _Bool stdin_used; /* = 0; */
+
 /* Parse DBPATH, add its entries to db_obstack */
 static void
 parse_dbpath (const char *dbpath)
 {
-  /* There is no need to define "path = default path" explicitly */
-  if (*dbpath == 0)
-    return;
-  do
+  for (;;)
     {
       const char *end;
       size_t len;
@@ -482,11 +520,53 @@ parse_dbpath (const char *dbpath)
 	  copy[len] = 0;
 	  obstack_ptr_grow (&db_obstack, copy);
 	}
-      if (*end == ':')
-	end++;
-      dbpath = end;
+      if (*end == 0)
+	break;
+      dbpath = end + 1;
     }
-  while (*dbpath != 0);
+}
+
+/* Output --help text */
+static void
+help (void)
+{
+  printf (_("Usage: locate [OPTION]... [PATTERN]...\n"
+	    "Search for entries in a mlocate database.\n"
+	    "\n"
+	    "  -b, --basename         match only the base name of path names\n"
+	    "  -c, --count            only print number of found entries\n"
+	    "  -d, --database DBPATH  use DBPATH instead of default database "
+	    "(which is\n"
+	    "                         %s)\n"
+	    "  -e, --existing         only print entries for currently "
+	    "existing files\n"
+	    "  -L, --follow           follow trailing symbolic links when "
+	    "checking file\n"
+	    "                         existence (default)\n"
+	    "  -h, --help             print this help\n"
+	    "  -i, --ignore-case      ignore case distinctions when matching "
+	    "patterns\n"
+	    "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT "
+	    "entries\n"
+	    "  -m, --mmap             ignored, for backward compatibility\n"
+	    "  -P, --nofollow, -H     don't follow trailing symbolic links "
+	    "when checking file\n"
+	    "                         existence\n"
+	    "  -0, --null             separate entries with NUL on output\n"
+	    "  -S, --statistics       don't search for entries, print "
+	    "statistics about each\n"
+	    "                         used database\n"
+	    "  -q, --quiet            report no error messages about reading "
+	    "databases\n"
+	    "  -r, --regexp REGEXP    search for basic regexp REGEXP instead "
+	    "of patterns\n"
+	    "      --regex            patterns are extended regexps\n"
+	    "  -s, --stdio            ignored, for backward compatibility\n"
+	    "  -V, --version          print version information\n"
+	    "  -w, --wholename        match whole path name "
+	    "(default)\n"), DBFILE);
+  printf (_("\n"
+	    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
 }
 
 /* Parse options in ARGC, ARGV.  Exit on error or --help, --version. */
@@ -526,7 +606,7 @@ parse_options (int argc, char *argv[])
     {
       int opt, idx;
 
-      opt = getopt_long (argc, argv, "0HPLSVbcd:ehil:mnqr:sw", options, &idx);
+      opt = getopt_long (argc, argv, "0HPLSVbcd:ehil:mn:qr:sw", options, &idx);
       switch (opt)
 	{
 	case -1:
@@ -541,15 +621,17 @@ parse_options (int argc, char *argv[])
 
 	case 'H': case 'P':
 	  if (got_follow != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "nofollow");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "nofollow");
 	  conf_check_follow_trailing = 0;
 	  break;
 
 	case 'L': 
 	  if (got_follow != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "follow");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "follow");
 	  conf_check_follow_trailing = 1;
 	  break;
 
@@ -562,18 +644,19 @@ parse_options (int argc, char *argv[])
 	  break;
 
 	case 'V':
-	  printf (_("%s %s \n"
-		    "Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
-		    "This software is distributed under the GPL v.2.\n"
-		    "\n"
-		    "This program is provided with NO WARRANTY, to the extent "
-		    "permitted by law.\n"), PACKAGE_NAME, PACKAGE_VERSION);
+	  puts (PACKAGE_NAME " " PACKAGE_VERSION);
+	  puts (_("Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
+		  "This software is distributed under the GPL v.2.\n"
+		  "\n"
+		  "This program is provided with NO WARRANTY, to the extent "
+		  "permitted by law."));
 	  exit (EXIT_SUCCESS);
 	  
 	case 'b':
 	  if (got_basename != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "basename");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "basename");
 	  got_basename = 1;
 	  conf_match_basename = 1;
 	  break;
@@ -591,48 +674,7 @@ parse_options (int argc, char *argv[])
 	  break;
 	  
 	case 'h':
-	  printf (_("Usage: locate [OPTION]... [PATTERN]...\n"
-		    "Search for entries in a mlocate database.\n"
-		    "\n"
-		    "  -b, --basename         match only the base name of "
-		    "path names\n"
-		    "  -c, --count            only print number of found "
-		    "entries\n"
-		    "  -d, --database DBPATH  use DBPATH instead of default "
-		    "database (which is\n"
-		    "                         %s)\n"
-		    "  -e, --existing         only print entries for "
-		    "currently existing files\n"
-		    "  -L, --follow           follow trailing symbolic links "
-		    "when checking file\n"
-		    "                         existence (default)\n"
-		    "  -h, --help             print this help\n"
-		    "  -i, --ignore-case      ignore case distinctions when "
-		    "matching patterns\n"
-		    "  -l, --limit, -n LIMIT  limit output (or counting) to "
-		    "LIMIT entries\n"
-		    "  -m, --mmap             ignored, for backward "
-		    "compatibility\n"
-		    "  -P, --nofollow, -H     don't follow trailing symbolic "
-		    "links when checking file\n"
-		    "                         existence\n"
-		    "  -0, --null             separate entries with NUL on "
-		    "output\n"
-		    "  -S, --statistics       don't search for entries, print "
-		    "statistics about each\n"
-		    "                         used database\n"
-		    "  -q, --quiet            report no error messages about "
-		    "reading databases\n"
-		    "  -r, --regexp REGEXP    search for basic regexp REGEXP "
-		    "instead of patterns\n"
-		    "      --regex            patterns are extended regexps\n"
-		    "  -s, --stdio            ignored, for backward "
-		    "compatibility\n"
-		    "  -V, --version          print version information\n"
-		    "  -w, --wholename        match whole path name "
-		    "(default)\n"), DBFILE);
-	  printf (_("\n"
-		    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
+	  help ();
 	  exit (EXIT_SUCCESS);
 
 	case 'i':
@@ -650,8 +692,8 @@ parse_options (int argc, char *argv[])
 	    conf_output_limit = strtoumax (optarg, &end, 10);
 	    if (errno != 0 || *end != 0 || end == optarg
 		|| isspace ((unsigned char)*optarg))
-	      error (EXIT_FAILURE, 0, _("invalid value `%s' of --limit"),
-		     optarg);
+	      error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
+		     "limit");
 	    break;
 	  }
 
@@ -670,8 +712,9 @@ parse_options (int argc, char *argv[])
 
 	case 'w':
 	  if (got_basename != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "wholename");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "wholename");
 	  got_basename = 1;
 	  conf_match_basename = 0;
 	  break;
@@ -681,13 +724,11 @@ parse_options (int argc, char *argv[])
 	}
     }
  options_done:
-  if (conf_statistics != 0 || conf_match_regexp_basic != 0)
-    {
-      if (optind != argc)
-	error (EXIT_FAILURE, 0, _("non-option arguments are not allowed with "
-				  "--%s"),
-	       conf_statistics != 0 ? "statistics" : "regexp");
-    }
+  if ((conf_statistics != 0 || conf_match_regexp_basic != 0)
+      && optind != argc)
+    error (EXIT_FAILURE, 0,
+	   _("non-option arguments are not allowed with --%s"),
+	   conf_statistics != 0 ? "statistics" : "regexp");
 }
 
 /* Parse arguments in ARGC, ARGV.  Exit on error. */
@@ -754,10 +795,7 @@ parse_arguments (int argc, char *argv[])
 	  if (conf_ignore_case == 0)
 	    pattern = strings[i];
 	  else
-	    {
-	      uppercase_string (&obstack, strings[i]);
-	      pattern = obstack_finish (&obstack);
-	    }
+	    pattern = uppercase_string (&obstack, strings[i]);
 	  conf_patterns[i] = pattern;
 	  conf_patterns_simple[i] = strpbrk (pattern, "*?[\\]") == NULL;
 	}
@@ -792,7 +830,8 @@ finish_dbpath (void)
   src_path = obstack_finish (&db_obstack);
   dest_path = xmalloc (conf_dbpath_len * sizeof (*dest_path));
   dest = 0;
-  /* This check is inherenly racy, but we recheck before deciding to drop
+  /* Sort databases requiring GROUPNAME privileges before the others.  This
+     check is inherenly racy, but we recheck before deciding to drop
      privileges. */
   for (src = 0; src < conf_dbpath_len; src++)
     {
@@ -806,7 +845,6 @@ finish_dbpath (void)
 	  src_path[src] = NULL;
 	}
     }
-  conf_dbpath_privileged = dest;
   for (src = 0; src < conf_dbpath_len; src++)
     {
       if (src_path[src] != NULL)
@@ -820,10 +858,54 @@ finish_dbpath (void)
   conf_dbpath = dest_path;
 }
 
+/* Handle a conf_dbpath ENTRY, drop privileges when they are no longer
+   necessary. */
+static void
+handle_dbpath_entry (const char *entry)
+{
+  int fd;
+  struct stat st;
+  
+  if (strcmp (entry, "-") == 0)
+    {
+      if (stdin_used != 0)
+	error (EXIT_FAILURE, 0,
+	       _("can not read two databases from standard input"));
+      stdin_used = 1;
+      fd = STDIN_FILENO;
+    }
+  else
+    {
+      fd = open (entry, O_RDONLY);
+      if (fd == -1)
+	{
+	  if (conf_quiet == 0)
+	    error (0, errno, _("can not open `%s'"), entry);
+	  goto err;
+	}
+      if (fstat (fd, &st) != 0)
+	{
+	  if (conf_quiet == 0)
+	    error (0, errno, _("can not stat () `%s'"), entry);
+	  close (fd);
+	  goto err;
+	}
+    }
+  if (!db_is_privileged (&st))
+    {
+      if (setgid (getgid ()) != 0)
+	error (EXIT_FAILURE, errno, _("can not drop privileges"));
+    }
+  handle_db (fd, entry); /* Closes fd */
+ err:
+  ;
+}
+
 int
 main (int argc, char *argv[])
 {
   struct group *grp;
+  size_t i;
   int res;
   
   setlocale (LC_ALL, "");
@@ -839,7 +921,6 @@ main (int argc, char *argv[])
   finish_dbpath ();
   obstack_init (&path_obstack);
   obstack_alignment_mask (&path_obstack) = 0;
-  path_obstack_mark = obstack_alloc (&path_obstack, 0);
   obstack_init (&uc_obstack);
   obstack_alignment_mask (&uc_obstack) = 0;
   uc_obstack_mark = obstack_alloc (&uc_obstack, 0);
@@ -850,55 +931,17 @@ main (int argc, char *argv[])
   /* Don't call access ("/", R_OK | X_OK) all the time.  This is too strict,
      it is possible to have "/" --x and have a database describing a
      subdirectory, but that is just too improbable. */
-  if (access ("/", R_OK | X_OK) == 0)
+  if (conf_statistics == 0 && access ("/", R_OK | X_OK) != 0)
+    goto done;
+  for (i = 0; i < conf_dbpath_len; i++)
     {
-      _Bool used_stdin;
-      size_t i;
-
-      used_stdin = 0;
-      for (i = 0; i < conf_dbpath_len; i++)
+      if (conf_output_limit_set && matches_found >= conf_output_limit)
 	{
-	  FILE *f;
-	  struct stat st;
-	  
-	  if (conf_output_limit_set && matches_found >= conf_output_limit)
-	    {
-	      res = EXIT_SUCCESS;
-	      goto done;
-	    }
-	  if (strcmp (conf_dbpath[i], "-") == 0)
-	    {
-	      if (used_stdin != 0)
-		error (EXIT_FAILURE, 0,
-		       _("can not read two databases from standard input"));
-	      used_stdin = 1;
-	      f = stdin;
-	    }
-	  else
-	    {
-	      f = fopen (conf_dbpath[i], "rb");
-	      if (f == NULL)
-		{
-		  if (conf_quiet == 0)
-		    error (0, errno, _("can not open `%s'"), conf_dbpath[i]);
-		  continue;	      
-		}
-	      if (fstat (fileno (f), &st) != 0)
-		{
-		  if (conf_quiet == 0)
-		    error (0, errno, _("can not stat () `%s'"),
-			   conf_dbpath[i]);
-		  fclose (f);
-		  continue;
-		}
-	    }
-	  if (!db_is_privileged (&st))
-	    {
-	      if (setgid (getgid ()) != 0)
-		error (EXIT_FAILURE, errno, _("can not drop privileges"));
-	    }
-	  handle_db (f, conf_dbpath[i]);
+	  res = EXIT_SUCCESS;
+	  goto done;
 	}
+      /* Drops privileges when possible */
+      handle_dbpath_entry (conf_dbpath[i]);
     }
  done:
   if (conf_output_count != 0)

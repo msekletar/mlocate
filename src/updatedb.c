@@ -24,7 +24,6 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <fcntl.h>
 #include <limits.h>
 #include <locale.h>
-#include <signal.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -88,7 +87,7 @@ dir_finish (struct directory *dir, struct dir_state *state)
 
  /* Reading of the existing database */
 
-/* The old database or old_db.file == NULL */
+/* The old database or old_db.fd == -1 */
 static struct db old_db;
 /* Next unprocessed directory from the old database or old_dir.path == NULL */
 static struct directory old_dir; /* = { 0, }; */
@@ -105,17 +104,18 @@ next_old_dir (void)
   struct db_directory dir;
   size_t i;
 
-  if (old_db.file == NULL)
+  if (old_db.fd == -1)
     return;
   if (old_dir.path != NULL)
     {
       obstack_free (&old_dir_state.list_obstack, old_dir.entries);
       obstack_free (&old_dir_state.data_obstack, old_dir_data_mark);
+      old_dir_data_mark = obstack_alloc (&old_dir_state.data_obstack, 0);
     }
   if (db_read (&old_db, &dir, sizeof (dir)) != 0)
     goto err;
   old_dir.ctime = ntohll (dir.ctime);
-  if (db_read_name (&old_db, &old_dir_state.data_obstack, 1) != 0)
+  if (db_read_name (&old_db, &old_dir_state.data_obstack) != 0)
     goto err;
   obstack_1grow (&old_dir_state.data_obstack, 0);
   old_dir.path = obstack_finish (&old_dir_state.data_obstack);
@@ -147,7 +147,7 @@ next_old_dir (void)
       assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
       obstack_blank (&old_dir_state.data_obstack,
 		     offsetof (struct entry, name));
-      if (db_read_name (&old_db, &old_dir_state.data_obstack, 1) != 0)
+      if (db_read_name (&old_db, &old_dir_state.data_obstack) != 0)
 	goto err;
       obstack_1grow (&old_dir_state.data_obstack, 0);
       size = (OBSTACK_OBJECT_SIZE (&old_dir_state.data_obstack)
@@ -173,7 +173,7 @@ next_old_dir (void)
  err:
   old_dir.path = NULL;
   db_close (&old_db);
-  old_db.file = NULL;
+  old_db.fd = -1;
 }
 
 /* Open the old database and prepare for reading it */
@@ -181,22 +181,22 @@ static void
 old_db_open (void)
 {
   struct obstack obstack;
-  FILE *f;
+  int fd;
   struct db_header hdr;
   const char *src;
   uint32_t size;
 
-  f = fopen (conf_output, "rb");
-  if (f == NULL)
+  fd = open (conf_output, O_RDONLY);
+  if (fd == -1)
     goto err;
-  if (db_open (&old_db, &hdr, f, conf_output, 1) != 0)
+  if (db_open (&old_db, &hdr, fd, conf_output, 1) != 0)
     goto err;
   size = ntohl (hdr.conf_size);
   if (size != conf_block_size)
     goto err_old_db;
   obstack_init (&obstack);
   obstack_alignment_mask (&obstack) = 0;
-  if (db_read_name (&old_db, &obstack, 1) != 0)
+  if (db_read_name (&old_db, &obstack) != 0)
     goto err_obstack;
   obstack_1grow (&obstack, 0);
   if (strcmp (obstack_finish (&obstack), conf_scan_root) != 0)
@@ -228,7 +228,7 @@ old_db_open (void)
  err_old_db:
   db_close (&old_db);
  err:
-  old_db.file = NULL;
+  old_db.fd = -1;
 }
 
  /* $PRUNEFS handling */
@@ -244,7 +244,7 @@ cmp_string_pointer (const void *xa, const void *xb)
   return strcmp (a, *b);
 }
 
-/* Return 1 if PATH is a mount point of an excluded filesystem */
+/* Return 1 if PATH_ is a mount point of an excluded filesystem */
 static _Bool
 filesystem_is_excluded (const char *path_)
 {
@@ -372,6 +372,7 @@ scan_subdirs (const const struct directory *dir, const struct stat *st)
 	  obstack_grow (&obstack, e->name, e->name_size);
 	  if (scan (obstack_base (&obstack), &cwd_fd, st, e->name) != 0)
 	    goto err_cwd_fd;
+	  assert (OBSTACK_SIZE_MAX <= SSIZE_MAX);
 	  obstack_blank (&obstack, -(ssize_t)e->name_size);
 	}
     }
@@ -414,7 +415,8 @@ copy_old_dir (struct directory *dest)
   _Bool have_subdir;
   size_t i;
       
-  /* FIXME: is there an elegant solution? */
+  /* FIXME: is there an elegant solution? - lookahead only dir name,
+     then copy contents directoy to scan_dir_state. */
   /* Reuse old data.  It is easier to copy them than to handle old_data
      lifetime issues (we must have lookahead, but we want to obstack_free ()
      allocated subtree data without the lookahead). */
@@ -563,9 +565,10 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
     {
       int res;
 
+      /* FIXME: nanosecond resolution, "current" ctime */
       did_chdir = 1;
       if (safe_chdir (cwd_fd, relative, &st) != 0)
-	goto err;
+	goto err_chdir;
       res = scan_cwd (&dir, path);
       if (res == -1)
 	goto err_chdir;
@@ -622,8 +625,9 @@ new_db_open (void)
     error (EXIT_FAILURE, 0, _("can not open a temporary file for `%s'"),
 	   conf_output);
   new_db_filename = filename;
+  /* FIXME: do it */
   /* We still allow termination by signals without removing the file, because
-     it is unsafe to set db_to_unlink to NULL in presence of signals and
+     it is unsafe to set new_db_filename to NULL in presence of signals and
      blind unlinking of the file can remove a file we don't own. */
   new_db = fdopen (db_fd, "wb");
   if (new_db == NULL)
@@ -631,6 +635,8 @@ new_db_open (void)
   memset (&db_header, 0, sizeof (db_header));
   assert (sizeof (db_header.magic) == sizeof (magic));
   memcpy (db_header.magic, &magic, sizeof (magic));
+  if (conf_block_size > UINT32_MAX)
+    error (EXIT_FAILURE, 0, _("configuration is too large"));
   db_header.conf_size = htonl (conf_block_size);
   db_header.version = DB_VERSION_0;
   db_header.check_visibility = conf_check_visibility;
@@ -668,6 +674,7 @@ main (int argc, char *argv[])
 	   new_db_filename);
   if (fclose (new_db) != 0)
     error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
+  /* FIXME: chmod, chgrp */
   if (rename (new_db_filename, conf_output) != 0)
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
   free (new_db_filename);

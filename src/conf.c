@@ -16,12 +16,13 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 
-#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <error.h>
 #include <getopt.h>
@@ -34,7 +35,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
    them */
 _Bool conf_check_visibility = 1;
 
-/* Filesystems to skip, sorted by name */
+/* Filesystems to skip, converted to uppercase and sorted by name */
 char *const *conf_prunefs;
 size_t conf_prunefs_len;
 
@@ -45,7 +46,7 @@ size_t conf_prunepaths_len;
 /* Root of the directory tree to store in the database */
 const char *conf_scan_root; /* = NULL; */
 
-/* Database path */
+/* Absolute (not necessarily canonical) path to the database */
 const char *conf_output; /* = NULL; */
 
 /* 1 if file names should be written to stdout as they are found */
@@ -62,7 +63,7 @@ struct var
 {
   struct obstack strings; /* Strings */
   struct obstack pointers;
-  void *strings_mark, *pointers_mark;
+  void *strings_mark;
 };
 
 /* PRUNEFS */
@@ -79,7 +80,6 @@ var_init (struct var *var)
   obstack_alignment_mask (&var->strings) = 0;
   obstack_init (&var->pointers);
   var->strings_mark = obstack_alloc (&var->strings, 0);
-  var->pointers_mark = obstack_alloc (&var->pointers, 0);
 }
 
 /* Add values from space-separated VAL to VAR */
@@ -108,8 +108,12 @@ var_add_values (struct var *var, const char *val)
 static void
 var_clear (struct var *var)
 {
+  void *ptrs;
+  
   obstack_free (&var->strings, var->strings_mark);
-  obstack_free (&var->pointers, var->pointers_mark);
+  var->strings_mark = obstack_alloc (&var->strings, 0);
+  ptrs = obstack_finish (&var->pointers);
+  obstack_free (&var->pointers, ptrs);
 }
 
 /* Compare two string pointers */
@@ -124,22 +128,22 @@ cmp_pointers (const void *xa, const void *xb)
 }
 
 /* Finish VAR, sort its contents and remove duplicates;
-   return array of strings, set *LEN to number of members */
+   return array of strings, set *PLEN to number of members */
 static char **
-var_finish (struct var *var, size_t *len)
+var_finish (struct var *var, size_t *plen)
 {
   char **base;
-  size_t num;
+  size_t len;
 
-  num = OBSTACK_OBJECT_SIZE (&var->pointers) / sizeof (char *);
+  len = OBSTACK_OBJECT_SIZE (&var->pointers) / sizeof (char *);
   base = obstack_finish (&var->pointers);
-  qsort (base, num, sizeof (*base), cmp_pointers);
-  if (num != 0)
+  qsort (base, len, sizeof (*base), cmp_pointers);
+  if (len != 0)
     {
       char **src, **dest;
 
       dest = base + 1;
-      for (src = base + 1; src < base + num; src++)
+      for (src = base + 1; src < base + len; src++)
 	{
 	  if (strcmp (dest[-1], *src) != 0)
 	    {
@@ -147,8 +151,9 @@ var_finish (struct var *var, size_t *len)
 	      dest++;
 	    }
 	}
+      len = dest - base;
     }
-  *len = num;
+  *plen = len;
   return base;
 }
 
@@ -218,7 +223,7 @@ uc_lex (char **ptr)
 	  if (c == EOF || c == '\n')
 	    {
 	      error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			     _("EOF in quoted string"));
+			     _("missing closing `\"'"));
 	      ungetc (c, uc_file);
 	      break;
 	    }
@@ -230,14 +235,14 @@ uc_lex (char **ptr)
       return UCT_QUOTED;
       
     default:
-      if (!isalpha ((unsigned char)c))
+      if (!isalpha ((unsigned char)c) && c != '_')
 	return UCT_OTHER;
       do
 	{
 	  obstack_1grow (&uc_obstack, c);
 	  c = getc_unlocked (uc_file);
 	}
-      while (c != EOF && isalnum ((unsigned char)c));
+      while (c != EOF && (isalnum ((unsigned char)c) || c == '_'));
       ungetc (c, uc_file);
       obstack_1grow (&uc_obstack, 0);
       *ptr = obstack_finish (&uc_obstack);
@@ -258,8 +263,7 @@ parse_updatedb_conf (void)
   if (uc_file == NULL)
     {
       if (errno != ENOENT)
-	/* Not EXIT_FAILURE */
-	error (0, errno, _("can not open `%s'"), UPDATEDB_CONF);
+	error (EXIT_FAILURE, errno, _("can not open `%s'"), UPDATEDB_CONF);
       goto err;
     }
   flockfile (uc_file);
@@ -351,10 +355,7 @@ parse_updatedb_conf (void)
     }
  eof:
   if (ferror (uc_file))
-    {
-      read_error (UPDATEDB_CONF, uc_file, 0);
-      exit (EXIT_FAILURE);
-    }
+    error (EXIT_FAILURE, 0, _("I/O error reading `%s'"), UPDATEDB_CONF);
   error_one_per_line = old_error_one_per_line;
   obstack_free (&uc_obstack, NULL);
   funlockfile (uc_file);
@@ -367,6 +368,62 @@ parse_updatedb_conf (void)
 
  /* Command-line argument parsing */
 
+/* Output --help text */
+static void
+help (void)
+{
+  printf (_("Usage: updatedb [OPTION]...\n"
+	    "Update a mlocate database.\n"
+	    "\n"
+	    "  -f, --add-prunefs FS           omit also FS\n"
+	    "  -e, --add-prunepaths PATHS     omit also PATHS\n"
+	    "  -U, --database-root PATH       the subtree to store in "
+	    "database (default \"/\")\n"
+	    "  -h, --help                     print this help\n"
+	    "  -o, --output FILE              database to update (default\n"
+	    "                                 `%s'\n"
+	    "      --prunefs FS               filesystems to omit from "
+	    "database\n"
+	    "      --prunepaths PATHS         paths to omit from database\n"
+	    "  -l, --require-visibility FLAG  check visibility before "
+	    "reporting files\n"
+	    "                                 (default \"true\")\n"
+	    "  -v, --verbose                  print paths of files as they "
+	    "are found\n"
+	    "  -V, --version                  print version information\n"
+	    "\n"
+	    "The lists of paths and filesystems to omit default to values "
+	    "read from\n"
+	    "`%s'.\n"), DBFILE, UPDATEDB_CONF);
+  printf (_("\n"
+	    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
+}
+
+/* Prepend current working directory to PATH;
+   return resulting pathm, for free () */
+static char *
+prepend_cwd (const char *path)
+{
+  char *buf, *res;
+  size_t size, len1, size2;
+
+  size = PATH_MAX;
+  buf = xmalloc (size);
+  while ((res = getcwd (buf, size)) == NULL && errno == ERANGE)
+    {
+      size *= 2;
+      buf = xrealloc (buf, size);
+    }
+  if (res == NULL)
+    error (EXIT_FAILURE, errno, _("can not get current working directory"));
+  len1 = strlen (buf);
+  size2 = strlen (path) + 1;
+  buf = xrealloc (buf, len1 + 1 + size2);
+  buf[len1] = '/';
+  memcpy (buf + len1 + 1, path, size2);
+  return buf;
+}
+
 /* Parse ARGC, ARGV.  Exit on error or --help, --version. */
 static void
 parse_arguments (int argc, char *argv[])
@@ -375,7 +432,7 @@ parse_arguments (int argc, char *argv[])
     {
       { "add-prunefs", required_argument, NULL, 'f' },
       { "add-prunepaths", required_argument, NULL, 'e' },
-      { "database-root", required_argument, NULL, 'R' },
+      { "database-root", required_argument, NULL, 'U' },
       { "help", no_argument, NULL, 'h' },
       { "output", required_argument, NULL, 'o' },
       { "prunefs", required_argument, NULL, 'F' },
@@ -406,8 +463,9 @@ parse_arguments (int argc, char *argv[])
 
 	case 'F':
 	  if (prunefs_changed != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "prunefs");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "prunefs");
 	  prunefs_changed = 1;
 	  var_clear (&prunefs_var);
 	  var_add_values (&prunefs_var, optarg);
@@ -415,8 +473,9 @@ parse_arguments (int argc, char *argv[])
 	  
 	case 'P':
 	  if (prunepaths_changed != 0)
-	    error (EXIT_FAILURE, 0, _("--%s would override earlier "
-				      "command-line argument"), "prunepaths");
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "prunepaths");
 	  prunepaths_changed = 1;
 	  var_clear (&prunepaths_var);
 	  var_add_values (&prunepaths_var, optarg);
@@ -434,14 +493,14 @@ parse_arguments (int argc, char *argv[])
 	  break;
 
 	case 'V':
-	  printf (_("%s %s \n"
-		    "Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
-		    "This software is distributed under the GPL v.2.\n"
-		    "\n"
-		    "This program is provided with NO WARRANTY, to the extent "
-		    "permitted by law.\n"), PACKAGE_NAME, PACKAGE_VERSION);
+	  puts ("updatedb (" PACKAGE_NAME ") " PACKAGE_VERSION);
+	  puts (_("Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
+		  "This software is distributed under the GPL v.2.\n"
+		  "\n"
+		  "This program is provided with NO WARRANTY, to the extent "
+		  "permitted by law."));
 	  exit (EXIT_SUCCESS);
-	  
+
 	case 'e':
 	  prunepaths_changed = 1;
 	  var_add_values (&prunepaths_var, optarg);
@@ -453,34 +512,7 @@ parse_arguments (int argc, char *argv[])
 	  break;
 	  
 	case 'h':
-	  printf (_("Usage: updatedb [OPTION]...\n"
-		    "Update a mlocate database.\n"
-		    "\n"
-		    "  -f, --add-prunefs FS           omit also FS\n"
-		    "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-		    "  -U, --database-root PATH       the subtree to store in "
-		    "database (default \"/\")\n"
-		    "  -h, --help                     print this help\n"
-		    "  -o, --output FILE              database to update "
-		    "(default\n"
-		    "                                 `%s'\n"
-		    "      --prunefs FS               filesystems to omit "
-		    "from database\n"
-		    "      --prunepaths PATHS         paths to omit from "
-		    "database\n"
-		    "  -l, --require-visibility FLAG  check visibility "
-		    "before reporting files\n"
-		    "                                 (default \"true\")\n"
-		    "  -v, --verbose                  print paths of files as "
-		    "they are found\n"
-		    "  -V, --version                  print version "
-		    "information\n"
-		    "\n"
-		    "The lists of paths and filesystems to omit default to "
-		    "values read from\n"
-		    "`%s'.\n"), DBFILE, UPDATEDB_CONF);
-	  printf (_("\n"
-		    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
+	  help ();
 	  exit (EXIT_SUCCESS);
 
 	case 'l':
@@ -488,15 +520,13 @@ parse_arguments (int argc, char *argv[])
 	    error (EXIT_FAILURE, 0, _("--%s specified twice"),
 		   "require-visibility");
 	  got_visibility = 1;
-	  if (strcmp (optarg, "0") == 0 || strcmp (optarg, "no") == 0
-	      || strcmp (optarg, "false") == 0)
+	  if (strcmp (optarg, "0") == 0 || strcmp (optarg, "no") == 0)
 	    conf_check_visibility = 0;
-	  else if (strcmp (optarg, "1") == 0 || strcmp (optarg, "yes") == 0
-	      || strcmp (optarg, "true") == 0)
+	  else if (strcmp (optarg, "1") == 0 || strcmp (optarg, "yes") == 0)
 	    conf_check_visibility = 1;
 	  else
-	    error (EXIT_FAILURE, 0, _("unknown value `%s' of "
-				      "--require-visibility"), optarg);
+	    error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
+		   "--require-visibility");
 	  break;
 	  
 	case 'o':
@@ -520,39 +550,39 @@ parse_arguments (int argc, char *argv[])
     conf_scan_root = "/";
   if (conf_output == NULL)
     conf_output = DBFILE;
+  if (*conf_output != '/')
+    conf_output = prepend_cwd (conf_output);
 }
 
  /* Conversion of configuration for main code */
 
-static struct obstack conf_block_obstack;
-  
 /* Generate conf_block */
 static void
 gen_conf_block (void)
 {
   static const char nul; /* = 0; */
 
+  struct obstack obstack;
   size_t i;
 
-  obstack_init (&conf_block_obstack);
-  obstack_alignment_mask (&conf_block_obstack) = 0;
-#define CONST(S) obstack_grow (&conf_block_obstack, S, sizeof (S))
+  obstack_init (&obstack);
+  obstack_alignment_mask (&obstack) = 0;
+#define CONST(S) obstack_grow (&obstack, S, sizeof (S))
   /* conf_check_visibility value is stored in the header */
   CONST ("prunefs");
   for (i = 0; i < conf_prunefs_len; i++)
-    obstack_grow (&conf_block_obstack, conf_prunefs[i],
-		  strlen (conf_prunefs[i]) + 1);
-  obstack_grow (&conf_block_obstack, &nul, 1);
+    obstack_grow (&obstack, conf_prunefs[i], strlen (conf_prunefs[i]) + 1);
+  obstack_grow (&obstack, &nul, 1);
   CONST ("prunepaths");
   for (i = 0; i < conf_prunepaths_len; i++)
-    obstack_grow (&conf_block_obstack, conf_prunepaths[i],
+    obstack_grow (&obstack, conf_prunepaths[i],
 		  strlen (conf_prunepaths[i]) + 1);
-  obstack_grow (&conf_block_obstack, &nul, 1);
+  obstack_grow (&obstack, &nul, 1);
   /* scan_root is contained directly in the header */
   /* conf_output, conf_verbose are not relevant */
 #undef CONST
-  conf_block_size = OBSTACK_OBJECT_SIZE (&conf_block_obstack);
-  conf_block = obstack_finish (&conf_block_obstack);
+  conf_block_size = OBSTACK_OBJECT_SIZE (&obstack);
+  conf_block = obstack_finish (&obstack);
 }
   
 /* Compare two string pointers using dir_path_cmp () */
@@ -583,6 +613,7 @@ conf_prepare (int argc, char *argv[])
     {
       char *p;
 
+      /* Assuming filesystem names are ASCII-only */
       for (p = conf_prunefs[i]; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
     }

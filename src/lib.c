@@ -19,12 +19,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
-#include <stdarg.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
+#include <unistd.h>
 
 #include <error.h>
 #include <obstack.h>
@@ -91,18 +91,9 @@ dir_path_cmp (const char *a, const char *b)
       a++;
       b++;
     }
+  assert (sizeof (int) > sizeof (unsigned char)); /* To rule out overflow */
   return ((int)dir_path_cmp_table[(unsigned char)*a]
 	  - (int)dir_path_cmp_table[(unsigned char)*b]);
-}
-
-/* Report read error or unexpected EOF STREAM for FILENAME, using ERROR */
-void
-read_error (const char *filename, FILE *stream, int err)
-{
-  if (ferror (stream))
-    error (0, err, _("I/O error reading `%s'"), filename);
-  else
-    error (0, 0, _("unexpected EOF reading `%s'"), filename);
 }
 
 /* Allocate SIZE bytes, terminate on failure */
@@ -118,6 +109,17 @@ xmalloc (size_t size)
   abort (); /* Not reached */
 }
 
+/* Reallocate PTR to SIZE bytes, terminate on failure */
+void *
+xrealloc (void *ptr, size_t size)
+{
+  ptr = realloc (ptr, size);
+  if (ptr != NULL || size == 0)
+    return ptr;
+  error (EXIT_FAILURE, errno, _("can not allocate memory"));
+  abort (); /* Not reached */
+}
+
 /* Used by obstack code */
 struct _obstack_chunk *
 obstack_chunk_alloc (long size)
@@ -127,23 +129,29 @@ obstack_chunk_alloc (long size)
 
  /* Reading of existing databases */
 
-/* Open FILENAME (already open as FILE), as DB, report error on failure if not
+/* Open FILENAME (already open as FD), as DB, report error on failure if not
    QUIET.  Store database header to *HEADER; return 0 if OK, -1 on error.
-   Takes ownership of FILE: it will be closed by db_close () or before return
+   Takes ownership of FD: it will be closed by db_close () or before return
    from this function if it fails.
 
    FILENAME must stay valid until db_close (). */
 int
-db_open (struct db *db, struct db_header *header, FILE *file,
-	 const char *filename, _Bool quiet)
+db_open (struct db *db, struct db_header *header, int fd, const char *filename,
+	 _Bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
-  if (fread (header, sizeof (*header), 1, file) != 1)
+  db->fd = fd;
+  db->filename = filename;
+  db->read_bytes = 0;
+  db->quiet = quiet;
+  db->err = 0;
+  db->buf_pos = db->buffer;
+  db->buf_end = db->buffer;
+  if (db_read (db, header, sizeof (*header)) != 0)
     {
-      if (quiet == 0)
-	read_error (filename, file, errno);
-      goto err_file;
+      db_report_error (db);
+      goto err_fd;
     }
   assert (sizeof (magic) == sizeof (header->magic));
   if (memcmp (header->magic, magic, sizeof (magic)) != 0)
@@ -151,31 +159,26 @@ db_open (struct db *db, struct db_header *header, FILE *file,
       if (quiet == 0)
 	error (0, 0, _("`%s' does not seem to be a mlocate database"),
 	       filename);
-      goto err_file;
+      goto err_fd;
     }
   if (header->version != DB_VERSION_0)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown version %u"), filename,
 	       (unsigned)header->version);
-      goto err_file;
+      goto err_fd;
     }
   if (header->check_visibility != 0 && header->check_visibility != 1)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown visibility flag %u"), filename,
 	       (unsigned)header->check_visibility);
-      goto err_file;
+      goto err_fd;
     }
-  db->file = file;
-  db->filename = filename;
-  db->buf_pos = db->buffer;
-  db->buf_end = db->buffer;
-  db->read_bytes = sizeof (*header);
   return 0;
 
- err_file:
-  fclose (file);
+ err_fd:
+  close (fd);
   return -1;
 }
 
@@ -183,21 +186,49 @@ db_open (struct db *db, struct db_header *header, FILE *file,
 void
 db_close (struct db *db)
 {
-  fclose (db->file);
+  close (db->fd);
 }
 
-/* Refill DB->buffer;
-   return number of bytes in buffer OK, 0 on error or EOF */
+/* Refill empty DB->buffer;
+   return number of bytes in buffer if OK, 0 on error or EOF */
 static size_t
 db_refill (struct db *db)
 {
-  size_t size;
+  ssize_t size;
 
-  size = fread (db->buffer, 1, sizeof (db->buffer), db->file);
-  db->buf_pos = db->buffer;
-  db->buf_end = db->buffer + size;
-  db->read_bytes += size;
-  return size;
+  assert (sizeof (db->buffer) <= SSIZE_MAX);
+ again:
+  size = read (db->fd, db->buffer, sizeof (db->buffer));
+  switch (size)
+    {
+    case 0:
+      db->err = 0;
+      return 0;
+
+    case -1:
+      if (errno == EINTR)
+	goto again;
+      db->err = errno;
+      return 0;
+
+    default:
+      db->buf_pos = db->buffer;
+      db->buf_end = db->buffer + size;
+      db->read_bytes += size;
+      return size;
+    }
+}
+
+/* Report read error or unexpected EOF on DB if not DB->quiet */
+void
+db_report_error (const struct db *db)
+{
+  if (db->quiet != 0)
+    return;
+  if (db->err != 0)
+    error (0, db->err, _("I/O error reading `%s'"), db->filename);
+  else
+    error (0, 0, _("unexpected EOF reading `%s'"), db->filename);
 }
 
 /* Read SIZE (!= 0) bytes from DB to BUF;
@@ -229,10 +260,10 @@ db_read (struct db *db, void *buf, size_t size)
 }
 
 /* Read a NUL-terminated string from DB to current object in OBSTACK (without
-   the terminating NUL), report error on failure if not QUIET.
+   the terminating NUL), report error on failure if not DB->quiet.
    return 0 if OK, or -1 on I/O error. */
 int
-db_read_name (struct db *db, struct obstack *h, _Bool quiet)
+db_read_name (struct db *db, struct obstack *h)
 {
   for (;;)
     {
@@ -259,62 +290,46 @@ db_read_name (struct db *db, struct obstack *h, _Bool quiet)
   return 0;
 
  err:
-  if (quiet == 0)
-    read_error (db->filename, db->file, errno);
+  db_report_error (db);
   return -1;
 }
 
-/* Skip SIZE bytes in DB, report error on failure if not QUIET;
+/* Skip SIZE bytes in DB, report error on failure if not DB->quiet;
    return 0 if OK, -1 on error */
 int
-db_skip (struct db *db, off_t size, _Bool quiet)
+db_skip (struct db *db, off_t size)
 {
-  _Bool do_fseek;
-  size_t run;
-  
-  run = db->buf_end - db->buf_pos;
-  if (run > size)
-    run = size;
-  db->buf_pos += run;
-  size -= run;
-  do_fseek = 1;
-  while (size != 0)
-    {
-      if (do_fseek != 0)
-	{
-	  run = LONG_MAX;
-	  if (run > size)
-	    run = size;
-	  if (fseek (db->file, size, SEEK_CUR) != 0)
-	    {
-	      if (errno != ESPIPE)
-		{
-		  if (quiet == 0)
-		    error (0, errno, _("I/O error seeking in `%s'"),
-			   db->filename);
-		  goto err;
-		}
-	      run = 0;
-	      do_fseek = 0;
-	    }
-	}
-      else
-	{
-	  char buf[BUFSIZ];
+  _Bool use_lseek;
 
-	  run = sizeof (buf);
-	  if (run > size)
-	    run = size;
-	  run = fread (buf, 1, run, db->file);
-	  db->read_bytes += size;
-	  if (run == 0)
+  use_lseek = 1;
+  for (;;)
+    {
+      size_t run;
+
+      run = db->buf_end - db->buf_pos;
+      if (run > size)
+	run = size;
+      db->buf_pos += run;
+      size -= run;
+      if (size == 0)
+	break;
+      if (use_lseek != 0)
+	{
+	  if (lseek (db->fd, size, SEEK_CUR) != -1)
+	    break;
+	  if (errno != ESPIPE)
 	    {
-	      if (quiet == 0)
-		read_error (db->filename, db->file, errno);
+	      if (db->quiet == 0)
+		error (0, errno, _("I/O error seeking in `%s'"), db->filename);
 	      goto err;
 	    }
+	  use_lseek = 0;
 	}
-      size -= run;
+      if (db_refill (db) == 0)
+	{
+	  db_report_error (db);
+	  goto err;
+	}
     }
   return 0;
 
@@ -323,8 +338,8 @@ db_skip (struct db *db, off_t size, _Bool quiet)
 }
 
 /* Return number of bytes read from DB so far  */
-uintmax_t
-db_bytes_read (struct db *db)
+off_t
+db_bytes_read (const struct db *db)
 {
   return db->read_bytes - (db->buf_end - db->buf_pos);
 }

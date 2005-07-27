@@ -18,11 +18,15 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #ifndef CONF_H__
 #define CONF_H__
 
+#include <config.h>
+
+#include <stddef.h>
+
 /* 1 if locate(1) should check whether files are visible before reporting
    them */
 extern _Bool conf_check_visibility;
 
-/* Filesystems to skip, sorted by name and converted to uppercase */
+/* Filesystems to skip, converted to uppercase and sorted by name */
 extern char *const *conf_prunefs;
 extern size_t conf_prunefs_len;
 
@@ -33,7 +37,7 @@ extern size_t conf_prunepaths_len;
 /* Root of the directory tree to store in the database */
 extern const char *conf_scan_root;
 
-/* Database path */
+/* Absolute (not necessarily canonical) path to the database */
 extern const char *conf_output;
 
 /* 1 if file names should be written to stdout as they are found */
