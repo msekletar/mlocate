@@ -1,0 +1,168 @@
+.\" A man page for updatedb(8). -*- nroff -*-
+.\"
+.\" Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+.\"
+.\" This copyrighted material is made available to anyone wishing to use,
+.\" modify, copy, or redistribute it subject to the terms and conditions of the
+.\" GNU General Public License v.2.
+.\"
+.\" This program is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.\" Author: Miloslav Trmac <mitr@redhat.com>
+.TH updatedb 8 "Jul 2005" mlocate
+
+.SH NAME
+udpatedb \- update a database for mlocate
+
+.SH SYNOPSIS
+
+\fBupdatedb\fR [\fIOPTION\fR]...
+
+.SH DESCRIPTION
+.B updatedb
+creates or updates a database used by
+.BR locate (1).
+If the database already exists,
+its data is reused
+to avoid rereading directories that have not changed.
+
+.B updatedb
+is usually run daily by
+.BR cron (8)
+to update the default database.
+
+.SH EXIT STATUS
+.B updatedb
+returns with exit status 0 on success, 1 on error.
+
+.SH OPTIONS
+The
+.B PRUNEFS
+and
+.B PRUNEPATHS
+variables, which are modified by some of the options, are documented in detail
+in
+.BR updatedb.conf (5).
+
+.TP
+\fB\-f\fR, \fB\-\-add-prunefs\fB \fIFS\fR
+Add entries in white-space-separated list \fIFS\fR to \fBPRUNEFS\fR.
+
+.TP
+\fB\-e\fR, \fB\-\-add-prunepaths\fB \fIPATHS\fR
+Add entries in white-space-separated list \fIPATHS\fR to \fBPRUNEPATHS\fR.
+
+.TP
+\fB\-U\fR, \fB\-\-database\-root\fR \fIPATH\fR
+Store only results of scanning the  file system subtree rooted at \fIPATH\fR to
+the generated database.
+The whole file system is scanned by default.
+
+\fIPATH\fR must be an absolute path name, but it may contain symbolic links;
+.BR locate (1)
+will output the entries using the exact spelling of \fIPATH\fR.
+
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Write a summary of the available options to standard output
+and exit sucessfully.
+
+.TP
+\fB\-o\fR, \fB\-\-output\fR \fIFILE\fR
+Write the database to
+.I FILE
+instead of using the default database.
+
+.TP
+\fB\-\-prunefs\fR \IFS\fR
+Set \fBPRUNEFS\fR to \IFS\fR, overriding the config file.
+
+.TP
+\fB\-\-prunepaths\fR \IPATHS\fR
+Set \fBPRUNEPATHS\fR to \IPATHS\fR, overriding the config file.
+
+.TP
+\fB\-l\fR, \fB\-\-require\-visibility\fR \IFLAG\fR
+Set the \*(lqrequire file visibility before reporting it\*(rq flag in the
+generated database to \fIFLAG\fR.
+
+If
+.I FLAG
+is
+.B 0
+or \fBno\fR,
+.BR locate (1)
+outputs the database entries even if the user running
+.BR locate (1)
+could not have read the directory necessary to find out the file described
+by the database entry.
+
+If
+.I FLAG
+is
+.B 1
+or
+.B yes
+(the default),
+.BR locate (1)
+checks the permissions of parent directories of each entry
+before reporting it to the invoking user.
+To make the file existence truly hidden from other users, the database
+group is set to
+.B @groupname@
+and the database permissions prohibit reading the database by users using
+other means than
+.BR locate (1),
+which is sgid \fB@groupname@\fR.
+
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Output path names of files to standard output, as soon as they are found.
+
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Write information about the version and licence of
+.B locate
+on standard output and exit sucessfully.
+
+.SH FILES
+.TP
+\fB@updatedb_conf@\fR
+A configuration file.  See
+.BR updatedb.conf (5).
+
+.TP
+\fB@dbfile@\fR
+The database updated by default.
+
+.SH SECURITY
+Databases built with
+.B \-\-require\-visibility no
+allow users to find names of files and directories of other users,
+which they would not otherwise be able to do.
+
+.SH NOTES
+The accompanying
+.BR locate (1)
+utility was designed to be compatible to
+.B slocate
+and attempts to be compatible to
+.SM GNU
+.B locate
+where possible.
+This is not the case for \fBupdatedb\fR.
+
+.SH AUTHOR
+Miloslav Trmac <mitr@redhat.com>
+
+.SH SEE ALSO
+.BR locate (1),
+.BR mlocate.db (5),
+.BR updatedb.conf (5)

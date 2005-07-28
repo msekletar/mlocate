@@ -1,0 +1,106 @@
+.\" A man page for updatedb.conf. -*- nroff -*-
+.\"
+.\" Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+.\"
+.\" This copyrighted material is made available to anyone wishing to use,
+.\" modify, copy, or redistribute it subject to the terms and conditions of the
+.\" GNU General Public License v.2.
+.\"
+.\" This program is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.\" Author: Miloslav Trmac <mitr@redhat.com>
+.TH updatedb.conf 5 "Jul 2005" mlocate
+
+.SH NAME
+@updatedb_conf@ \- a configuration file for updatedb(8)
+
+.SH DESCRIPTION
+.B @updatedb_conf@
+is a text file.
+Blank lines are ignored.
+A
+.B #
+character outside of a quoted string starts a comment
+extending until end of line.
+
+Other lines must be of the following form:
+.RS
+.I VARIABLE
+.B =
+\fB"\fIVALUE\fB"\fR
+.RE
+
+White space between tokens is ignored.
+.I VARIABLE
+is an alphanumeric string which does not start with a digit.
+.I VALUE
+can contain any character except for \fB"\fR.    \" " emacs is stupid
+No escape mechanism is supported within
+.I VALUE
+and there is no way to write
+.I VALUE
+spanning more than one line.
+
+Unknown
+.I VARIABLE
+values are considered an error.
+The defined variables are:
+
+.TP
+\fBPRUNEFS\fR
+A whitespace-separated list of file system types (as used in \fB/etc/mtab\fR)
+which should not be scanned by
+.BR updatedb (8).
+The file system type matching is case-insensitive.
+
+When scanning a file system is skipped,
+all filesystems mounted in the subtree are skipped too,
+even if their type does not match any entry in \fBPRUNEFS\fR.
+
+.TP
+\fBPRUNEPATHS\fR
+A whitespace-separated list of path names of directories which should not be
+scanned by
+.BR updatedb (8).
+Each path name must be exactly in the form
+in which the directory would be reported by
+.BR locate (1).
+
+.RE
+The default values of both variables are empty.
+
+.SH NOTES
+Unlike the traditional behavior of \fBPRUNEFS\fR and \fBPRUNEPATHS\fR,
+which excludes the matched directory (or the root of a matched filesystem)
+from the created database,
+the matched directory is entered in the created database.
+This allows e.g.
+.B locate /tmp
+to find the standard temporary directories even though their contents are
+excluded from the database.
+
+In some
+.BR updatedb (8)
+implementations \fBPRUNEPATHS\fR can be used to exclude non-directory files.
+This is not the case in this implementation.
+
+.B @updatedb_conf@
+is a shell script in some implementations,
+which allows much more flexibility in defining the variables.
+Equivalent functionality can be achieved by using the command-line options
+to
+.BR updatedb (8).
+
+.SH AUTHOR
+Miloslav Trmac <mitr@redhat.com>
+
+.SH SEE ALSO
+.BR locate (1),
+.BR updatedb (8)

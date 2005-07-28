@@ -18,21 +18,31 @@
 
 ## Settings
 dbdir = $(localstatedir)/mlocate
+dbfile = $(dbdir)/mlocate.db
+groupname = mlocate
 localedir = $(datadir)/locale
+updatedb_conf = $(sysconfdir)/updatedb_conf
 ACLOCAL_AMFLAGS = -I m4
-COMMON_CPPFLAGS = -DDBFILE='"$(dbdir)/mlocate.db"' \
-	-DLOCALEDIR='"$(localedir)"' -DGROUPNAME='"mlocate"'
-CONF_CPPFLAGS = -DUPDATEDB_CONF='"$(sysconfdir)/updatedb.conf"'
+COMMON_CPPFLAGS = -DDBFILE='"$(dbfile)"' -DLOCALEDIR='"$(localedir)"' \
+	-DGROUPNAME='"$(groupname)"'
+CONF_CPPFLAGS = -DUPDATEDB_CONF='"$(updatedb_conf)"'
 
 ## Targets
 SUBDIRS = po
 
 bin_PROGRAMS = src/locate
 libexec_PROGRAMS = src/updatedb
+dist_man_MANS = doc/mlocate.db.5
+man_MANS = doc/locate.1 doc/updatedb.conf.5 doc/updatedb.8
 
 noinst_LIBRARIES = src/liblib.a
 
 ## Rules
+CLEANFILES = $(man_MANS)
+EXTRA_DIST = doc/locate.1.in doc/updatedb.conf.5.in doc/updatedb.8.in
+
+src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h
+
 src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS)
 src_locate_LDADD = src/liblib.a $(LIBINTL)
 
@@ -40,5 +50,26 @@ src_updatedb_SOURCES = src/conf.c src/conf.h src/updatedb.c
 src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS) $(CONF_CPPFLAGS)
 src_updatedb_LDADD = src/liblib.a $(LIBINTL)
 
-## Dependency data
-src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h
+doc/locate.1: $(srcdir)/doc/locate.1.in Makefile
+	$(mkdir_p) doc
+	sed 's,@dbfile@,$(dbfile),g' < $(srcdir)/doc/locate.1.in > $@
+
+doc/updatedb.conf.5: $(srcdir)/doc/updatedb.conf.5.in Makefile
+	$(mkdir_p) doc
+	sed 's,@updatedb_conf@,$(updatedb_conf),g' \
+		< $(srcdir)/doc/updatedb.conf.5.in > $@
+
+doc/updatedb.8: $(srcdir)/doc/updatedb.8.in Makefile
+	$(mkdir_p) doc
+	sed -e 's,@dbfile@,$(dbfile),g; s,@groupname@,$(groupname),g' \
+		-e 's,@updatedb_conf@,$(updatedb_conf),g' \
+		< $(srcdir)/doc/updatedb.8.in > $@
+
+install-exec-local:
+	$(mkdir_p) "$(DESTDIR)$(dbdir)"
+	-chgrp $(groupname) "$(DESTDIR)$(dbdir)" 2>/dev/null \
+		&& chmod g=r,o= "$(DESTDIR)$(dbdir)"
+
+install-exec-hook:
+	-chgrp $(groupname) "$(DESTDIR)$(libexecdir)/updatedb" 2>/dev/null \
+		&& chmod g+s,go-w "$(DESTDIR)$(libexecdir)/updatedb"

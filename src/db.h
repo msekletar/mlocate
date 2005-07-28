@@ -18,7 +18,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 
 #include <stdint.h>
 
-/* FIXME: See mlocate.db(5) */
+/* See doc/mlocate.db.5.in */
 
 /* File header */
 struct db_header
@@ -60,7 +60,8 @@ struct db_directory
      mtime". */
   uint64_t time_sec;	       /* st_[cm]time of the directory in big endian */
   /* st_[cm]tim.tv_nsec of the directory in big endian or 0 if not available */
-  uint32_t time_nsec;		
+  uint32_t time_nsec;
+  uint8_t pad[4];		/* 64-bit total alignment */
   /* Followed by NUL-terminated absolute path of the directory */
 };
 /* Followed by directory entries terminated by DBE_END, sorted by name using

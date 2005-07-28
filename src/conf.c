@@ -44,7 +44,7 @@ char *const *conf_prunepaths;
 size_t conf_prunepaths_len;
 
 /* Root of the directory tree to store in the database */
-const char *conf_scan_root; /* = NULL; */
+char *conf_scan_root; /* = NULL; */
 
 /* Absolute (not necessarily canonical) path to the database */
 const char *conf_output; /* = NULL; */
@@ -547,7 +547,11 @@ parse_arguments (int argc, char *argv[])
   if (optind != argc)
     error (EXIT_FAILURE, 0, _("unexpected operand on command line"));
   if (conf_scan_root == NULL)
-    conf_scan_root = "/";
+    {
+      static char root[] = "/";
+      
+      conf_scan_root = root;
+    }
   if (conf_output == NULL)
     conf_output = DBFILE;
   if (*conf_output != '/')

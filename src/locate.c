@@ -146,9 +146,6 @@ struct check_entry
   char path[];			/* _Not_ NUL-terminated */
 };
 
-/* Stack top (the longest path) */
-static struct check_entry *check_stack; /* = NULL; */
-
 /* Contains the check_entry stack */
 static struct obstack check_stack_obstack;
 
@@ -160,6 +157,8 @@ static struct obstack check_obstack;
 static int
 cached_access_rx (const char *path)
 {
+  static struct check_entry *check_stack; /* = NULL; */
+
   size_t len;
   struct check_entry *e, *to_free, *new;
   

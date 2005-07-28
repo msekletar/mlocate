@@ -1,1 +1,25 @@
-FIXME
+About
+=====
+mlocate is a locate/updatedb implementation.  The 'm' stands for "merging":
+updatedb reuses the existing database to avoid rereading most of the file
+system, which makes updatedb faster and does not trash the system caches as
+much.
+
+The locate(1) utility is intended to be completely compatible to slocate.  It
+also attempts to be compatible to GNU locate, when it does not conflict with
+slocate compatibility.
+
+Installation
+============
+Before installation it is necessary to create a group called "mlocate" to allow
+hiding the contents of the database from users.
+
+Portability
+===========
+mlocate uses GNU error reporting, getopt_long () and obstack facilities.
+This functionality is available in GNU libc or in gnulib.
+
+Bugs
+====
+Please report bugs to <mitr@redhat.com>.  Bug reports with patches are
+especially welcome.

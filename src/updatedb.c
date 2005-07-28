@@ -73,7 +73,7 @@ struct directory
   struct time time;
   void **entries;		/* Pointers to struct entry */
   size_t num_entries;
-  const char *path;		/* Absolute path */
+  char *path;			/* Absolute path */
 };
 
  /* Time handling */
@@ -155,56 +155,64 @@ dir_finish (struct directory *dir, struct dir_state *state)
 
 /* The old database or old_db.fd == -1 */
 static struct db old_db;
-/* Next unprocessed directory from the old database or old_dir.path == NULL */
+/* Header for unread directory from the old database or old_dir.path == NULL */
 static struct directory old_dir; /* = { 0, }; */
 
-/* Global obstacks for old database reading. */
-static struct dir_state old_dir_state;
-/* Marker for freeing old_dir_state.data_obstack */
-static void *old_dir_data_mark;
+/* Obstack for old_dir.path and old_dir_skip () */
+static struct obstack old_dir_obstack;
 
-/* Read next directory, if any, to old_dir */
+/* Close old_db */
 static void
-next_old_dir (void)
+old_db_close (void)
+{
+  old_dir.path = NULL;
+  db_close (&old_db);
+  old_db.fd = -1;
+}
+
+/* Read next directory header, if any, to old_dir */
+static void
+old_dir_next_header (void)
 {
   struct db_directory dir;
-  size_t i;
 
   if (old_db.fd == -1)
     return;
   if (old_dir.path != NULL)
-    {
-      obstack_free (&old_dir_state.list_obstack, old_dir.entries);
-      obstack_free (&old_dir_state.data_obstack, old_dir_data_mark);
-      old_dir_data_mark = obstack_alloc (&old_dir_state.data_obstack, 0);
-    }
+    obstack_free (&old_dir_obstack, old_dir.path);
   if (db_read (&old_db, &dir, sizeof (dir)) != 0)
     goto err;
   old_dir.time.sec = ntohll (dir.time_sec);
   old_dir.time.nsec = ntohl (dir.time_nsec);
   if (old_dir.time.nsec >= 1000000000)
     goto err;
-  if (db_read_name (&old_db, &old_dir_state.data_obstack) != 0)
+  if (db_read_name (&old_db, &old_dir_obstack) != 0)
     goto err;
-  obstack_1grow (&old_dir_state.data_obstack, 0);
-  old_dir.path = obstack_finish (&old_dir_state.data_obstack);
+  obstack_1grow (&old_dir_obstack, 0);
+  old_dir.path = obstack_finish (&old_dir_obstack);
+  return;
+
+ err:
+  old_db_close ();
+}
+
+/* Skip next directory in old_db */
+static void
+old_dir_skip (void)
+{
+  void *mark;
+
+  mark = obstack_alloc (&old_dir_obstack, 0);
   for (;;)
     {
       struct db_entry entry;
-      struct entry *e;
-      _Bool is_directory;
-      size_t size;
+      void *p;
 
       if (db_read (&old_db, &entry, sizeof (entry)) != 0)
 	goto err;
       switch (entry.type)
 	{
-	case DBE_NORMAL:
-	  is_directory = 0;
-	  break;
-
-	case DBE_DIRECTORY:
-	  is_directory = 1;
+	case DBE_NORMAL: case DBE_DIRECTORY:
 	  break;
 
 	case DBE_END:
@@ -213,36 +221,18 @@ next_old_dir (void)
 	default:
 	  goto err;
 	}
-      assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
-      obstack_blank (&old_dir_state.data_obstack,
-		     offsetof (struct entry, name));
-      if (db_read_name (&old_db, &old_dir_state.data_obstack) != 0)
+      if (db_read_name (&old_db, &old_dir_obstack) != 0)
 	goto err;
-      obstack_1grow (&old_dir_state.data_obstack, 0);
-      size = (OBSTACK_OBJECT_SIZE (&old_dir_state.data_obstack)
-	      - offsetof (struct entry, name));
-      e = obstack_finish (&old_dir_state.data_obstack);
-      e->name_size = size;
-      e->is_directory = is_directory;
-      obstack_ptr_grow (&old_dir_state.list_obstack, e);
+      p = obstack_finish (&old_dir_obstack);
+      obstack_free (&old_dir_obstack, p);
     }
  done:
-  dir_finish (&old_dir, &old_dir_state);
-  for (i = 0; i + 1 < old_dir.num_entries; i++)
-    {
-      struct entry *a, *b;
-
-      a = old_dir.entries[i];
-      b = old_dir.entries[i + 1];
-      if (strcmp (a->name, b->name) >= 0)
-	goto err;
-    }
   return;
 
  err:
-  old_dir.path = NULL;
-  db_close (&old_db);
-  old_db.fd = -1;
+  (void)obstack_finish (&old_dir_obstack);
+  obstack_free (&old_dir_obstack, mark);
+  old_db_close ();
 }
 
 /* Open the old database and prepare for reading it */
@@ -287,9 +277,9 @@ old_db_open (void)
       src += run;
       size -= run;
     }
-  dir_state_init (&old_dir_state);
-  old_dir_data_mark = obstack_alloc (&old_dir_state.data_obstack, 0);
-  next_old_dir ();
+  obstack_init (&old_dir_obstack);
+  obstack_alignment_mask (&old_dir_obstack) = 0;
+  old_dir_next_header ();
   return;
 
  err_obstack:
@@ -377,7 +367,7 @@ static struct dir_state scan_dir_state;
 static size_t conf_prunepaths_index; /* = 0; */
 
 /* Forward declaration */
-static int scan (const char *path, int *cwd_fd, const struct stat *st_parent,
+static int scan (char *path, int *cwd_fd, const struct stat *st_parent,
 		 const char *relative);
 
 /* Write DIR to new_db. */
@@ -388,6 +378,7 @@ write_directory (const struct directory *dir)
   struct db_entry entry;
   size_t i;
 
+  memset (&header, 0, sizeof (header));
   header.time_sec = htonll (dir->time.sec);
   assert (dir->time.nsec < 1000000000);
   header.time_nsec = htonl (dir->time.nsec);
@@ -478,41 +469,87 @@ safe_chdir (int *cwd_fd, const char *relative, const struct stat *old_st)
   return 0;
 }
 
-/* Copy old_dir to DEST in scan_dir_state;
-   Return 1 if DEST contains a subdirectory, 0 otherwise. */
-static _Bool
+/* Read directory after old_dir to DEST in scan_dir_state;
+   Return -1 on error, 1 if DEST contains a subdirectory, 0 otherwise. */
+static int
 copy_old_dir (struct directory *dest)
 {
   _Bool have_subdir;
   size_t i;
-      
-  /* FIXME: is there an elegant solution? - lookahead only dir name,
-     then copy contents directoy to scan_dir_state. */
-  /* Reuse old data.  It is easier to copy them than to handle old_data
-     lifetime issues (we must have lookahead, but we want to obstack_free ()
-     allocated subtree data without the lookahead). */
+  void *mark, *p;
+
+  if (old_db.fd == -1 || old_dir.path == NULL)
+    goto err;
+  mark = obstack_alloc (&scan_dir_state.data_obstack, 0);
   have_subdir = 0;
-  for (i = 0; i < old_dir.num_entries; i++)
+  for (;;)
     {
-      struct entry *e, *copy;
+      struct db_entry entry;
+      struct entry *e;
+      _Bool is_directory;
       size_t size;
 
-      e = old_dir.entries[i];
-      size = offsetof (struct entry, name) + e->name_size;
+      if (db_read (&old_db, &entry, sizeof (entry)) != 0)
+	goto err_obstack;
+      switch (entry.type)
+	{
+	case DBE_NORMAL:
+	  is_directory = 0;
+	  break;
+
+	case DBE_DIRECTORY:
+	  is_directory = 1;
+	  break;
+
+	case DBE_END:
+	  goto done;
+
+	default:
+	  goto err_obstack;
+	}
+      assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
+      obstack_blank (&scan_dir_state.data_obstack,
+		     offsetof (struct entry, name));
+      if (db_read_name (&old_db, &scan_dir_state.data_obstack) != 0)
+	goto err_obstack;
+      obstack_1grow (&scan_dir_state.data_obstack, 0);
+      size = (OBSTACK_OBJECT_SIZE (&scan_dir_state.data_obstack)
+	      - offsetof (struct entry, name));
       if (size > OBSTACK_SIZE_MAX)
 	{
-	  error (0, 0, _("file name length %zu is too large"), e->name_size);
-	  continue;
+	  error (0, 0, _("file name length %zu is too large"), size);
+	  goto err_obstack;
 	}
-      copy = obstack_copy (&scan_dir_state.data_obstack, e, size);
-      if (copy->is_directory != 0)
+      e = obstack_finish (&scan_dir_state.data_obstack);
+      e->name_size = size;
+      e->is_directory = is_directory;
+      if (is_directory != 0)
 	have_subdir = 1;
-      obstack_ptr_grow (&scan_dir_state.list_obstack, copy);
+      obstack_ptr_grow (&scan_dir_state.list_obstack, e);
       if (conf_verbose != 0)
-	printf ("%s/%s\n", old_dir.path, e->name);
+	printf ("%s/%s\n", dest->path, e->name);
     }
+ done:
   dir_finish (dest, &scan_dir_state);
+  for (i = 0; i + 1 < dest->num_entries; i++)
+    {
+      struct entry *a, *b;
+
+      a = dest->entries[i];
+      b = dest->entries[i + 1];
+      if (strcmp (a->name, b->name) >= 0)
+	goto err_obstack;
+    }
   return have_subdir;
+
+ err_obstack:
+  (void)obstack_finish (&scan_dir_state.data_obstack);
+  obstack_free (&scan_dir_state.data_obstack, mark);
+  p = obstack_finish (&scan_dir_state.list_obstack);
+  obstack_free (&scan_dir_state.list_obstack, p);
+ err:
+  old_db_close ();
+  return -1;
 }
 
 /* Compare two "void *" (struct entry *) values */
@@ -555,7 +592,7 @@ scan_cwd (struct directory *dest)
       entry_size = offsetof (struct entry, name) + name_size;
       if (entry_size > OBSTACK_SIZE_MAX)
 	{
-	  error (0, 0, _("file name length %zu too large"), name_size);
+	  error (0, 0, _("file name length %zu is too large"), name_size);
 	  continue;
 	}
       e = obstack_alloc (&scan_dir_state.data_obstack, entry_size);
@@ -597,14 +634,14 @@ scan_cwd (struct directory *dest)
    Note that PATH may be longer than PATH_MAX, so relative file names should
    always be used. */
 static int
-scan (const char *path, int *cwd_fd, const struct stat *st_parent,
+scan (char *path, int *cwd_fd, const struct stat *st_parent,
       const char *relative)
 {
   struct directory dir;
   struct stat st;
   struct time mtime;
   void *entries_mark;
-  int cmp;
+  int cmp, res;
   _Bool have_subdir, did_chdir;
 
   did_chdir = 0;
@@ -631,31 +668,35 @@ scan (const char *path, int *cwd_fd, const struct stat *st_parent,
     dir.time = mtime;
   cmp = 0;
   while (old_dir.path != NULL && (cmp = dir_path_cmp (old_dir.path, path)) < 0)
-    next_old_dir ();
+    {
+      old_dir_skip ();
+      old_dir_next_header ();
+    }
   have_subdir = 0;
   if (old_dir.path != NULL && cmp == 0
       && time_compare (&dir.time, &old_dir.time) == 0
       && (dir.time.sec != 0 || dir.time.nsec != 0))
     {
-      have_subdir = copy_old_dir (&dir);
-      next_old_dir ();
+      res = copy_old_dir (&dir);
+      if (res != -1)
+	{
+	  have_subdir = res;
+	  old_dir_next_header ();
+	  goto have_dir;
+	}
     }
-  else
-    {
-      int res;
-
-      if (dir.time.nsec == 0 && time_is_current (dir.time.sec))
-	/* The directory might be changing right now and we can't be sure
-	   the timestamp will yet change, mark the timestamp invalid */
-	dir.time.sec = 0;
-      did_chdir = 1;
-      if (safe_chdir (cwd_fd, relative, &st) != 0)
-	goto err_chdir;
-      res = scan_cwd (&dir);
-      if (res == -1)
-	goto err_chdir;
-      have_subdir = res;
-    }
+  if (dir.time.nsec == 0 && time_is_current (dir.time.sec))
+    /* The directory might be changing right now and we can't be sure the
+       timestamp will yet change, mark the timestamp invalid */
+    dir.time.sec = 0;
+  did_chdir = 1;
+  if (safe_chdir (cwd_fd, relative, &st) != 0)
+    goto err_chdir;
+  res = scan_cwd (&dir);
+  if (res == -1)
+    goto err_chdir;
+  have_subdir = res;
+ have_dir:
   write_directory (&dir);
   if (have_subdir != 0)
     {
@@ -777,7 +818,6 @@ int
 main (int argc, char *argv[])
 {
   struct stat st;
-  struct group *grp;
   int cwd_fd;
   mode_t mode;
 
@@ -804,9 +844,18 @@ main (int argc, char *argv[])
 	   new_db_filename);
   if (fclose (new_db) != 0)
     error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
-  if (conf_check_visibility != 0 && (grp = getgrnam (GROUPNAME)) != NULL
-      && chown (new_db_filename, (uid_t)-1, grp->gr_gid) == 0)
-    mode = S_IRUSR | S_IWUSR | S_IRGRP;
+  if (conf_check_visibility != 0)
+    {
+      struct group *grp;
+      
+      grp = getgrnam (GROUPNAME);
+      if (grp == NULL)
+	error (EXIT_FAILURE, errno, _("can not find group `%s'"), GROUPNAME);
+      if (chown (new_db_filename, (uid_t)-1, grp->gr_gid) == 0)
+	error (EXIT_FAILURE, errno, _("can not change group of file `%s'"),
+	       new_db_filename);
+      mode = S_IRUSR | S_IWUSR | S_IRGRP;
+    }
   else /* Permissions as if open (..., O_CREAT | O_WRONLY, 0666) */
     {
       mode_t mask;
@@ -817,7 +866,7 @@ main (int argc, char *argv[])
 	      & ~mask);
     }
   if (chmod (new_db_filename, mode) != 0)
-    error (EXIT_FAILURE, errno, _("can not change permissions of `%s'"),
+    error (EXIT_FAILURE, errno, _("can not change permissions of file `%s'"),
 	   new_db_filename);
   if (rename (new_db_filename, conf_output) != 0)
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);

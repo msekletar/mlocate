@@ -35,7 +35,7 @@ extern char *const *conf_prunepaths;
 extern size_t conf_prunepaths_len;
 
 /* Root of the directory tree to store in the database */
-extern const char *conf_scan_root;
+extern char *conf_scan_root;
 
 /* Absolute (not necessarily canonical) path to the database */
 extern const char *conf_output;
