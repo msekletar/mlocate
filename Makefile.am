@@ -21,7 +21,7 @@ dbdir = $(localstatedir)/mlocate
 dbfile = $(dbdir)/mlocate.db
 groupname = mlocate
 localedir = $(datadir)/locale
-updatedb_conf = $(sysconfdir)/updatedb_conf
+updatedb_conf = $(sysconfdir)/updatedb.conf
 ACLOCAL_AMFLAGS = -I m4
 COMMON_CPPFLAGS = -DDBFILE='"$(dbfile)"' -DLOCALEDIR='"$(localedir)"' \
 	-DGROUPNAME='"$(groupname)"'

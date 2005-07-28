@@ -645,6 +645,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   _Bool have_subdir, did_chdir;
 
   did_chdir = 0;
+  cmp = 0;
   while (conf_prunepaths_index < conf_prunepaths_len
 	 && (cmp = dir_path_cmp (conf_prunepaths[conf_prunepaths_index],
 				 path)) < 0)
@@ -666,7 +667,6 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   time_get_mtime (&mtime, &st);
   if (time_compare (&dir.time, &mtime) < 0)
     dir.time = mtime;
-  cmp = 0;
   while (old_dir.path != NULL && (cmp = dir_path_cmp (old_dir.path, path)) < 0)
     {
       old_dir_skip ();
