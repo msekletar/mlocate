@@ -851,7 +851,7 @@ main (int argc, char *argv[])
       grp = getgrnam (GROUPNAME);
       if (grp == NULL)
 	error (EXIT_FAILURE, errno, _("can not find group `%s'"), GROUPNAME);
-      if (chown (new_db_filename, (uid_t)-1, grp->gr_gid) == 0)
+      if (chown (new_db_filename, (uid_t)-1, grp->gr_gid) != 0)
 	error (EXIT_FAILURE, errno, _("can not change group of file `%s'"),
 	       new_db_filename);
       mode = S_IRUSR | S_IWUSR | S_IRGRP;
