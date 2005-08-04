@@ -73,6 +73,9 @@ static _Bool conf_output_count; /* = 0; */
 static uintmax_t conf_output_limit;
 static _Bool conf_output_limit_set; /* = 0; */
 
+/* Quote nonprintable characters on output */
+static _Bool conf_output_quote; /* = 0; */
+
 /* Character for output separation */
 static char conf_output_separator = '\n';
 
@@ -89,6 +92,8 @@ static _Bool conf_quiet; /* = 0; */
 
 /* Output only statistics */
 static _Bool conf_statistics; /* = 0; */
+
+ /* String utilities */
 
 /* Convert SRC to upper-case in OBSTACK;
    return result */
@@ -131,6 +136,50 @@ uppercase_string (struct obstack *obstack, const char *src)
     }
   while (wc != 0);
   return obstack_finish (obstack);
+}
+
+/* Write STRING to stdout, replace unprintable characters with '?' */
+static void
+write_quoted (const char *string)
+{
+  mbstate_t state;
+  const char *last; /* Start of the current batch of bytes for fwrite () */
+  size_t left;
+
+  left = strlen (string) + 1;
+  memset (&state, 0, sizeof (state));
+  last = string;
+  for (;;)
+    {
+      size_t size;
+      wchar_t wc;
+      _Bool printable;
+
+      size = mbrtowc (&wc, string, left, &state);
+      if (size == 0)
+	break;
+      if (size >= (size_t)-2)
+	{
+	  size = 1;
+	  memset (&state, 0, sizeof (state));
+	  printable = 0;
+	}
+      else
+	printable = iswprint (wc);
+      if (printable == 0)
+	{
+	  if (string != last)
+	    fwrite (last, 1, string - last, stdout);
+	  putchar ('?');
+	}
+      string += size;
+      assert (left >= size);
+      left -= size;
+      if (printable == 0)
+	last = string;
+    }
+  if (string != last)
+    fwrite (last, 1, string - last, stdout);
 }
 
  /* Access permission checking */
@@ -360,7 +409,10 @@ handle_path (const char *path, int *visible)
   /* Output */
   if (conf_output_count == 0)
     {
-      fputs (path, stdout);
+      if (conf_output_quote != 0)
+	write_quoted (path);
+      else
+	fputs (path, stdout);
       putchar (conf_output_separator);
     }
   matches_found++; /* Overflow is too unlikely */
@@ -723,6 +775,8 @@ parse_options (int argc, char *argv[])
 	}
     }
  options_done:
+  if (conf_output_separator != 0 && isatty(STDOUT_FILENO))
+    conf_output_quote = 1;
   if ((conf_statistics != 0 || conf_match_regexp_basic != 0)
       && optind != argc)
     error (EXIT_FAILURE, 0,

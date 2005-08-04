@@ -1,0 +1,7 @@
+2005-08-04  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/locate.c (conf_output_quote): New variable.
+	(write_quoted): New function.
+	(parse_options): Set conf_output_quote if writing to stdout without
+	--null.
+	(handle_path): Implement conf_output_quote.
