@@ -262,8 +262,11 @@ parse_updatedb_conf (void)
   uc_file = fopen (UPDATEDB_CONF, "r");
   if (uc_file == NULL)
     {
-      if (errno != ENOENT)
-	error (EXIT_FAILURE, errno, _("can not open `%s'"), UPDATEDB_CONF);
+      int err;
+
+      err = errno;
+      if (err != ENOENT)
+	error (EXIT_FAILURE, err, _("can not open `%s'"), UPDATEDB_CONF);
       goto err;
     }
   flockfile (uc_file);
@@ -415,7 +418,12 @@ prepend_cwd (const char *path)
       buf = xrealloc (buf, size);
     }
   if (res == NULL)
-    error (EXIT_FAILURE, errno, _("can not get current working directory"));
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("can not get current working directory"));
+    }
   len1 = strlen (buf);
   size2 = strlen (path) + 1;
   buf = xrealloc (buf, len1 + 1 + size2);

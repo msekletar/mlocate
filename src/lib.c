@@ -101,11 +101,13 @@ void *
 xmalloc (size_t size)
 {
   void *p;
+  int err;
 
   p = malloc (size);
   if (p != NULL || size == 0)
     return p;
-  error (EXIT_FAILURE, errno, _("can not allocate memory"));
+  err = errno;
+  error (EXIT_FAILURE, err, _("can not allocate memory"));
   abort (); /* Not reached */
 }
 
@@ -113,10 +115,13 @@ xmalloc (size_t size)
 void *
 xrealloc (void *ptr, size_t size)
 {
+  int err;
+
   ptr = realloc (ptr, size);
   if (ptr != NULL || size == 0)
     return ptr;
-  error (EXIT_FAILURE, errno, _("can not allocate memory"));
+  err = errno;
+  error (EXIT_FAILURE, err, _("can not allocate memory"));
   abort (); /* Not reached */
 }
 
@@ -315,12 +320,15 @@ db_skip (struct db *db, off_t size)
 	break;
       if (use_lseek != 0)
 	{
+	  int err;
+	  
 	  if (lseek (db->fd, size, SEEK_CUR) != -1)
 	    break;
-	  if (errno != ESPIPE)
+	  err = errno;
+	  if (err != ESPIPE)
 	    {
 	      if (db->quiet == 0)
-		error (0, errno, _("I/O error seeking in `%s'"), db->filename);
+		error (0, err, _("I/O error seeking in `%s'"), db->filename);
 	      goto err;
 	    }
 	  use_lseek = 0;

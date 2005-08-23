@@ -933,13 +933,23 @@ handle_dbpath_entry (const char *entry)
       if (fd == -1)
 	{
 	  if (conf_quiet == 0)
-	    error (0, errno, _("can not open `%s'"), entry);
+	    {
+	      int err;
+
+	      err = errno;
+	      error (0, err, _("can not open `%s'"), entry);
+	    }
 	  goto err;
 	}
       if (fstat (fd, &st) != 0)
 	{
 	  if (conf_quiet == 0)
-	    error (0, errno, _("can not stat () `%s'"), entry);
+	    {
+	      int err;
+
+	      err = errno;
+	      error (0, err, _("can not stat () `%s'"), entry);
+	    }
 	  close (fd);
 	  goto err;
 	}
@@ -947,7 +957,12 @@ handle_dbpath_entry (const char *entry)
   if (!db_is_privileged (&st))
     {
       if (setgid (getgid ()) != 0)
-	error (EXIT_FAILURE, errno, _("can not drop privileges"));
+	{
+	  int err;
+
+	  err = errno;
+	  error (EXIT_FAILURE, err, _("can not drop privileges"));
+	}
     }
   handle_db (fd, entry); /* Closes fd */
  err:

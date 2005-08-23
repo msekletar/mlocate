@@ -800,7 +800,12 @@ new_db_open (void)
   unlink_set (filename);
   new_db = fdopen (db_fd, "wb");
   if (new_db == NULL)
-    error (EXIT_FAILURE, errno, _("can not open `%s'"), new_db_filename);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("can not open `%s'"), new_db_filename);
+    }
   memset (&db_header, 0, sizeof (db_header));
   assert (sizeof (db_header.magic) == sizeof (magic));
   memcpy (db_header.magic, &magic, sizeof (magic));
@@ -831,10 +836,20 @@ main (int argc, char *argv[])
   new_db_open ();
   dir_state_init (&scan_dir_state);
   if (chdir (conf_scan_root) != 0)
-    error (EXIT_FAILURE, errno, _("can not change directory to `%s'"),
-	   conf_scan_root);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("can not change directory to `%s'"),
+	     conf_scan_root);
+    }
   if (lstat (".", &st) != 0)
-    error (EXIT_FAILURE, errno, _("can not stat () `%s'"), conf_scan_root);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("can not stat () `%s'"), conf_scan_root);
+    }
   cwd_fd = -1;
   scan (conf_scan_root, &cwd_fd, &st, ".");
   if (cwd_fd != -1)
@@ -843,17 +858,32 @@ main (int argc, char *argv[])
     error (EXIT_FAILURE, 0, _("I/O error while writing to `%s'"),
 	   new_db_filename);
   if (fclose (new_db) != 0)
-    error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("I/O error closing `%s'"), new_db_filename);
+    }
   if (conf_check_visibility != 0)
     {
       struct group *grp;
       
       grp = getgrnam (GROUPNAME);
       if (grp == NULL)
-	error (EXIT_FAILURE, errno, _("can not find group `%s'"), GROUPNAME);
+	{
+	  int err;
+
+	  err = errno;
+	  error (EXIT_FAILURE, err, _("can not find group `%s'"), GROUPNAME);
+	}
       if (chown (new_db_filename, (uid_t)-1, grp->gr_gid) != 0)
-	error (EXIT_FAILURE, errno, _("can not change group of file `%s'"),
-	       new_db_filename);
+	{
+	  int err;
+
+	  err = errno;
+	  error (EXIT_FAILURE, err, _("can not change group of file `%s'"),
+		 new_db_filename);
+	}
       mode = S_IRUSR | S_IWUSR | S_IRGRP;
     }
   else /* Permissions as if open (..., O_CREAT | O_WRONLY, 0666) */
@@ -866,10 +896,20 @@ main (int argc, char *argv[])
 	      & ~mask);
     }
   if (chmod (new_db_filename, mode) != 0)
-    error (EXIT_FAILURE, errno, _("can not change permissions of file `%s'"),
-	   new_db_filename);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("can not change permissions of file `%s'"),
+	     new_db_filename);
+    }
   if (rename (new_db_filename, conf_output) != 0)
-    error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
+    {
+      int err;
+
+      err = errno;
+      error (EXIT_FAILURE, err, _("error replacing `%s'"), conf_output);
+    }
   /* There is really no race condition in removing other files now: unlink ()
      only removes the directory entry (not symlink targets), and the file had
      to be intentionally placed there to match the mkstemp () result.  So any
