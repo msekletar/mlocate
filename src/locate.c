@@ -675,14 +675,16 @@ parse_options (int argc, char *argv[])
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "nofollow");
+	  got_follow = 1;
 	  conf_check_follow_trailing = 0;
 	  break;
 
-	case 'L': 
+	case 'L':
 	  if (got_follow != 0)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "follow");
+	  got_follow = 1;
 	  conf_check_follow_trailing = 1;
 	  break;
 
