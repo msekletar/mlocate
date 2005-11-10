@@ -1,0 +1,4 @@
+Changes in version 0.11:
+- Nonprintable characters are replaced by `?' when stdout is a tty and --null
+  is not specified.
+- updatedb is installed to $(bindir).

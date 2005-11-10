@@ -1,3 +1,11 @@
+2005-11-10  Miloslav Trmac  <mitr@redhat.com>
+
+	* configure.ac: Version 0.11.
+	* NEWS: Update.
+
+	* Makefile.am (bin_PROGRAMS, libexec_PROGRAMS, install-exec-hook): Move
+	updatedb to $(bindir).
+
 2005-10-23  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/locate.c (parse_options): Actually set got_follow to 1 when

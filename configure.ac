@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.10], [mitr@redhat.com])
+AC_INIT([mlocate], [0.11], [mitr@redhat.com])
 AC_COPYRIGHT(
 [Copyright (C) 2005 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
@@ -16,7 +16,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com>])
 AC_PREREQ(2.59)
-AC_CONFIG_HEADERS([src/config.h])	
+AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
 AM_INIT_AUTOMAKE([no-define subdir-objects -Wall])

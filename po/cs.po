@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-07-28 02:16+0200\n"
+"POT-Creation-Date: 2005-11-10 02:02+0100\n"
 "PO-Revision-Date: 2005-07-28 02:16+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "missing closing `\"'"
 msgstr "chybí uzavírající `\"'"
 
-#: src/conf.c:266 src/locate.c:882 src/updatedb.c:803
+#: src/conf.c:266 src/locate.c:938 src/updatedb.c:803
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
@@ -107,7 +107,7 @@ msgstr ""
 "čtené\n"
 "z `%s'.\n"
 
-#: src/conf.c:398 src/locate.c:567
+#: src/conf.c:398 src/locate.c:619
 #, c-format
 msgid ""
 "\n"
@@ -120,13 +120,13 @@ msgstr ""
 msgid "can not get current working directory"
 msgstr "nemohu zjistit současný pracovní adresář"
 
-#: src/conf.c:467 src/conf.c:477 src/locate.c:624 src/locate.c:632
-#: src/locate.c:657 src/locate.c:715
+#: src/conf.c:467 src/conf.c:477 src/locate.c:676 src/locate.c:685
+#: src/locate.c:711 src/locate.c:769
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s by nahradilo dřívejší parametr na příkazovém řádku"
 
-#: src/conf.c:486 src/conf.c:520 src/conf.c:534 src/locate.c:688
+#: src/conf.c:486 src/conf.c:520 src/conf.c:534 src/locate.c:742
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s zadáno dvakrát"
@@ -135,7 +135,7 @@ msgstr "--%s zadáno dvakrát"
 msgid "the argument to --database-root must be an absolute path name"
 msgstr "parametr --database-root musí být absolutní cesta"
 
-#: src/conf.c:497 src/locate.c:647
+#: src/conf.c:497 src/locate.c:701
 msgid ""
 "Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -147,7 +147,7 @@ msgstr ""
 "\n"
 "Tento program je poskutován BEZ ZÁRUKY, je-li to povoleno zákonem."
 
-#: src/conf.c:528 src/locate.c:694
+#: src/conf.c:528 src/locate.c:748
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "neplatná hodnota `%s' přepínače --%s"
@@ -185,12 +185,12 @@ msgstr "neočekávaný konec souboru při čtení `%s'"
 msgid "I/O error seeking in `%s'"
 msgstr "chyba I/O při posouvání v `%s'"
 
-#: src/locate.c:260
+#: src/locate.c:309
 #, c-format
 msgid "Database %s:\n"
 msgstr "Databáze %s:\n"
 
-#: src/locate.c:263
+#: src/locate.c:312
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
@@ -198,7 +198,7 @@ msgstr[0] "\t%'ju adresář\n"
 msgstr[1] "\t%'ju adresáře\n"
 msgstr[2] "\t%'ju adresářů\n"
 
-#: src/locate.c:265
+#: src/locate.c:314
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
@@ -206,7 +206,7 @@ msgstr[0] "\t%'ju soubor\n"
 msgstr[1] "\t%'ju soubory\n"
 msgstr[2] "\t%'ju souborů\n"
 
-#: src/locate.c:267
+#: src/locate.c:316
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
@@ -214,7 +214,7 @@ msgstr[0] "\t%'ju bajt v názvech souborů\n"
 msgstr[1] "\t%'ju bajty v názvech souborů\n"
 msgstr[2] "\t%'ju bajtů v názvech souborů\n"
 
-#: src/locate.c:269
+#: src/locate.c:318
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
@@ -222,17 +222,17 @@ msgstr[0] "\t%'ju bajt použit pro uložení databáze\n"
 msgstr[1] "\t%'ju bajty použity pro uložení databáze\n"
 msgstr[2] "\t%'ju bajtů použito pro uložení databáze\n"
 
-#: src/locate.c:392
+#: src/locate.c:444
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "neplatný prázdný název adresáře v `%s'"
 
-#: src/locate.c:419
+#: src/locate.c:471
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "délka názvu souboru %zu v `%s' je příliš velká"
 
-#: src/locate.c:532
+#: src/locate.c:584
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -293,34 +293,34 @@ msgstr ""
 "  -V, --version           vypsat informace o verzi\n"
 "  -w, --wholename         porovnávat celé cesty k souborům (implicitní)\n"
 
-#: src/locate.c:729
+#: src/locate.c:785
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "s --%s nejsou povoleny parametry jiné než přepínače"
 
-#: src/locate.c:743
+#: src/locate.c:799
 msgid "no pattern to search for specified"
 msgstr "nezadán žádný vzor, který hledat"
 
-#: src/locate.c:773
+#: src/locate.c:829
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "neplatná regexp `%s': %s"
 
-#: src/locate.c:872
+#: src/locate.c:928
 msgid "can not read two databases from standard input"
 msgstr "nemohu číst dvě databáze ze standardního vstupu"
 
-#: src/locate.c:888 src/updatedb.c:837
+#: src/locate.c:944 src/updatedb.c:837
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
 
-#: src/locate.c:896
+#: src/locate.c:952
 msgid "can not drop privileges"
 msgstr "nemohu se vzdát oprávnění"
 
-#: src/locate.c:952 src/updatedb.c:881
+#: src/locate.c:1008 src/updatedb.c:881
 msgid "I/O error while writing to standard output"
 msgstr "chyba I/O při zápisu na standardní výstup"
 

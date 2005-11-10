@@ -30,8 +30,7 @@ CONF_CPPFLAGS = -DUPDATEDB_CONF='"$(updatedb_conf)"'
 ## Targets
 SUBDIRS = po
 
-bin_PROGRAMS = src/locate
-libexec_PROGRAMS = src/updatedb
+bin_PROGRAMS = src/locate src/updatedb
 dist_man_MANS = doc/mlocate.db.5
 man_MANS = doc/locate.1 doc/updatedb.conf.5 doc/updatedb.8
 
@@ -71,5 +70,5 @@ install-exec-local:
 		&& chmod g=r,o= "$(DESTDIR)$(dbdir)"
 
 install-exec-hook:
-	-chgrp $(groupname) "$(DESTDIR)$(libexecdir)/updatedb" 2>/dev/null \
-		&& chmod g+s,go-w "$(DESTDIR)$(libexecdir)/updatedb"
+	-chgrp $(groupname) "$(DESTDIR)$(bindir)/updatedb" 2>/dev/null \
+		&& chmod g+s,go-w "$(DESTDIR)$(bindir)/updatedb"
