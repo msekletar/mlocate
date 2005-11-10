@@ -1,3 +1,8 @@
+2005-10-23  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/locate.c (parse_options): Actually set got_follow to 1 when
+	necessary.
+
 2005-08-04  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/locate.c (conf_output_quote): New variable.
