@@ -1,3 +1,7 @@
+Changes in version 0.12:
+- Avoid assertion failures on invalid nanosecond times returned by Captive
+  NTFS.
+
 Changes in version 0.11:
 - Nonprintable characters are replaced by `?' when stdout is a tty and --null
   is not specified.

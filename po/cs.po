@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2005-11-10 02:02+0100\n"
+"POT-Creation-Date: 2005-12-31 23:40+0100\n"
 "PO-Revision-Date: 2005-07-28 02:16+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "missing closing `\"'"
 msgstr "chybí uzavírající `\"'"
 
-#: src/conf.c:266 src/locate.c:938 src/updatedb.c:803
+#: src/conf.c:266 src/locate.c:938 src/updatedb.c:807
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
@@ -311,7 +311,7 @@ msgstr "neplatná regexp `%s': %s"
 msgid "can not read two databases from standard input"
 msgstr "nemohu číst dvě databáze ze standardního vstupu"
 
-#: src/locate.c:944 src/updatedb.c:837
+#: src/locate.c:944 src/updatedb.c:841
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
@@ -320,60 +320,60 @@ msgstr "nemohu stat () `%s'"
 msgid "can not drop privileges"
 msgstr "nemohu se vzdát oprávnění"
 
-#: src/locate.c:1008 src/updatedb.c:881
+#: src/locate.c:1008 src/updatedb.c:885
 msgid "I/O error while writing to standard output"
 msgstr "chyba I/O při zápisu na standardní výstup"
 
-#: src/updatedb.c:414
+#: src/updatedb.c:418
 #, c-format
 msgid "path name length %zu is too large"
 msgstr "délka názvu cesty %zu je příliš velká"
 
-#: src/updatedb.c:520 src/updatedb.c:595
+#: src/updatedb.c:524 src/updatedb.c:599
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "délka názvu souboru %zu je příliš velká"
 
-#: src/updatedb.c:797
+#: src/updatedb.c:801
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nemohu otevřít dočasný soubor pro `%s'"
 
-#: src/updatedb.c:808
+#: src/updatedb.c:812
 msgid "configuration is too large"
 msgstr "nastavení je příliš velké"
 
-#: src/updatedb.c:834
+#: src/updatedb.c:838
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nemohu změnit adresář na `%s'"
 
-#: src/updatedb.c:843
+#: src/updatedb.c:847
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:846
+#: src/updatedb.c:850
 #, c-format
 msgid "I/O error closing `%s'"
 msgstr "chyba I/O při zavírání `%s'"
 
-#: src/updatedb.c:853
+#: src/updatedb.c:857
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nemohu najít skupinu `%s'"
 
-#: src/updatedb.c:855
+#: src/updatedb.c:859
 #, c-format
 msgid "can not change group of file `%s'"
 msgstr "nemohu změnit skupinu souboru `%s'"
 
-#: src/updatedb.c:869
+#: src/updatedb.c:873
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nemohu změnit oprávnění souboru `%s'"
 
-#: src/updatedb.c:872
+#: src/updatedb.c:876
 #, c-format
 msgid "error replacing `%s'"
 msgstr "chyba při nahrazování `%s'"

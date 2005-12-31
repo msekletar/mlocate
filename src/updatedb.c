@@ -85,6 +85,8 @@ time_get_ctime (struct time *time, const struct stat *st)
   time->sec = st->st_ctime;
 #ifdef HAVE_STRUCT_STAT_ST_CTIM
   time->nsec = st->st_ctim.tv_nsec;
+  if (time->nsec >= 1000000000) /* Captive NTFS returns bogus values */
+    time->nsec = 0;
 #else
   time->nsec = 0;
 #endif
@@ -98,6 +100,8 @@ time_get_mtime (struct time *time, const struct stat *st)
   time->sec = st->st_mtime;
 #ifdef HAVE_STRUCT_STAT_ST_MTIM
   time->nsec = st->st_mtim.tv_nsec;
+  if (time->nsec >= 1000000000) /* Captive NTFS returns bogus values */
+    time->nsec = 0;
 #else
   time->nsec = 0;
 #endif

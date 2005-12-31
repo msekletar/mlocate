@@ -1,3 +1,11 @@
+2005-12-31  Miloslav Trmac  <mitr@redhat.com>
+
+	* configure.ac: Version 0.12.
+	* NEWS: Update.
+
+	* src/updatedb.c (time_get_ctime, time_get_mtime): Handle invalid
+	nanosecond times returned by Captive NTFS.
+
 2005-11-10  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac: Version 0.11.
