@@ -67,8 +67,8 @@ doc/updatedb.8: $(srcdir)/doc/updatedb.8.in Makefile
 install-exec-local:
 	$(mkdir_p) "$(DESTDIR)$(dbdir)"
 	-chgrp $(groupname) "$(DESTDIR)$(dbdir)" 2>/dev/null \
-		&& chmod g=r,o= "$(DESTDIR)$(dbdir)"
+		&& chmod g=rx,o= "$(DESTDIR)$(dbdir)"
 
 install-exec-hook:
-	-chgrp $(groupname) "$(DESTDIR)$(bindir)/updatedb" 2>/dev/null \
-		&& chmod g+s,go-w "$(DESTDIR)$(bindir)/updatedb"
+	-chgrp $(groupname) "$(DESTDIR)$(bindir)/locate" 2>/dev/null \
+		&& chmod g+s,go-w "$(DESTDIR)$(bindir)/locate"

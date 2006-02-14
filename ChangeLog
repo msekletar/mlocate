@@ -1,3 +1,10 @@
+2006-02-14  Miloslav Trmac  <mitr@redhat.com>
+
+	* Makefile.am (install-exec-hook): Make locate, not updatedb SGID.
+	Oops.
+	(install-exec-local): Make the database directory accessible by the
+	mlocate group.
+
 2005-12-31  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac: Version 0.12.
