@@ -14,6 +14,10 @@ Installation
 Before installation it is necessary to create a group called "mlocate" to allow
 hiding the contents of the database from users.
 
+When updatedb is run by root, the database contains names of files of all
+users, but only members of the "mlocate" group may access it.  "locate" is
+installed set-GID "mlocate", no other program should need to run with this GID.
+
 Portability
 ===========
 mlocate uses GNU error reporting, getopt_long () and obstack facilities.
