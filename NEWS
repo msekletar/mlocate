@@ -1,3 +1,7 @@
+Changes in version 0.14:
+- Fix case-insensitive search with rare bracket expression constructs.
+- Speed up case-insensitive search about five times.
+
 Changes in version 0.13:
 - Fix a brown-paper-bag bug in Makefile.am, installing updatedb set-GID instead
   of locate.

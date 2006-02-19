@@ -20,8 +20,8 @@ installed set-GID "mlocate", no other program should need to run with this GID.
 
 Portability
 ===========
-mlocate uses GNU error reporting, getopt_long () and obstack facilities.
-This functionality is available in GNU libc or in gnulib.
+mlocate uses GNU error reporting, FNM_CASEFOLD, getopt_long () and obstack
+facilities.  This functionality is available in GNU libc or in gnulib.
 
 Bugs
 ====

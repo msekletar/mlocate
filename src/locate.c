@@ -16,6 +16,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 
+#define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <assert.h>
 #include <ctype.h>
@@ -87,6 +88,13 @@ static size_t conf_num_patterns;
    by fnmatch () as special */
 static _Bool *conf_patterns_simple;
 
+/* If !conf_match_regexp, there is at least one simple pattern */
+static _Bool conf_have_simple_pattern; /* = 0; */
+
+/* If conf_have_simple_pattern && conf_ignore_case, patterns to search for, in
+   uppercase */
+static wchar_t **conf_uppercase_patterns;
+
 /* Don't report errors about databases */
 static _Bool conf_quiet; /* = 0; */
 
@@ -95,47 +103,57 @@ static _Bool conf_statistics; /* = 0; */
 
  /* String utilities */
 
-/* Convert SRC to upper-case in OBSTACK;
+/* Convert SRC to upper-case wide string in OBSTACK;
    return result */
-static char *
+static wchar_t *
 uppercase_string (struct obstack *obstack, const char *src)
 {
-  mbstate_t src_state, dest_state;
-  size_t src_left;
-  wchar_t wc;
+  size_t left, wchars;
+  wchar_t *res, *p;
 
-  memset (&src_state, 0, sizeof (src_state));
-  memset (&dest_state, 0, sizeof (dest_state));
-  src_left = strlen (src) + 1;
-  do
+  left = strlen (src) + 1;
+  /* Optimistically assume the string is OK and will fit.  This may allocate
+     a bit more memory than necessary, but the conversion is slow enough that
+     computing the exact size is not worth it. */
+  res = obstack_alloc (obstack, left * sizeof (*res));
+  wchars = mbstowcs (res, src, left);
+  if (wchars != (size_t)-1)
+    assert (wchars < left);
+  else
     {
-      char buf[MB_LEN_MAX];
-      size_t size;
+      mbstate_t state;
+      wchar_t wc;
 
-      size = mbrtowc (&wc, src, src_left, &src_state);
-      if (size == 0)
-	size = 1;
-      else if (size >= (size_t)-2)
+      obstack_free (obstack, res);
+      /* The slow path.  obstack design makes it hard to preallocate space for
+	 mbsrtowcs (), so we would have to copy the wide string to use
+	 an universal loop using mbsrtowcs ().  Using mbstowcs () as a fast
+	 path is simpler. */
+      memset (&state, 0, sizeof (state));
+      do
 	{
-	  size = 1;
-	  wc = (unsigned char)*src;
-	  memset (&src_state, 0, sizeof (src_state));
+	  size_t size;
+
+	  size = mbrtowc (&wc, src, left, &state);
+	  if (size == 0)
+	    size = 1;
+	  else if (size >= (size_t)-2)
+	    {
+	      size = 1;
+	      wc = (unsigned char)*src;
+	      memset (&state, 0, sizeof (state));
+	    }
+	  src += size;
+	  assert (left >= size);
+	  left -= size;
+	  obstack_grow (obstack, &wc, sizeof (wc));
 	}
-      src += size;
-      assert (src_left >= size);
-      src_left -= size;
-      wc = towupper (wc);
-      size = wcrtomb (buf, wc, &dest_state);
-      if (size == (size_t)-1)
-	{
-	  size = 1;
-	  buf[0] = (unsigned char)wc;
-	  memset (&dest_state, 0, sizeof (dest_state));
-	}
-      obstack_grow (obstack, buf, size);
+      while (wc != 0);
+      res = obstack_finish (obstack);
     }
-  while (wc != 0);
-  return obstack_finish (obstack);
+  for (p = res; *p != 0; p++)
+    *p = towupper (*p);
+  return res;
 }
 
 /* Write STRING to stdout, replace unprintable characters with '?' */
@@ -337,38 +355,40 @@ static _Bool
 string_matches_pattern (const char *string)
 {
   size_t i;
+  wchar_t *wstring;
+  _Bool matched;
 
-  if (conf_match_regexp == 0 && conf_ignore_case != 0)
+  if (conf_match_regexp == 0 && conf_ignore_case != 0
+      && conf_have_simple_pattern != 0)
     {
-      char *p;
-
       obstack_free (&uc_obstack, uc_obstack_mark);
-      p = uppercase_string (&uc_obstack, string);
-      uc_obstack_mark = p;
-      string = p;
+      wstring = uppercase_string (&uc_obstack, string);
+      uc_obstack_mark = wstring;
     }
+  else
+    wstring = NULL;
+  matched = 0;
   for (i = 0; i < conf_num_patterns; i++)
     {
       if (conf_match_regexp != 0)
-	{
-	  if (regexec (conf_patterns[i], string, 0, NULL, 0) == 0)
-	    return 1;
-	}
+	matched = regexec (conf_patterns[i], string, 0, NULL, 0) == 0;
       else
 	{
-	  int flags;
-
-	  flags = 0;
 	  if (conf_patterns_simple[i] != 0)
 	    {
-	      if (strstr (string, conf_patterns[i]) != NULL)
-		return 1;
+	      if (conf_ignore_case == 0)
+		matched = strstr (string, conf_patterns[i]) != NULL;
+	      else
+		matched = wcsstr (wstring, conf_uppercase_patterns[i]) != NULL;
 	    }
-	  else if (fnmatch (conf_patterns[i], string, flags) == 0)
-	    return 1;
+	  else
+	    matched = fnmatch (conf_patterns[i], string,
+			       conf_ignore_case != 0 ? FNM_CASEFOLD : 0) == 0;
 	}
+      if (matched != 0)
+	break;
     }
-  return 0;
+  return matched;
 }
 
 /* PATH was found, handle it as necessary; maintain *VISIBLE: if it is -1,
@@ -834,27 +854,27 @@ parse_arguments (int argc, char *argv[])
     }
   else
     {
-      struct obstack obstack;
-
       conf_patterns_simple = xmalloc (conf_num_patterns
 				      * sizeof (*conf_patterns_simple));
-      if (conf_ignore_case != 0)
-	{
-	  obstack_init (&obstack);
-	  obstack_alignment_mask (&obstack) = 0;
-	}
       for (i = 0; i < conf_num_patterns; i++)
 	{
-	  char *pattern;
-	  
-	  if (conf_ignore_case == 0)
-	    pattern = strings[i];
-	  else
-	    pattern = uppercase_string (&obstack, strings[i]);
-	  conf_patterns[i] = pattern;
-	  conf_patterns_simple[i] = strpbrk (pattern, "*?[\\]") == NULL;
+	  conf_patterns[i] = strings[i];
+	  conf_patterns_simple[i] = strpbrk (strings[i], "*?[\\]") == NULL;
+	  if (conf_patterns_simple[i] != 0)
+	    conf_have_simple_pattern = 1;
 	}
-      /* leave the obstack allocated if (conf_ignore_case != 0) */
+      if (conf_ignore_case != 0 && conf_have_simple_pattern != 0)
+	{
+	  struct obstack obstack;
+
+	  conf_uppercase_patterns
+	    = xmalloc (conf_num_patterns * sizeof (*conf_uppercase_patterns));
+	  obstack_init (&obstack);
+	  for (i = 0; i < conf_num_patterns; i++)
+	    conf_uppercase_patterns[i] = uppercase_string (&obstack,
+							   conf_patterns[i]);
+	  /* leave the obstack allocated */
+	}
     }
   obstack_free (&pattern_obstack, NULL);
 }
@@ -977,7 +997,6 @@ main (int argc, char *argv[])
   obstack_init (&path_obstack);
   obstack_alignment_mask (&path_obstack) = 0;
   obstack_init (&uc_obstack);
-  obstack_alignment_mask (&uc_obstack) = 0;
   uc_obstack_mark = obstack_alloc (&uc_obstack, 0);
   obstack_init (&check_stack_obstack);
   obstack_init (&check_obstack);

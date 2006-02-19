@@ -1,3 +1,19 @@
+2006-02-19  Miloslav Trmac  <mitr@redhat.com>
+
+	* configure.ac: Version 0.14.
+	* NEWS: Update.
+
+	* README: Mention FNM_CASEFOLD requirement.
+
+	* src/locate.c (_GNU_SOURCE): Define to get FNM_CASEFOLD.
+	(conf_have_simple_pattern, conf_uppercase_patterns): New variables.
+	(uppercase_string): Return a wide character string.
+	(string_matches_pattern): Use FNM_CASEFOLD.  Use wcsstr () for
+	case-insensitive simple pattern comparison.
+	(parse_arguments): Leave conf_patterns in original case.  Set up
+	conf_have_simple_pattern and conf_uppercase_patterns.
+	(main): Leave uc_obstack with default alignment.
+
 2006-02-15  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac: Version 0.13.
