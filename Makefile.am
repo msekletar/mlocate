@@ -1,4 +1,4 @@
-# Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+# Copyright (C) 2005, 2006 Red Hat, Inc. All rights reserved.
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
 # General Public License v.2.
@@ -38,7 +38,10 @@ noinst_LIBRARIES = src/liblib.a
 
 ## Rules
 CLEANFILES = $(man_MANS)
-EXTRA_DIST = doc/locate.1.in doc/updatedb.conf.5.in doc/updatedb.8.in
+DISTCLEANFILES = atconfig
+EXTRA_DIST = doc/locate.1.in doc/updatedb.conf.5.in doc/updatedb.8.in \
+	tests/testsuite tests/package.m4 tests/testsuite.at $(TESTFILES)
+TESTFILES = tests/config.at tests/locate.at tests/updatedb.at
 
 src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h
 
@@ -64,6 +67,16 @@ doc/updatedb.8: $(srcdir)/doc/updatedb.8.in Makefile
 		-e 's,@updatedb_conf@,$(updatedb_conf),g' \
 		< $(srcdir)/doc/updatedb.8.in > $@
 
+clean-local:
+	$(SHELL) $(top_srcdir)/tests/testsuite --clean
+
+check-local: atconfig $(top_srcdir)/tests/testsuite
+	$(SHELL) $(top_srcdir)/tests/testsuite
+
+installcheck-local:
+	$(SHELL) $(top_srcdir)/tests/testsuite \
+		AUTOTEST_PATH=$(exec_prefix)/bin:$(exec_prefix)/libexec
+
 install-exec-local:
 	$(mkdir_p) "$(DESTDIR)$(dbdir)"
 	-chgrp $(groupname) "$(DESTDIR)$(dbdir)" 2>/dev/null \
@@ -72,3 +85,21 @@ install-exec-local:
 install-exec-hook:
 	-chgrp $(groupname) "$(DESTDIR)$(bindir)/locate" 2>/dev/null \
 		&& chmod g+s,go-w "$(DESTDIR)$(bindir)/locate"
+
+$(top_srcdir)/tests/package.m4: $(top_srcdir)/configure.ac
+	{								   \
+	  echo '# Signature of the current package.';			   \
+	  echo 'm4_define([AT_PACKAGE_NAME],      [@PACKAGE_NAME@])';	   \
+	  echo 'm4_define([AT_PACKAGE_TARNAME],   [@PACKAGE_TARNAME@])';   \
+	  echo 'm4_define([AT_PACKAGE_VERSION],   [@PACKAGE_VERSION@])';   \
+	  echo 'm4_define([AT_PACKAGE_STRING],    [@PACKAGE_STRING@])';	   \
+	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [@PACKAGE_BUGREPORT@])'; \
+	} >$(top_srcdir)/tests/package.m4
+
+$(top_srcdir)/tests/testsuite: tests/package.m4 tests/testsuite.at $(TESTFILES)
+	$(AUTOM4TE) --language=autotest -I $(top_srcdir)/tests \
+		$(top_srcdir)/tests/testsuite.at -o $@.tmp
+	mv $@.tmp $@
+
+atconfig: $(top_builddir)/config.status
+	cd $(top_builddir) && $(SHELL) ./config.status ./atconfig

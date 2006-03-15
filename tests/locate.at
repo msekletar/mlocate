@@ -1,0 +1,611 @@
+# Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+# This copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the GNU
+# General Public License v.2.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 51
+# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Author: Miloslav Trmac <mitr@redhat.com>
+
+AT_SETUP([locate: Basic])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/foo d/bar d/baz
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+rm d/bar
+
+AT_CHECK([locate -d db d/f | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+
+AT_CHECK([locate -d db '*d/b*' d/baz | sed "s,$(pwd)/,,"], ,
+[d/bar
+d/baz
+])
+
+# Ignored options
+AT_CHECK([locate -d db -m d/f | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+AT_CHECK([locate -d db --mmap d/f | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+AT_CHECK([locate -d db -s d/f | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+AT_CHECK([locate -d db --stdio d/f | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+
+# Error message is libc-dependent
+AT_CHECK([locate --this-option-doesnt-exist], 1, , [ignore])
+
+AT_CHECK([locate -d db], 1, ,
+[locate: no pattern to search for specified
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -b])
+AT_KEYWORDS([locate])
+
+mkdir -p d/my_basename
+touch d/my_basename/f
+
+AT_CHECK([locate -b --basename], 1, ,
+[locate: --basename would override earlier command-line argument
+])
+
+AT_CHECK([locate -w -b], 1, ,
+[locate: --basename would override earlier command-line argument
+])
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db -b my_basename | sed "s,$(pwd)/,,"], ,
+[d/my_basename
+])
+
+AT_CHECK([locate -d db --basename my_basename | sed "s,$(pwd)/,,"], ,
+[d/my_basename
+])
+
+AT_CHECK([locate -d db -b /my_basename], 1)
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -c])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/foo d/bar
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db -c '*'], ,
+[3
+])
+
+AT_CHECK([locate -d db --count foo], ,
+[1
+])
+
+AT_CHECK([locate -d db -c this_doesnt_exist], 1,
+[0
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -d])
+AT_KEYWORDS([locate])
+
+mkdir d1 d2
+touch d1/f d2/f
+
+AT_CHECK([updatedb -U "$(pwd)/d1" -o db1 -l 0])
+AT_CHECK([updatedb -U "$(pwd)/d2" -o db2 -l 0])
+
+AT_CHECK([locate -d db1 --database db2 '*' | sed "s,$(pwd)/,,"], ,
+[d1
+d1/f
+d2
+d2/f
+])
+
+AT_CHECK([locate -d db2:db1 '*' | sed "s,$(pwd)/,,"], ,
+[d2
+d2/f
+d1
+d1/f
+])
+
+AT_CHECK([locate -d - '*' < db1 | sed "s,$(pwd)/,,"], ,
+[d1
+d1/f
+])
+
+AT_CHECK([locate -d - '*' < db1 | sed "s,$(pwd)/,,"], ,
+[d1
+d1/f
+])
+
+AT_CHECK([locate -d -:- '*' < db1 > out], 1, ,
+[locate: can not read two databases from standard input
+])
+AT_CHECK([sed "s,$(pwd)/,," < out], 0,
+[d1
+d1/f
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -e])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/f d/g
+ln -s f d/symlink
+ln -s this_doesnt_exist d/danglink
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+rm d/g
+
+# Existence is not checked by default
+AT_CHECK([locate -d db '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/danglink
+d/f
+d/g
+d/symlink
+])
+
+AT_CHECK([locate -d db -e '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/symlink
+])
+
+AT_CHECK([locate -d db --existing '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/symlink
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -h])
+AT_KEYWORDS([locate])
+
+AT_DATA([expout],
+[[Usage: locate [OPTION]... [PATTERN]...
+Search for entries in a mlocate database.
+
+  -b, --basename         match only the base name of path names
+  -c, --count            only print number of found entries
+  -d, --database DBPATH  use DBPATH instead of default database (which is
+                         PATH)
+  -e, --existing         only print entries for currently existing files
+  -L, --follow           follow trailing symbolic links when checking file
+                         existence (default)
+  -h, --help             print this help
+  -i, --ignore-case      ignore case distinctions when matching patterns
+  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries
+  -m, --mmap             ignored, for backward compatibility
+  -P, --nofollow, -H     don't follow trailing symbolic links when checking file
+                         existence
+  -0, --null             separate entries with NUL on output
+  -S, --statistics       don't search for entries, print statistics about each
+                         used database
+  -q, --quiet            report no error messages about reading databases
+  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns
+      --regex            patterns are extended regexps
+  -s, --stdio            ignored, for backward compatibility
+  -V, --version          print version information
+  -w, --wholename        match whole path name (default)
+
+Report bugs to mitr@redhat.com.
+]])
+
+AT_CHECK([[locate -h | sed 's,^\([ 	]*\)/.*)$,\1PATH),']], , [expout])
+AT_CHECK([[locate --help | sed 's,^\([ 	]*\)/.*)$,\1PATH),']], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -i])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/foo d/fOo d/Foo
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+# Search is case-sensitive by default
+AT_CHECK([locate -d db foo | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+
+AT_CHECK([locate -d db -i 'foo' | sed "s,$(pwd)/,,"], ,
+[d/Foo
+d/fOo
+d/foo
+])
+
+AT_CHECK([locate -d db --ignore-case '*oo' | sed "s,$(pwd)/,,"], ,
+[d/Foo
+d/fOo
+d/foo
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -l, -n])
+
+mkdir d
+touch d/f d/g
+
+AT_CHECK([locate -l 0 --limit 1], 1, ,
+[locate: --limit specified twice
+])
+AT_CHECK([locate --limit 0 -n 1], 1, ,
+[locate: --limit specified twice
+])
+AT_CHECK([locate --limit invalid_integer], 1, ,
+[locate: invalid value `invalid_integer' of --limit
+])
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db -l 1 '*' | sed "s,$(pwd)/,,"], ,
+[d
+])
+
+AT_CHECK([locate -d db --limit 99999 '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/g
+])
+
+AT_CHECK([locate -d db -n 0 this_doesnt_exist])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -L])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -L -L], 1, ,
+[locate: --follow would override earlier command-line argument
+])
+
+AT_CHECK([locate -H --follow], 1, ,
+[locate: --follow would override earlier command-line argument
+])
+
+mkdir d
+touch d/f d/g
+ln -s f d/symlink
+ln -s this_doesnt_exist d/danglink
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+rm d/g
+
+# -L is the default
+AT_CHECK([locate -d db -e '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/symlink
+])
+
+AT_CHECK([locate -d db -eL '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/symlink
+])
+
+AT_CHECK([locate -d db -e --follow '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+d/symlink
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -P])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -P --nofollow], 1, ,
+[locate: --nofollow would override earlier command-line argument
+])
+
+AT_CHECK([locate -L -P], 1, ,
+[locate: --nofollow would override earlier command-line argument
+])
+
+AT_CHECK([locate -L -H], 1, ,
+[locate: --nofollow would override earlier command-line argument
+])
+
+mkdir d
+touch d/f d/g
+ln -s f d/symlink
+ln -s this_doesnt_exist d/danglink
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+rm d/g
+
+AT_CHECK([locate -d db -eH '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/danglink
+d/f
+d/symlink
+])
+
+AT_CHECK([locate -d db -e -P '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/danglink
+d/f
+d/symlink
+])
+
+AT_CHECK([locate -d db -e --nofollow '*' | sed "s,$(pwd)/,,"], ,
+[d
+d/danglink
+d/f
+d/symlink
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -S])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -S foo], 1, ,
+[locate: non-option arguments are not allowed with --statistics
+])
+
+mkdir d
+touch d/f
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([[locate -d db -S | sed 's/[0123456789]* bytes\?/BYTES bytes/']], ,
+[Database db:
+	1 directory
+	2 files
+	BYTES bytes in file names
+	BYTES bytes used to store database
+])
+
+AT_CHECK([[locate -d - --statistics < db \
+	| sed 's/[0123456789]* bytes\?/BYTES bytes/']], ,
+[Database -:
+	1 directory
+	2 files
+	BYTES bytes in file names
+	BYTES bytes used to store database
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -q])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -d this_doesnt_exist -q '*'], 1)
+AT_CHECK([locate -d this_doesnt_exist --quiet '*'], 1)
+
+printf '\000mlocate\000\000\000\000\000\377xx-' > db
+AT_CHECK([locate -d db -q '*'], 1)
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -r])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -d db -r '.*' '*'], 1, ,
+[locate: non-option arguments are not allowed with --regexp
+])
+
+mkdir d
+touch d/foo d/Foo d/bar
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+# Default is not to use regexps
+AT_CHECK([locate -d db '.*f.o'], 1)
+
+AT_CHECK([locate -d db -r '.*foo' | sed "s,$(pwd)/,,"], 0,
+[d/foo
+])
+
+AT_CHECK([locate -d db --regexp '.*foo' -r '.*d/bar' | sed "s,$(pwd)/,,"], 0,
+[d/bar
+d/foo
+])
+
+AT_CHECK([locate -d db --regexp '.*foo' -i | sed "s,$(pwd)/,,"], ,
+[d/Foo
+d/foo
+])
+
+AT_CHECK([locate -d db --regexp '\(' 2> err], 1)
+AT_CHECK([sed "s/': .*/': /" < err], ,
+[locate: invalid regexp `\(': @&t@
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -V])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -V | sed '1s/ .*/ /'], ,
+[mlocate @&t@
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+This software is distributed under the GPL v.2.
+
+This program is provided with NO WARRANTY, to the extent permitted by law.
+])
+
+AT_CHECK([locate --version | sed '1s/ .*/ /'], ,
+[mlocate @&t@
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+This software is distributed under the GPL v.2.
+
+This program is provided with NO WARRANTY, to the extent permitted by law.
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -w])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -w --wholename], 1, ,
+[locate: --wholename would override earlier command-line argument
+])
+
+AT_CHECK([locate -b -w], 1, ,
+[locate: --wholename would override earlier command-line argument
+])
+
+mkdir d
+touch d/f
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+# -w is the default
+AT_CHECK([locate -d db '/d' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+])
+
+AT_CHECK([locate -d db -w '/d' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+])
+
+AT_CHECK([locate -d db --wholename '/d' | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: -0])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/bar d/baz
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+printf 'd/bar\000d/baz\000' > expout
+
+AT_CHECK([locate -d db -0 d/b | sed "s,$(pwd)/,,g"], , [expout])
+
+AT_CHECK([locate -d db --null d/b | sed "s,$(pwd)/,,g"], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: --regex])
+AT_KEYWORDS([locate])
+
+mkdir d
+touch d/foo d/Foo d/fOo d/bar d/baz
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db --regex '.*d/baz' '.*d/bar' | sed "s,$(pwd)/,,"], ,
+[d/bar
+d/baz
+])
+
+AT_CHECK([locate -d db --regex '.*d/foo' | sed "s,$(pwd)/,,"], ,
+[d/foo
+])
+
+AT_CHECK([locate -d db --regex -i '.*d/foo' | sed "s,$(pwd)/,,"], ,
+[d/Foo
+d/fOo
+d/foo
+])
+
+AT_CHECK([locate -d db --regex '(' 2> err], 1)
+AT_CHECK([sed "s/': .*/': /" < err], ,
+[locate: invalid regexp `(': @&t@
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: LOCATE_PATH])
+
+mkdir d1 d2
+touch d1/f d2/f
+
+AT_CHECK([updatedb -U "$(pwd)/d1" -o db1 -l 0])
+AT_CHECK([updatedb -U "$(pwd)/d2" -o db2 -l 0])
+
+AT_CHECK([LOCATE_PATH=db1 locate -d db2 /f | sed "s,$(pwd)/,,"], ,
+[d2/f
+d1/f
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([locate: Invalid source database])
+AT_KEYWORDS([locate])
+
+AT_CHECK([locate -d db '*' 2>err], 1)
+AT_CHECK([sed "s/': .*/': /" < err], ,
+[locate: can not open `db': @&t@
+])
+
+> db
+AT_CHECK([locate -d db '*'], 1, ,
+[locate: unexpected EOF reading `db'
+])
+
+echo '0123456789abcdef-' > db
+AT_CHECK([locate -d db '*'], 1, ,
+[locate: `db' does not seem to be a mlocate database
+])
+
+printf '\000mlocate\000\000\000\000\377\000xx-' > db
+AT_CHECK([locate -d db '*'], 1, ,
+[locate: `db' has unknown version 255
+])
+
+printf '\000mlocate\000\000\000\000\000\377xx-' > db
+AT_CHECK([locate -d db '*'], 1, ,
+[locate: `db' has unknown visibility flag 255
+])
+
+AT_CLEANUP

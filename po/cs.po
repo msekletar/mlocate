@@ -1,15 +1,15 @@
 # Czech translation of mlocate.
-# Copyright (C) 2005 Red Hat, Inc.
-# Copyright (C) 2005 Miloslav Trmac <mitr@volny.cz>
+# Copyright (C) 2005, 2006 Red Hat, Inc.
+# Copyright (C) 2005, 2006 Miloslav Trmac <mitr@volny.cz>
 # This file is distributed under the same license as the mlocate package.
-# Miloslav Trmac <mitr@volny.cz>, 2005.
+# Miloslav Trmac <mitr@volny.cz>, 2005, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2006-02-19 08:50+0100\n"
-"PO-Revision-Date: 2005-07-28 02:16+0200\n"
+"POT-Creation-Date: 2006-03-15 03:23+0100\n"
+"PO-Revision-Date: 2006-03-15 16:35+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgid ""
 "\"/\")\n"
 "  -h, --help                     print this help\n"
 "  -o, --output FILE              database to update (default\n"
-"                                 `%s'\n"
+"                                 `%s')\n"
 "      --prunefs FS               filesystems to omit from database\n"
 "      --prunepaths PATHS         paths to omit from database\n"
 "  -l, --require-visibility FLAG  check visibility before reporting files\n"
@@ -94,7 +94,7 @@ msgstr ""
 "  -h, --help                        vypsat tuto nápovědu\n"
 "  -o, --output SOUBOR               databáze, kterou aktualizovat "
 "(implicitně\n"
-"                                    `%s'\n"
+"                                    `%s')\n"
 "      --prunefs SS                  systémy souborů, které vynechat z "
 "databáze\n"
 "      --prunepaths CESTY            cesty, které vynechat z databáze\n"

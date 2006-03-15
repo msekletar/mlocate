@@ -1,0 +1,235 @@
+# Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+# This copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the GNU
+# General Public License v.2.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 51
+# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Author: Miloslav Trmac <mitr@redhat.com>
+
+m4_define([M_CONF_UNTESTED],
+[AT_SETUP([$1])
+AT_KEYWORDS([updatedb])
+AT_CHECK([exit 77])
+AT_CLEANUP
+])
+
+
+# updatedb.conf path is hardcoded, no way to test...
+M_CONF_UNTESTED([config: updatedb.conf])
+M_CONF_UNTESTED([config: -f])
+
+
+AT_SETUP([config: -e])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+for i in 1 2 3; do
+  mkdir d/d$i
+  touch d/d$i/f
+done
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 -e "$(pwd)/d/d1" \
+	--add-prunepaths "$(pwd)/d/d3 $(pwd)/this_doesnt_exist"])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[d
+d/d1
+d/d2
+d/d3
+d/d2/f
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -h])
+AT_KEYWORDS([updatedb])
+
+AT_DATA([expout],
+[[Usage: updatedb [OPTION]...
+Update a mlocate database.
+
+  -f, --add-prunefs FS           omit also FS
+  -e, --add-prunepaths PATHS     omit also PATHS
+  -U, --database-root PATH       the subtree to store in database (default "/")
+  -h, --help                     print this help
+  -o, --output FILE              database to update (default
+                                 `PATH')
+      --prunefs FS               filesystems to omit from database
+      --prunepaths PATHS         paths to omit from database
+  -l, --require-visibility FLAG  check visibility before reporting files
+                                 (default "true")
+  -v, --verbose                  print paths of files as they are found
+  -V, --version                  print version information
+
+The lists of paths and filesystems to omit default to values read from
+`PATH'.
+
+Report bugs to mitr@redhat.com.
+]])
+AT_CHECK([[updatedb -h | sed "s/\`[^']*'/\`PATH'/g"]], , [expout])
+AT_CHECK([[updatedb --help | sed "s/\`[^']*'/\`PATH'/g"]], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -o])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb -U "$(pwd)" -o db --output db], 1, ,
+[updatedb: --output specified twice
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -l])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb -l 0 --require-visibility 1], 1, ,
+[updatedb: --require-visibility specified twice
+])
+
+AT_CHECK([updatedb -l 2], 1, ,
+[updatedb: invalid value `2' of --require-visibility
+])
+
+AT_CHECK([updatedb -l maybe], 1, ,
+[updatedb: invalid value `maybe' of --require-visibility
+])
+
+# Functionality untested
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -U])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+touch d/f
+ln -s d link
+
+AT_CHECK([updatedb -U d -o db -l 0], 1, ,
+[updatedb: the argument to --database-root must be an absolute path name
+])
+
+AT_CHECK([updatedb -U /foo --database-root /foo -l 0], 1, ,
+[updatedb: --database-root specified twice
+])
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[d
+d/f
+])
+
+AT_CHECK([updatedb --database-root "$(pwd)/link" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[link
+link/f
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -v])
+AT_KEYWORDS([updatedb])
+
+mkdir -p d/d1
+touch d/f1 d/d1/f
+
+# Let updatedb consider $(pwd)/d stable
+sleep 2
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 -v | sed "s,$(pwd)/,," | sort], ,
+[d/d1
+d/d1/f
+d/f1
+])
+
+# Merging doesn't change output
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 --verbose | sed "s,$(pwd)/,," \
+	| sort], ,
+[d/d1
+d/d1/f
+d/f1
+])
+
+AT_CLEANUP
+
+
+
+AT_SETUP([config: -V])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb -V | sed '1s/) .*/) /'], ,
+[updatedb (mlocate) @&t@
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+This software is distributed under the GPL v.2.
+
+This program is provided with NO WARRANTY, to the extent permitted by law.
+])
+
+AT_CHECK([updatedb --version | sed '1s/) .*/) /'], ,
+[updatedb (mlocate) @&t@
+Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+This software is distributed under the GPL v.2.
+
+This program is provided with NO WARRANTY, to the extent permitted by law.
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: --prunefs])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb --prunefs foo --prunefs bar], 1, ,
+[updatedb: --prunefs would override earlier command-line argument
+])
+
+AT_CHECK([updatedb -f foo --prunefs bar], 1, ,
+[updatedb: --prunefs would override earlier command-line argument
+])
+
+# Functionality untested
+
+AT_CLEANUP
+
+
+AT_SETUP([config: --prunepaths])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb --prunepaths foo --prunepaths bar], 1, ,
+[updatedb: --prunepaths would override earlier command-line argument
+])
+
+AT_CHECK([updatedb -e foo --prunepaths bar], 1, ,
+[updatedb: --prunepaths would override earlier command-line argument
+])
+
+mkdir d
+for i in 1 2 3; do
+  mkdir d/d$i
+  touch d/d$i/f
+done
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 \
+	--prunepaths "$(pwd)/d/d3 $(pwd)/d/d1 $(pwd)/this_doesnt_exist"])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[d
+d/d1
+d/d2
+d/d3
+d/d2/f
+])
+
+AT_CLEANUP

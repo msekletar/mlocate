@@ -20,6 +20,8 @@
 ^aclocal\.m4$
 ^configure$
 ^src/config\.h\.in$
+^tests/package\.m4$
+^tests/testsuite$
 
 ^build.*
 ^p/.*

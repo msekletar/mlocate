@@ -1,0 +1,300 @@
+# Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+# This copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the GNU
+# General Public License v.2.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 51
+# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+# Author: Miloslav Trmac <mitr@redhat.com>
+
+AT_SETUP([updatedb: File types])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+touch d/file
+mkdir d/dir
+touch d/dir/subfile
+mkfifo d/fifo
+ln -s file d/symlink
+ln -s nonexistent d/danglink
+touch d/hardlink1
+ln d/hardlink1 d/hardlink2
+echo | dd > d/largefile bs=1024 seek=5000000
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/danglink
+d/dir
+d/fifo
+d/file
+d/hardlink1
+d/hardlink2
+d/largefile
+d/symlink
+d/dir/subfile
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Output sorting])
+AT_KEYWORDS([updatedb])
+
+# '.', '/' left out
+[
+  allchars='! " # $ % & '\'' ( ) * + , - 0 9 : ; < = > ?'	     # emacs: "
+  allchars="$allchars"' @ A Z [ \ ] ^ _ ` a z { | } ~'
+]
+
+mkdir d
+echo 'd' > subdirs
+> subdir_files
+set -f
+for dir in $allchars; do
+  mkdir "d/$dir"
+  echo "d/$dir" >> subdirs
+  for file in $allchars; do
+    touch "d/$dir/$file"
+    echo "d/$dir/$file" >> subdir_files
+  done
+done
+set +f
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+cat subdirs subdir_files > expout
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Permissions])
+AT_KEYWORDS([updatedb])
+
+perms='000 100 200 300 400 500 600 700'
+
+mkdir d
+for perm in $perms; do
+  mkdir -p "d/d$perm" "d/d$perm/d"
+  touch "d/f$perm" "d/d$perm/d/f"
+  chmod "$perm" "d/f$perm" "d/d$perm"
+done
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d000
+d/d100
+d/d200
+d/d300
+d/d400
+d/d500
+d/d600
+d/d700
+d/f000
+d/f100
+d/f200
+d/f300
+d/f400
+d/f500
+d/f600
+d/f700
+d/d500/d
+d/d500/d/f
+d/d700/d
+d/d700/d/f
+])
+
+# Allow cleaning up
+chmod -R u+rwx d
+rm -rf d
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Invalid source database])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+touch d/f
+
+AT_DATA([expout],
+[d
+d/f
+])
+
+
+> db
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], , [expout])
+
+echo '0123456789abcdef-' > db
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], , [expout])
+
+printf '\000mlocate\000\000\000\000\377\000xx-' > db
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], , [expout])
+
+printf '\000mlocate\000\000\000\000\000\377xx-' > db
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Change detection])
+AT_KEYWORDS([updatedb])
+
+mkdir -p d/d0
+touch d/f0 d/d0/f
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d0
+d/f0
+d/d0/f
+])
+
+mv d/d0 d/d1
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d1
+d/f0
+d/d1/f
+])
+
+mv d/f0 d/f1
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d1
+d/f1
+d/d1/f
+])
+
+touch d/f2
+mkdir d/d2
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d1
+d/d2
+d/f1
+d/f2
+d/d1/f
+])
+
+rm -r d/d1 d/f1
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/d2
+d/f2
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Concurrent modification])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+touch d/f1
+
+(cd d; while :; do mv f1 f2; mv f2 f1; done) &
+bgpid=$!
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+kill -KILL $bgpid
+sleep 1 # Wait for the background process to terminate
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / -c], ,
+[2
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Very deep hierarchy])
+AT_KEYWORDS([updatedb])
+
+# updatedb has two limits:
+# - path name length of OBSTACK_SIZE_MAX, currently limiting the depth to
+#   roughly 29000
+# - resource limit on file descriptors, one per directory; site-dependent,
+#   let's assume roughly 1024 are available
+mkdir d
+(
+  cd d
+  for depth in $(seq 1 950); do
+    # $PSW and $OLDPWD eventually become larger than ARG_MAX
+    PWD= OLDPWD= mkdir "depth$depth-abcdefghijklmnopqrstuvwxyz"
+    # bash's cd complains if the path is too long
+    cd "depth$depth-abcdefghijklmnopqrstuvwxyz" 2>/dev/null
+  done
+)
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+AT_CHECK([locate -d db / -c], ,
+[951
+])
+
+AT_CLEANUP
+
+
+AT_SETUP([updatedb: Output creation])
+
+mkdir d out
+chmod 500 out
+
+echo "updatedb: can not open a temporary file for \`$(pwd)/out/db'" > experr
+AT_CHECK([updatedb -U "$(pwd)/d" -o out/db -l 0], 1, , [experr])
+
+mkdir d2
+chmod 600 d2
+
+AT_CHECK([updatedb -U "$(pwd)/d2" -o db -l 0 2> error], 1)
+AT_CHECK([sed "s,$(pwd)/,DIR/,; s/': .*$/': /" < error], ,
+[updatedb: can not change directory to `DIR/d2': @&t@
+])
+
+(
+  umask 000
+  AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+  AT_CHECK([ls -l db | cut -c 1-10], ,
+[-rw-rw-rw-
+])
+)
+
+(
+  umask 777
+  AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+  AT_CHECK([ls -l db | cut -c 1-10], ,
+[----------
+])
+)
+
+chmod 700 out d2
+
+AT_CLEANUP

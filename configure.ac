@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT([mlocate], [0.14], [mitr@redhat.com])
 AC_COPYRIGHT(
-[Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+[Copyright (C) 2005, 2006 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -19,12 +19,15 @@ AC_PREREQ(2.59)
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
+AC_CONFIG_TESTDIR([.], [src])
 AM_INIT_AUTOMAKE([no-define subdir-objects -Wall])
 
 # Checks for programs.
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_RANLIB
+# This interface seems to be undocumented, but bison uses it ;-)
+AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 # Checks for libraries.
 AM_GNU_GETTEXT([external], [need-ngettext])

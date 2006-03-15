@@ -381,7 +381,7 @@ help (void)
 	    "database (default \"/\")\n"
 	    "  -h, --help                     print this help\n"
 	    "  -o, --output FILE              database to update (default\n"
-	    "                                 `%s'\n"
+	    "                                 `%s')\n"
 	    "      --prunefs FS               filesystems to omit from "
 	    "database\n"
 	    "      --prunepaths PATHS         paths to omit from database\n"
@@ -526,7 +526,7 @@ parse_arguments (int argc, char *argv[])
 	    conf_check_visibility = 1;
 	  else
 	    error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
-		   "--require-visibility");
+		   "require-visibility");
 	  break;
 	  
 	case 'o':
