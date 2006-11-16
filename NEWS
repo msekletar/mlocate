@@ -1,3 +1,8 @@
+Changes in version 0.15:
+- Use /proc/self/mounts or /proc/mounts if available
+- Add a test suite
+- Fix typos in error messages
+
 Changes in version 0.14:
 - Fix case-insensitive search with rare bracket expression constructs.
 - Speed up case-insensitive search about five times.

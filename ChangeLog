@@ -1,3 +1,12 @@
+2006-11-16  Miloslav Trmac  <mitr@redhat.com>
+
+	* configure.ac: Version 0.15.
+	* NEWS: Update.
+
+	* configure.ac (PROC_MOUNTS_PATH): New test.
+	* src/updatedb.c (MOUNT_TABLE_PATH): New macro, using PROC_MOUNTS_PATH.
+	(filesystem_is_excluded): Use MOUNT_TABLE_PATH.
+
 2006-03-15  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/conf.c (help): Add missing closing paren.

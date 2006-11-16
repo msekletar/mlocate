@@ -43,6 +43,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "db.h"
 #include "lib.h"
 
+#ifdef PROC_MOUNTS_PATH
+#define MOUNT_TABLE_PATH PROC_MOUNTS_PATH
+#else
+#define MOUNT_TABLE_PATH _PATH_MOUNTED
+#endif
+
 /* A directory entry in memory */
 struct entry
 {
@@ -322,7 +328,7 @@ filesystem_is_excluded (const char *path_)
   if (path == NULL)
     path = path_;
   res = 0;
-  f = setmntent (_PATH_MOUNTED, "r");
+  f = setmntent (MOUNT_TABLE_PATH, "r");
   if (f == NULL)
     goto err;
   obstack_init (&obstack);

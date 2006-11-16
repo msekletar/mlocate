@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.14], [mitr@redhat.com])
+AC_INIT([mlocate], [0.15], [mitr@redhat.com])
 AC_COPYRIGHT(
 [Copyright (C) 2005, 2006 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
@@ -52,6 +52,22 @@ AC_FUNC_OBSTACK
 
 # Checks for system services.
 AC_SYS_LARGEFILE
+
+AC_CACHE_CHECK([for mounted filesystem table in /proc],
+	       [mitr_cv_sys_proc_mounts],
+[mitr_cv_sys_proc_mounts=no
+if test "$cross_compiling" != yes; then
+    for i in /proc/self/mounts /proc/mounts; do
+	if test -f "$i"; then
+	    mitr_cv_sys_proc_mounts=$i
+	    break
+	fi
+    done
+fi])
+if test "$mitr_cv_sys_proc_mounts" != no; then
+    AC_DEFINE_UNQUOTED([PROC_MOUNTS_PATH], ["$mitr_cv_sys_proc_mounts"],
+		       [Define to the path to the mounted filesystem table.])
+fi
 
 # Miscellanous hackery.
 
