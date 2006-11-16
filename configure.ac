@@ -31,7 +31,7 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 # Checks for libraries.
 AM_GNU_GETTEXT([external], [need-ngettext])
-AM_GNU_GETTEXT_VERSION([0.14.3])
+AM_GNU_GETTEXT_VERSION([0.14.6])
 
 # Checks for header files.
 

@@ -1,5 +1,9 @@
 2006-11-16  Miloslav Trmac  <mitr@redhat.com>
 
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Update to 0.14.6.
+
+2006-11-16  Miloslav Trmac  <mitr@redhat.com>
+
 	* configure.ac: Version 0.15.
 	* NEWS: Update.
 
