@@ -162,7 +162,7 @@ Write no messages about errors encountered while reading and processing
 databases.
 
 .TP
-\fB\-r\fR, \fB\-\-regexp\fR \IREGEXP\fR
+\fB\-r\fR, \fB\-\-regexp\fR \fIREGEXP\fR
 Search for a basic regexp \fIREGEXP\fR.
 No \fIPATTERN\fRs are allowed if this option is used,
 but this option can be specified multiple times.

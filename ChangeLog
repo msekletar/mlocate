@@ -1,3 +1,8 @@
+2007-01-16  Miloslav Trmac  <mitr@redhat.com>
+
+	* doc/locate.1.in: Fix a typo in font change command.  (Reported by
+	<esr@thyrsus.com>).
+
 2006-11-16  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac (AM_GNU_GETTEXT_VERSION): Update to 0.14.6.
