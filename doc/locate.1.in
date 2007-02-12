@@ -212,7 +212,7 @@ attempts to be compatible to
 .SM GNU
 \fBlocate\fR, in that order.
 This is the reason for the impractical default \fB\-\-follow\fR option
-and for the confusing set of \fB\-\-regex\fR and\fB\-\-regexp\fR options.
+and for the confusing set of \fB\-\-regex\fR and \fB\-\-regexp\fR options.
 
 The short spelling of the \fB\-r\fR option is incompatible to
 .SM GNU
