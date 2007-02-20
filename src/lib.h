@@ -1,6 +1,6 @@
 /* Common functions.
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -19,12 +19,11 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #define LIB_H__
 
 #include <config.h>
+#include "obstack.h"
 
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/types.h>
-
-#include <obstack.h>
 
 #include "db.h"
 
@@ -58,12 +57,6 @@ extern void dir_path_cmp_init (void);
 /* Compare two path names using the database directory order. This is not
    exactly strcmp () order: "a" < "a.b", so "a/z" < "a.b". */
 extern int dir_path_cmp (const char *a, const char *b);
-
-/* Allocate SIZE bytes, terminate on failure */
-extern void *xmalloc (size_t size);
-
-/* Reallocate PTR to SIZE bytes, terminate on failure */
-extern void *xrealloc (void *ptr, size_t size);
 
 /* Functions used by obstack code */
 extern struct _obstack_chunk *obstack_chunk_alloc (long size);

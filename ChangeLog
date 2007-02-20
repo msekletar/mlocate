@@ -1,3 +1,38 @@
+2007-02-21  Miloslav Trmac  <mitr@redhat.com>
+
+	* README: Replace details by an unspecific promise.
+
+	* configure.ac: Drop -Wnested-externs and -Wundef, gnulib's code can't
+	handle them.
+
+	* src/lib.c (htonll, ntohll, dir_path_cmp, db_open, db_refill)
+	* src/updatedb.c (scan_subdirs, copy_old_dir, new_db_open): Use
+	verify () instead of assert ().
+
+	* src/lib.c (xmalloc, xrealloc): Remove in favor of gnulib's
+	implementation.
+	* src/lib.h (xmalloc, xrealloc): Remove declarations.
+
+	* src/lib.c (db_refill): Use safe_read ().
+	(db_read): Use mempcpy ().
+	* src/locate.c (parse_dbpath): Use strchrnul () and mempcpy ().
+	(parse_arguments, finish_dbpath): Use XNMALLOC ().
+	* src/updatedb.c (time_get_ctime, time_get_mtime): Use
+	get_stat_ctime_ns () and get_stat_mtime_ns ().
+
+	* src/locate.c (main)
+	* src/updatedb.c (main): Call set_program_name ().  Use fwriteerror ().
+
+	* Makefile.am (ACLOCAL_AMFLAGS, AM_CPPFLAGS, SUBDIRS, src_locate_LDADD)
+	(src_updatedb_LDADD)
+	* configure.ac
+	* src/conf.c
+	* src/lib.c
+	* src/lib.h
+	* src/locate.c
+	* src/updatedb.c
+	* gnulib/m4/gnulib-cache.m4: Use gnulib, don't assume glibc.
+
 2007-02-12  Miloslav Trmac  <mitr@redhat.com>
 
 	* doc/locate.1.in: Fix a typo.

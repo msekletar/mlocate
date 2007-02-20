@@ -1,6 +1,6 @@
 /* updatedb configuration.
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -15,18 +15,18 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
+#include <getopt.h>
+#include <string.h>
+#include "error.h"
+#include "obstack.h"
+#include "xalloc.h"
 
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
-
-#include <error.h>
-#include <getopt.h>
-#include <obstack.h>
 
 #include "conf.h"
 #include "lib.h"
@@ -494,7 +494,7 @@ parse_arguments (int argc, char *argv[])
 
 	case 'V':
 	  puts ("updatedb (" PACKAGE_NAME ") " PACKAGE_VERSION);
-	  puts (_("Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
+	  puts (_("Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 		  "This software is distributed under the GPL v.2.\n"
 		  "\n"
 		  "This program is provided with NO WARRANTY, to the extent "

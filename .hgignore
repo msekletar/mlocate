@@ -1,6 +1,10 @@
 .*~$
 ^admin.*
 ^autom4te\.cache.*
+^gnulib/lib.*
+# Only gnulib-cache.m4 should be left
+^gnulib/m4/([^g]|g[^n]).*
+^gnulib/m4/gnulib-(common\.m4|comp\.m4|tool\.m4)
 ^m4.*
 ^po/.*\.gmo$
 ^po/Makefile\.in\.in

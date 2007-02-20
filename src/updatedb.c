@@ -1,6 +1,6 @@
 /* updatedb(8).
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -15,6 +15,13 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
+#include <string.h>
+#include "error.h"
+#include "fwriteerror.h"
+#include "obstack.h"
+#include "progname.h"
+#include "verify.h"
+#include "xalloc.h"
 
 #include <arpa/inet.h>
 #include <assert.h>
@@ -30,14 +37,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <unistd.h>
 
-#include <error.h>
 #include <mntent.h>
-#include <obstack.h>
+#include "stat-time.h"
 
 #include "conf.h"
 #include "db.h"
@@ -86,32 +91,24 @@ struct directory
 
 /* Get ctime from ST to TIME */
 static void
-time_get_ctime (struct time *time, const struct stat *st)
+time_get_ctime (struct time *t, const struct stat *st)
 {
-  time->sec = st->st_ctime;
-#ifdef HAVE_STRUCT_STAT_ST_CTIM
-  time->nsec = st->st_ctim.tv_nsec;
-  if (time->nsec >= 1000000000) /* Captive NTFS returns bogus values */
-    time->nsec = 0;
-#else
-  time->nsec = 0;
-#endif
-  assert (time->nsec < 1000000000);
+  t->sec = st->st_ctime;
+  t->nsec = get_stat_ctime_ns (st);
+  if (t->nsec >= 1000000000) /* Captive NTFS returns bogus values */
+    t->nsec = 0;
+  assert (t->nsec < 1000000000);
 }
 
 /* Get mtime from ST to TIME */
 static void
-time_get_mtime (struct time *time, const struct stat *st)
+time_get_mtime (struct time *t, const struct stat *st)
 {
-  time->sec = st->st_mtime;
-#ifdef HAVE_STRUCT_STAT_ST_MTIM
-  time->nsec = st->st_mtim.tv_nsec;
-  if (time->nsec >= 1000000000) /* Captive NTFS returns bogus values */
-    time->nsec = 0;
-#else
-  time->nsec = 0;
-#endif
-  assert (time->nsec < 1000000000);
+  t->sec = st->st_mtime;
+  t->nsec = get_stat_mtime_ns (st);
+  if (t->nsec >= 1000000000) /* Captive NTFS returns bogus values */
+    t->nsec = 0;
+  assert (t->nsec < 1000000000);
 }
 
 /* Compare times A and B */
@@ -444,7 +441,7 @@ scan_subdirs (const const struct directory *dir, const struct stat *st)
 	  obstack_grow (&obstack, e->name, e->name_size);
 	  if (scan (obstack_base (&obstack), &cwd_fd, st, e->name) != 0)
 	    goto err_cwd_fd;
-	  assert (OBSTACK_SIZE_MAX <= SSIZE_MAX);
+	  verify (OBSTACK_SIZE_MAX <= SSIZE_MAX);
 	  obstack_blank (&obstack, -(ssize_t)e->name_size);
 	}
     }
@@ -517,7 +514,7 @@ copy_old_dir (struct directory *dest)
 	default:
 	  goto err_obstack;
 	}
-      assert (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
+      verify (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
       obstack_blank (&scan_dir_state.data_obstack,
 		     offsetof (struct entry, name));
       if (db_read_name (&old_db, &scan_dir_state.data_obstack) != 0)
@@ -812,7 +809,7 @@ new_db_open (void)
   if (new_db == NULL)
     error (EXIT_FAILURE, errno, _("can not open `%s'"), new_db_filename);
   memset (&db_header, 0, sizeof (db_header));
-  assert (sizeof (db_header.magic) == sizeof (magic));
+  verify (sizeof (db_header.magic) == sizeof (magic));
   memcpy (db_header.magic, &magic, sizeof (magic));
   if (conf_block_size > UINT32_MAX)
     error (EXIT_FAILURE, 0, _("configuration is too large"));
@@ -831,6 +828,7 @@ main (int argc, char *argv[])
   int cwd_fd;
   mode_t mode;
 
+  set_program_name (argv[0]);
   dir_path_cmp_init ();
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE_NAME, LOCALEDIR);
@@ -849,11 +847,9 @@ main (int argc, char *argv[])
   scan (conf_scan_root, &cwd_fd, &st, ".");
   if (cwd_fd != -1)
     close (cwd_fd);
-  if (ferror (new_db))
-    error (EXIT_FAILURE, 0, _("I/O error while writing to `%s'"),
+  if (fwriteerror (new_db))
+    error (EXIT_FAILURE, errno, _("I/O error while writing to `%s'"),
 	   new_db_filename);
-  if (fclose (new_db) != 0)
-    error (EXIT_FAILURE, errno, _("I/O error closing `%s'"), new_db_filename);
   if (conf_check_visibility != 0)
     {
       struct group *grp;
@@ -886,8 +882,8 @@ main (int argc, char *argv[])
      attacker can at most remove their own data. */
   unlink_set (NULL);
   free (new_db_filename);
-  fflush (stdout);
-  if (ferror (stdout))
-    error (EXIT_FAILURE, 0, _("I/O error while writing to standard output"));
+  if (fwriteerror (stdout))
+    error (EXIT_FAILURE, errno,
+	   _("I/O error while writing to standard output"));
   return EXIT_SUCCESS;
 }

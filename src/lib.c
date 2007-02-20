@@ -1,6 +1,6 @@
 /* Common functions.
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -15,6 +15,12 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
+#include <string.h>
+#include "error.h"
+#include "obstack.h"
+#include "safe-read.h"
+#include "verify.h"
+#include "xalloc.h"
 
 #include <arpa/inet.h>
 #include <assert.h>
@@ -23,11 +29,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-
-#include <error.h>
-#include <obstack.h>
 
 #include "db.h"
 #include "lib.h"
@@ -41,7 +43,7 @@ htonll (uint64_t val)
 
   low = htonl ((uint32_t)val);
   high = htonl (val >> 32);
-  assert (sizeof (ret) == sizeof (high) + sizeof (low));
+  verify (sizeof (ret) == sizeof (high) + sizeof (low));
   memcpy (&ret, &high, sizeof (high));
   memcpy ((unsigned char *)&ret + sizeof (high), &low, sizeof (low));
   return ret;
@@ -53,7 +55,7 @@ ntohll (uint64_t val)
 {
   uint32_t low, high;
 
-  assert (sizeof (high) + sizeof (low) == sizeof (val));
+  verify (sizeof (high) + sizeof (low) == sizeof (val));
   memcpy (&high, &val, sizeof (high));
   memcpy (&low, (unsigned char *)&val + sizeof (high), sizeof (low));
   return (uint64_t)ntohl (high) << 32 | ntohl (low);
@@ -91,33 +93,9 @@ dir_path_cmp (const char *a, const char *b)
       a++;
       b++;
     }
-  assert (sizeof (int) > sizeof (unsigned char)); /* To rule out overflow */
+  verify (sizeof (int) > sizeof (unsigned char)); /* To rule out overflow */
   return ((int)dir_path_cmp_table[(unsigned char)*a]
 	  - (int)dir_path_cmp_table[(unsigned char)*b]);
-}
-
-/* Allocate SIZE bytes, terminate on failure */
-void *
-xmalloc (size_t size)
-{
-  void *p;
-
-  p = malloc (size);
-  if (p != NULL || size == 0)
-    return p;
-  error (EXIT_FAILURE, errno, _("can not allocate memory"));
-  abort (); /* Not reached */
-}
-
-/* Reallocate PTR to SIZE bytes, terminate on failure */
-void *
-xrealloc (void *ptr, size_t size)
-{
-  ptr = realloc (ptr, size);
-  if (ptr != NULL || size == 0)
-    return ptr;
-  error (EXIT_FAILURE, errno, _("can not allocate memory"));
-  abort (); /* Not reached */
 }
 
 /* Used by obstack code */
@@ -153,7 +131,7 @@ db_open (struct db *db, struct db_header *header, int fd, const char *filename,
       db_report_error (db);
       goto err_fd;
     }
-  assert (sizeof (magic) == sizeof (header->magic));
+  verify (sizeof (magic) == sizeof (header->magic));
   if (memcmp (header->magic, magic, sizeof (magic)) != 0)
     {
       if (quiet == 0)
@@ -196,18 +174,15 @@ db_refill (struct db *db)
 {
   ssize_t size;
 
-  assert (sizeof (db->buffer) <= SSIZE_MAX);
- again:
-  size = read (db->fd, db->buffer, sizeof (db->buffer));
+  verify (sizeof (db->buffer) <= SSIZE_MAX);
+  size = safe_read (db->fd, db->buffer, sizeof (db->buffer));
   switch (size)
     {
     case 0:
       db->err = 0;
       return 0;
 
-    case -1:
-      if (errno == EINTR)
-	goto again;
+    case SAFE_READ_ERROR:
       db->err = errno;
       return 0;
 
@@ -250,8 +225,7 @@ db_read (struct db *db, void *buf, size_t size)
 	}
       if (run > size)
 	run = size;
-      memcpy (buf, db->buf_pos, run);
-      buf = (char *)buf + run;
+      buf = mempcpy (buf, db->buf_pos, run);
       db->buf_pos += run;
       size -= run;
     }

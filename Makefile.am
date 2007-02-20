@@ -1,4 +1,4 @@
-# Copyright (C) 2005, 2006 Red Hat, Inc. All rights reserved.
+# Copyright (C) 2005, 2006, 2007 Red Hat, Inc. All rights reserved.
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
 # General Public License v.2.
@@ -22,13 +22,15 @@ dbfile = $(dbdir)/mlocate.db
 groupname = mlocate
 localedir = $(datadir)/locale
 updatedb_conf = $(sysconfdir)/updatedb.conf
-ACLOCAL_AMFLAGS = -I m4
+# autopoint puts its m4 files to the first directory
+ACLOCAL_AMFLAGS = -I m4 -I gnulib/m4
+AM_CPPFLAGS = -I$(top_srcdir)/gnulib/lib -I$(top_builddir)/gnulib/lib
 COMMON_CPPFLAGS = -DDBFILE='"$(dbfile)"' -DLOCALEDIR='"$(localedir)"' \
 	-DGROUPNAME='"$(groupname)"'
 CONF_CPPFLAGS = -DUPDATEDB_CONF='"$(updatedb_conf)"'
 
 ## Targets
-SUBDIRS = po
+SUBDIRS = gnulib/lib po
 
 bin_PROGRAMS = src/locate src/updatedb
 dist_man_MANS = doc/mlocate.db.5
@@ -46,11 +48,11 @@ TESTFILES = tests/config.at tests/locate.at tests/updatedb.at
 src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h
 
 src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS)
-src_locate_LDADD = src/liblib.a $(LIBINTL)
+src_locate_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
 
 src_updatedb_SOURCES = src/conf.c src/conf.h src/updatedb.c
 src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS) $(CONF_CPPFLAGS)
-src_updatedb_LDADD = src/liblib.a $(LIBINTL)
+src_updatedb_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
 
 doc/locate.1: $(srcdir)/doc/locate.1.in Makefile
 	$(mkdir_p) doc

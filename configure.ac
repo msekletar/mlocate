@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT([mlocate], [0.15], [mitr@redhat.com])
 AC_COPYRIGHT(
-[Copyright (C) 2005, 2006 Red Hat, Inc. All rights reserved.
+[Copyright (C) 2005, 2006, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -24,10 +24,13 @@ AM_INIT_AUTOMAKE([no-define subdir-objects -Wall])
 
 # Checks for programs.
 AC_PROG_CC
+gl_EARLY
 AM_PROG_CC_C_O
 AC_PROG_RANLIB
 # This interface seems to be undocumented, but bison uses it ;-)
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
+
+gl_INIT
 
 # Checks for libraries.
 AM_GNU_GETTEXT([external], [need-ngettext])
@@ -38,17 +41,12 @@ AM_GNU_GETTEXT_VERSION([0.14.6])
 # Checks for types.
 
 # Checks for structures.
-AC_CHECK_MEMBERS([struct dirent.d_type], , , [#include <dirent.h>])
-AC_CHECK_MEMBERS([struct stat.st_ctim, struct stat.st_mtim], , ,
-		 [#include <sys/stat.h>])
 
 # Checks for compiler characteristics.
 
 # Checks for library functions.
 ## getopt_long () availability should be checked here
-AC_FUNC_ERROR_AT_LINE
 AC_FUNC_GETMNTENT
-AC_FUNC_OBSTACK
 
 # Checks for system services.
 AC_SYS_LARGEFILE
@@ -78,8 +76,7 @@ if test "$GCC" = yes ; then
 		   [mitr_cv_prog_gcc_warnings],
     [mitr_cv_prog_gcc_warnings=""
     for i in -Wall -W -Wcast-align -Wcast-qual -Wmissing-noreturn dnl
--Wnested-externs -Wpointer-arith -Wshadow -Wstrict-prototypes -Wundef dnl
--Wwrite-strings; do
+ -Wpointer-arith -Wshadow -Wstrict-prototypes -Wwrite-strings; do
         oldcflags=$CFLAGS
         CFLAGS="$CFLAGS $i"
         AC_COMPILE_IFELSE([AC_LANG_PROGRAM([], [])],
@@ -98,5 +95,5 @@ if test "$GCC" = yes ; then
      AC_MSG_RESULT([$enable_Werror])
 fi
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile gnulib/lib/Makefile po/Makefile.in])
 AC_OUTPUT

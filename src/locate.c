@@ -1,6 +1,6 @@
 /* locate(1).
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -15,14 +15,20 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
+#include <getopt.h>
+#include <string.h>
+#include "error.h"
+#include "fnmatch.h"
+#include "fwriteerror.h"
+#include "obstack.h"
+#include "progname.h"
+#include "xalloc.h"
 
-#define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <fnmatch.h>
 #include <grp.h>
 #include <inttypes.h>
 #include <limits.h>
@@ -31,15 +37,10 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <wchar.h>
 #include <wctype.h>
-
-#include <error.h>
-#include <getopt.h>
-#include <obstack.h>
 
 #include "db.h"
 #include "lib.h"
@@ -572,23 +573,17 @@ parse_dbpath (const char *dbpath)
       const char *end;
       size_t len;
 
-      end = strchr (dbpath, ':');
-      if (end != NULL)
-	len = end - dbpath;
-      else
-	{
-	  len = strlen (dbpath);
-	  end = dbpath + len;
-	}
+      end = strchrnul (dbpath, ':');
+      len = end - dbpath;
       if (len == 0)
 	obstack_ptr_grow (&db_obstack, DBFILE);
       else
 	{
-	  char *copy;
+	  char *copy, *p;
 
 	  copy = xmalloc (len + 1);
-	  memcpy (copy, dbpath, len);
-	  copy[len] = 0;
+	  p = mempcpy (copy, dbpath, len);
+	  *p = 0;
 	  obstack_ptr_grow (&db_obstack, copy);
 	}
       if (*end == 0)
@@ -718,7 +713,7 @@ parse_options (int argc, char *argv[])
 
 	case 'V':
 	  puts (PACKAGE_NAME " " PACKAGE_VERSION);
-	  puts (_("Copyright (C) 2005 Red Hat, Inc. All rights reserved.\n"
+	  puts (_("Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 		  "This software is distributed under the GPL v.2.\n"
 		  "\n"
 		  "This program is provided with NO WARRANTY, to the extent "
@@ -818,14 +813,14 @@ parse_arguments (int argc, char *argv[])
   if (conf_statistics == 0 && OBSTACK_OBJECT_SIZE (&pattern_obstack) == 0)
     error (EXIT_FAILURE, 0, _("no pattern to search for specified"));
   conf_num_patterns = OBSTACK_OBJECT_SIZE (&pattern_obstack) / sizeof (void *);
-  conf_patterns = xmalloc (conf_num_patterns * sizeof (*conf_patterns));
+  conf_patterns = XNMALLOC (conf_num_patterns, void *);
   strings = obstack_finish (&pattern_obstack);
   if (conf_match_regexp != 0)
     {
       regex_t *compiled;
       int cflags;
-	
-      compiled = xmalloc (conf_num_patterns * sizeof (*compiled));
+
+      compiled = XNMALLOC (conf_num_patterns, regex_t);
       cflags = REG_NOSUB;
       if (conf_match_regexp_basic == 0) /* GNU-style */
 	cflags |= REG_EXTENDED;
@@ -854,8 +849,7 @@ parse_arguments (int argc, char *argv[])
     }
   else
     {
-      conf_patterns_simple = xmalloc (conf_num_patterns
-				      * sizeof (*conf_patterns_simple));
+      conf_patterns_simple = XNMALLOC (conf_num_patterns, _Bool);
       for (i = 0; i < conf_num_patterns; i++)
 	{
 	  conf_patterns[i] = strings[i];
@@ -867,8 +861,7 @@ parse_arguments (int argc, char *argv[])
 	{
 	  struct obstack obstack;
 
-	  conf_uppercase_patterns
-	    = xmalloc (conf_num_patterns * sizeof (*conf_uppercase_patterns));
+	  conf_uppercase_patterns = XNMALLOC (conf_num_patterns, wchar_t *);
 	  obstack_init (&obstack);
 	  for (i = 0; i < conf_num_patterns; i++)
 	    conf_uppercase_patterns[i] = uppercase_string (&obstack,
@@ -903,7 +896,7 @@ finish_dbpath (void)
     parse_dbpath (locate_path);
   conf_dbpath_len = OBSTACK_OBJECT_SIZE (&db_obstack) / sizeof (void *);
   src_path = obstack_finish (&db_obstack);
-  dest_path = xmalloc (conf_dbpath_len * sizeof (*dest_path));
+  dest_path = XNMALLOC (conf_dbpath_len, char *);
   dest = 0;
   /* Sort databases requiring GROUPNAME privileges before the others.  This
      check is inherenly racy, but we recheck before deciding to drop
@@ -982,7 +975,8 @@ main (int argc, char *argv[])
   struct group *grp;
   size_t i;
   int res;
-  
+
+  set_program_name (argv[0]);
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE_NAME, LOCALEDIR);
   textdomain (PACKAGE_NAME);
@@ -1022,8 +1016,8 @@ main (int argc, char *argv[])
     printf ("%ju\n", matches_found);
   if (conf_statistics != 0 || matches_found != 0)
     res = EXIT_SUCCESS;
-  fflush (stdout);
-  if (ferror (stdout))
-    error (EXIT_FAILURE, 0, _("I/O error while writing to standard output"));
+  if (fwriteerror (stdout))
+    error (EXIT_FAILURE, errno,
+	   _("I/O error while writing to standard output"));
   return res;
 }
