@@ -1,3 +1,9 @@
+2007-02-26  Miloslav Trmac  <mitr@redhat.com>
+
+	* gnulib/m4/gnulib-cache.m4 (gl_MODULES): Remove fwriterror (a typo).
+	Remove timespec (a dependency of stat-time which mlocate doesn't use
+	directly).
+
 2007-02-21  Miloslav Trmac  <mitr@redhat.com>
 
 	* README: Replace details by an unspecific promise.
