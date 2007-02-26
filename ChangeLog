@@ -1,5 +1,8 @@
 2007-02-26  Miloslav Trmac  <mitr@redhat.com>
 
+	* src/locate.c (check_directory_perms): Reorganize to make the handling
+	of "/" and top-level directories more clear.
+
 	* doc/locate.1.in (DESCRIPTION): Fix punctuation.
 	(NOTES): Note that locate may reorder the database path arbitrarily.
 

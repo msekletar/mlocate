@@ -271,8 +271,13 @@ check_directory_perms (const char *path)
     goto err; /* The error was already reported */
   copy = obstack_copy (&check_obstack, path, size);
   last_slash = strrchr (copy, '/');
-  p = copy + 1; /* "/" was checked in main () */
-  while ((slash = strchr (p, '/')) != NULL && slash != last_slash)
+  assert (last_slash != NULL);
+  if (last_slash == copy) /* "/" was checked in main () */
+    {
+      res = 0;
+      goto err_copy;
+    }
+  for (p = copy + 1; (slash = strchr (p, '/')) != last_slash; p = slash + 1)
     {
       char old;
 
@@ -281,20 +286,15 @@ check_directory_perms (const char *path)
       if (cached_access_rx (copy) != 0)
 	goto err_copy;
       *slash = old;
-      p = slash + 1;
     }
-  if (slash != NULL)
-    {
-      assert (slash == last_slash);
-      *slash = 0;
-      /* r-- directories are probably very uncommon, so we try R_OK | X_OK
-	 (which pre-populates the cache if PATH has subdirectories) first.
-	 This is a heuristic that can in theory almost double the number of
-	 access () calls, in practice it reduces the number of access () calls
-	 by about 25 %.  The asymptotical number of calls stays the same ;-) */
-      if (cached_access_rx (copy) != 0 && access (copy, R_OK) != 0)
-	goto err_copy;
-    }
+  *last_slash = 0;
+  /* r-- directories are probably very uncommon, so we try R_OK | X_OK (which
+     pre-populates the cache if PATH has subdirectories) first.  This is a
+     heuristic that can in theory almost double the number of access () calls,
+     in practice it reduces the number of access () calls by about 25 %.  The
+     asymptotical number of calls stays the same ;-) */
+  if (cached_access_rx (copy) != 0 && access (copy, R_OK) != 0)
+    goto err_copy;
   res = 0;
  err_copy:
   obstack_free (&check_obstack, copy);
