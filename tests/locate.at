@@ -1,4 +1,4 @@
-# Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+# Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
 # General Public License v.2.
@@ -464,7 +464,7 @@ AT_KEYWORDS([locate])
 
 AT_CHECK([locate -V | sed '1s/ .*/ /'], ,
 [mlocate @&t@
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 This software is distributed under the GPL v.2.
 
 This program is provided with NO WARRANTY, to the extent permitted by law.
@@ -472,7 +472,7 @@ This program is provided with NO WARRANTY, to the extent permitted by law.
 
 AT_CHECK([locate --version | sed '1s/ .*/ /'], ,
 [mlocate @&t@
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 This software is distributed under the GPL v.2.
 
 This program is provided with NO WARRANTY, to the extent permitted by law.
