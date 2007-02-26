@@ -46,6 +46,7 @@ AM_GNU_GETTEXT_VERSION([0.14.6])
 
 # Checks for library functions.
 ## getopt_long () availability should be checked here
+AC_CHECK_FUNCS([fdopendir])
 AC_FUNC_GETMNTENT
 
 # Checks for system services.

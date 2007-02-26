@@ -573,6 +573,29 @@ cmp_entries (const void *xa, const void *xb)
   return strcmp (a->name, b->name);
 }
 
+static DIR *
+opendir_noatime (const char *path)
+{
+#if defined (HAVE_FDOPENDIR) && defined (O_DIRECTORY) && defined (O_NOATIME)
+  static _Bool noatime_failed; /* = 0; */
+
+  if (noatime_failed == 0)
+    {
+      int fd;
+
+      fd = open (path, O_RDONLY | O_DIRECTORY | O_NOATIME);
+      if (fd != -1)
+	return fdopendir (fd);
+      /* EPERM is fairly O_NOATIME-specific; missing access rights cause
+	 EACCES. */
+      else if (errno != EPERM)
+	return NULL;
+      noatime_failed = 1;
+    }
+#endif
+  return opendir (path);
+}
+
 /* Scan current working directory (DEST.path) to DEST in scan_dir_state;
    Return -1 if "." can't be opened, 1 if DEST contains a subdirectory,
    0 otherwise. */
@@ -583,7 +606,7 @@ scan_cwd (struct directory *dest)
   struct dirent *de;
   _Bool have_subdir;
 
-  dir = opendir (".");
+  dir = opendir_noatime (".");
   if (dir == NULL)
     return -1;
   have_subdir = 0;
@@ -591,7 +614,7 @@ scan_cwd (struct directory *dest)
     {
       struct entry *e;
       size_t name_size, entry_size;
-        
+
       if (strcmp (de->d_name, ".") == 0 || strcmp (de->d_name, "..") == 0)
 	continue;
       name_size = strlen (de->d_name) + 1;

@@ -1,3 +1,10 @@
+2007-02-27  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/updatedb.c (opendir_noatime): New function.
+	(scan_cwd): Use opendir_noatime ().  This shaves a few seconds from
+	first-time updatedb runs.
+	* configure.ac: Check whether fdopendir () is available.
+
 2007-02-26  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/conf.c (prepend_cwd): Use x2realloc ().
