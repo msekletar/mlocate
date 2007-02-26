@@ -1,5 +1,8 @@
 2007-02-26  Miloslav Trmac  <mitr@redhat.com>
 
+	* doc/locate.1.in (DESCRIPTION): Fix punctuation.
+	(NOTES): Note that locate may reorder the database path arbitrarily.
+
 	* tests/config.at (config: -V)
 	* tests/locate.at (locate: -V): Update for new copyright year.
 

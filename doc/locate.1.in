@@ -1,6 +1,6 @@
 .\" A man page for locate(1). -*- nroff -*-
 .\"
-.\" Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+.\" Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 .\"
 .\" This copyrighted material is made available to anyone wishing to use,
 .\" modify, copy, or redistribute it subject to the terms and conditions of the
@@ -41,7 +41,7 @@ behaves as if the pattern were \fB*\fIPATTERN\fB*\fR.
 
 By default, 
 .B locate
-does not check whether files found in database still exist;
+does not check whether files found in database still exist.
 .B locate
 can never report files created after the most recent update of the relevant
 database.
@@ -205,6 +205,11 @@ added after the default database or the databases specified using the
 option.
 
 .SH NOTES
+The order in which the requested databases are processed is unspecified,
+which allows
+.B locate
+to reorder the database path for security reasons.
+
 .B locate
 attempts to be compatible to
 .B slocate
