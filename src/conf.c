@@ -407,13 +407,11 @@ prepend_cwd (const char *path)
   char *buf, *res;
   size_t size, len1, size2;
 
+  buf = NULL;
   size = PATH_MAX;
-  buf = xmalloc (size);
-  while ((res = getcwd (buf, size)) == NULL && errno == ERANGE)
-    {
-      size *= 2;
-      buf = xrealloc (buf, size);
-    }
+  do
+    buf = x2realloc (buf, &size);
+  while ((res = getcwd (buf, size)) == NULL && errno == ERANGE);
   if (res == NULL)
     error (EXIT_FAILURE, errno, _("can not get current working directory"));
   len1 = strlen (buf);

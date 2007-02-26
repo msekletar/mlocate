@@ -1,5 +1,7 @@
 2007-02-26  Miloslav Trmac  <mitr@redhat.com>
 
+	* src/conf.c (prepend_cwd): Use x2realloc ().
+
 	* gnulib/m4/gnulib-cache.m4 (gl_MODULES): Use module mbsstr.
 	* configure.ac: Don't use -Wcast-qual, gnulib's mbsstr doesn't compile
 	with it.
