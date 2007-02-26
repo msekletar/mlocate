@@ -15,11 +15,11 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --lib=libgnu --source-base=gnulib/lib --m4-base=gnulib/m4 --doc-base=doc --aux-dir=admin --no-libtool --macro-prefix=gl config-h d-type error fnmatch-gnu fwriteerror getopt mempcpy obstack progname safe-read stat-time strchrnul verify xalloc
+#   gnulib-tool --import --dir=. --lib=libgnu --source-base=gnulib/lib --m4-base=gnulib/m4 --doc-base=doc --aux-dir=admin --no-libtool --macro-prefix=gl config-h d-type error fnmatch-gnu fwriteerror getopt mbsstr mempcpy obstack progname safe-read stat-time strchrnul verify xalloc
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
-gl_MODULES([config-h d-type error fnmatch-gnu fwriteerror getopt mempcpy obstack progname safe-read stat-time strchrnul verify xalloc])
+gl_MODULES([config-h d-type error fnmatch-gnu fwriteerror getopt mbsstr mempcpy obstack progname safe-read stat-time strchrnul verify xalloc])
 gl_AVOID([])
 gl_SOURCE_BASE([gnulib/lib])
 gl_M4_BASE([gnulib/m4])

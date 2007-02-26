@@ -75,8 +75,8 @@ if test "$GCC" = yes ; then
     AC_CACHE_CHECK([for available GCC warning flags],
 		   [mitr_cv_prog_gcc_warnings],
     [mitr_cv_prog_gcc_warnings=""
-    for i in -Wall -W -Wcast-align -Wcast-qual -Wmissing-noreturn dnl
- -Wpointer-arith -Wshadow -Wstrict-prototypes -Wwrite-strings; do
+    for i in -Wall -W -Wcast-align -Wmissing-noreturn -Wpointer-arith dnl
+ -Wshadow -Wstrict-prototypes -Wwrite-strings; do
         oldcflags=$CFLAGS
         CFLAGS="$CFLAGS $i"
         AC_COMPILE_IFELSE([AC_LANG_PROGRAM([], [])],

@@ -384,7 +384,7 @@ string_matches_pattern (const char *string)
 	  if (conf_patterns_simple[i] != 0)
 	    {
 	      if (conf_ignore_case == 0)
-		matched = strstr (string, conf_patterns[i]) != NULL;
+		matched = mbsstr (string, conf_patterns[i]) != NULL;
 	      else
 		matched = wcsstr (wstring, conf_uppercase_patterns[i]) != NULL;
 	    }
