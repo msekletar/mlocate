@@ -165,10 +165,10 @@ write_quoted (const char *string)
   const char *last; /* Start of the current batch of bytes for fwrite () */
   size_t left;
 
-  left = strlen (string) + 1;
+  left = strlen (string);
   memset (&state, 0, sizeof (state));
   last = string;
-  for (;;)
+  while (left != 0)
     {
       size_t size;
       wchar_t wc;
@@ -177,14 +177,20 @@ write_quoted (const char *string)
       size = mbrtowc (&wc, string, left, &state);
       if (size == 0)
 	break;
-      if (size >= (size_t)-2)
+      if (size < (size_t)-2)
+	printable = iswprint (wc);
+      else if (size == (size_t)-1)
 	{
 	  size = 1;
 	  memset (&state, 0, sizeof (state));
 	  printable = 0;
 	}
       else
-	printable = iswprint (wc);
+	{
+	  assert (size == (size_t)-2);
+	  size = left;
+	  printable = 0;
+	}
       if (printable == 0)
 	{
 	  if (string != last)

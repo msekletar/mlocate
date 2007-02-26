@@ -1,5 +1,8 @@
 2007-02-26  Miloslav Trmac  <mitr@redhat.com>
 
+	* src/locate.c (write_quoted): Show only one question mark if the
+	input string ends with an incomplete multibyte character.
+
 	* src/locate.c (check_directory_perms): Reorganize to make the handling
 	of "/" and top-level directories more clear.
 
