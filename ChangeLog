@@ -1,5 +1,36 @@
 2007-03-01  Miloslav Trmac  <mitr@redhat.com>
 
+	* src/lib.h (struct string_list): New member "allocated".
+	(cmp_dir_path_pointers): Remove declaration.
+	(string_list_append, string_list_dir_path_sort): New declarations.
+	* src/lib.c (string_list_append, string_list_dir_path_sort): New
+	functions.
+	(cmp_dir_path_pointers): Make static.
+	* src/conf.c (struct var): Remove member "pointers", assume usage with
+	an associated struct string_list.
+	(var_init, var_add_values, var_clear, var_finish): Explicitly refer
+	to the associated struct string_list, don't use an obstack for entry
+	pointers.  All users updated.
+	(uc_lex_buf, uc_lex_buf_size): New variables, replacing uc_obstack.
+	(uc_lex_buf_append): New function.
+	(uc_lex): Implicitly return string data in uc_lex_buf.
+	* src/locate.c (conf_dbpath): Grow directly instead of using
+	db_obstack.
+	All users changed.
+	(conf_patterns): Only store the original patterns.  Use a struct
+	string_list.  Grow directly instead of using pattern_obstack.  All
+	users changed.
+	(conf_regex_patterns): New variable, used instead of conf_patterns. All
+	users changed.
+	(check_directory_perms): Use a manually managed buffer instead of
+	check_obstack.
+	(check_obstack, db_obstack, pattern_obstack): Remove variables.
+	* src/updatedb.c (bind_mount_paths): Grow directly instead of using
+	bind_mount_pointers_obstack.  All users changed.
+	(bind_mount_pointers_obstack): Remove variable.
+	(filesystem_is_excluded, scan_subdirs): Use a manually managed buffer
+	instead of an obstack.
+
 	* doc/mlocate.db.5: Document the prune_bind_mounts variable.
 	* doc/updatedb.8.in: Document that --database-root does not have to be
 	absolute, but will always be canonicalized.  Doclument

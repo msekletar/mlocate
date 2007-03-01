@@ -78,11 +78,12 @@ parse_bool (_Bool *dest, const char *str)
 
  /* String list handling */
 
-/* A "variable" in progress: a list of whitespace-separated strings */
+/* A "variable" in progress: a list of whitespace-separated strings, used to
+   initialize a struct string_list.  Each "variable" can be used only with one
+   string_list, which is initialized to zeroes. */
 struct var
 {
   struct obstack strings; /* Strings */
-  struct obstack pointers;
   void *strings_mark;
 };
 
@@ -98,18 +99,16 @@ var_init (struct var *var)
 {
   obstack_init (&var->strings);
   obstack_alignment_mask (&var->strings) = 0;
-  obstack_init (&var->pointers);
   var->strings_mark = obstack_alloc (&var->strings, 0);
 }
 
-/* Add values from space-separated VAL to VAR */
+/* Add values from space-separated VAL to VAR and LIST */
 static void
-var_add_values (struct var *var, const char *val)
+var_add_values (struct var *var, struct string_list *list, const char *val)
 {
   for (;;)
     {
       const char *start;
-      char *p;
 
       while (isspace ((unsigned char)*val))
 	val++;
@@ -119,21 +118,18 @@ var_add_values (struct var *var, const char *val)
       do
 	val++;
       while (*val != 0 && !isspace ((unsigned char)*val));
-      p = obstack_copy0 (&var->strings, start, val - start);
-      obstack_ptr_grow (&var->pointers, p);
+      string_list_append (list,
+			  obstack_copy0 (&var->strings, start, val - start));
     }
 }
 
-/* Clear contents of VAR */
+/* Clear contents of VAR and LIST */
 static void
-var_clear (struct var *var)
+var_clear (struct var *var, struct string_list *list)
 {
-  void *ptrs;
-  
   obstack_free (&var->strings, var->strings_mark);
   var->strings_mark = obstack_alloc (&var->strings, 0);
-  ptrs = obstack_finish (&var->pointers);
-  obstack_free (&var->pointers, ptrs);
+  list->len = 0;
 }
 
 /* Compare two string pointers */
@@ -147,23 +143,17 @@ cmp_pointers (const void *xa, const void *xb)
   return strcmp (*a, *b);
 }
 
-/* Finish VAR, sort its contents, remove duplicates and store them to *LIST.
-   return a modifiable variant of LIST->entries. */
-static char **
-var_finish (struct string_list *list, struct var *var)
+/* Finish variable LIST, sort its contents, remove duplicates */
+static void
+var_finish (struct string_list *list)
 {
-  char **base;
-  size_t len;
-
-  len = OBSTACK_OBJECT_SIZE (&var->pointers) / sizeof (char *);
-  base = obstack_finish (&var->pointers);
-  qsort (base, len, sizeof (*base), cmp_pointers);
-  if (len != 0)
+  qsort (list->entries, list->len, sizeof (*list->entries), cmp_pointers);
+  if (list->len != 0)
     {
       char **src, **dest;
 
-      dest = base + 1;
-      for (src = base + 1; src < base + len; src++)
+      dest = list->entries + 1;
+      for (src = list->entries + 1; src < list->entries + list->len; src++)
 	{
 	  if (strcmp (dest[-1], *src) != 0)
 	    {
@@ -171,11 +161,9 @@ var_finish (struct string_list *list, struct var *var)
 	      dest++;
 	    }
 	}
-      len = dest - base;
+      list->len = dest - list->entries;
     }
-  list->entries = base;
-  list->len = len;
-  return base;
+  list->entries = xnrealloc (list->entries, list->len, sizeof (*list->entries));
 }
 
  /* UPDATEDB_CONF parsing */
@@ -186,8 +174,9 @@ static FILE *uc_file;
 static unsigned uc_line;
 /* Current line number; type matches error_at_line () */
 static unsigned uc_current_line;
-/* Obstack for string data */
-static struct obstack uc_obstack;
+/* Last string returned by uc_lex */
+static char *uc_lex_buf;
+static size_t uc_lex_buf_size;
 
 /* Token types */
 enum
@@ -196,20 +185,24 @@ enum
     UCT_PRUNE_BIND_MOUNTS, UCT_PRUNEFS, UCT_PRUNEPATHS
   };
 
-/* Return next token from uc_file; for UCT_IDENTIFIER, UCT_QUOTED or keywords,
-   store a pointer to data to *PTR (valid until next call). */
-static int
-uc_lex (char **ptr)
+/* Append C to uc_lex_buf at POS;
+   return updated POS */
+static size_t
+uc_lex_buf_append (size_t pos, char c)
 {
-  static void *obstack_mark; /* = NULL; */
+  if (pos == uc_lex_buf_size)
+    uc_lex_buf = x2realloc (uc_lex_buf, &uc_lex_buf_size);
+  uc_lex_buf[pos] = c;
+  return pos + 1;
+}
 
+/* Return next token from uc_file; for UCT_IDENTIFIER, UCT_QUOTED or keywords,
+   store the data to uc_lex_buf (valid until next call). */
+static int
+uc_lex (void)
+{
   int c;
 
-  if (obstack_mark != NULL)
-    {
-      obstack_free (&uc_obstack, obstack_mark);
-      obstack_mark = NULL;
-    }
   uc_line = uc_current_line;
   do
     {
@@ -243,42 +236,48 @@ uc_lex (char **ptr)
       return UCT_EQUAL;
 
     case '"':
-      while ((c = getc_unlocked (uc_file)) != '"')
-	{
-	  if (c == EOF || c == '\n')
-	    {
-	      error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			     _("missing closing `\"'"));
-	      ungetc (c, uc_file);
-	      break;
-	    }
-	  obstack_1grow (&uc_obstack, c);
-	}
-      obstack_1grow (&uc_obstack, 0);
-      *ptr = obstack_finish (&uc_obstack);
-      obstack_mark = *ptr;
-      return UCT_QUOTED;
+      {
+	size_t i;
+
+	i = 0;
+	while ((c = getc_unlocked (uc_file)) != '"')
+	  {
+	    if (c == EOF || c == '\n')
+	      {
+		error_at_line (0, 0, UPDATEDB_CONF, uc_line,
+			       _("missing closing `\"'"));
+		ungetc (c, uc_file);
+		break;
+	      }
+	    i = uc_lex_buf_append (i, c);
+	  }
+	uc_lex_buf_append (i, 0);
+	return UCT_QUOTED;
+      }
 
     default:
-      if (!isalpha ((unsigned char)c) && c != '_')
-	return UCT_OTHER;
-      do
-	{
-	  obstack_1grow (&uc_obstack, c);
-	  c = getc_unlocked (uc_file);
-	}
-      while (c != EOF && (isalnum ((unsigned char)c) || c == '_'));
-      ungetc (c, uc_file);
-      obstack_1grow (&uc_obstack, 0);
-      *ptr = obstack_finish (&uc_obstack);
-      obstack_mark = *ptr;
-      if (strcmp (*ptr, "PRUNE_BIND_MOUNTS") == 0)
-	return UCT_PRUNE_BIND_MOUNTS;
-      if (strcmp (*ptr, "PRUNEFS") == 0)
-	return UCT_PRUNEFS;
-      if (strcmp (*ptr, "PRUNEPATHS") == 0)
-	return UCT_PRUNEPATHS;
-      return UCT_IDENTIFIER;
+      {
+	size_t i;
+
+	if (!isalpha ((unsigned char)c) && c != '_')
+	  return UCT_OTHER;
+	i = 0;
+	do
+	  {
+	    i = uc_lex_buf_append (i, c);
+	    c = getc_unlocked (uc_file);
+	  }
+	while (c != EOF && (isalnum ((unsigned char)c) || c == '_'));
+	ungetc (c, uc_file);
+	uc_lex_buf_append (i, 0);
+	if (strcmp (uc_lex_buf, "PRUNE_BIND_MOUNTS") == 0)
+	  return UCT_PRUNE_BIND_MOUNTS;
+	if (strcmp (uc_lex_buf, "PRUNEFS") == 0)
+	  return UCT_PRUNEFS;
+	if (strcmp (uc_lex_buf, "PRUNEPATHS") == 0)
+	  return UCT_PRUNEPATHS;
+	return UCT_IDENTIFIER;
+      }
     }
 }
 
@@ -298,8 +297,6 @@ parse_updatedb_conf (void)
       goto err;
     }
   flockfile (uc_file);
-  obstack_init (&uc_obstack);
-  obstack_alignment_mask (&uc_obstack) = 0;
   uc_current_line = 1;
   old_error_message_count = error_message_count;
   old_error_one_per_line = error_one_per_line;
@@ -309,12 +306,10 @@ parse_updatedb_conf (void)
   had_prunepaths = 0;
   for (;;)
     {
-      struct var *var;
       _Bool *had_var;
-      char *val;
       int var_token, token;
 
-      token = uc_lex (&val);
+      token = uc_lex ();
       switch (token)
 	{
 	case UCT_EOF:
@@ -324,23 +319,20 @@ parse_updatedb_conf (void)
 	  continue;
 
 	case UCT_PRUNE_BIND_MOUNTS:
-	  var = NULL;
 	  had_var = &had_prune_bind_mounts;
 	  break;
 
 	case UCT_PRUNEFS:
-	  var = &prunefs_var;
 	  had_var = &had_prunefs;
 	  break;
 
 	case UCT_PRUNEPATHS:
-	  var = &prunepaths_var;
 	  had_var = &had_prunepaths;
 	  break;
 
 	case UCT_IDENTIFIER:
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			 _("unknown variable `%s'"), val);
+			 _("unknown variable `%s'"), uc_lex_buf);
 	  goto skip_to_eol;
 
 	default:
@@ -351,19 +343,19 @@ parse_updatedb_conf (void)
       if (*had_var != 0)
 	{
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			 _("variable `%s' was already defined"), val);
+			 _("variable `%s' was already defined"), uc_lex_buf);
 	  goto skip_to_eol;
 	}
       *had_var = 1;
       var_token = token;
-      token = uc_lex (&val);
+      token = uc_lex ();
       if (token != UCT_EQUAL)
 	{
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
 			 _("`=' expected after variable name"));
 	  goto skip_to_eol;
 	}
-      token = uc_lex (&val);
+      token = uc_lex ();
       if (token != UCT_QUOTED)
 	{
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
@@ -372,18 +364,21 @@ parse_updatedb_conf (void)
 	}
       if (var_token == UCT_PRUNE_BIND_MOUNTS)
 	{
-	  if (parse_bool (&conf_prune_bind_mounts, val) != 0)
+	  if (parse_bool (&conf_prune_bind_mounts, uc_lex_buf) != 0)
 	    {
 	      error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			     _("invalid value `%s' of PRUNE_BIND_MOUNTS"), val);
+			     _("invalid value `%s' of PRUNE_BIND_MOUNTS"),
+			     uc_lex_buf);
 	      goto skip_to_eol;
 	    }
 	}
-      else if (var_token == UCT_PRUNEFS || var_token == UCT_PRUNEPATHS)
-	var_add_values (var, val);
+      else if (var_token == UCT_PRUNEFS)
+	var_add_values (&prunefs_var, &conf_prunefs, uc_lex_buf);
+      else if (var_token == UCT_PRUNEPATHS)
+	var_add_values (&prunepaths_var, &conf_prunepaths, uc_lex_buf);
       else
 	abort ();
-      token = uc_lex (&val);
+      token = uc_lex ();
       if (token != UCT_EOL && token != UCT_EOF)
 	{
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
@@ -396,14 +391,15 @@ parse_updatedb_conf (void)
 	{
 	  if (token == UCT_EOF)
 	    goto eof;
-	  token = uc_lex (&val);
+	  token = uc_lex ();
 	}
     }
  eof:
   if (ferror (uc_file))
     error (EXIT_FAILURE, 0, _("I/O error reading `%s'"), UPDATEDB_CONF);
   error_one_per_line = old_error_one_per_line;
-  obstack_free (&uc_obstack, NULL);
+  free (uc_lex_buf);
+  uc_lex_buf_size = 0;
   funlockfile (uc_file);
   fclose (uc_file);
   if (error_message_count != old_error_message_count)
@@ -526,18 +522,18 @@ parse_arguments (int argc, char *argv[])
 		   _("--%s would override earlier command-line argument"),
 		   "prunefs");
 	  prunefs_changed = 1;
-	  var_clear (&prunefs_var);
-	  var_add_values (&prunefs_var, optarg);
+	  var_clear (&prunefs_var, &conf_prunefs);
+	  var_add_values (&prunefs_var, &conf_prunefs, optarg);
 	  break;
-	  
+
 	case 'P':
 	  if (prunepaths_changed != 0)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "prunepaths");
 	  prunepaths_changed = 1;
-	  var_clear (&prunepaths_var);
-	  var_add_values (&prunepaths_var, optarg);
+	  var_clear (&prunepaths_var, &conf_prunepaths);
+	  var_add_values (&prunepaths_var, &conf_prunepaths, optarg);
 	  break;
 
 	case 'U':
@@ -561,14 +557,14 @@ parse_arguments (int argc, char *argv[])
 
 	case 'e':
 	  prunepaths_changed = 1;
-	  var_add_values (&prunepaths_var, optarg);
+	  var_add_values (&prunepaths_var, &conf_prunepaths, optarg);
 	  break;
-	  
+
 	case 'f':
 	  prunefs_changed = 1;
-	  var_add_values (&prunefs_var, optarg);
+	  var_add_values (&prunefs_var, &conf_prunefs, optarg);
 	  break;
-	  
+
 	case 'h':
 	  help ();
 	  exit (EXIT_SUCCESS);
@@ -658,14 +654,13 @@ gen_conf_block (void)
 void
 conf_prepare (int argc, char *argv[])
 {
-  char **paths;
   size_t i;
 
   var_init (&prunefs_var);
   var_init (&prunepaths_var);
   parse_updatedb_conf ();
   parse_arguments (argc, argv);
-  var_finish (&conf_prunefs, &prunefs_var);
+  var_finish (&conf_prunefs);
   for (i = 0; i < conf_prunefs.len; i++)
     {
       char *p;
@@ -674,7 +669,7 @@ conf_prepare (int argc, char *argv[])
       for (p = conf_prunefs.entries[i]; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
     }
-  paths = var_finish (&conf_prunepaths, &prunepaths_var);
+  var_finish (&conf_prunepaths);
   gen_conf_block ();
-  qsort (paths, conf_prunepaths.len, sizeof (*paths), cmp_dir_path_pointers);
+  string_list_dir_path_sort (&conf_prunepaths);
 }

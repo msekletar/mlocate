@@ -98,8 +98,28 @@ dir_path_cmp (const char *a, const char *b)
 	  - (int)dir_path_cmp_table[(unsigned char)*b]);
 }
 
+/* Used by obstack code */
+struct _obstack_chunk *
+obstack_chunk_alloc (long size)
+{
+  return xmalloc (size);
+}
+
+ /* String list utilities */
+
+/* Append STRING to LIST */
+void
+string_list_append (struct string_list *list, char *string)
+{
+  if (list->allocated == list->len)
+    list->entries = x2nrealloc (list->entries, &list->allocated,
+				sizeof (*list->entries));
+  list->entries[list->len] = string;
+  list->len++;
+}
+
 /* Compare two string pointers using dir_path_cmp () */
-int
+static int
 cmp_dir_path_pointers (const void *xa, const void *xb)
 {
   char *const *a, *const *b;
@@ -109,11 +129,12 @@ cmp_dir_path_pointers (const void *xa, const void *xb)
   return dir_path_cmp (*a, *b);
 }
 
-/* Used by obstack code */
-struct _obstack_chunk *
-obstack_chunk_alloc (long size)
+/* Sort LIST using dir_path_cmp () */
+void
+string_list_dir_path_sort (struct string_list *list)
 {
-  return xmalloc (size);
+  qsort (list->entries, list->len, sizeof (*list->entries),
+	 cmp_dir_path_pointers);
 }
 
  /* Reading of existing databases */

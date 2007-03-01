@@ -53,7 +53,7 @@ static _Bool conf_check_existence; /* = 0; */
 static _Bool conf_check_follow_trailing = 1;
 
 /* Databases, "-" is stdin */
-static struct string_list conf_dbpath;
+static struct string_list conf_dbpath; /* = { 0, }; */
 
 /* Ignore case when matching patterns */
 static _Bool conf_ignore_case; /* = 0; */
@@ -80,9 +80,11 @@ static _Bool conf_output_quote; /* = 0; */
 /* Character for output separation */
 static char conf_output_separator = '\n';
 
-/* Patterns to search for: regex_t * if conf_match_regexp, char * otherwise */
-static void **conf_patterns;
-static size_t conf_num_patterns;
+/* Patterns to search for */
+static struct string_list conf_patterns; /* = { 0, }; */
+
+/* If conf_match_regexp, compiled patterns to search for */
+static regex_t *conf_regex_patterns;
 
 /* If !conf_match_regexp, 1 if the pattern contains no characters recognized
    by fnmatch () as special */
@@ -222,9 +224,6 @@ struct check_entry
 /* Contains the check_entry stack */
 static struct obstack check_stack_obstack;
 
-/* Contains a single object, for temporary use in check_directory_perms () */
-static struct obstack check_obstack;
-
 /* Return (possibly cached) result of access (PATH, R_OK | X_OK).  Note that
    errno is not set. */
 static int
@@ -265,22 +264,25 @@ cached_access_rx (const char *path)
 static int
 check_directory_perms (const char *path)
 {
+  static char *copy; /* = NULL; */
+  static size_t copy_size; /* = 0; */
+
   size_t size;
-  char *copy, *p, *slash, *last_slash;
+  char *p, *slash, *last_slash;
   int res;
 
   res = -1;
   size = strlen (path) + 1;
   assert (size > 1);
-  if (size > OBSTACK_SIZE_MAX)
-    goto err; /* The error was already reported */
-  copy = obstack_copy (&check_obstack, path, size);
+  while (size > copy_size)
+    copy = x2realloc (copy, &copy_size);
+  memcpy (copy, path, size);
   last_slash = strrchr (copy, '/');
   assert (last_slash != NULL);
   if (last_slash == copy) /* "/" was checked in main () */
     {
       res = 0;
-      goto err_copy;
+      goto err;
     }
   for (p = copy + 1; (slash = strchr (p, '/')) != last_slash; p = slash + 1)
     {
@@ -289,7 +291,7 @@ check_directory_perms (const char *path)
       old = *slash;
       *slash = 0;
       if (cached_access_rx (copy) != 0)
-	goto err_copy;
+	goto err;
       *slash = old;
     }
   *last_slash = 0;
@@ -299,10 +301,8 @@ check_directory_perms (const char *path)
      in practice it reduces the number of access () calls by about 25 %.  The
      asymptotical number of calls stays the same ;-) */
   if (cached_access_rx (copy) != 0 && access (copy, R_OK) != 0)
-    goto err_copy;
+    goto err;
   res = 0;
- err_copy:
-  obstack_free (&check_obstack, copy);
  err:
   return res;
 }
@@ -374,21 +374,21 @@ string_matches_pattern (const char *string)
   else
     wstring = NULL;
   matched = 0;
-  for (i = 0; i < conf_num_patterns; i++)
+  for (i = 0; i < conf_patterns.len; i++)
     {
       if (conf_match_regexp != 0)
-	matched = regexec (conf_patterns[i], string, 0, NULL, 0) == 0;
+	matched = regexec (conf_regex_patterns + i, string, 0, NULL, 0) == 0;
       else
 	{
 	  if (conf_patterns_simple[i] != 0)
 	    {
 	      if (conf_ignore_case == 0)
-		matched = mbsstr (string, conf_patterns[i]) != NULL;
+		matched = mbsstr (string, conf_patterns.entries[i]) != NULL;
 	      else
 		matched = wcsstr (wstring, conf_uppercase_patterns[i]) != NULL;
 	    }
 	  else
-	    matched = fnmatch (conf_patterns[i], string,
+	    matched = fnmatch (conf_patterns.entries[i], string,
 			       conf_ignore_case != 0 ? FNM_CASEFOLD : 0) == 0;
 	}
       if (matched != 0)
@@ -555,14 +555,6 @@ handle_db (int fd, const char *database)
 
  /* Main program */
 
-/* Pointers to database paths, valid between parse_options () and
-   finish_dbpath (). */
-static struct obstack db_obstack;
-
-/* Pointers to patterns to search for, valid between parse_options () and
-   parse_arguments (). */
-static struct obstack pattern_obstack;
-
 /* GID of GROUPNAME, or (gid_t)-1 if unknown */
 static gid_t privileged_gid;
 
@@ -576,21 +568,23 @@ parse_dbpath (const char *dbpath)
   for (;;)
     {
       const char *end;
+      char *entry;
       size_t len;
 
       end = strchrnul (dbpath, ':');
       len = end - dbpath;
       if (len == 0)
-	obstack_ptr_grow (&db_obstack, DBFILE);
+	entry = xstrdup (DBFILE);
       else
 	{
 	  char *copy, *p;
 
 	  copy = xmalloc (len + 1);
+	  entry = copy;
 	  p = mempcpy (copy, dbpath, len);
 	  *p = 0;
-	  obstack_ptr_grow (&db_obstack, copy);
 	}
+      string_list_append (&conf_dbpath, entry);
       if (*end == 0)
 	break;
       dbpath = end + 1;
@@ -669,8 +663,6 @@ parse_options (int argc, char *argv[])
 
   _Bool got_basename, got_follow;
 
-  obstack_init (&db_obstack);
-  obstack_init (&pattern_obstack);
   got_basename = 0;
   got_follow = 0;
   for (;;)
@@ -776,11 +768,11 @@ parse_options (int argc, char *argv[])
 	case 'q':
 	  conf_quiet = 1;
 	  break;
-	  
+
 	case 'r':
 	  conf_match_regexp = 1;
 	  conf_match_regexp_basic = 1;
-	  obstack_ptr_grow (&pattern_obstack, optarg);
+	  string_list_append (&conf_patterns, optarg);
 	  break;
 
 	case 'w':
@@ -810,55 +802,50 @@ parse_options (int argc, char *argv[])
 static void
 parse_arguments (int argc, char *argv[])
 {
-  void **strings;
   size_t i;
-      
+
   for (i = optind; i < (size_t)argc; i++)
-    obstack_ptr_grow (&pattern_obstack, argv[i]);
-  if (conf_statistics == 0 && OBSTACK_OBJECT_SIZE (&pattern_obstack) == 0)
+    string_list_append (&conf_patterns, argv[i]);
+  if (conf_statistics == 0 && conf_patterns.len == 0)
     error (EXIT_FAILURE, 0, _("no pattern to search for specified"));
-  conf_num_patterns = OBSTACK_OBJECT_SIZE (&pattern_obstack) / sizeof (void *);
-  conf_patterns = XNMALLOC (conf_num_patterns, void *);
-  strings = obstack_finish (&pattern_obstack);
+  conf_patterns.entries = xnrealloc (conf_patterns.entries, conf_patterns.len,
+				     sizeof (*conf_patterns.entries));
   if (conf_match_regexp != 0)
     {
-      regex_t *compiled;
       int cflags;
 
-      compiled = XNMALLOC (conf_num_patterns, regex_t);
+      conf_regex_patterns = XNMALLOC (conf_patterns.len, regex_t);
       cflags = REG_NOSUB;
       if (conf_match_regexp_basic == 0) /* GNU-style */
 	cflags |= REG_EXTENDED;
       if (conf_ignore_case != 0)
 	cflags |= REG_ICASE;
-      for (i = 0; i < conf_num_patterns; i++)
+      for (i = 0; i < conf_patterns.len; i++)
 	{
-	  regex_t *r;
 	  int err;
 
-	  r = compiled + i;
-	  err = regcomp (r, strings[i], cflags);
+	  err = regcomp (conf_regex_patterns + i, conf_patterns.entries[i],
+			 cflags);
 	  if (err != 0)
 	    {
 	      size_t size;
 	      char *msg;
 
-	      size = regerror (err, r, NULL, 0);
+	      size = regerror (err, conf_regex_patterns + i, NULL, 0);
 	      msg = xmalloc (size);
-	      regerror (err, r, msg, size);
+	      regerror (err, conf_regex_patterns + i, msg, size);
 	      error (EXIT_FAILURE, 0, _("invalid regexp `%s': %s"),
-		     (char *)strings[i], msg);
+		     conf_patterns.entries[i], msg);
 	    }
-	  conf_patterns[i] = r;
 	}
     }
   else
     {
-      conf_patterns_simple = XNMALLOC (conf_num_patterns, _Bool);
-      for (i = 0; i < conf_num_patterns; i++)
+      conf_patterns_simple = XNMALLOC (conf_patterns.len, _Bool);
+      for (i = 0; i < conf_patterns.len; i++)
 	{
-	  conf_patterns[i] = strings[i];
-	  conf_patterns_simple[i] = strpbrk (strings[i], "*?[\\]") == NULL;
+	  conf_patterns_simple[i] = strpbrk (conf_patterns.entries[i],
+					     "*?[\\]") == NULL;
 	  if (conf_patterns_simple[i] != 0)
 	    conf_have_simple_pattern = 1;
 	}
@@ -866,15 +853,14 @@ parse_arguments (int argc, char *argv[])
 	{
 	  struct obstack obstack;
 
-	  conf_uppercase_patterns = XNMALLOC (conf_num_patterns, wchar_t *);
+	  conf_uppercase_patterns = XNMALLOC (conf_patterns.len, wchar_t *);
 	  obstack_init (&obstack);
-	  for (i = 0; i < conf_num_patterns; i++)
-	    conf_uppercase_patterns[i] = uppercase_string (&obstack,
-							   conf_patterns[i]);
+	  for (i = 0; i < conf_patterns.len; i++)
+	    conf_uppercase_patterns[i]
+	      = uppercase_string (&obstack, conf_patterns.entries[i]);
 	  /* leave the obstack allocated */
 	}
     }
-  obstack_free (&pattern_obstack, NULL);
 }
 
 /* Does a database with ST require GROUPNAME privileges? */
@@ -890,17 +876,14 @@ static void
 finish_dbpath (void)
 {
   const char *locate_path;
-  void **src_path;
   char **dest_path;
   size_t src, dest;
 
-  if (OBSTACK_OBJECT_SIZE (&db_obstack) == 0)
-    obstack_ptr_grow (&db_obstack, DBFILE);
+  if (conf_dbpath.len == 0)
+    string_list_append (&conf_dbpath, xstrdup (DBFILE));
   locate_path = getenv ("LOCATE_PATH");
   if (locate_path != NULL)
     parse_dbpath (locate_path);
-  conf_dbpath.len = OBSTACK_OBJECT_SIZE (&db_obstack) / sizeof (void *);
-  src_path = obstack_finish (&db_obstack);
   dest_path = XNMALLOC (conf_dbpath.len, char *);
   dest = 0;
   /* Sort databases requiring GROUPNAME privileges before the others.  This
@@ -910,24 +893,25 @@ finish_dbpath (void)
     {
       struct stat st;
 
-      if (strcmp (src_path[src], "-") != 0 && stat (src_path[src], &st) == 0
+      if (strcmp (conf_dbpath.entries[src], "-") != 0
+	  && stat (conf_dbpath.entries[src], &st) == 0
 	  && db_is_privileged (&st))
 	{
-	  dest_path[dest] = src_path[src];
+	  dest_path[dest] = conf_dbpath.entries[src];
 	  dest++;
-	  src_path[src] = NULL;
+	  conf_dbpath.entries[src] = NULL;
 	}
     }
   for (src = 0; src < conf_dbpath.len; src++)
     {
-      if (src_path[src] != NULL)
+      if (conf_dbpath.entries[src] != NULL)
 	{
-	  dest_path[dest] = src_path[src];
+	  dest_path[dest] = conf_dbpath.entries[src];
 	  dest++;
 	}
     }
   assert (dest == conf_dbpath.len);
-  obstack_free (&db_obstack, NULL);
+  free (conf_dbpath.entries);
   conf_dbpath.entries = dest_path;
 }
 
@@ -998,8 +982,6 @@ main (int argc, char *argv[])
   obstack_init (&uc_obstack);
   uc_obstack_mark = obstack_alloc (&uc_obstack, 0);
   obstack_init (&check_stack_obstack);
-  obstack_init (&check_obstack);
-  obstack_alignment_mask (&check_obstack) = 0;
   res = EXIT_FAILURE;
   /* Don't call access ("/", R_OK | X_OK) all the time.  This is too strict,
      it is possible to have "/" --x and have a database describing a

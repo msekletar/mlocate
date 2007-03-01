@@ -324,7 +324,7 @@ path_is_in_list (const struct string_list *list, size_t *idx, const char *path)
  /* $PRUNE_BIND_MOUNTS handling */
 
 /* Known bind mount paths */
-static struct string_list bind_mount_paths;
+static struct string_list bind_mount_paths; /* = { 0, }; */
 
 /* Next bind_mount_paths entry */
 static size_t bind_mount_paths_index; /* = 0; */
@@ -334,7 +334,6 @@ static struct timespec last_path_mounted_mtime; /* = { 0, }; */
 
 static struct obstack bind_mount_paths_obstack;
 static void *bind_mount_paths_mark;
-static struct obstack bind_mount_pointers_obstack;
 
 /* Rebuild bind_mount_paths */
 static void
@@ -342,14 +341,10 @@ rebuild_bind_mount_paths (void)
 {
   FILE *f;
   struct mntent *me;
-  char **ptrs;
-  void *p;
-  size_t len;
 
   obstack_free (&bind_mount_paths_obstack, bind_mount_paths_mark);
   bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
-  p = obstack_finish (&bind_mount_pointers_obstack);
-  obstack_free (&bind_mount_pointers_obstack, p);
+  bind_mount_paths.len = 0;
   f = setmntent (_PATH_MOUNTED, "r");
   if (f == NULL)
     goto err;
@@ -363,17 +358,13 @@ rebuild_bind_mount_paths (void)
 	  if (dir == NULL)
 	    dir = me->mnt_dir;
 	  dir = obstack_copy (&bind_mount_paths_obstack, dir, strlen (dir) + 1);
-	  obstack_ptr_grow (&bind_mount_pointers_obstack, dir);
+	  string_list_append (&bind_mount_paths, dir);
 	}
     }
   endmntent (f);
   /* Fall through */
  err:
-  len = OBSTACK_OBJECT_SIZE (&bind_mount_pointers_obstack) / sizeof (char *);
-  ptrs = obstack_base (&bind_mount_pointers_obstack);
-  qsort (ptrs, len, sizeof (*ptrs), cmp_dir_path_pointers);
-  bind_mount_paths.entries = ptrs;
-  bind_mount_paths.len = len;
+  string_list_dir_path_sort (&bind_mount_paths);
 }
 
 /* Return 1 if PATH is a destination of a bind mount. */
@@ -408,7 +399,6 @@ init_bind_mount_paths (void)
     return;
   obstack_init (&bind_mount_paths_obstack);
   obstack_alignment_mask (&bind_mount_paths_obstack) = 0;
-  obstack_init (&bind_mount_pointers_obstack);
   bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
   if (stat (_PATH_MOUNTED, &st) != 0)
     return;
@@ -433,7 +423,9 @@ cmp_string_pointer (const void *xa, const void *xb)
 static _Bool
 filesystem_is_excluded (const char *path)
 {
-  struct obstack obstack;
+  static char *type; /* = NULL; */
+  static size_t type_size; /* = 0; */
+
   FILE *f;
   struct mntent *me;
   _Bool res;
@@ -442,13 +434,15 @@ filesystem_is_excluded (const char *path)
   f = setmntent (MOUNT_TABLE_PATH, "r");
   if (f == NULL)
     goto err;
-  obstack_init (&obstack);
-  obstack_alignment_mask (&obstack) = 0;
   while ((me = getmntent (f)) != NULL)
     {
-      char *type, *p;
+      char *p;
+      size_t size;
 
-      type = obstack_copy (&obstack, me->mnt_type, strlen (me->mnt_type) + 1);
+      size = strlen (me->mnt_type) + 1;
+      while (size > type_size)
+	type = x2realloc (type, &type_size);
+      memcpy (type, me->mnt_type, size);
       for (p = type; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
       if (bsearch (type, conf_prunefs.entries, conf_prunefs.len,
@@ -465,11 +459,9 @@ filesystem_is_excluded (const char *path)
 	      goto err_f;
 	    }
 	}
-      obstack_free (&obstack, type);
     }
  err_f:
   endmntent (f);
-  obstack_free (&obstack, NULL);
  err:
   return res;
 }
@@ -524,46 +516,40 @@ write_directory (const struct directory *dir)
 static void
 scan_subdirs (const const struct directory *dir, const struct stat *st)
 {
-  struct obstack obstack;
+  char *path;
   int cwd_fd;
-  size_t prefix_len, i;
+  size_t path_size, prefix_len, i;
 
   prefix_len = strlen (dir->path);
-  obstack_init (&obstack);
-  if (prefix_len > OBSTACK_SIZE_MAX)
-    {
-      error (0, 0, _("path name length %zu is too large"), prefix_len);
-      goto err_obstack;
-    }
-  obstack_grow (&obstack, dir->path, prefix_len);
+  path_size = prefix_len + 1;
+  path = xmalloc (path_size);
+  memcpy (path, dir->path, prefix_len);
   assert (prefix_len != 0);
   if (dir->path[prefix_len - 1] != '/') /* "/" => "/bin", not "//bin" */
     {
-      obstack_1grow (&obstack, '/');
+      path[prefix_len] = '/';
       prefix_len++;
     }
   cwd_fd = -1;
   for (i = 0; i < dir->num_entries; i++)
     {
       struct entry *e;
-      
+
       e = dir->entries[i];
       if (e->is_directory != 0)
 	{
 	  /* Verified in copy_old_dir () and scan_cwd () */
-	  assert (e->name_size <= OBSTACK_SIZE_MAX);
-	  obstack_grow (&obstack, e->name, e->name_size);
-	  if (scan (obstack_base (&obstack), &cwd_fd, st, e->name) != 0)
+	  while (prefix_len + e->name_size > path_size)
+	    path = x2realloc (path, &path_size);
+	  memcpy (path + prefix_len, e->name, e->name_size);
+	  if (scan (path, &cwd_fd, st, e->name) != 0)
 	    goto err_cwd_fd;
-	  verify (OBSTACK_SIZE_MAX <= SSIZE_MAX);
-	  obstack_blank (&obstack, -(ssize_t)e->name_size);
 	}
     }
  err_cwd_fd:
   if (cwd_fd != -1)
     close (cwd_fd);
- err_obstack:
-  obstack_free (&obstack, NULL);
+  free (path);
 }
 
 /* If *CWD_FD != -1, open ".", store fd to *CWD_FD; then chdir (RELATIVE),

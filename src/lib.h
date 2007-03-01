@@ -51,22 +51,12 @@ extern uint64_t htonll (uint64_t val);
 /* Convert VAL from big endian */
 extern uint64_t ntohll (uint64_t val);
 
-/* A list of strings */
-struct string_list
-{
-  char *const *entries;
-  size_t len;
-};
-
 /* Initialize dir_path_cmp_table */
 extern void dir_path_cmp_init (void);
 
 /* Compare two path names using the database directory order. This is not
    exactly strcmp () order: "a" < "a.b", so "a/z" < "a.b". */
 extern int dir_path_cmp (const char *a, const char *b);
-
-/* Compare two string pointers using dir_path_cmp () */
-extern int cmp_dir_path_pointers (const void *xa, const void *xb);
 
 /* Functions used by obstack code */
 extern struct _obstack_chunk *obstack_chunk_alloc (long size);
@@ -81,6 +71,22 @@ extern struct _obstack_chunk *obstack_chunk_alloc (long size);
 /* To avoid obstack integer overflows, limit large obstack allocations to this
    value. */
 enum { OBSTACK_SIZE_MAX = 1024 * 1024 };
+
+/* A list of strings */
+struct string_list
+{
+  char **entries;
+  size_t len;			/* Number of valid entries */
+  /* Number of allocated entries, usually invalid after the list is "finished"
+     and ENTRIES are reallocated to the exact size. */
+  size_t allocated;
+};
+
+/* Append STRING to LIST */
+extern void string_list_append (struct string_list *list, char *string);
+
+/* Sort LIST using dir_path_cmp () */
+extern void string_list_dir_path_sort (struct string_list *list);
 
 /* An open database */
 struct db
