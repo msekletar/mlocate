@@ -53,8 +53,7 @@ static _Bool conf_check_existence; /* = 0; */
 static _Bool conf_check_follow_trailing = 1;
 
 /* Databases, "-" is stdin */
-static char *const *conf_dbpath;
-static size_t conf_dbpath_len;
+static struct string_list conf_dbpath;
 
 /* Ignore case when matching patterns */
 static _Bool conf_ignore_case; /* = 0; */
@@ -900,14 +899,14 @@ finish_dbpath (void)
   locate_path = getenv ("LOCATE_PATH");
   if (locate_path != NULL)
     parse_dbpath (locate_path);
-  conf_dbpath_len = OBSTACK_OBJECT_SIZE (&db_obstack) / sizeof (void *);
+  conf_dbpath.len = OBSTACK_OBJECT_SIZE (&db_obstack) / sizeof (void *);
   src_path = obstack_finish (&db_obstack);
-  dest_path = XNMALLOC (conf_dbpath_len, char *);
+  dest_path = XNMALLOC (conf_dbpath.len, char *);
   dest = 0;
   /* Sort databases requiring GROUPNAME privileges before the others.  This
      check is inherenly racy, but we recheck before deciding to drop
      privileges. */
-  for (src = 0; src < conf_dbpath_len; src++)
+  for (src = 0; src < conf_dbpath.len; src++)
     {
       struct stat st;
 
@@ -919,7 +918,7 @@ finish_dbpath (void)
 	  src_path[src] = NULL;
 	}
     }
-  for (src = 0; src < conf_dbpath_len; src++)
+  for (src = 0; src < conf_dbpath.len; src++)
     {
       if (src_path[src] != NULL)
 	{
@@ -927,9 +926,9 @@ finish_dbpath (void)
 	  dest++;
 	}
     }
-  assert (dest == conf_dbpath_len);
+  assert (dest == conf_dbpath.len);
   obstack_free (&db_obstack, NULL);
-  conf_dbpath = dest_path;
+  conf_dbpath.entries = dest_path;
 }
 
 /* Handle a conf_dbpath ENTRY, drop privileges when they are no longer
@@ -1007,7 +1006,7 @@ main (int argc, char *argv[])
      subdirectory, but that is just too improbable. */
   if (conf_statistics == 0 && access ("/", R_OK | X_OK) != 0)
     goto done;
-  for (i = 0; i < conf_dbpath_len; i++)
+  for (i = 0; i < conf_dbpath.len; i++)
     {
       if (conf_output_limit_set && matches_found >= conf_output_limit)
 	{
@@ -1015,7 +1014,7 @@ main (int argc, char *argv[])
 	  goto done;
 	}
       /* Drops privileges when possible */
-      handle_dbpath_entry (conf_dbpath[i]);
+      handle_dbpath_entry (conf_dbpath.entries[i]);
     }
  done:
   if (conf_output_count != 0)

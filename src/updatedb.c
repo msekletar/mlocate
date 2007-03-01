@@ -20,6 +20,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "fwriteerror.h"
 #include "obstack.h"
 #include "progname.h"
+#include "timespec.h"
 #include "verify.h"
 #include "xalloc.h"
 
@@ -297,6 +298,124 @@ old_db_open (void)
   old_db.fd = -1;
 }
 
+ /* Path list handling */
+
+/* Is PATH included in LIST?  Update *IDX to move within LIST.
+
+   LIST is assumed to be sorted using dir_path_cmp (), successive calls to this
+   function are assumed to use PATH values increasing in dir_path_cmp (). */
+static _Bool
+path_is_in_list (const struct string_list *list, size_t *idx, const char *path)
+{
+  int cmp;
+
+  cmp = 0;
+  while (*idx < list->len
+	 && (cmp = dir_path_cmp (list->entries[*idx], path)) < 0)
+    (*idx)++;
+  if (*idx < list->len && cmp == 0)
+    {
+      (*idx)++;
+      return 1;
+    }
+  return 0;
+}
+
+ /* $PRUNE_BIND_MOUNTS handling */
+
+/* Known bind mount paths */
+static struct string_list bind_mount_paths;
+
+/* Next bind_mount_paths entry */
+static size_t bind_mount_paths_index; /* = 0; */
+
+/* _PATH_MOUNTED mtime at the time of last rebuild_bind_mount_paths () call */
+static struct timespec last_path_mounted_mtime; /* = { 0, }; */
+
+static struct obstack bind_mount_paths_obstack;
+static void *bind_mount_paths_mark;
+static struct obstack bind_mount_pointers_obstack;
+
+/* Rebuild bind_mount_paths */
+static void
+rebuild_bind_mount_paths (void)
+{
+  FILE *f;
+  struct mntent *me;
+  char **ptrs;
+  void *p;
+  size_t len;
+
+  obstack_free (&bind_mount_paths_obstack, bind_mount_paths_mark);
+  bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
+  p = obstack_finish (&bind_mount_pointers_obstack);
+  obstack_free (&bind_mount_pointers_obstack, p);
+  f = setmntent (_PATH_MOUNTED, "r");
+  if (f == NULL)
+    goto err;
+  while ((me = getmntent (f)) != NULL)
+    {
+      if (hasmntopt (me, "bind") != NULL)
+	{
+	  char dbuf[PATH_MAX], *dir;
+
+	  dir = realpath (me->mnt_dir, dbuf);
+	  if (dir == NULL)
+	    dir = me->mnt_dir;
+	  dir = obstack_copy (&bind_mount_paths_obstack, dir, strlen (dir) + 1);
+	  obstack_ptr_grow (&bind_mount_pointers_obstack, dir);
+	}
+    }
+  endmntent (f);
+  /* Fall through */
+ err:
+  len = OBSTACK_OBJECT_SIZE (&bind_mount_pointers_obstack) / sizeof (char *);
+  ptrs = obstack_base (&bind_mount_pointers_obstack);
+  qsort (ptrs, len, sizeof (*ptrs), cmp_dir_path_pointers);
+  bind_mount_paths.entries = ptrs;
+  bind_mount_paths.len = len;
+}
+
+/* Return 1 if PATH is a destination of a bind mount. */
+static _Bool
+is_bind_mount (const char *path)
+{
+  struct timespec path_mounted_mtime;
+  struct stat st;
+
+  /* Unfortunately (mount --bind $path $path/subdir) would leave st_dev
+     unchanged between $path and $path/subdir, so we must keep reparsing
+     _PATH_MOUNTED (not PROC_MOUNTS_PATH) each time it changes. */
+  if (stat (_PATH_MOUNTED, &st) != 0)
+    return 0;
+  path_mounted_mtime = get_stat_mtime (&st);
+  if (timespec_cmp (last_path_mounted_mtime, path_mounted_mtime) < 0)
+    {
+      rebuild_bind_mount_paths ();
+      last_path_mounted_mtime = path_mounted_mtime;
+      bind_mount_paths_index = 0;
+    }
+  return path_is_in_list (&bind_mount_paths, &bind_mount_paths_index, path);
+}
+
+/* Initialize $PRUNE_BIND_MOUNTS state */
+static void
+init_bind_mount_paths (void)
+{
+  struct stat st;
+
+  if (conf_prune_bind_mounts == 0)
+    return;
+  obstack_init (&bind_mount_paths_obstack);
+  obstack_alignment_mask (&bind_mount_paths_obstack) = 0;
+  obstack_init (&bind_mount_pointers_obstack);
+  bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
+  if (stat (_PATH_MOUNTED, &st) != 0)
+    return;
+  rebuild_bind_mount_paths ();
+  last_path_mounted_mtime = get_stat_mtime (&st);
+}
+
  /* $PRUNEFS handling */
 
 static int
@@ -310,20 +429,15 @@ cmp_string_pointer (const void *xa, const void *xb)
   return strcmp (a, *b);
 }
 
-/* Return 1 if PATH_ is a mount point of an excluded filesystem */
+/* Return 1 if PATH is a mount point of an excluded filesystem */
 static _Bool
-filesystem_is_excluded (const char *path_)
+filesystem_is_excluded (const char *path)
 {
   struct obstack obstack;
-  char pbuf[PATH_MAX];
-  const char *path;
   FILE *f;
   struct mntent *me;
   _Bool res;
 
-  path = realpath (path_, pbuf);
-  if (path == NULL)
-    path = path_;
   res = 0;
   f = setmntent (MOUNT_TABLE_PATH, "r");
   if (f == NULL)
@@ -337,8 +451,8 @@ filesystem_is_excluded (const char *path_)
       type = obstack_copy (&obstack, me->mnt_type, strlen (me->mnt_type) + 1);
       for (p = type; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
-      if (bsearch (type, conf_prunefs, conf_prunefs_len,
-		   sizeof (*conf_prunefs), cmp_string_pointer) != NULL)
+      if (bsearch (type, conf_prunefs.entries, conf_prunefs.len,
+		   sizeof (*conf_prunefs.entries), cmp_string_pointer) != NULL)
 	{
 	  char dbuf[PATH_MAX], *dir;
 
@@ -674,17 +788,10 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   int cmp, res;
   _Bool have_subdir, did_chdir;
 
-  did_chdir = 0;
-  cmp = 0;
-  while (conf_prunepaths_index < conf_prunepaths_len
-	 && (cmp = dir_path_cmp (conf_prunepaths[conf_prunepaths_index],
-				 path)) < 0)
-    conf_prunepaths_index++;
-  if (conf_prunepaths_index < conf_prunepaths_len && cmp == 0)
-    {
-      conf_prunepaths_index++;
-      goto err;
-    }
+  if (path_is_in_list (&conf_prunepaths, &conf_prunepaths_index, path))
+    goto err;
+  if (conf_prune_bind_mounts != 0 && is_bind_mount (path))
+    goto err;
   if (lstat (relative, &st) != 0)
     goto err;
   if (st.st_dev != st_parent->st_dev && filesystem_is_excluded (path))
@@ -702,6 +809,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
       old_dir_skip ();
       old_dir_next_header ();
     }
+  did_chdir = 0;
   have_subdir = 0;
   if (old_dir.path != NULL && cmp == 0
       && time_compare (&dir.time, &old_dir.time) == 0
@@ -857,6 +965,7 @@ main (int argc, char *argv[])
   bindtextdomain (PACKAGE_NAME, LOCALEDIR);
   textdomain (PACKAGE_NAME);
   conf_prepare (argc, argv);
+  init_bind_mount_paths ();
   old_db_open ();
   unlink_init ();
   new_db_open ();

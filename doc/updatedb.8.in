@@ -1,6 +1,6 @@
 .\" A man page for updatedb(8). -*- nroff -*-
 .\"
-.\" Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+.\" Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 .\"
 .\" This copyrighted material is made available to anyone wishing to use,
 .\" modify, copy, or redistribute it subject to the terms and conditions of the
@@ -43,7 +43,7 @@ to update the default database.
 returns with exit status 0 on success, 1 on error.
 
 .SH OPTIONS
-The
+The \fBPRUNE_BIND_MOUNTS\fR,
 .B PRUNEFS
 and
 .B PRUNEPATHS
@@ -61,13 +61,13 @@ Add entries in white-space-separated list \fIPATHS\fR to \fBPRUNEPATHS\fR.
 
 .TP
 \fB\-U\fR, \fB\-\-database\-root\fR \fIPATH\fR
-Store only results of scanning the  file system subtree rooted at \fIPATH\fR to
+Store only results of scanning the file system subtree rooted at \fIPATH\fR to
 the generated database.
 The whole file system is scanned by default.
 
-\fIPATH\fR must be an absolute path name, but it may contain symbolic links;
 .BR locate (1)
-will output the entries using the exact spelling of \fIPATH\fR.
+outputs entries as absolute path names which don't contain symblic links,
+regardless of the form of \fIPATH\fR.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR
@@ -81,15 +81,21 @@ Write the database to
 instead of using the default database.
 
 .TP
-\fB\-\-prunefs\fR \IFS\fR
-Set \fBPRUNEFS\fR to \IFS\fR, overriding the config file.
+\fB\-\-prune\-bind\-mounts\fR \fIFLAG\fR
+Set
+.B PRUNE_BIND_MOUNTS
+to \fIFLAG\fR, overriding the config file.
 
 .TP
-\fB\-\-prunepaths\fR \IPATHS\fR
-Set \fBPRUNEPATHS\fR to \IPATHS\fR, overriding the config file.
+\fB\-\-prunefs\fR \fIFS\fR
+Set \fBPRUNEFS\fR to \fIFS\fR, overriding the config file.
 
 .TP
-\fB\-l\fR, \fB\-\-require\-visibility\fR \IFLAG\fR
+\fB\-\-prunepaths\fR \fIPATHS\fR
+Set \fBPRUNEPATHS\fR to \fIPATHS\fR, overriding the config file.
+
+.TP
+\fB\-l\fR, \fB\-\-require\-visibility\fR \fIFLAG\fR
 Set the \*(lqrequire file visibility before reporting it\*(rq flag in the
 generated database to \fIFLAG\fR.
 

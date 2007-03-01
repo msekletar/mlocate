@@ -1,3 +1,52 @@
+2007-03-01  Miloslav Trmac  <mitr@redhat.com>
+
+	* doc/mlocate.db.5: Document the prune_bind_mounts variable.
+	* doc/updatedb.8.in: Document that --database-root does not have to be
+	absolute, but will always be canonicalized.  Doclument
+	--prune-bind-mounts.  Fix typos in font directives.
+	* doc/updatedb.conf.5.in: Document PRUNE_BIND_MOUNTS.  Fix typos.
+
+	* gnulib/m4/gnulib-cache.m4 (gl_MODULES): Use modules canonicalize-lgpl
+	and timespec.
+	* src/lib.h (struct string_list, cmp_dir_path_pointers): New
+	declarations.
+	* src/lib.c (cmp_dir_path_pointers): Move from ...
+	* src/conf.c (cmp_dir_path_pointers): ... here.
+	(conf_prunefs, conf_prunepaths): Use struct string_list, replaces
+	conf_prunefs_len and conf_prunepaths_len.  All users updated.
+	(conf_prune_bind_mounts): New variable.
+	(parse_bool): New function, split from parse_arguments ().
+	(var_finish): Directly update a struct string_list.  All users changed.
+	(UCT_PRUNE_BIND_MOUNTS, UCT_PRUNEFS, UCT_PRUNEPATHS): New enum values.
+	(uc_lex): Return specific values for known identifiers.
+	(parse_updatedb_conf): Handle PRUNE_BIND_MOUNTS.
+	(help): Document --prune-bind-mounts.  Generalize the text about default
+	values.
+	(parse_arguments): Add --prune-bind-mounts.  Don't require
+	--database-root to be absolute, canonicalize it automatically.
+	(gen_conf_block_string_list): New function, split from
+	gen_conf_block ().
+	(gen_conf_block): Add prune_bind_mounts.
+	* src/conf.h (conf_prunefs, conf_prunepaths): Update declarations.
+	(conf_prunefs_len, conf_prunepaths_len): Remove declarations.
+	(conf_prune_bind_mounts): New declaration.
+	* src/locate.c (conf_dbpath): Use struct string_list.  Replaces
+	conf_dbpath_len.  All users updated.
+	* src/updatedb.c (path_is_in_list): Split from scan ().
+	(bind_mount_paths, bind_mount_paths_index, last_path_mounted_mtime)
+	(bind_mount_paths_obstack, bind_mount_paths_mark)
+	(bind_mount_pointers_obstack): New variables.
+	(rebuild_bind_mount_paths, is_bind_mount, init_bind_mount_paths): New
+	functions.
+	(filesystem_is_excluded): Assume the input path is canonical.
+	(scan): Exclude bind mounts if so configured.  Move did_chdir closer
+	to its users.
+	(main): Initialize bind mount list.
+	* tests/config.at (config: -h): Update for new text.
+	(config: -U): Update for new semantics.  Verify --database-root is
+	canonicalized.
+	(config: ---prune-bind-mounts): New test.
+
 2007-02-27  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/updatedb.c (opendir_noatime): New function.

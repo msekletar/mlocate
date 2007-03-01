@@ -51,12 +51,22 @@ extern uint64_t htonll (uint64_t val);
 /* Convert VAL from big endian */
 extern uint64_t ntohll (uint64_t val);
 
+/* A list of strings */
+struct string_list
+{
+  char *const *entries;
+  size_t len;
+};
+
 /* Initialize dir_path_cmp_table */
 extern void dir_path_cmp_init (void);
 
 /* Compare two path names using the database directory order. This is not
    exactly strcmp () order: "a" < "a.b", so "a/z" < "a.b". */
 extern int dir_path_cmp (const char *a, const char *b);
+
+/* Compare two string pointers using dir_path_cmp () */
+extern int cmp_dir_path_pointers (const void *xa, const void *xb);
 
 /* Functions used by obstack code */
 extern struct _obstack_chunk *obstack_chunk_alloc (long size);

@@ -1,6 +1,6 @@
 /* updatedb configuration.
 
-Copyright (C) 2005 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -27,14 +27,15 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 extern _Bool conf_check_visibility;
 
 /* Filesystems to skip, converted to uppercase and sorted by name */
-extern char *const *conf_prunefs;
-extern size_t conf_prunefs_len;
+extern struct string_list conf_prunefs;
 
 /* Paths to skip, sorted by name using dir_path_cmp () */
-extern char *const *conf_prunepaths;
-extern size_t conf_prunepaths_len;
+extern struct string_list conf_prunepaths;
 
-/* Root of the directory tree to store in the database */
+/* 1 if bind mounts should be skipped */
+extern _Bool conf_prune_bind_mounts;
+
+/* Root of the directory tree to store in the database (canonical) */
 extern char *conf_scan_root;
 
 /* Absolute (not necessarily canonical) path to the database */

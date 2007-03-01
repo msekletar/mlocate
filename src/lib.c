@@ -98,6 +98,17 @@ dir_path_cmp (const char *a, const char *b)
 	  - (int)dir_path_cmp_table[(unsigned char)*b]);
 }
 
+/* Compare two string pointers using dir_path_cmp () */
+int
+cmp_dir_path_pointers (const void *xa, const void *xb)
+{
+  char *const *a, *const *b;
+
+  a = xa;
+  b = xb;
+  return dir_path_cmp (*a, *b);
+}
+
 /* Used by obstack code */
 struct _obstack_chunk *
 obstack_chunk_alloc (long size)

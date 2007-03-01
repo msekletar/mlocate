@@ -17,6 +17,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
 #include <getopt.h>
 #include <string.h>
+#include "canonicalize.h"
 #include "error.h"
 #include "obstack.h"
 #include "xalloc.h"
@@ -36,14 +37,15 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 _Bool conf_check_visibility = 1;
 
 /* Filesystems to skip, converted to uppercase and sorted by name */
-char *const *conf_prunefs;
-size_t conf_prunefs_len;
+struct string_list conf_prunefs;
 
 /* Paths to skip, sorted by name using dir_path_cmp () */
-char *const *conf_prunepaths;
-size_t conf_prunepaths_len;
+struct string_list conf_prunepaths;
 
-/* Root of the directory tree to store in the database */
+/* 1 if bind mounts should be skipped */
+_Bool conf_prune_bind_mounts; /* = 0; */
+
+/* Root of the directory tree to store in the database (canonical) */
 char *conf_scan_root; /* = NULL; */
 
 /* Absolute (not necessarily canonical) path to the database */
@@ -55,6 +57,24 @@ _Bool conf_verbose; /* = 0; */
 /* Configuration representation for the database configuration block */
 const char *conf_block;
 size_t conf_block_size;
+
+/* Parse a STR, store the parsed boolean value to DEST;
+   return 0 if OK, -1 on error. */
+static int
+parse_bool (_Bool *dest, const char *str)
+{
+  if (strcmp (str, "0") == 0 || strcmp (str, "no") == 0)
+    {
+      *dest = 0;
+      return 0;
+    }
+  if (strcmp (str, "1") == 0 || strcmp (str, "yes") == 0)
+    {
+      *dest = 1;
+      return 0;
+    }
+  return -1;
+}
 
  /* String list handling */
 
@@ -127,10 +147,10 @@ cmp_pointers (const void *xa, const void *xb)
   return strcmp (*a, *b);
 }
 
-/* Finish VAR, sort its contents and remove duplicates;
-   return array of strings, set *PLEN to number of members */
+/* Finish VAR, sort its contents, remove duplicates and store them to *LIST.
+   return a modifiable variant of LIST->entries. */
 static char **
-var_finish (struct var *var, size_t *plen)
+var_finish (struct string_list *list, struct var *var)
 {
   char **base;
   size_t len;
@@ -153,7 +173,8 @@ var_finish (struct var *var, size_t *plen)
 	}
       len = dest - base;
     }
-  *plen = len;
+  list->entries = base;
+  list->len = len;
   return base;
 }
 
@@ -169,10 +190,14 @@ static unsigned uc_current_line;
 static struct obstack uc_obstack;
 
 /* Token types */
-enum { UCT_EOF, UCT_EOL, UCT_IDENTIFIER, UCT_EQUAL, UCT_QUOTED, UCT_OTHER };
+enum
+  {
+    UCT_EOF, UCT_EOL, UCT_IDENTIFIER, UCT_EQUAL, UCT_QUOTED, UCT_OTHER,
+    UCT_PRUNE_BIND_MOUNTS, UCT_PRUNEFS, UCT_PRUNEPATHS
+  };
 
-/* Return next token from uc_file; for UCT_IDENTIFIER or UCT_OTHER store
-   pointer to data to *PTR (valid until next call). */
+/* Return next token from uc_file; for UCT_IDENTIFIER, UCT_QUOTED or keywords,
+   store a pointer to data to *PTR (valid until next call). */
 static int
 uc_lex (char **ptr)
 {
@@ -233,7 +258,7 @@ uc_lex (char **ptr)
       *ptr = obstack_finish (&uc_obstack);
       obstack_mark = *ptr;
       return UCT_QUOTED;
-      
+
     default:
       if (!isalpha ((unsigned char)c) && c != '_')
 	return UCT_OTHER;
@@ -247,6 +272,12 @@ uc_lex (char **ptr)
       obstack_1grow (&uc_obstack, 0);
       *ptr = obstack_finish (&uc_obstack);
       obstack_mark = *ptr;
+      if (strcmp (*ptr, "PRUNE_BIND_MOUNTS") == 0)
+	return UCT_PRUNE_BIND_MOUNTS;
+      if (strcmp (*ptr, "PRUNEFS") == 0)
+	return UCT_PRUNEFS;
+      if (strcmp (*ptr, "PRUNEPATHS") == 0)
+	return UCT_PRUNEPATHS;
       return UCT_IDENTIFIER;
     }
 }
@@ -257,7 +288,7 @@ parse_updatedb_conf (void)
 {
   int old_error_one_per_line;
   unsigned old_error_message_count;
-  _Bool had_prunefs, had_prunepaths;
+  _Bool had_prune_bind_mounts, had_prunefs, had_prunepaths;
 
   uc_file = fopen (UPDATEDB_CONF, "r");
   if (uc_file == NULL)
@@ -273,6 +304,7 @@ parse_updatedb_conf (void)
   old_error_message_count = error_message_count;
   old_error_one_per_line = error_one_per_line;
   error_one_per_line = 1;
+  had_prune_bind_mounts = 0;
   had_prunefs = 0;
   had_prunepaths = 0;
   for (;;)
@@ -280,39 +312,40 @@ parse_updatedb_conf (void)
       struct var *var;
       _Bool *had_var;
       char *val;
-      int token;
+      int var_token, token;
 
       token = uc_lex (&val);
       switch (token)
 	{
 	case UCT_EOF:
 	  goto eof;
-	  
+
 	case UCT_EOL:
 	  continue;
 
-	case UCT_IDENTIFIER:
+	case UCT_PRUNE_BIND_MOUNTS:
+	  var = NULL;
+	  had_var = &had_prune_bind_mounts;
 	  break;
+
+	case UCT_PRUNEFS:
+	  var = &prunefs_var;
+	  had_var = &had_prunefs;
+	  break;
+
+	case UCT_PRUNEPATHS:
+	  var = &prunepaths_var;
+	  had_var = &had_prunepaths;
+	  break;
+
+	case UCT_IDENTIFIER:
+	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
+			 _("unknown variable `%s'"), val);
+	  goto skip_to_eol;
 
 	default:
 	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
 			 _("variable name expected"));
-	  goto skip_to_eol;
-	}
-      if (strcmp (val, "PRUNEFS") == 0)
-	{
-	  var = &prunefs_var;
-	  had_var = &had_prunefs;
-	}
-      else if (strcmp (val, "PRUNEPATHS") == 0)
-	{
-	  var = &prunepaths_var;
-	  had_var = &had_prunepaths;
-	}
-      else
-	{
-	  error_at_line (0, 0, UPDATEDB_CONF, uc_line,
-			 _("unknown variable `%s'"), val);
 	  goto skip_to_eol;
 	}
       if (*had_var != 0)
@@ -322,6 +355,7 @@ parse_updatedb_conf (void)
 	  goto skip_to_eol;
 	}
       *had_var = 1;
+      var_token = token;
       token = uc_lex (&val);
       if (token != UCT_EQUAL)
 	{
@@ -336,7 +370,19 @@ parse_updatedb_conf (void)
 			 _("value in quotes expected after `='"));
 	  goto skip_to_eol;
 	}
-      var_add_values (var, val);
+      if (var_token == UCT_PRUNE_BIND_MOUNTS)
+	{
+	  if (parse_bool (&conf_prune_bind_mounts, val) != 0)
+	    {
+	      error_at_line (0, 0, UPDATEDB_CONF, uc_line,
+			     _("invalid value `%s' of PRUNE_BIND_MOUNTS"), val);
+	      goto skip_to_eol;
+	    }
+	}
+      else if (var_token == UCT_PRUNEFS || var_token == UCT_PRUNEPATHS)
+	var_add_values (var, val);
+      else
+	abort ();
       token = uc_lex (&val);
       if (token != UCT_EOL && token != UCT_EOF)
 	{
@@ -382,18 +428,19 @@ help (void)
 	    "  -h, --help                     print this help\n"
 	    "  -o, --output FILE              database to update (default\n"
 	    "                                 `%s')\n"
+	    "      --prune-bind-mounts FLAG   omit bind mounts (default "
+	    "\"no\")\n"
 	    "      --prunefs FS               filesystems to omit from "
 	    "database\n"
 	    "      --prunepaths PATHS         paths to omit from database\n"
 	    "  -l, --require-visibility FLAG  check visibility before "
 	    "reporting files\n"
-	    "                                 (default \"true\")\n"
+	    "                                 (default \"yes\")\n"
 	    "  -v, --verbose                  print paths of files as they "
 	    "are found\n"
 	    "  -V, --version                  print version information\n"
 	    "\n"
-	    "The lists of paths and filesystems to omit default to values "
-	    "read from\n"
+	    "The configuration defaults to values read from\n"
 	    "`%s'.\n"), DBFILE, UPDATEDB_CONF);
   printf (_("\n"
 	    "Report bugs to %s.\n"), PACKAGE_BUGREPORT);
@@ -433,6 +480,7 @@ parse_arguments (int argc, char *argv[])
       { "database-root", required_argument, NULL, 'U' },
       { "help", no_argument, NULL, 'h' },
       { "output", required_argument, NULL, 'o' },
+      { "prune-bind-mounts", required_argument, NULL, 'B' },
       { "prunefs", required_argument, NULL, 'F' },
       { "prunepaths", required_argument, NULL, 'P' },
       { "require-visibility", required_argument, NULL, 'l' },
@@ -441,10 +489,12 @@ parse_arguments (int argc, char *argv[])
       { NULL, 0, NULL, 0 }
     };
 
-  _Bool prunefs_changed, prunepaths_changed, got_visibility;
+  _Bool prunefs_changed, prunepaths_changed, got_prune_bind_mounts;
+  _Bool got_visibility;
 
   prunefs_changed = 0;
   prunepaths_changed = 0;
+  got_prune_bind_mounts = 0;
   got_visibility = 0;
   for (;;)
     {
@@ -458,6 +508,17 @@ parse_arguments (int argc, char *argv[])
 
 	case '?':
 	  exit (EXIT_FAILURE);
+
+	case 'B':
+	  if (got_prune_bind_mounts != 0)
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "prune-bind-mounts");
+	  got_prune_bind_mounts = 1;
+	  if (parse_bool (&conf_prune_bind_mounts, optarg) != 0)
+	    error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
+		   "prune-bind-mounts");
+	  break;
 
 	case 'F':
 	  if (prunefs_changed != 0)
@@ -478,16 +539,15 @@ parse_arguments (int argc, char *argv[])
 	  var_clear (&prunepaths_var);
 	  var_add_values (&prunepaths_var, optarg);
 	  break;
-	  
+
 	case 'U':
 	  if (conf_scan_root != NULL)
 	    error (EXIT_FAILURE, 0, _("--%s specified twice"),
 		   "database-root");
-	  conf_scan_root = optarg;
-	  if (*conf_scan_root != '/')
-	    /* Not necessarily the canonical path name */
-	    error (EXIT_FAILURE, 0, _("the argument to --database-root must "
-				      "be an absolute path name"));
+	  conf_scan_root = canonicalize_file_name (optarg);
+	  if (conf_scan_root == NULL)
+	    error (EXIT_FAILURE, errno, _("invalid value `%s' of --%s"), optarg,
+		   "database-root");
 	  break;
 
 	case 'V':
@@ -518,15 +578,11 @@ parse_arguments (int argc, char *argv[])
 	    error (EXIT_FAILURE, 0, _("--%s specified twice"),
 		   "require-visibility");
 	  got_visibility = 1;
-	  if (strcmp (optarg, "0") == 0 || strcmp (optarg, "no") == 0)
-	    conf_check_visibility = 0;
-	  else if (strcmp (optarg, "1") == 0 || strcmp (optarg, "yes") == 0)
-	    conf_check_visibility = 1;
-	  else
+	  if (parse_bool (&conf_check_visibility, optarg) != 0)
 	    error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
 		   "require-visibility");
 	  break;
-	  
+
 	case 'o':
 	  if (conf_output != NULL)
 	    error (EXIT_FAILURE, 0, _("--%s specified twice"), "output");
@@ -547,7 +603,7 @@ parse_arguments (int argc, char *argv[])
   if (conf_scan_root == NULL)
     {
       static char root[] = "/";
-      
+
       conf_scan_root = root;
     }
   if (conf_output == NULL)
@@ -558,44 +614,43 @@ parse_arguments (int argc, char *argv[])
 
  /* Conversion of configuration for main code */
 
+/* Store a string list to OBSTACK */
+static void
+gen_conf_block_string_list (struct obstack *obstack,
+			    const struct string_list *strings)
+{
+  static const char nul; /* = 0; */
+
+  size_t i;
+
+  for (i = 0; i < strings->len; i++)
+    obstack_grow (obstack, strings->entries[i],
+		  strlen (strings->entries[i]) + 1);
+  obstack_grow (obstack, &nul, 1);
+}
+
 /* Generate conf_block */
 static void
 gen_conf_block (void)
 {
-  static const char nul; /* = 0; */
-
   struct obstack obstack;
-  size_t i;
 
   obstack_init (&obstack);
   obstack_alignment_mask (&obstack) = 0;
 #define CONST(S) obstack_grow (&obstack, S, sizeof (S))
   /* conf_check_visibility value is stored in the header */
+  CONST ("prune_bind_mounts");
+  /* Add two NUL bytes after the value */
+  obstack_grow (&obstack, conf_prune_bind_mounts != 0 ? "1\0" : "0\0", 3);
   CONST ("prunefs");
-  for (i = 0; i < conf_prunefs_len; i++)
-    obstack_grow (&obstack, conf_prunefs[i], strlen (conf_prunefs[i]) + 1);
-  obstack_grow (&obstack, &nul, 1);
+  gen_conf_block_string_list (&obstack, &conf_prunefs);
   CONST ("prunepaths");
-  for (i = 0; i < conf_prunepaths_len; i++)
-    obstack_grow (&obstack, conf_prunepaths[i],
-		  strlen (conf_prunepaths[i]) + 1);
-  obstack_grow (&obstack, &nul, 1);
+  gen_conf_block_string_list (&obstack, &conf_prunepaths);
   /* scan_root is contained directly in the header */
   /* conf_output, conf_verbose are not relevant */
 #undef CONST
   conf_block_size = OBSTACK_OBJECT_SIZE (&obstack);
   conf_block = obstack_finish (&obstack);
-}
-  
-/* Compare two string pointers using dir_path_cmp () */
-static int
-cmp_dir_path_pointers (const void *xa, const void *xb)
-{
-  char *const *a, *const *b;
-
-  a = xa;
-  b = xb;
-  return dir_path_cmp (*a, *b);
 }
 
 /* Parse /etc/updatedb.conf and command-line arguments ARGC, ARGV.
@@ -610,18 +665,16 @@ conf_prepare (int argc, char *argv[])
   var_init (&prunepaths_var);
   parse_updatedb_conf ();
   parse_arguments (argc, argv);
-  conf_prunefs = var_finish (&prunefs_var, &conf_prunefs_len);
-  for (i = 0; i < conf_prunefs_len; i++)
+  var_finish (&conf_prunefs, &prunefs_var);
+  for (i = 0; i < conf_prunefs.len; i++)
     {
       char *p;
 
       /* Assuming filesystem names are ASCII-only */
-      for (p = conf_prunefs[i]; *p != 0; p++)
+      for (p = conf_prunefs.entries[i]; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
     }
-  paths = var_finish (&prunepaths_var, &conf_prunepaths_len);
-  conf_prunepaths = paths;
+  paths = var_finish (&conf_prunepaths, &prunepaths_var);
   gen_conf_block ();
-  qsort (paths, conf_prunepaths_len, sizeof (*conf_prunepaths),
-	 cmp_dir_path_pointers);
+  qsort (paths, conf_prunepaths.len, sizeof (*paths), cmp_dir_path_pointers);
 }

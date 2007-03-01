@@ -1,4 +1,4 @@
-# Copyright (C) 2007 Red Hat, Inc. All rights reserved.
+# Copyright (C) 2006, 2007 Red Hat, Inc. All rights reserved.
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
 # General Public License v.2.
@@ -62,14 +62,15 @@ Update a mlocate database.
   -h, --help                     print this help
   -o, --output FILE              database to update (default
                                  `PATH')
+      --prune-bind-mounts FLAG   omit bind mounts (default "no")
       --prunefs FS               filesystems to omit from database
       --prunepaths PATHS         paths to omit from database
   -l, --require-visibility FLAG  check visibility before reporting files
-                                 (default "true")
+                                 (default "yes")
   -v, --verbose                  print paths of files as they are found
   -V, --version                  print version information
 
-The lists of paths and filesystems to omit default to values read from
+The configuration defaults to values read from
 `PATH'.
 
 Report bugs to mitr@redhat.com.
@@ -117,24 +118,29 @@ mkdir d
 touch d/f
 ln -s d link
 
-AT_CHECK([updatedb -U d -o db -l 0], 1, ,
-[updatedb: the argument to --database-root must be an absolute path name
-])
+# Error message is libc-dependent
+AT_CHECK([updatedb -U this_file_doesnt_exist -o db -l 0], 1, , [ignore])
 
-AT_CHECK([updatedb -U /foo --database-root /foo -l 0], 1, ,
+AT_CHECK([updatedb -U / --database-root / -l 0], 1, ,
 [updatedb: --database-root specified twice
 ])
 
+AT_CHECK([updatedb -U "d" -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd),PWD,"], ,
+[PWD/d
+PWD/d/f
+])
+
 AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
-AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
-[d
-d/f
+AT_CHECK([locate -d db / | sed "s,^$(pwd),PWD,"], ,
+[PWD/d
+PWD/d/f
 ])
 
 AT_CHECK([updatedb --database-root "$(pwd)/link" -o db -l 0])
-AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
-[link
-link/f
+AT_CHECK([locate -d db / | sed "s,^$(pwd),PWD,"], ,
+[PWD/d
+PWD/d/f
 ])
 
 AT_CLEANUP
@@ -185,6 +191,22 @@ This software is distributed under the GPL v.2.
 
 This program is provided with NO WARRANTY, to the extent permitted by law.
 ])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: --prune-bind-mounts])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb --prune-bind-mounts no --prune-bind-mounts yes], 1, ,
+[updatedb: --prune-bind-mounts would override earlier command-line argument
+])
+
+AT_CHECK([updatedb --prune-bind-mounts maybe], 1, ,
+[updatedb: invalid value `maybe' of --prune-bind-mounts
+])
+
+# Functionality untested
 
 AT_CLEANUP
 
