@@ -1,5 +1,7 @@
 2007-03-02  Miloslav Trmac  <mitr@redhat.com>
 
+	* configure.ac (AM_INIT_AUTOMAKE): Add dist-bzip2.
+
 	* src/conf.c
 	* src/lib.c
 	* src/lib.h

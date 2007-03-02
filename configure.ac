@@ -20,7 +20,7 @@ AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
 AC_CONFIG_TESTDIR([.], [src])
-AM_INIT_AUTOMAKE([no-define subdir-objects -Wall])
+AM_INIT_AUTOMAKE([dist-bzip2 no-define subdir-objects -Wall])
 
 # Checks for programs.
 AC_PROG_CC
