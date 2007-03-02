@@ -15,14 +15,6 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
-#include <string.h>
-#include "error.h"
-#include "fwriteerror.h"
-#include "obstack.h"
-#include "progname.h"
-#include "timespec.h"
-#include "verify.h"
-#include "xalloc.h"
 
 #include <arpa/inet.h>
 #include <assert.h>
@@ -38,12 +30,20 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <unistd.h>
 
 #include <mntent.h>
+#include "error.h"
+#include "fwriteerror.h"
+#include "obstack.h"
+#include "progname.h"
 #include "stat-time.h"
+#include "timespec.h"
+#include "verify.h"
+#include "xalloc.h"
 
 #include "conf.h"
 #include "db.h"

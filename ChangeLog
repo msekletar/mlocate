@@ -1,3 +1,12 @@
+2007-03-02  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/conf.c
+	* src/lib.c
+	* src/lib.h
+	* src/locate.c
+	* src/updatedb.c: Revert header files order to the original: config.h,
+	SUSv3 headers, library headers, mlocate headers.
+
 2007-03-01  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/lib.h (struct string_list): New member "allocated".

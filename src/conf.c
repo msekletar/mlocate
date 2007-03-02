@@ -15,19 +15,20 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com> */
 #include <config.h>
-#include <getopt.h>
-#include <string.h>
-#include "canonicalize.h"
-#include "error.h"
-#include "obstack.h"
-#include "xalloc.h"
 
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+
+#include <getopt.h>
+#include "canonicalize.h"
+#include "error.h"
+#include "obstack.h"
+#include "xalloc.h"
 
 #include "conf.h"
 #include "lib.h"

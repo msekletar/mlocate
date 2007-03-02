@@ -19,11 +19,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #define LIB_H__
 
 #include <config.h>
-#include "obstack.h"
 
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/types.h>
+
+#include "obstack.h"
 
 #include "db.h"
 
