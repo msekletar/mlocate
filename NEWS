@@ -1,3 +1,12 @@
+Changes in version 0.16:
+- INCOMPATIBLE CHANGE: The --database-root parameter of updatedb is always
+  canonicalized.
+- Allow global exclusion of bind mounts
+- Fix string matching in some multibyte locales if no glob characters are used
+- Use gnulib, for better portability to non-Linux systems
+- Use O_NOATIME in updatedb
+- Miscellaneous small fixes, efficiency improvements and cleanups.
+
 Changes in version 0.15:
 - Use /proc/self/mounts or /proc/mounts if available
 - Add a test suite

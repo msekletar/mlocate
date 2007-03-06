@@ -1,3 +1,8 @@
+2007-03-06  Miloslav Trmac  <mitr@redhat.com>
+
+	* configure.ac: Release 0.16.
+	* NEWS: Update.
+
 2007-03-02  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac (AM_INIT_AUTOMAKE): Add dist-bzip2.
