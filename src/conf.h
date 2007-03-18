@@ -20,11 +20,12 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 
 #include <config.h>
 
+#include <stdbool.h>
 #include <stddef.h>
 
-/* 1 if locate(1) should check whether files are visible before reporting
+/* true if locate(1) should check whether files are visible before reporting
    them */
-extern _Bool conf_check_visibility;
+extern bool conf_check_visibility;
 
 /* Filesystems to skip, converted to uppercase and sorted by name */
 extern struct string_list conf_prunefs;
@@ -32,8 +33,8 @@ extern struct string_list conf_prunefs;
 /* Paths to skip, sorted by name using dir_path_cmp () */
 extern struct string_list conf_prunepaths;
 
-/* 1 if bind mounts should be skipped */
-extern _Bool conf_prune_bind_mounts;
+/* true if bind mounts should be skipped */
+extern bool conf_prune_bind_mounts;
 
 /* Root of the directory tree to store in the database (canonical) */
 extern char *conf_scan_root;
@@ -41,8 +42,8 @@ extern char *conf_scan_root;
 /* Absolute (not necessarily canonical) path to the database */
 extern const char *conf_output;
 
-/* 1 if file names should be written to stdout as they are found */
-extern _Bool conf_verbose;
+/* true if file names should be written to stdout as they are found */
+extern bool conf_verbose;
 
 /* Configuration representation for the database configuration block */
 extern const char *conf_block;

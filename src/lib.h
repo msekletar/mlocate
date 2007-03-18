@@ -20,6 +20,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 
 #include <config.h>
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/types.h>
@@ -95,22 +96,22 @@ struct db
   int fd;
   const char *filename;
   off_t read_bytes;		/* Total bytes read */
-  _Bool quiet;			/* Don't report read errors */
+  bool quiet;			/* Don't report read errors */
   int err;			/* errno on last read error or 0 */
   char *buf_pos, *buf_end;
   char buffer[BUFSIZ];
 };
 
 /* Open FILENAME (already open as FD), as DB, set DB's quiet flag to QUIET.
-   Store database header to *HEADER; 
-   return 0 if OK, -1 on error.  
-   
+   Store database header to *HEADER;
+   return 0 if OK, -1 on error.
+
    Takes ownership of FD: it will be closed by db_close () or before return
    from this function if it fails.
 
    FILENAME must stay valid until db_close (). */
 extern int db_open (struct db *db, struct db_header *header, int fd,
-		    const char *filename, _Bool quiet);
+		    const char *filename, bool quiet);
 
 /* Close DB */
 extern void db_close (struct db *db);

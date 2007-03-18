@@ -26,6 +26,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <limits.h>
 #include <locale.h>
 #include <regex.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,36 +48,36 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "lib.h"
 
 /* Check file existence before reporting them */
-static _Bool conf_check_existence; /* = 0; */
+static bool conf_check_existence; /* = false; */
 
 /* Follow trailing symlinks when checking for existence.  The default (and
    probably the existence of the option) looks like a historical accident. */
-static _Bool conf_check_follow_trailing = 1;
+static bool conf_check_follow_trailing = true;
 
 /* Databases, "-" is stdin */
 static struct string_list conf_dbpath; /* = { 0, }; */
 
 /* Ignore case when matching patterns */
-static _Bool conf_ignore_case; /* = 0; */
+static bool conf_ignore_case; /* = false; */
 
 /* Match only the basename against patterns */
-static _Bool conf_match_basename; /* = 0; */
+static bool conf_match_basename; /* = false; */
 
 /* Patterns are regexps */
-static _Bool conf_match_regexp; /* = 0; */
+static bool conf_match_regexp; /* = false; */
 
 /* Patterns are BREs */
-static _Bool conf_match_regexp_basic; /* = 0; */
+static bool conf_match_regexp_basic; /* = false; */
 
 /* Output match count only */
-static _Bool conf_output_count; /* = 0; */
+static bool conf_output_count; /* = false; */
 
 /* Output limit */
 static uintmax_t conf_output_limit;
-static _Bool conf_output_limit_set; /* = 0; */
+static bool conf_output_limit_set; /* = false; */
 
 /* Quote nonprintable characters on output */
-static _Bool conf_output_quote; /* = 0; */
+static bool conf_output_quote; /* = false; */
 
 /* Character for output separation */
 static char conf_output_separator = '\n';
@@ -87,22 +88,22 @@ static struct string_list conf_patterns; /* = { 0, }; */
 /* If conf_match_regexp, compiled patterns to search for */
 static regex_t *conf_regex_patterns;
 
-/* If !conf_match_regexp, 1 if the pattern contains no characters recognized
+/* If !conf_match_regexp, true if the pattern contains no characters recognized
    by fnmatch () as special */
-static _Bool *conf_patterns_simple;
+static bool *conf_patterns_simple;
 
 /* If !conf_match_regexp, there is at least one simple pattern */
-static _Bool conf_have_simple_pattern; /* = 0; */
+static bool conf_have_simple_pattern; /* = false; */
 
 /* If conf_have_simple_pattern && conf_ignore_case, patterns to search for, in
    uppercase */
 static wchar_t **conf_uppercase_patterns;
 
 /* Don't report errors about databases */
-static _Bool conf_quiet; /* = 0; */
+static bool conf_quiet; /* = false; */
 
 /* Output only statistics */
-static _Bool conf_statistics; /* = 0; */
+static bool conf_statistics; /* = false; */
 
  /* String utilities */
 
@@ -174,7 +175,7 @@ write_quoted (const char *string)
     {
       size_t size;
       wchar_t wc;
-      _Bool printable;
+      bool printable;
 
       size = mbrtowc (&wc, string, left, &state);
       if (size == 0)
@@ -185,15 +186,15 @@ write_quoted (const char *string)
 	{
 	  size = 1;
 	  memset (&state, 0, sizeof (state));
-	  printable = 0;
+	  printable = false;
 	}
       else
 	{
 	  assert (size == (size_t)-2);
 	  size = left;
-	  printable = 0;
+	  printable = false;
 	}
-      if (printable == 0)
+      if (printable == false)
 	{
 	  if (string != last)
 	    fwrite (last, 1, string - last, stdout);
@@ -202,7 +203,7 @@ write_quoted (const char *string)
       string += size;
       assert (left >= size);
       left -= size;
-      if (printable == 0)
+      if (printable == false)
 	last = string;
     }
   if (string != last)
@@ -218,7 +219,7 @@ struct check_entry
 {
   struct check_entry *next;
   size_t len;
-  _Bool allowed;
+  bool allowed;
   char path[];			/* _Not_ NUL-terminated */
 };
 
@@ -256,7 +257,7 @@ cached_access_rx (const char *path)
   check_stack = new;
   e = new;
  found:
-  return e->allowed ? 0 : -1;
+  return e->allowed != false ? 0 : -1;
 }
 
 /* Check permissions of parent directory of PATH; it should be accessible and
@@ -358,15 +359,15 @@ static struct obstack uc_obstack;
 static void *uc_obstack_mark;
 
 /* Does STRING match one of conf_patterns? */
-static _Bool
+static bool
 string_matches_pattern (const char *string)
 {
   size_t i;
   wchar_t *wstring;
-  _Bool matched;
+  bool matched;
 
-  if (conf_match_regexp == 0 && conf_ignore_case != 0
-      && conf_have_simple_pattern != 0)
+  if (conf_match_regexp == false && conf_ignore_case != false
+      && conf_have_simple_pattern != false)
     {
       obstack_free (&uc_obstack, uc_obstack_mark);
       wstring = uppercase_string (&uc_obstack, string);
@@ -374,25 +375,26 @@ string_matches_pattern (const char *string)
     }
   else
     wstring = NULL;
-  matched = 0;
+  matched = false;
   for (i = 0; i < conf_patterns.len; i++)
     {
-      if (conf_match_regexp != 0)
+      if (conf_match_regexp != false)
 	matched = regexec (conf_regex_patterns + i, string, 0, NULL, 0) == 0;
       else
 	{
-	  if (conf_patterns_simple[i] != 0)
+	  if (conf_patterns_simple[i] != false)
 	    {
-	      if (conf_ignore_case == 0)
+	      if (conf_ignore_case == false)
 		matched = mbsstr (string, conf_patterns.entries[i]) != NULL;
 	      else
 		matched = wcsstr (wstring, conf_uppercase_patterns[i]) != NULL;
 	    }
 	  else
-	    matched = fnmatch (conf_patterns.entries[i], string,
-			       conf_ignore_case != 0 ? FNM_CASEFOLD : 0) == 0;
+	    matched = (fnmatch (conf_patterns.entries[i], string,
+				conf_ignore_case != false ? FNM_CASEFOLD : 0)
+		       == 0);
 	}
-      if (matched != 0)
+      if (matched != false)
 	break;
     }
   return matched;
@@ -408,14 +410,14 @@ handle_path (const char *path, int *visible)
   const char *s, *matching;
 
   /* Statistics */
-  if (conf_statistics != 0)
+  if (conf_statistics != false)
     {
       stats_entries++; /* Overflow is too unlikely */
       stats_bytes += strlen (path);
       goto done;
     }
   /* Matches pattern? */
-  if (conf_match_basename != 0 && (s = strrchr (path, '/')) != NULL)
+  if (conf_match_basename != false && (s = strrchr (path, '/')) != NULL)
     matching = s + 1;
   else
     matching = path;
@@ -426,24 +428,24 @@ handle_path (const char *path, int *visible)
     *visible = check_directory_perms (path) == 0;
   if (*visible != 1)
     goto done;
-  if (conf_check_existence != 0)
+  if (conf_check_existence != false)
     {
       struct stat st;
 
-      if ((conf_check_follow_trailing ? stat : lstat) (path, &st) != 0)
+      if ((conf_check_follow_trailing != false ? stat : lstat) (path, &st) != 0)
 	goto done;
     }
   /* Output */
-  if (conf_output_count == 0)
+  if (conf_output_count == false)
     {
-      if (conf_output_quote != 0)
+      if (conf_output_quote != false)
 	write_quoted (path);
       else
 	fputs (path, stdout);
       putchar (conf_output_separator);
     }
   matches_found++; /* Overflow is too unlikely */
-  if (conf_output_limit_set != 0 && matches_found == conf_output_limit)
+  if (conf_output_limit_set != false && matches_found == conf_output_limit)
     return -1;
  done:
   return 0;
@@ -467,7 +469,7 @@ handle_directory (struct db *db, const struct db_header *hdr)
   size = OBSTACK_OBJECT_SIZE (&path_obstack);
   if (size == 0)
     {
-      if (conf_quiet == 0)
+      if (conf_quiet == false)
 	error (0, 0, _("invalid empty directory name in `%s'"), db->filename);
       goto err;
     }
@@ -494,7 +496,7 @@ handle_directory (struct db *db, const struct db_header *hdr)
       size = OBSTACK_OBJECT_SIZE (&path_obstack) - dir_name_len;
       if (size > OBSTACK_SIZE_MAX) /* No surprises, please */
 	{
-	  if (conf_quiet == 0)	      
+	  if (conf_quiet == false)
 	    error (0, 0, _("file name length %zu in `%s' is too large"), size,
 		   db->filename);
 	  goto err;
@@ -542,7 +544,7 @@ handle_db (int fd, const char *database)
       db_report_error (&db);
       goto err_path;
     }
-  if (conf_statistics != 0)
+  if (conf_statistics != false)
     stats_print (&db);
   /* Fall through */
  err_path:
@@ -560,7 +562,7 @@ handle_db (int fd, const char *database)
 static gid_t privileged_gid;
 
 /* STDIN_FILENO was already used as a database */
-static _Bool stdin_used; /* = 0; */
+static bool stdin_used; /* = false; */
 
 /* Parse DBPATH, add its entries to db_obstack */
 static void
@@ -662,10 +664,10 @@ parse_options (int argc, char *argv[])
       { NULL, 0, NULL, 0 }
     };
 
-  _Bool got_basename, got_follow;
+  bool got_basename, got_follow;
 
-  got_basename = 0;
-  got_follow = 0;
+  got_basename = false;
+  got_follow = false;
   for (;;)
     {
       int opt, idx;
@@ -684,29 +686,29 @@ parse_options (int argc, char *argv[])
 	  break;
 
 	case 'H': case 'P':
-	  if (got_follow != 0)
+	  if (got_follow != false)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "nofollow");
-	  got_follow = 1;
-	  conf_check_follow_trailing = 0;
+	  got_follow = true;
+	  conf_check_follow_trailing = false;
 	  break;
 
 	case 'L':
-	  if (got_follow != 0)
+	  if (got_follow != false)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "follow");
-	  got_follow = 1;
-	  conf_check_follow_trailing = 1;
+	  got_follow = true;
+	  conf_check_follow_trailing = true;
 	  break;
 
 	case 'R':
-	  conf_match_regexp = 1;
+	  conf_match_regexp = true;
 	  break;
 
 	case 'S':
-	  conf_statistics = 1;
+	  conf_statistics = true;
 	  break;
 
 	case 'V':
@@ -717,18 +719,18 @@ parse_options (int argc, char *argv[])
 		  "This program is provided with NO WARRANTY, to the extent "
 		  "permitted by law."));
 	  exit (EXIT_SUCCESS);
-	  
+
 	case 'b':
-	  if (got_basename != 0)
+	  if (got_basename != false)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "basename");
-	  got_basename = 1;
-	  conf_match_basename = 1;
+	  got_basename = true;
+	  conf_match_basename = true;
 	  break;
 
 	case 'c':
-	  conf_output_count = 1;
+	  conf_output_count = true;
 	  break;
 
 	case 'd':
@@ -736,24 +738,24 @@ parse_options (int argc, char *argv[])
 	  break;
 
 	case 'e':
-	  conf_check_existence = 1;
+	  conf_check_existence = true;
 	  break;
-	  
+
 	case 'h':
 	  help ();
 	  exit (EXIT_SUCCESS);
 
 	case 'i':
-	  conf_ignore_case = 1;
+	  conf_ignore_case = true;
 	  break;
 
 	case 'l': case 'n':
 	  {
 	    char *end;
-	    
-	    if (conf_output_limit_set != 0)
+
+	    if (conf_output_limit_set != false)
 	      error (EXIT_FAILURE, 0, _("--%s specified twice"), "limit");
-	    conf_output_limit_set = 1;
+	    conf_output_limit_set = true;
 	    errno = 0;
 	    conf_output_limit = strtoumax (optarg, &end, 10);
 	    if (errno != 0 || *end != 0 || end == optarg
@@ -767,22 +769,22 @@ parse_options (int argc, char *argv[])
 	  break; /* Ignore */
 
 	case 'q':
-	  conf_quiet = 1;
+	  conf_quiet = true;
 	  break;
 
 	case 'r':
-	  conf_match_regexp = 1;
-	  conf_match_regexp_basic = 1;
+	  conf_match_regexp = true;
+	  conf_match_regexp_basic = true;
 	  string_list_append (&conf_patterns, optarg);
 	  break;
 
 	case 'w':
-	  if (got_basename != 0)
+	  if (got_basename != false)
 	    error (EXIT_FAILURE, 0,
 		   _("--%s would override earlier command-line argument"),
 		   "wholename");
-	  got_basename = 1;
-	  conf_match_basename = 0;
+	  got_basename = true;
+	  conf_match_basename = false;
 	  break;
 
 	default:
@@ -791,12 +793,12 @@ parse_options (int argc, char *argv[])
     }
  options_done:
   if (conf_output_separator != 0 && isatty(STDOUT_FILENO))
-    conf_output_quote = 1;
-  if ((conf_statistics != 0 || conf_match_regexp_basic != 0)
+    conf_output_quote = true;
+  if ((conf_statistics != false || conf_match_regexp_basic != false)
       && optind != argc)
     error (EXIT_FAILURE, 0,
 	   _("non-option arguments are not allowed with --%s"),
-	   conf_statistics != 0 ? "statistics" : "regexp");
+	   conf_statistics != false ? "statistics" : "regexp");
 }
 
 /* Parse arguments in ARGC, ARGV.  Exit on error. */
@@ -807,19 +809,19 @@ parse_arguments (int argc, char *argv[])
 
   for (i = optind; i < (size_t)argc; i++)
     string_list_append (&conf_patterns, argv[i]);
-  if (conf_statistics == 0 && conf_patterns.len == 0)
+  if (conf_statistics == false && conf_patterns.len == 0)
     error (EXIT_FAILURE, 0, _("no pattern to search for specified"));
   conf_patterns.entries = xnrealloc (conf_patterns.entries, conf_patterns.len,
 				     sizeof (*conf_patterns.entries));
-  if (conf_match_regexp != 0)
+  if (conf_match_regexp != false)
     {
       int cflags;
 
       conf_regex_patterns = XNMALLOC (conf_patterns.len, regex_t);
       cflags = REG_NOSUB;
-      if (conf_match_regexp_basic == 0) /* GNU-style */
+      if (conf_match_regexp_basic == false) /* GNU-style */
 	cflags |= REG_EXTENDED;
-      if (conf_ignore_case != 0)
+      if (conf_ignore_case != false)
 	cflags |= REG_ICASE;
       for (i = 0; i < conf_patterns.len; i++)
 	{
@@ -842,15 +844,15 @@ parse_arguments (int argc, char *argv[])
     }
   else
     {
-      conf_patterns_simple = XNMALLOC (conf_patterns.len, _Bool);
+      conf_patterns_simple = XNMALLOC (conf_patterns.len, bool);
       for (i = 0; i < conf_patterns.len; i++)
 	{
 	  conf_patterns_simple[i] = strpbrk (conf_patterns.entries[i],
 					     "*?[\\]") == NULL;
-	  if (conf_patterns_simple[i] != 0)
-	    conf_have_simple_pattern = 1;
+	  if (conf_patterns_simple[i] != false)
+	    conf_have_simple_pattern = true;
 	}
-      if (conf_ignore_case != 0 && conf_have_simple_pattern != 0)
+      if (conf_ignore_case != false && conf_have_simple_pattern != false)
 	{
 	  struct obstack obstack;
 
@@ -865,7 +867,7 @@ parse_arguments (int argc, char *argv[])
 }
 
 /* Does a database with ST require GROUPNAME privileges? */
-static _Bool
+static bool
 db_is_privileged (const struct stat *st)
 {
   return (privileged_gid != (gid_t)-1 && st->st_gid == privileged_gid
@@ -923,13 +925,13 @@ handle_dbpath_entry (const char *entry)
 {
   int fd;
   struct stat st;
-  
+
   if (strcmp (entry, "-") == 0)
     {
-      if (stdin_used != 0)
+      if (stdin_used != false)
 	error (EXIT_FAILURE, 0,
 	       _("can not read two databases from standard input"));
-      stdin_used = 1;
+      stdin_used = true;
       fd = STDIN_FILENO;
     }
   else
@@ -937,13 +939,13 @@ handle_dbpath_entry (const char *entry)
       fd = open (entry, O_RDONLY);
       if (fd == -1)
 	{
-	  if (conf_quiet == 0)
+	  if (conf_quiet == false)
 	    error (0, errno, _("can not open `%s'"), entry);
 	  goto err;
 	}
       if (fstat (fd, &st) != 0)
 	{
-	  if (conf_quiet == 0)
+	  if (conf_quiet == false)
 	    error (0, errno, _("can not stat () `%s'"), entry);
 	  close (fd);
 	  goto err;
@@ -987,11 +989,11 @@ main (int argc, char *argv[])
   /* Don't call access ("/", R_OK | X_OK) all the time.  This is too strict,
      it is possible to have "/" --x and have a database describing a
      subdirectory, but that is just too improbable. */
-  if (conf_statistics == 0 && access ("/", R_OK | X_OK) != 0)
+  if (conf_statistics == false && access ("/", R_OK | X_OK) != 0)
     goto done;
   for (i = 0; i < conf_dbpath.len; i++)
     {
-      if (conf_output_limit_set && matches_found >= conf_output_limit)
+      if (conf_output_limit_set != false && matches_found >= conf_output_limit)
 	{
 	  res = EXIT_SUCCESS;
 	  goto done;
@@ -1000,9 +1002,9 @@ main (int argc, char *argv[])
       handle_dbpath_entry (conf_dbpath.entries[i]);
     }
  done:
-  if (conf_output_count != 0)
+  if (conf_output_count != false)
     printf ("%ju\n", matches_found);
-  if (conf_statistics != 0 || matches_found != 0)
+  if (conf_statistics != false || matches_found != 0)
     res = EXIT_SUCCESS;
   if (fwriteerror (stdout))
     error (EXIT_FAILURE, errno,

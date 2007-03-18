@@ -1,6 +1,6 @@
 /* updatedb(8).
 
-Copyright (C) 2007 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -26,6 +26,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <limits.h>
 #include <locale.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -59,7 +60,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 struct entry
 {
   size_t name_size;		/* Including the trailing NUL */
-  _Bool is_directory;
+  bool is_directory;
   char name[];
 };
 
@@ -128,14 +129,14 @@ time_compare (const struct time *a, const struct time *b)
 }
 
 /* Is SEC equal to the current second? */
-static _Bool
+static bool
 time_is_current (uint64_t sec)
 {
   static struct timeval cache; /* = { 0, } */
 
   /* Cache gettimeofday () results to rule out obviously old time stamps */
   if ((time_t)sec < cache.tv_sec)
-    return 0;
+    return false;
   gettimeofday (&cache, NULL);
   return (time_t)sec >= cache.tv_sec;
 }
@@ -256,7 +257,7 @@ old_db_open (void)
   fd = open (conf_output, O_RDONLY);
   if (fd == -1)
     goto err;
-  if (db_open (&old_db, &hdr, fd, conf_output, 1) != 0)
+  if (db_open (&old_db, &hdr, fd, conf_output, true) != 0)
     goto err;
   size = ntohl (hdr.conf_size);
   if (size != conf_block_size)
@@ -304,7 +305,7 @@ old_db_open (void)
 
    LIST is assumed to be sorted using dir_path_cmp (), successive calls to this
    function are assumed to use PATH values increasing in dir_path_cmp (). */
-static _Bool
+static bool
 path_is_in_list (const struct string_list *list, size_t *idx, const char *path)
 {
   int cmp;
@@ -316,9 +317,9 @@ path_is_in_list (const struct string_list *list, size_t *idx, const char *path)
   if (*idx < list->len && cmp == 0)
     {
       (*idx)++;
-      return 1;
+      return true;
     }
-  return 0;
+  return false;
 }
 
  /* $PRUNE_BIND_MOUNTS handling */
@@ -367,8 +368,8 @@ rebuild_bind_mount_paths (void)
   string_list_dir_path_sort (&bind_mount_paths);
 }
 
-/* Return 1 if PATH is a destination of a bind mount. */
-static _Bool
+/* Return true if PATH is a destination of a bind mount. */
+static bool
 is_bind_mount (const char *path)
 {
   struct timespec path_mounted_mtime;
@@ -378,7 +379,7 @@ is_bind_mount (const char *path)
      unchanged between $path and $path/subdir, so we must keep reparsing
      _PATH_MOUNTED (not PROC_MOUNTS_PATH) each time it changes. */
   if (stat (_PATH_MOUNTED, &st) != 0)
-    return 0;
+    return false;
   path_mounted_mtime = get_stat_mtime (&st);
   if (timespec_cmp (last_path_mounted_mtime, path_mounted_mtime) < 0)
     {
@@ -395,7 +396,7 @@ init_bind_mount_paths (void)
 {
   struct stat st;
 
-  if (conf_prune_bind_mounts == 0)
+  if (conf_prune_bind_mounts == false)
     return;
   obstack_init (&bind_mount_paths_obstack);
   obstack_alignment_mask (&bind_mount_paths_obstack) = 0;
@@ -419,8 +420,8 @@ cmp_string_pointer (const void *xa, const void *xb)
   return strcmp (a, *b);
 }
 
-/* Return 1 if PATH is a mount point of an excluded filesystem */
-static _Bool
+/* Return true if PATH is a mount point of an excluded filesystem */
+static bool
 filesystem_is_excluded (const char *path)
 {
   static char *type; /* = NULL; */
@@ -428,9 +429,9 @@ filesystem_is_excluded (const char *path)
 
   FILE *f;
   struct mntent *me;
-  _Bool res;
+  bool res;
 
-  res = 0;
+  res = false;
   f = setmntent (MOUNT_TABLE_PATH, "r");
   if (f == NULL)
     goto err;
@@ -455,7 +456,7 @@ filesystem_is_excluded (const char *path)
 	    dir = me->mnt_dir;
 	  if (strcmp (path, dir) == 0)
 	    {
-	      res = 1;
+	      res = true;
 	      goto err_f;
 	    }
 	}
@@ -502,7 +503,7 @@ write_directory (const struct directory *dir)
       struct entry *e;
 
       e = dir->entries[i];
-      entry.type = e->is_directory != 0 ? DBE_DIRECTORY : DBE_NORMAL;
+      entry.type = e->is_directory != false ? DBE_DIRECTORY : DBE_NORMAL;
       fwrite (&entry, sizeof (entry), 1, new_db);
       fwrite (e->name, 1, e->name_size, new_db);
     }
@@ -536,7 +537,7 @@ scan_subdirs (const const struct directory *dir, const struct stat *st)
       struct entry *e;
 
       e = dir->entries[i];
-      if (e->is_directory != 0)
+      if (e->is_directory != false)
 	{
 	  /* Verified in copy_old_dir () and scan_cwd () */
 	  while (prefix_len + e->name_size > path_size)
@@ -581,19 +582,19 @@ safe_chdir (int *cwd_fd, const char *relative, const struct stat *old_st)
 static int
 copy_old_dir (struct directory *dest)
 {
-  _Bool have_subdir;
+  bool have_subdir;
   size_t i;
   void *mark, *p;
 
   if (old_db.fd == -1 || old_dir.path == NULL)
     goto err;
   mark = obstack_alloc (&scan_dir_state.data_obstack, 0);
-  have_subdir = 0;
+  have_subdir = false;
   for (;;)
     {
       struct db_entry entry;
       struct entry *e;
-      _Bool is_directory;
+      bool is_directory;
       size_t size;
 
       if (db_read (&old_db, &entry, sizeof (entry)) != 0)
@@ -601,11 +602,11 @@ copy_old_dir (struct directory *dest)
       switch (entry.type)
 	{
 	case DBE_NORMAL:
-	  is_directory = 0;
+	  is_directory = false;
 	  break;
 
 	case DBE_DIRECTORY:
-	  is_directory = 1;
+	  is_directory = true;
 	  break;
 
 	case DBE_END:
@@ -630,10 +631,10 @@ copy_old_dir (struct directory *dest)
       e = obstack_finish (&scan_dir_state.data_obstack);
       e->name_size = size;
       e->is_directory = is_directory;
-      if (is_directory != 0)
-	have_subdir = 1;
+      if (is_directory != false)
+	have_subdir = true;
       obstack_ptr_grow (&scan_dir_state.list_obstack, e);
-      if (conf_verbose != 0)
+      if (conf_verbose != false)
 	printf ("%s/%s\n", dest->path, e->name);
     }
  done:
@@ -677,9 +678,9 @@ static DIR *
 opendir_noatime (const char *path)
 {
 #if defined (HAVE_FDOPENDIR) && defined (O_DIRECTORY) && defined (O_NOATIME)
-  static _Bool noatime_failed; /* = 0; */
+  static bool noatime_failed; /* = false; */
 
-  if (noatime_failed == 0)
+  if (noatime_failed == false)
     {
       int fd;
 
@@ -690,7 +691,7 @@ opendir_noatime (const char *path)
 	 EACCES. */
       else if (errno != EPERM)
 	return NULL;
-      noatime_failed = 1;
+      noatime_failed = true;
     }
 #endif
   return opendir (path);
@@ -704,12 +705,12 @@ scan_cwd (struct directory *dest)
 {
   DIR *dir;
   struct dirent *de;
-  _Bool have_subdir;
+  bool have_subdir;
 
   dir = opendir_noatime (".");
   if (dir == NULL)
     return -1;
-  have_subdir = 0;
+  have_subdir = false;
   while ((de = readdir (dir)) != NULL)
     {
       struct entry *e;
@@ -728,24 +729,24 @@ scan_cwd (struct directory *dest)
       e = obstack_alloc (&scan_dir_state.data_obstack, entry_size);
       e->name_size = name_size;
       memcpy (e->name, de->d_name, name_size);
-      e->is_directory = 0;
+      e->is_directory = false;
       /* The check for DT_DIR is to handle platforms which have d_type, but
 	 require a feature macro to define DT_* */
 #if defined (HAVE_STRUCT_DIRENT_D_TYPE) && defined (DT_DIR)
       if (de->d_type == DT_DIR)
-	e->is_directory = 1;
+	e->is_directory = true;
       else if (de->d_type == DT_UNKNOWN)
 #endif
 	{
 	  struct stat st;
 	  
 	  if (lstat (e->name, &st) == 0 && S_ISDIR (st.st_mode))
-	    e->is_directory = 1;
+	    e->is_directory = true;
 	}
-      if (e->is_directory != 0)
-	have_subdir = 1;
+      if (e->is_directory != false)
+	have_subdir = true;
       obstack_ptr_grow (&scan_dir_state.list_obstack, e);
-      if (conf_verbose != 0)
+      if (conf_verbose != false)
 	printf ("%s/%s\n", dest->path, e->name);
     }
   closedir (dir);
@@ -772,11 +773,11 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   struct time mtime;
   void *entries_mark;
   int cmp, res;
-  _Bool have_subdir, did_chdir;
+  bool have_subdir, did_chdir;
 
   if (path_is_in_list (&conf_prunepaths, &conf_prunepaths_index, path))
     goto err;
-  if (conf_prune_bind_mounts != 0 && is_bind_mount (path))
+  if (conf_prune_bind_mounts != false && is_bind_mount (path))
     goto err;
   if (lstat (relative, &st) != 0)
     goto err;
@@ -795,8 +796,8 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
       old_dir_skip ();
       old_dir_next_header ();
     }
-  did_chdir = 0;
-  have_subdir = 0;
+  did_chdir = false;
+  have_subdir = false;
   if (old_dir.path != NULL && cmp == 0
       && time_compare (&dir.time, &old_dir.time) == 0
       && (dir.time.sec != 0 || dir.time.nsec != 0))
@@ -813,7 +814,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
     /* The directory might be changing right now and we can't be sure the
        timestamp will yet change, mark the timestamp invalid */
     dir.time.sec = 0;
-  did_chdir = 1;
+  did_chdir = true;
   if (safe_chdir (cwd_fd, relative, &st) != 0)
     goto err_chdir;
   res = scan_cwd (&dir);
@@ -822,11 +823,11 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   have_subdir = res;
  have_dir:
   write_directory (&dir);
-  if (have_subdir != 0)
+  if (have_subdir != false)
     {
-      if (did_chdir == 0)
+      if (did_chdir == false)
 	{
-	  did_chdir = 1;
+	  did_chdir = true;
 	  if (safe_chdir (cwd_fd, relative, &st) != 0)
 	    goto err_entries;
 	}
@@ -836,7 +837,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   obstack_free (&scan_dir_state.list_obstack, dir.entries);
   obstack_free (&scan_dir_state.data_obstack, entries_mark);
  err_chdir:
-  if (did_chdir != 0 && *cwd_fd != -1 && fchdir (*cwd_fd) != 0)
+  if (did_chdir != false && *cwd_fd != -1 && fchdir (*cwd_fd) != 0)
     return -1;
  err:
   return 0;
@@ -968,7 +969,7 @@ main (int argc, char *argv[])
   if (fwriteerror (new_db))
     error (EXIT_FAILURE, errno, _("I/O error while writing to `%s'"),
 	   new_db_filename);
-  if (conf_check_visibility != 0)
+  if (conf_check_visibility != false)
     {
       struct group *grp;
       

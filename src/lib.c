@@ -20,6 +20,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -148,7 +149,7 @@ string_list_dir_path_sort (struct string_list *list)
    FILENAME must stay valid until db_close (). */
 int
 db_open (struct db *db, struct db_header *header, int fd, const char *filename,
-	 _Bool quiet)
+	 bool quiet)
 {
   static const uint8_t magic[] = DB_MAGIC;
 
@@ -231,7 +232,7 @@ db_refill (struct db *db)
 void
 db_report_error (const struct db *db)
 {
-  if (db->quiet != 0)
+  if (db->quiet != false)
     return;
   if (db->err != 0)
     error (0, db->err, _("I/O error reading `%s'"), db->filename);
@@ -306,9 +307,9 @@ db_read_name (struct db *db, struct obstack *h)
 int
 db_skip (struct db *db, off_t size)
 {
-  _Bool use_lseek;
+  bool use_lseek;
 
-  use_lseek = 1;
+  use_lseek = true;
   for (;;)
     {
       size_t run;
@@ -320,17 +321,17 @@ db_skip (struct db *db, off_t size)
       size -= run;
       if (size == 0)
 	break;
-      if (use_lseek != 0)
+      if (use_lseek != false)
 	{
 	  if (lseek (db->fd, size, SEEK_CUR) != -1)
 	    break;
 	  if (errno != ESPIPE)
 	    {
-	      if (db->quiet == 0)
+	      if (db->quiet == false)
 		error (0, errno, _("I/O error seeking in `%s'"), db->filename);
 	      goto err;
 	    }
-	  use_lseek = 0;
+	  use_lseek = false;
 	}
       if (db_refill (db) == 0)
 	{

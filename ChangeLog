@@ -1,3 +1,13 @@
+2007-03-18  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/conf.c
+	* src/conf.h
+	* src/lib.c
+	* src/lib.h
+	* src/locate.c
+	* src/updatedb.c: #include <stdbool.h>.  Use "bool" instead of "_Bool",
+	use "true" and "false" where the constants are used as "bool" values.
+
 2007-03-06  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac: Release 0.16.
