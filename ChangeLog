@@ -1,3 +1,9 @@
+2007-04-25  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/updatedb.c (filesystem_is_excluded): Don't call realpath () on
+	paths from /proc/self/mounts to avoid hangs on unavailable NFS
+	filesystems.
+
 2007-03-18  Miloslav Trmac  <mitr@redhat.com>
 
 	* src/conf.c

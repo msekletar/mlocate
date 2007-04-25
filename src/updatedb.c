@@ -449,11 +449,19 @@ filesystem_is_excluded (const char *path)
       if (bsearch (type, conf_prunefs.entries, conf_prunefs.len,
 		   sizeof (*conf_prunefs.entries), cmp_string_pointer) != NULL)
 	{
-	  char dbuf[PATH_MAX], *dir;
+	  char *dir;
+#ifndef PROC_MOUNTS_PATH
+	  char dbuf[PATH_MAX];
 
 	  dir = realpath (me->mnt_dir, dbuf);
 	  if (dir == NULL)
 	    dir = me->mnt_dir;
+#else
+	  /* Paths in /proc/self/mounts contain no symbolic links.  Besides
+	     avoiding a few system calls, avoiding the realpath () avoids hangs
+	     if the filesystem is unavailable hard-mounted NFS. */
+	  dir = me->mnt_dir;
+#endif
 	  if (strcmp (path, dir) == 0)
 	    {
 	      res = true;
