@@ -1,3 +1,6 @@
+Changes in version 0.17:
+- Don't hang if a NFS filesystem in an excluded subtree is unavailable.
+
 Changes in version 0.16:
 - INCOMPATIBLE CHANGE: The --database-root parameter of updatedb is always
   canonicalized.

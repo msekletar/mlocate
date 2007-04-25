@@ -1,5 +1,8 @@
 2007-04-25  Miloslav Trmac  <mitr@redhat.com>
 
+	* configure.ac: Release 0.17.
+	* NEWS: Update.
+
 	* src/updatedb.c (filesystem_is_excluded): Don't call realpath () on
 	paths from /proc/self/mounts to avoid hangs on unavailable NFS
 	filesystems.
