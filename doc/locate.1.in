@@ -7,8 +7,8 @@
 .\" GNU General Public License v.2.
 .\"
 .\" This program is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 .\" more details.
 .\"
 .\" You should have received a copy of the GNU General Public License along
@@ -32,14 +32,17 @@ reads one or more databases prepared by
 and writes file names matching at least one of the \fIPATTERN\fRs to standard
 output, one per line.
 
-\fIPATTERN\fRs can contains globbing characters.
-If any 
+If
+.B \-\-regex
+is not specified,
+\fIPATTERN\fRs can contain globbing characters.
+If any
 .I PATTERN
 contains no globbing characters,
 .B locate
 behaves as if the pattern were \fB*\fIPATTERN\fB*\fR.
 
-By default, 
+By default,
 .B locate
 does not check whether files found in database still exist.
 .B locate
@@ -66,6 +69,7 @@ search continues in other specified databases, if any.
 .TP
 \fB\-b\fR, \fB\-\-basename\fR
 Match only the base name against the specified patterns.
+This is the opposite of \fB\-\-wholename\fR.
 
 .TP
 \fB\-c\fR, \fB\-\-count\fR
@@ -79,8 +83,8 @@ Replace the default database with \fIDBPATH\fR.
 is a \fB:\fR-separated list of database file names.
 If more than one
 .B \-\-database
-option is specified, the resulting path is a concatenation of the separate
-paths.
+option is specified,
+the resulting path is a concatenation of the separate paths.
 
 An empty database file name is replaced by the default database.
 A database file name
@@ -103,6 +107,7 @@ follow trailing symbolic links.
 This causes broken symbolic links to be omitted from the output.
 
 This is the default behavior.
+The opposite can be specified using \fB\-\-nofollow\fR.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR
@@ -120,7 +125,8 @@ Exit successfully after finding
 entries.
 If the
 .B \-\-count
-option is specified, the resulting count is also limited to \fILIMIT\fR.
+option is specified,
+the resulting count is also limited to \fILIMIT\fR.
 
 .TP
 \fB\-m\fR, \fB\-\-mmap\fR
@@ -137,6 +143,8 @@ When checking whether files exist (if the
 option is specified),
 do not follow trailing symbolic links.
 This causes broken symbolic links to be reported like other files.
+
+This is the opposite of \fB\-\-follow\fR.
 
 .TP
 \fB\-0\fR, \fB\-\-null\fR
@@ -190,6 +198,20 @@ on standard output and exit sucessfully.
 Match only the whole path name against the specified patterns.
 
 This is the default behavior.
+The opposite can be specified using \fB\-\-basename\fR.
+
+.SH EXAMPLES
+To search for a file named exactly
+.I NAME
+(not \fB*\fINAME\fB*\fR), use
+.RS
+.B locate -b
+\fB'\\\fINAME\fB'\fR
+.RE
+Because \fB\\\fR is a globbing character,
+this disables the implicit replacement of
+.I NAME
+by \fB*\fINAME\fB*\fR.
 
 .SH FILES
 .TP
@@ -226,7 +248,7 @@ where it corresponds to the \fB\-\-regex\fR option.
 Use the long option names to avoid confusion.
 
 The
-.B LOCATE_PATH 
+.B LOCATE_PATH
 environment variable replaces the default database in
 .SM BSD
 and

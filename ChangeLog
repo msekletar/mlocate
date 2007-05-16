@@ -1,3 +1,9 @@
+2007-05-16  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/locate.1.in: Add an example of using \ to avoid the implicit
+	'*' operators around patterns.  Note which command-line options are
+	opposites.
+
 2007-04-25  Miloslav Trmac  <mitr@redhat.com>
 
 	* configure.ac: Release 0.17.
