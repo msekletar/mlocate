@@ -20,7 +20,6 @@
 dbdir = $(localstatedir)/mlocate
 dbfile = $(dbdir)/mlocate.db
 groupname = mlocate
-localedir = $(datadir)/locale
 updatedb_conf = $(sysconfdir)/updatedb.conf
 # autopoint puts its m4 files to the first directory
 ACLOCAL_AMFLAGS = -I m4 -I gnulib/m4
@@ -55,16 +54,16 @@ src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS) $(CONF_CPPFLAGS)
 src_updatedb_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
 
 doc/locate.1: $(srcdir)/doc/locate.1.in Makefile
-	$(mkdir_p) doc
+	$(MKDIR_P) doc
 	sed 's,@dbfile@,$(dbfile),g' < $(srcdir)/doc/locate.1.in > $@
 
 doc/updatedb.conf.5: $(srcdir)/doc/updatedb.conf.5.in Makefile
-	$(mkdir_p) doc
+	$(MKDIR_P) doc
 	sed 's,@updatedb_conf@,$(updatedb_conf),g' \
 		< $(srcdir)/doc/updatedb.conf.5.in > $@
 
 doc/updatedb.8: $(srcdir)/doc/updatedb.8.in Makefile
-	$(mkdir_p) doc
+	$(MKDIR_P) doc
 	sed -e 's,@dbfile@,$(dbfile),g; s,@groupname@,$(groupname),g' \
 		-e 's,@updatedb_conf@,$(updatedb_conf),g' \
 		< $(srcdir)/doc/updatedb.8.in > $@
@@ -80,7 +79,7 @@ installcheck-local:
 		AUTOTEST_PATH=$(exec_prefix)/bin:$(exec_prefix)/libexec
 
 install-exec-local:
-	$(mkdir_p) "$(DESTDIR)$(dbdir)"
+	$(MKDIR_P) "$(DESTDIR)$(dbdir)"
 	-chgrp $(groupname) "$(DESTDIR)$(dbdir)" 2>/dev/null \
 		&& chmod g=rx,o= "$(DESTDIR)$(dbdir)"
 

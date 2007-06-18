@@ -1,3 +1,9 @@
+2007-06-18  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac
+	* tests/testsuite.at: Use new features of autoconf-2.60.
+	* Makefile.am: Use new features of automake-1.10.
+
 2007-05-16  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/locate.1.in: Add an example of using \ to avoid the implicit

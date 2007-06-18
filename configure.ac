@@ -15,7 +15,7 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Author: Miloslav Trmac <mitr@redhat.com>])
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
@@ -46,7 +46,7 @@ AM_GNU_GETTEXT_VERSION([0.14.6])
 
 # Checks for library functions.
 ## getopt_long () availability should be checked here
-AC_CHECK_FUNCS([fdopendir])
+AC_CHECK_FUNCS_ONCE([fdopendir])
 AC_FUNC_GETMNTENT
 
 # Checks for system services.
