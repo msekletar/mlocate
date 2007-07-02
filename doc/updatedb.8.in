@@ -7,8 +7,8 @@
 .\" GNU General Public License v.2.
 .\"
 .\" This program is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 .\" more details.
 .\"
 .\" You should have received a copy of the GNU General Public License along
@@ -137,6 +137,19 @@ Output path names of files to standard output, as soon as they are found.
 Write information about the version and licence of
 .B locate
 on standard output and exit sucessfully.
+
+.SH EXAMPLES
+To create a private mlocate database as an user other than \fBroot\fR,
+run
+.RS
+.B updatedb -l 0 \-o
+.I db_file
+.B \-U
+.I source_directory
+.RE
+Note that all users that can read
+.I db_file
+can get the complete list of files in the subtree of \fIsource_directory\fR.
 
 .SH FILES
 .TP

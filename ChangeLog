@@ -1,3 +1,8 @@
+2007-07-02  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/updatedb.8.in: Add an example of running updatedb as an
+	unprivileged user.
+
 2007-06-18  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac
