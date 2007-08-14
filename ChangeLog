@@ -1,3 +1,8 @@
+2007-08-15  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/locate.c (handle_dbpath_entry): Fix uninitialized memory access
+	when handling "-" in dbpath.
+
 2007-07-02  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/updatedb.8.in: Add an example of running updatedb as an

@@ -924,7 +924,7 @@ static void
 handle_dbpath_entry (const char *entry)
 {
   int fd;
-  struct stat st;
+  bool keep_gid;
 
   if (strcmp (entry, "-") == 0)
     {
@@ -933,9 +933,12 @@ handle_dbpath_entry (const char *entry)
 	       _("can not read two databases from standard input"));
       stdin_used = true;
       fd = STDIN_FILENO;
+      keep_gid = false;
     }
   else
     {
+      struct stat st;
+
       fd = open (entry, O_RDONLY);
       if (fd == -1)
 	{
@@ -950,8 +953,9 @@ handle_dbpath_entry (const char *entry)
 	  close (fd);
 	  goto err;
 	}
+      keep_gid = db_is_privileged (&st);
     }
-  if (!db_is_privileged (&st))
+  if (keep_gid == false)
     {
       if (setgid (getgid ()) != 0)
 	error (EXIT_FAILURE, errno, _("can not drop privileges"));
