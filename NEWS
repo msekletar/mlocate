@@ -1,3 +1,7 @@
+Changes in version 0.18:
+- Fix uninitialized memory access when dbpath contains "-"
+- Add some examples to the man pages
+
 Changes in version 0.17:
 - Don't hang if a NFS filesystem in an excluded subtree is unavailable.
 
