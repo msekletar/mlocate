@@ -42,10 +42,10 @@ htonll (uint64_t val)
 {
   uint32_t low, high;
   uint64_t ret;
+  verify (sizeof (ret) == sizeof (high) + sizeof (low));
 
   low = htonl ((uint32_t)val);
   high = htonl (val >> 32);
-  verify (sizeof (ret) == sizeof (high) + sizeof (low));
   memcpy (&ret, &high, sizeof (high));
   memcpy ((unsigned char *)&ret + sizeof (high), &low, sizeof (low));
   return ret;
@@ -56,8 +56,8 @@ uint64_t
 ntohll (uint64_t val)
 {
   uint32_t low, high;
-
   verify (sizeof (high) + sizeof (low) == sizeof (val));
+
   memcpy (&high, &val, sizeof (high));
   memcpy (&low, (unsigned char *)&val + sizeof (high), sizeof (low));
   return (uint64_t)ntohl (high) << 32 | ntohl (low);
@@ -95,7 +95,9 @@ dir_path_cmp (const char *a, const char *b)
       a++;
       b++;
     }
-  verify (sizeof (int) > sizeof (unsigned char)); /* To rule out overflow */
+  {
+    verify (sizeof (int) > sizeof (unsigned char)); /* To rule out overflow */
+  }
   return ((int)dir_path_cmp_table[(unsigned char)*a]
 	  - (int)dir_path_cmp_table[(unsigned char)*b]);
 }
@@ -165,7 +167,9 @@ db_open (struct db *db, struct db_header *header, int fd, const char *filename,
       db_report_error (db);
       goto err_fd;
     }
-  verify (sizeof (magic) == sizeof (header->magic));
+  {
+    verify (sizeof (magic) == sizeof (header->magic));
+  }
   if (memcmp (header->magic, magic, sizeof (magic)) != 0)
     {
       if (quiet == 0)
@@ -208,7 +212,9 @@ db_refill (struct db *db)
 {
   ssize_t size;
 
-  verify (sizeof (db->buffer) <= SSIZE_MAX);
+  {
+    verify (sizeof (db->buffer) <= SSIZE_MAX);
+  }
   size = safe_read (db->fd, db->buffer, sizeof (db->buffer));
   switch (size)
     {

@@ -623,7 +623,9 @@ copy_old_dir (struct directory *dest)
 	default:
 	  goto err_obstack;
 	}
-      verify (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
+      {
+	verify (offsetof (struct entry, name) <= OBSTACK_SIZE_MAX);
+      }
       obstack_blank (&scan_dir_state.data_obstack,
 		     offsetof (struct entry, name));
       if (db_read_name (&old_db, &scan_dir_state.data_obstack) != 0)
@@ -935,7 +937,9 @@ new_db_open (void)
   if (new_db == NULL)
     error (EXIT_FAILURE, errno, _("can not open `%s'"), new_db_filename);
   memset (&db_header, 0, sizeof (db_header));
-  verify (sizeof (db_header.magic) == sizeof (magic));
+  {
+    verify (sizeof (db_header.magic) == sizeof (magic));
+  }
   memcpy (db_header.magic, &magic, sizeof (magic));
   if (conf_block_size > UINT32_MAX)
     error (EXIT_FAILURE, 0, _("configuration is too large"));
