@@ -523,7 +523,7 @@ write_directory (const struct directory *dir)
    entries in DIR, and write results to new_db.  The current working directory
    is not guaranteed to be preserved on return from this function. */
 static void
-scan_subdirs (const const struct directory *dir, const struct stat *st)
+scan_subdirs (const struct directory *dir, const struct stat *st)
 {
   char *path;
   int cwd_fd;

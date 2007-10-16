@@ -1,3 +1,7 @@
+2007-10-16  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/updatedb.c (scan_subdirs): Remove useless duplicate "const".
+
 2007-08-25  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Release 0.18.
