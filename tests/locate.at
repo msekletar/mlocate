@@ -390,7 +390,8 @@ touch d/f
 
 AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
 
-AT_CHECK([[locate -d db -S | sed 's/[0123456789]* bytes\?/BYTES bytes/']], ,
+AT_CHECK([[locate -d db -S | sed 's/[0123456789]* bytes\{0,1\}/BYTES bytes/']],
+	 ,
 [Database db:
 	1 directory
 	2 files
@@ -399,7 +400,7 @@ AT_CHECK([[locate -d db -S | sed 's/[0123456789]* bytes\?/BYTES bytes/']], ,
 ])
 
 AT_CHECK([[locate -d - --statistics < db \
-	| sed 's/[0123456789]* bytes\?/BYTES bytes/']], ,
+	| sed 's/[0123456789]* bytes\{0,1\}/BYTES bytes/']], ,
 [Database -:
 	1 directory
 	2 files

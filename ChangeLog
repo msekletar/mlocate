@@ -1,5 +1,8 @@
 2007-10-16  Miloslav Trmač  <mitr@redhat.com>
 
+	* tests/locate.at (locate: -S): Don't rely on GNU sed's \?.  Patch by
+	Steve Edwards <sgedward@korime.demon.co.uk>.
+
 	* src/lib.c (htonll, dir_path_cmp, db_open, db_refill)
 	* src/updatedb.c (copy_old_dir, new_db_open): Move verify () among
 	declarations in a block, it is implemented as an extern declaration.
