@@ -25,16 +25,10 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <stdint.h>
 #include <sys/types.h>
 
+#include "gettext.h"
 #include "obstack.h"
 
 #include "db.h"
-
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#else
-#define gettext(X) (X)
-#define ngettext(S, P, N) ((N) != 1 ? (P) : (S))
-#endif
 
 #ifdef __GNUC__
 #define attribute__(X) __attribute__ (X)

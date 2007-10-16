@@ -1,5 +1,10 @@
 2007-10-16  Miloslav Trmač  <mitr@redhat.com>
 
+	* gnulib/m4/gnulib-cache.m4 (gl_MODULES): Use module gettext-h.
+	* src/lib.h: #include "gettext.h" instead of <libintl.h>.
+	(gettext, ngettext): Remove macros.  gettext.h provides them along with
+	bindtextdomain() and textdomain().
+
 	* tests/locate.at (locate: -S): Don't rely on GNU sed's \?.  Patch by
 	Steve Edwards <sgedward@korime.demon.co.uk>.
 
