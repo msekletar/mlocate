@@ -1,3 +1,8 @@
+2007-12-13  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/updatedb.c (main): Report what group we were trying to reassign
+	the file to on failure.
+
 2007-10-16  Miloslav Trmač  <mitr@redhat.com>
 
 	* gnulib/m4/gnulib-cache.m4 (gl_MODULES): Use module gettext-h.

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: <mitr@redhat.com>\n"
-"POT-Creation-Date: 2007-08-25 00:48+0200\n"
-"PO-Revision-Date: 2006-03-15 16:35+0100\n"
+"POT-Creation-Date: 2007-12-13 14:57+0100\n"
+"PO-Revision-Date: 2007-12-13 15:04+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "missing closing `\"'"
 msgstr "chybí uzavírající `\"'"
 
-#: src/conf.c:298 src/locate.c:946 src/updatedb.c:936
+#: src/conf.c:298 src/locate.c:946 src/updatedb.c:938
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
@@ -61,7 +61,7 @@ msgstr "neplatná hodnota PRUNE_BIND_MOUNTS `%s'"
 msgid "unexpected data after variable value"
 msgstr "neočekávaná data po hodnotě proměnné"
 
-#: src/conf.c:401 src/lib.c:238
+#: src/conf.c:401 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "chyba I/O při čtení `%s'"
@@ -159,27 +159,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "neočekávaný parametr na příkazovém řádku"
 
-#: src/lib.c:172
+#: src/lib.c:176
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' zřejmě není databáze mlocate"
 
-#: src/lib.c:179
+#: src/lib.c:183
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' má neznámou verzi %u"
 
-#: src/lib.c:186
+#: src/lib.c:190
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' má neznámý příznak viditelnosti %u"
 
-#: src/lib.c:240
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "neočekávaný konec souboru při čtení `%s'"
 
-#: src/lib.c:331
+#: src/lib.c:337
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "chyba I/O při posouvání v `%s'"
@@ -310,7 +310,7 @@ msgstr "neplatná regexp `%s': %s"
 msgid "can not read two databases from standard input"
 msgstr "nemohu číst dvě databáze ze standardního vstupu"
 
-#: src/locate.c:952 src/updatedb.c:972
+#: src/locate.c:952 src/updatedb.c:976
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
@@ -319,50 +319,50 @@ msgstr "nemohu stat () `%s'"
 msgid "can not drop privileges"
 msgstr "nemohu se vzdát oprávnění"
 
-#: src/locate.c:1015 src/updatedb.c:1014
+#: src/locate.c:1015 src/updatedb.c:1019
 msgid "I/O error while writing to standard output"
 msgstr "chyba I/O při zápisu na standardní výstup"
 
-#: src/updatedb.c:636 src/updatedb.c:734
+#: src/updatedb.c:638 src/updatedb.c:736
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "délka názvu souboru %zu je příliš velká"
 
-#: src/updatedb.c:930
+#: src/updatedb.c:932
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nemohu otevřít dočasný soubor pro `%s'"
 
-#: src/updatedb.c:941
+#: src/updatedb.c:945
 msgid "configuration is too large"
 msgstr "nastavení je příliš velké"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:973
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nemohu změnit adresář na `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:982
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:990
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nemohu najít skupinu `%s'"
 
-#: src/updatedb.c:988
+#: src/updatedb.c:993
 #, c-format
-msgid "can not change group of file `%s'"
-msgstr "nemohu změnit skupinu souboru `%s'"
+msgid "can not change group of file `%s' to `%s'"
+msgstr "nemohu změnit skupinu souboru `%s' na `%s'"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:1007
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nemohu změnit oprávnění souboru `%s'"
 
-#: src/updatedb.c:1005
+#: src/updatedb.c:1010
 #, c-format
 msgid "error replacing `%s'"
 msgstr "chyba při nahrazování `%s'"

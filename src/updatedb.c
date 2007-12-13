@@ -984,13 +984,14 @@ main (int argc, char *argv[])
   if (conf_check_visibility != false)
     {
       struct group *grp;
-      
+
       grp = getgrnam (GROUPNAME);
       if (grp == NULL)
 	error (EXIT_FAILURE, errno, _("can not find group `%s'"), GROUPNAME);
       if (chown (new_db_filename, (uid_t)-1, grp->gr_gid) != 0)
-	error (EXIT_FAILURE, errno, _("can not change group of file `%s'"),
-	       new_db_filename);
+	error (EXIT_FAILURE, errno,
+	       _("can not change group of file `%s' to `%s'"), new_db_filename,
+	       GROUPNAME);
       mode = S_IRUSR | S_IWUSR | S_IRGRP;
     }
   else /* Permissions as if open (..., O_CREAT | O_WRONLY, 0666) */
