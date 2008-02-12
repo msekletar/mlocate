@@ -112,7 +112,7 @@ The opposite can be specified using \fB\-\-nofollow\fR.
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Write a summary of the available options to standard output
-and exit sucessfully.
+and exit successfully.
 
 .TP
 \fB\-i\fR, \fB\-\-ignore\-case\fR
@@ -152,7 +152,7 @@ Separate the entries on output using the
 .SM ASCII NUL
 character instead of
 writing each entry on a separate line.
-This option is designed for interoprerability with the
+This option is designed for interoperability with the
 .B \-\-null
 option of
 .SM GNU
@@ -191,7 +191,7 @@ and
 \fB\-V\fR, \fB\-\-version\fR
 Write information about the version and licence of
 .B locate
-on standard output and exit sucessfully.
+on standard output and exit successfully.
 
 .TP
 \fB\-w\fR, \fB\-\-wholename\fR

@@ -66,13 +66,13 @@ the generated database.
 The whole file system is scanned by default.
 
 .BR locate (1)
-outputs entries as absolute path names which don't contain symblic links,
+outputs entries as absolute path names which don't contain symbolic links,
 regardless of the form of \fIPATH\fR.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Write a summary of the available options to standard output
-and exit sucessfully.
+and exit successfully.
 
 .TP
 \fB\-o\fR, \fB\-\-output\fR \fIFILE\fR
@@ -136,7 +136,7 @@ Output path names of files to standard output, as soon as they are found.
 \fB\-V\fR, \fB\-\-version\fR
 Write information about the version and licence of
 .B locate
-on standard output and exit sucessfully.
+on standard output and exit successfully.
 
 .SH EXAMPLES
 To create a private mlocate database as an user other than \fBroot\fR,

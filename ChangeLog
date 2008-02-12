@@ -1,3 +1,8 @@
+2008-02-12  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/locate.1.in
+	* doc/updatedb.8.in: Fix typos.  Patch by A. Costa <agcosta@gis.net>.
+
 2007-12-13  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/updatedb.c (main): Report what group we were trying to reassign
