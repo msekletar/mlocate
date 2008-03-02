@@ -4,6 +4,7 @@
 # This file is distributed under the same license as the mlocate package.
 # Miloslav Trmac <mitr@volny.cz>, 2005, 2006, 2007.
 #
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
