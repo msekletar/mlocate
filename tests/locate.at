@@ -568,14 +568,14 @@ AT_CLEANUP
 AT_SETUP([locate: LOCATE_PATH])
 
 mkdir d1 d2
-touch d1/f d2/f
+touch d1/foo d2/foo
 
 AT_CHECK([updatedb -U "$(pwd)/d1" -o db1 -l 0])
 AT_CHECK([updatedb -U "$(pwd)/d2" -o db2 -l 0])
 
-AT_CHECK([LOCATE_PATH=db1 locate -d db2 /f | sed "s,$(pwd)/,,"], ,
-[d2/f
-d1/f
+AT_CHECK([LOCATE_PATH=db1 locate -d db2 /foo | sed "s,$(pwd)/,,"], ,
+[d2/foo
+d1/foo
 ])
 
 AT_CLEANUP

@@ -1,5 +1,8 @@
 2008-03-02  Miloslav Trmač  <mitr@redhat.com>
 
+	* tests/locate.at (locate: LOCATE_PATH): Don't assume the our full
+	path doesn't contain "/f".
+
 	* README: Point to the new home page.
 
 2008-02-12  Miloslav Trmač  <mitr@redhat.com>
