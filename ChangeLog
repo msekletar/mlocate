@@ -1,3 +1,8 @@
+2008-03-03  Miloslav Trmač  <mitr@redhat.com>
+
+	* po/Makevars (MSGID_BUGS_ADDRESS): Update.  (This makes
+	(intltool-update -p) work, and should fix Transifex.)
+
 2008-03-02  Miloslav Trmač  <mitr@redhat.com>
 
 	* tests/locate.at (locate: LOCATE_PATH): Don't assume the our full
