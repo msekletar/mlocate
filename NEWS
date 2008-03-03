@@ -1,3 +1,10 @@
+Changes in version 0.19:
+- New home page at https://fedorahosted.org/mlocate/ .
+- New updatedb option --debug-pruning.
+- Fix typos in man pages.  Patch by A. Costa <agcosta@gis.net>.
+- Make some aspects of the source code more portable.  Patches by Steve Edwards
+  <sgedward@korime.demon.co.uk>.
+
 Changes in version 0.18:
 - Fix uninitialized memory access when dbpath contains "-"
 - Add some examples to the man pages

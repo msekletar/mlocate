@@ -1,5 +1,8 @@
 2008-03-03  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Version 0.19.
+	* NEWS: Update.
+
 	* src/conf.h (conf_debug_pruning): New declaration.
 	* src/updatedb.c (rebuild_bind_mount_paths)
 	(filesystem_is_excluded, scan): Print detailed information about pruning
