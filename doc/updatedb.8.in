@@ -1,6 +1,6 @@
 .\" A man page for updatedb(8). -*- nroff -*-
 .\"
-.\" Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
+.\" Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
 .\"
 .\" This copyrighted material is made available to anyone wishing to use,
 .\" modify, copy, or redistribute it subject to the terms and conditions of the
@@ -68,6 +68,10 @@ The whole file system is scanned by default.
 .BR locate (1)
 outputs entries as absolute path names which don't contain symbolic links,
 regardless of the form of \fIPATH\fR.
+
+.TP
+\fB\-\-debug\-pruning\fR
+Write debugging infromation about pruning decisions to standard error output.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR

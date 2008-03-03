@@ -1,5 +1,15 @@
 2008-03-03  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/conf.h (conf_debug_pruning): New declaration.
+	* src/updatedb.c (rebuild_bind_mount_paths)
+	(filesystem_is_excluded, scan): Print detailed information about pruning
+	decisions to stderr if conf_debug_pruning.
+	* src/conf.c (conf_debug_pruning): New variable.
+	(parse_arguments): Handle --debug-pruning.
+	(conf_prepare): Print conf_block to stderr if conf_debug_pruning.
+	* doc/updatedb.8.in: Document --debug-pruning.
+	* tests/config.at (config: --debug-pruning): Add a M_CONF_UNTESTED note.
+
 	* po/Makevars (MSGID_BUGS_ADDRESS): Update.  (This makes
 	(intltool-update -p) work, and should fix Transifex.)
 

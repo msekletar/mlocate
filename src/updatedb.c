@@ -1,6 +1,6 @@
 /* updatedb(8).
 
-Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -343,6 +343,9 @@ rebuild_bind_mount_paths (void)
   FILE *f;
   struct mntent *me;
 
+  if (conf_debug_pruning != false)
+    /* This is debuging output, don't mark anything for translation */
+    fprintf (stderr, "Rebuilding bind_mount_paths:\n");
   obstack_free (&bind_mount_paths_obstack, bind_mount_paths_mark);
   bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
   bind_mount_paths.len = 0;
@@ -351,6 +354,9 @@ rebuild_bind_mount_paths (void)
     goto err;
   while ((me = getmntent (f)) != NULL)
     {
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, " `%s', opts `%s'\n", me->mnt_dir, me->mnt_opts);
       if (hasmntopt (me, "bind") != NULL)
 	{
 	  char dbuf[PATH_MAX], *dir;
@@ -358,6 +364,9 @@ rebuild_bind_mount_paths (void)
 	  dir = realpath (me->mnt_dir, dbuf);
 	  if (dir == NULL)
 	    dir = me->mnt_dir;
+	  if (conf_debug_pruning != false)
+	    /* This is debuging output, don't mark anything for translation */
+	    fprintf (stderr, " => adding `%s'\n", dir);
 	  dir = obstack_copy (&bind_mount_paths_obstack, dir, strlen (dir) + 1);
 	  string_list_append (&bind_mount_paths, dir);
 	}
@@ -365,6 +374,9 @@ rebuild_bind_mount_paths (void)
   endmntent (f);
   /* Fall through */
  err:
+  if (conf_debug_pruning != false)
+    /* This is debuging output, don't mark anything for translation */
+    fprintf (stderr, "...done\n");
   string_list_dir_path_sort (&bind_mount_paths);
 }
 
@@ -431,6 +443,9 @@ filesystem_is_excluded (const char *path)
   struct mntent *me;
   bool res;
 
+  if (conf_debug_pruning != false)
+    /* This is debuging output, don't mark anything for translation */
+    fprintf (stderr, "Checking whether filesystem `%s' is excluded:\n", path);
   res = false;
   f = setmntent (MOUNT_TABLE_PATH, "r");
   if (f == NULL)
@@ -440,6 +455,9 @@ filesystem_is_excluded (const char *path)
       char *p;
       size_t size;
 
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, " `%s', type `%s'\n", me->mnt_dir, me->mnt_type);
       size = strlen (me->mnt_type) + 1;
       while (size > type_size)
 	type = x2realloc (type, &type_size);
@@ -462,6 +480,9 @@ filesystem_is_excluded (const char *path)
 	     if the filesystem is unavailable hard-mounted NFS. */
 	  dir = me->mnt_dir;
 #endif
+	  if (conf_debug_pruning != false)
+	    /* This is debuging output, don't mark anything for translation */
+	    fprintf (stderr, " => type matches, dir `%s'\n", dir);
 	  if (strcmp (path, dir) == 0)
 	    {
 	      res = true;
@@ -472,6 +493,9 @@ filesystem_is_excluded (const char *path)
  err_f:
   endmntent (f);
  err:
+  if (conf_debug_pruning != false)
+    /* This is debuging output, don't mark anything for translation */
+    fprintf (stderr, "...done\n");
   return res;
 }
 
@@ -786,13 +810,28 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   bool have_subdir, did_chdir;
 
   if (path_is_in_list (&conf_prunepaths, &conf_prunepaths_index, path))
-    goto err;
+    {
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, "Skipping `%s': in prunepaths\n", path);
+      goto err;
+    }
   if (conf_prune_bind_mounts != false && is_bind_mount (path))
-    goto err;
+    {
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, "Skipping `%s': bind mount\n", path);
+      goto err;
+    }
   if (lstat (relative, &st) != 0)
     goto err;
   if (st.st_dev != st_parent->st_dev && filesystem_is_excluded (path))
-    goto err;
+    {
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, "Skipping `%s': in prunefs\n", path);
+      goto err;
+    }
   /* "relative" may now become a symlink to somewhere else.  So we use it only
      in safe_chdir (). */
   entries_mark = obstack_alloc (&scan_dir_state.data_obstack, 0);

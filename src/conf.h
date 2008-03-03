@@ -1,6 +1,6 @@
 /* updatedb configuration.
 
-Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -35,6 +35,9 @@ extern struct string_list conf_prunepaths;
 
 /* true if bind mounts should be skipped */
 extern bool conf_prune_bind_mounts;
+
+/* true if pruning debug output was requested */
+extern bool conf_debug_pruning;
 
 /* Root of the directory tree to store in the database (canonical) */
 extern char *conf_scan_root;

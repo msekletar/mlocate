@@ -1,6 +1,6 @@
 /* updatedb configuration.
 
-Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -46,6 +46,9 @@ struct string_list conf_prunepaths;
 
 /* true if bind mounts should be skipped */
 bool conf_prune_bind_mounts; /* = false; */
+
+/* true if pruning debug output was requested */
+bool conf_debug_pruning; /* = false; */
 
 /* Root of the directory tree to store in the database (canonical) */
 char *conf_scan_root; /* = NULL; */
@@ -471,11 +474,14 @@ prepend_cwd (const char *path)
 static void
 parse_arguments (int argc, char *argv[])
 {
+  enum { OPT_DEBUG_PRUNING = CHAR_MAX + 1 };
+
   static const struct option options[] =
     {
       { "add-prunefs", required_argument, NULL, 'f' },
       { "add-prunepaths", required_argument, NULL, 'e' },
       { "database-root", required_argument, NULL, 'U' },
+      { "debug-pruning", no_argument, NULL, OPT_DEBUG_PRUNING },
       { "help", no_argument, NULL, 'h' },
       { "output", required_argument, NULL, 'o' },
       { "prune-bind-mounts", required_argument, NULL, 'B' },
@@ -591,6 +597,10 @@ parse_arguments (int argc, char *argv[])
 	  conf_verbose = true;
 	  break;
 
+	case OPT_DEBUG_PRUNING:
+	  conf_debug_pruning = true;
+	  break;
+
 	default:
 	  abort ();
 	}
@@ -674,4 +684,27 @@ conf_prepare (int argc, char *argv[])
   var_finish (&conf_prunepaths);
   gen_conf_block ();
   string_list_dir_path_sort (&conf_prunepaths);
+  if (conf_debug_pruning != false)
+    {
+      const char *p;
+
+      /* This is debuging output, don't mark anything for translation */
+      fprintf (stderr, "conf_block:\n");
+      for (p = conf_block; p < conf_block + conf_block_size; p++)
+	{
+	  char c;
+
+	  c = *p;
+	  if (isascii ((unsigned char)c) && isprint ((unsigned char)c)
+	      && c != '\\')
+	    putc (c, stderr);
+	  else
+	    {
+	      fprintf (stderr, "\\%03o", (unsigned)(unsigned char)c);
+	      if (c == 0)
+		putc ('\n', stderr);
+	    }
+	}
+      fprintf (stderr, "\n-----------------------\n");
+    }
 }

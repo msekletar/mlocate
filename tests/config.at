@@ -1,4 +1,4 @@
-# Copyright (C) 2006, 2007 Red Hat, Inc. All rights reserved.
+# Copyright (C) 2006, 2007, 2008 Red Hat, Inc. All rights reserved.
 # This copyrighted material is made available to anyone wishing to use, modify,
 # copy, or redistribute it subject to the terms and conditions of the GNU
 # General Public License v.2.
@@ -193,6 +193,10 @@ This program is provided with NO WARRANTY, to the extent permitted by law.
 ])
 
 AT_CLEANUP
+
+
+# Output depends on the local system configuration too much
+M_CONF_UNTESTED([config: --debug-pruning])
 
 
 AT_SETUP([config: --prune-bind-mounts])
