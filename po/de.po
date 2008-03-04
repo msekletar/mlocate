@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-03-03 17:18+0000\n"
-"PO-Revision-Date: 2008-03-03 23:17+0100\n"
+"POT-Creation-Date: 2008-03-04 00:17+0000\n"
+"PO-Revision-Date: 2008-03-04 08:31+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: Gernan <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -61,13 +61,13 @@ msgstr ""
 
 #: ../src/conf.c:390
 msgid "unexpected data after variable value"
-msgstr ""
+msgstr "Unerwartete Daten nach dem Variabel-Wert"
 
 #: ../src/conf.c:404
 #: ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr ""
+msgstr "E/A-Lese-Fehler `%s'"
 
 #: ../src/conf.c:422
 #, c-format
@@ -105,7 +105,7 @@ msgstr ""
 
 #: ../src/conf.c:464
 msgid "can not get current working directory"
-msgstr ""
+msgstr "kann aktuelles arbeitsverzeichnis nicht bestimmen"
 
 #: ../src/conf.c:519
 #: ../src/conf.c:530
@@ -170,7 +170,7 @@ msgstr "`%s' hat unbekanntes Visualisierungsflag %u"
 #: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr ""
+msgstr "unerwartetes EOF gelesen `%s'"
 
 #: ../src/lib.c:337
 #, c-format
@@ -215,12 +215,12 @@ msgstr[1] ""
 #: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr ""
+msgstr "ungültiger leerer Verzeichnisname in `%s'"
 
 #: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr ""
+msgstr "Dateinamen-Länge %zu in `%s' ist zu lang"
 
 #: ../src/locate.c:601
 #, c-format
@@ -253,9 +253,9 @@ msgid ""
 msgstr ""
 
 #: ../src/locate.c:800
-#, c-format
+#, fuzzy, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr ""
+msgstr "kein-Option-Argumente sind nicht erlaubt mit --%s"
 
 #: ../src/locate.c:813
 msgid "no pattern to search for specified"
@@ -264,11 +264,11 @@ msgstr ""
 #: ../src/locate.c:840
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr ""
+msgstr "ungültige regexp `%s': %s"
 
 #: ../src/locate.c:933
 msgid "can not read two databases from standard input"
-msgstr ""
+msgstr "kann nicht zwei Datenbanken von der Standard-Eingabe lesen"
 
 #: ../src/locate.c:952
 #: ../src/updatedb.c:1015
@@ -277,19 +277,20 @@ msgid "can not stat () `%s'"
 msgstr ""
 
 #: ../src/locate.c:961
+#, fuzzy
 msgid "can not drop privileges"
-msgstr ""
+msgstr "kann Privilegien nicht fallen lassen"
 
 #: ../src/locate.c:1015
 #: ../src/updatedb.c:1058
 msgid "I/O error while writing to standard output"
-msgstr ""
+msgstr "E/A-Fehler während des Schreibens zur Standard-Ausgabe"
 
 #: ../src/updatedb.c:662
 #: ../src/updatedb.c:760
 #, c-format
 msgid "file name length %zu is too large"
-msgstr ""
+msgstr "Dateinamen-Länge %zu ist zu lange"
 
 #: ../src/updatedb.c:971
 #, c-format
@@ -298,7 +299,7 @@ msgstr ""
 
 #: ../src/updatedb.c:984
 msgid "configuration is too large"
-msgstr ""
+msgstr "Konfiguration ist zu lang"
 
 #: ../src/updatedb.c:1012
 #, c-format
@@ -308,7 +309,7 @@ msgstr ""
 #: ../src/updatedb.c:1021
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr ""
+msgstr "E/A-Fehler während Schreiben zu `%s'"
 
 #: ../src/updatedb.c:1029
 #, c-format
@@ -318,7 +319,7 @@ msgstr "kann Gruppe nicht finden `%s'"
 #: ../src/updatedb.c:1032
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr ""
+msgstr "kann Dateigruppe nicht ändern von `%s' zu `%s'"
 
 #: ../src/updatedb.c:1046
 #, c-format
