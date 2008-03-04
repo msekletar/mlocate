@@ -82,6 +82,8 @@ AT_CLEANUP
 AT_SETUP([updatedb: Permissions])
 AT_KEYWORDS([updatedb])
 
+AT_XFAIL_IF([test "x`id -u`" = x0])
+
 perms='000 100 200 300 400 500 600 700'
 
 mkdir d
@@ -264,6 +266,8 @@ AT_CLEANUP
 
 
 AT_SETUP([updatedb: Output creation])
+
+AT_XFAIL_IF([test "x`id -u`" = x0])
 
 mkdir d out
 chmod 500 out
