@@ -1,5 +1,8 @@
 2008-03-04  Miloslav Trmač  <mitr@redhat.com>
 
+	* po/LINGUAS: Add "de" (by Fabian Affolter <fab@fedoraproject.org>) and
+	"pl" (by Piotr Drąg <piotrdrag@gmail.com>).
+
 	* tests/updatedb.at (updatedb: Permissions)
 	(updatedb: Output creation): Expect the tests to fail if running as
 	root.
