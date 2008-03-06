@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2008-03-04 00:17+0000\n"
-"PO-Revision-Date: 2008-03-04 08:31+0100\n"
+"PO-Revision-Date: 2008-03-07 00:49+0100\n"
 "Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
 "Language-Team: Gernan <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Werte in Anführungszeichen erwartet nach `='"
 #: ../src/conf.c:375
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
-msgstr ""
+msgstr "ungültiger Wert `%s' von PRUNE_BIND_MOUNTS"
 
 #: ../src/conf.c:390
 msgid "unexpected data after variable value"
@@ -116,7 +116,7 @@ msgstr "kann aktuelles arbeitsverzeichnis nicht bestimmen"
 #: ../src/locate.c:784
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr ""
+msgstr "--%s wird frühere Befehlszeilen-Argumente überschreiben"
 
 #: ../src/conf.c:523
 #: ../src/conf.c:553
@@ -155,7 +155,7 @@ msgstr "unerwarteter Operand auf der Befehlszeile"
 #: ../src/lib.c:176
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr ""
+msgstr "`%s' scheint nicht eine mlocate-Datenbank zu sein"
 
 #: ../src/lib.c:183
 #, c-format
@@ -175,7 +175,7 @@ msgstr "unerwartetes EOF gelesen `%s'"
 #: ../src/lib.c:337
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr ""
+msgstr "E/A-Fehlersuche in `%s'"
 
 #: ../src/locate.c:335
 #, c-format
@@ -202,15 +202,15 @@ msgstr[1] "\t%'ju Dateien\n"
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju Byte in Dateinamen\n"
+msgstr[1] "\t%'ju Bytes in Dateinamen\n"
 
 #: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju Byte benutzt zum Speichern der Datenbank\n"
+msgstr[1] "\t%'ju Bytes benutzt zum Speichern der Datenbank\n"
 
 #: ../src/locate.c:473
 #, c-format
@@ -259,7 +259,7 @@ msgstr "kein-Option-Argumente sind nicht erlaubt mit --%s"
 
 #: ../src/locate.c:813
 msgid "no pattern to search for specified"
-msgstr ""
+msgstr "Keine Muster zum Suchen für vorgegebene"
 
 #: ../src/locate.c:840
 #, c-format
@@ -272,9 +272,9 @@ msgstr "kann nicht zwei Datenbanken von der Standard-Eingabe lesen"
 
 #: ../src/locate.c:952
 #: ../src/updatedb.c:1015
-#, c-format
+#, fuzzy, c-format
 msgid "can not stat () `%s'"
-msgstr ""
+msgstr "kann nicht stat () `%s'"
 
 #: ../src/locate.c:961
 #, fuzzy
@@ -295,7 +295,7 @@ msgstr "Dateinamen-Länge %zu ist zu lange"
 #: ../src/updatedb.c:971
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr ""
+msgstr "kann temporäre Datei nicht öffnen für `%s'"
 
 #: ../src/updatedb.c:984
 msgid "configuration is too large"
@@ -304,7 +304,7 @@ msgstr "Konfiguration ist zu lang"
 #: ../src/updatedb.c:1012
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr ""
+msgstr "kann Verzeichnis nicht ändern auf `%s'"
 
 #: ../src/updatedb.c:1021
 #, c-format
@@ -324,10 +324,10 @@ msgstr "kann Dateigruppe nicht ändern von `%s' zu `%s'"
 #: ../src/updatedb.c:1046
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr ""
+msgstr "kann Berechtigungen nicht ändern von Datei `%s'"
 
 #: ../src/updatedb.c:1049
 #, c-format
 msgid "error replacing `%s'"
-msgstr ""
+msgstr "Fehler beim Ersetzen `%s'"
 
