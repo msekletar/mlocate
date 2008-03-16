@@ -41,7 +41,7 @@ White space between tokens is ignored.
 .I VARIABLE
 is an alphanumeric string which does not start with a digit.
 .I VALUE
-can contain any character except for \fB"\fR.    \" " emacs is stupid
+can contain any character except for \fB\(dq\fR.
 No escape mechanism is supported within
 .I VALUE
 and there is no way to write

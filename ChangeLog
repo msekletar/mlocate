@@ -1,3 +1,10 @@
+2008-03-16  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/updatedb.8.in: Fix a typo, and stop using some non-words.
+
+	* doc/updatedb.conf.5.in: Use \(dq instead of a quote in a comment to
+	satisfy emacs.
+
 2008-03-04  Miloslav Trmač  <mitr@redhat.com>
 
 	* po/LINGUAS: Add "de" (by Fabian Affolter <fab@fedoraproject.org>) and

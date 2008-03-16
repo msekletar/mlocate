@@ -71,7 +71,7 @@ regardless of the form of \fIPATH\fR.
 
 .TP
 \fB\-\-debug\-pruning\fR
-Write debugging infromation about pruning decisions to standard error output.
+Write debugging information about pruning decisions to standard error output.
 
 .TP
 \fB\-h\fR, \fB\-\-help\fR
@@ -88,15 +88,15 @@ instead of using the default database.
 \fB\-\-prune\-bind\-mounts\fR \fIFLAG\fR
 Set
 .B PRUNE_BIND_MOUNTS
-to \fIFLAG\fR, overriding the config file.
+to \fIFLAG\fR, overriding the configuration file.
 
 .TP
 \fB\-\-prunefs\fR \fIFS\fR
-Set \fBPRUNEFS\fR to \fIFS\fR, overriding the config file.
+Set \fBPRUNEFS\fR to \fIFS\fR, overriding the configuration file.
 
 .TP
 \fB\-\-prunepaths\fR \fIPATHS\fR
-Set \fBPRUNEPATHS\fR to \fIPATHS\fR, overriding the config file.
+Set \fBPRUNEPATHS\fR to \fIPATHS\fR, overriding the configuration file.
 
 .TP
 \fB\-l\fR, \fB\-\-require\-visibility\fR \fIFLAG\fR
@@ -130,7 +130,7 @@ group is set to
 and the database permissions prohibit reading the database by users using
 other means than
 .BR locate (1),
-which is sgid \fB@groupname@\fR.
+which is set-gid \fB@groupname@\fR.
 
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
