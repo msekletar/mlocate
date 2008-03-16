@@ -19,7 +19,7 @@
 .TH updatedb 8 "Jul 2005" mlocate
 
 .SH NAME
-udpatedb \- update a database for mlocate
+updatedb \- update a database for mlocate
 
 .SH SYNOPSIS
 
