@@ -1,3 +1,13 @@
+2008-04-09  Miloslav Trmač  <mitr@redhat.com>
+
+	* po/LINGUAS: Add "bg" (by Alexander Todorov <atodorov@redhat.com>),
+	"fr" (by Robert-André Mauchin <zebob.m@pengzone.org> and Thomas Canniot
+	<mrtom@fedoraproject.org>), "it" (by Silvio Pierro
+	<perplesso82@gmail.com> and Gianluca Busiello
+	<busiello@ceinge.unina.it>), "pt_BR" (by Diego Búrigo Zacarão
+	<diegobz@projetofedora.org>), "sr" and "sr@latin" (by Nikola Pajtić
+	<salgeras@gmail.com> and Miloš Komarčević <kmilos@gmail.com>).
+
 2008-03-16  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/updatedb.8.in: Fix a typo.  Patch by Adeodato Simó
