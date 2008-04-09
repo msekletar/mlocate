@@ -1,3 +1,18 @@
+Changes in version 0.20:
+- Fix more typos in man pages.  Patch by Adeodato Simó <dato@net.com.org.es>.
+- Workaround (make check) failures when running as root.
+- New translations:
+  - Brazilian Portuguese by Diego Búrigo Zacarão <diegobz@projetofedora.org>,
+  - Bulgarian by Alexander Todorov <atodorov@redhat.com>,
+  - French by Robert-André Mauchin <zebob.m@pengzone.org> and Thomas Canniot
+    <mrtom@fedoraproject.org>,
+  - German by Fabian Affolter <fab@fedoraproject.org>,
+  - Italian by Silvio Pierro <perplesso82@gmail.com> and Gianluca Busiello
+    <busiello@ceinge.unina.it>,
+  - Polish by Piotr Drąg <piotrdrag@gmail.com>,
+  - Serbian by Nikola Pajtić <salgeras@gmail.com> and Miloš Komarčević
+    <kmilos@gmail.com>
+
 Changes in version 0.19:
 - New home page at https://fedorahosted.org/mlocate/ .
 - New updatedb option --debug-pruning.

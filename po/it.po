@@ -10,65 +10,65 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-03-28 18:27+0000\n"
+"POT-Creation-Date: 2008-03-03 04:14+0100\n"
 "PO-Revision-Date: 2008-03-29 02:28+0100\n"
 "Last-Translator: Gianluca Busiello <busiello@ceinge.unina.it>\n"
 "Language-Team: italiano <fedora-trans-it@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);X-Generator: KBabel 1.11.4"
+"Plural-Forms: nplurals=2; plural=(n != 1);X-Generator: KBabel 1.11.4\n"
 
-#: ../src/conf.c:235
+#: src/conf.c:235
 msgid "warning: Line number overflow"
 msgstr "attenzione: Overflow del numero di linea"
 
-#: ../src/conf.c:253
+#: src/conf.c:253
 msgid "missing closing `\"'"
 msgstr "mancata chiusura `\"'"
 
-#: ../src/conf.c:301 ../src/locate.c:946 ../src/updatedb.c:977
+#: src/conf.c:301 src/locate.c:946 src/updatedb.c:977
 #, c-format
 msgid "can not open `%s'"
 msgstr "impossibile aprire `%s'"
 
-#: ../src/conf.c:340
+#: src/conf.c:340
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "variabile sconosciuta `%s'"
 
-#: ../src/conf.c:345
+#: src/conf.c:345
 msgid "variable name expected"
 msgstr "atteso nome di variabile"
 
-#: ../src/conf.c:351
+#: src/conf.c:351
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "la variabile `%s' è già definita"
 
-#: ../src/conf.c:360
+#: src/conf.c:360
 msgid "`=' expected after variable name"
 msgstr "atteso `=' dopo il nome della variabile"
 
-#: ../src/conf.c:367
+#: src/conf.c:367
 msgid "value in quotes expected after `='"
 msgstr "valore fra virgolette atteso dopo `='"
 
-#: ../src/conf.c:375
+#: src/conf.c:375
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "valore non valido `%s' di PRUNE_BIND_MOUNTS"
 
-#: ../src/conf.c:390
+#: src/conf.c:390
 msgid "unexpected data after variable value"
 msgstr "dato inatteso dopo il valore della variabile"
 
-#: ../src/conf.c:404 ../src/lib.c:244
+#: src/conf.c:404 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "errore di I/O leggendo `%s'"
 
-#: ../src/conf.c:422
+#: src/conf.c:422
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -116,7 +116,7 @@ msgstr ""
 "La configurazione predefinita si basa sui valori letti da\n"
 "`%s'.\n"
 
-#: ../src/conf.c:446 ../src/locate.c:636
+#: src/conf.c:446 src/locate.c:636
 #, c-format
 msgid ""
 "\n"
@@ -125,27 +125,27 @@ msgstr ""
 "\n"
 "Riportare i bug a %s.\n"
 
-#: ../src/conf.c:464
+#: src/conf.c:464
 msgid "can not get current working directory"
 msgstr "impossibile ottenere la cartella di lavoro"
 
-#: ../src/conf.c:519 ../src/conf.c:530 ../src/conf.c:540 ../src/locate.c:691
-#: ../src/locate.c:700 ../src/locate.c:726 ../src/locate.c:784
+#: src/conf.c:519 src/conf.c:530 src/conf.c:540 src/locate.c:691
+#: src/locate.c:700 src/locate.c:726 src/locate.c:784
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s sovrascriverebbe un precedente argomento della linea di comando"
 
-#: ../src/conf.c:523 ../src/conf.c:553 ../src/conf.c:586 ../src/locate.c:763
+#: src/conf.c:523 src/conf.c:553 src/conf.c:586 src/locate.c:763
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "valore `%s' non valido di --%s"
 
-#: ../src/conf.c:549 ../src/conf.c:582 ../src/conf.c:592 ../src/locate.c:757
+#: src/conf.c:549 src/conf.c:582 src/conf.c:592 src/locate.c:757
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s specificato due volte"
 
-#: ../src/conf.c:559 ../src/locate.c:716
+#: src/conf.c:559 src/locate.c:716
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -158,81 +158,79 @@ msgstr ""
 "Questo programma viene fornito SENZA NESSUNA GARANZIA, nei limiti della "
 "legge."
 
-#: ../src/conf.c:610
+#: src/conf.c:610
 msgid "unexpected operand on command line"
 msgstr "operando inatteso sulla linea di comando"
 
-#: ../src/lib.c:176
+#: src/lib.c:176
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' non sembra essere un database mlocate"
 
-#: ../src/lib.c:183
+#: src/lib.c:183
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' ha una versione %u sconosciuta"
 
-#: ../src/lib.c:190
+#: src/lib.c:190
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' ha un flag di visibilità %u sconosciuto"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "inaspettato EOF nella lettura di `%s'"
 
-#: ../src/lib.c:337
+#: src/lib.c:337
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "ricerca di errore I/O in `%s'"
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Database %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju cartella\n"
 msgstr[1] "\t%'ju cartella\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju file\n"
 msgstr[1] "\t%'ju file\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju byte nei nomi file\n"
 msgstr[1] "\t%'ju byte nei nomi file\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju byte usati per conservare il database\n"
 msgstr[1] "\t%'ju byte usati per conservare il database\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "nome di cartella vuota non valida in `%s'"
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "la lunghezza del nome file %zu in `%s' è troppo larga"
 
-#: ../src/locate.c:601
+#: src/locate.c:601
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -297,78 +295,77 @@ msgstr ""
 "  -w, --wholename        corrispondenza per l'intero nome del path\n"
 "                         (predefinito)\n"
 
-#: ../src/locate.c:800
+#: src/locate.c:800
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argomenti non-opzioni non sono consentiti con --%s"
 
-#: ../src/locate.c:813
+#: src/locate.c:813
 msgid "no pattern to search for specified"
 msgstr "non è stato specificato nessun pattern da cercare"
 
-#: ../src/locate.c:840
+#: src/locate.c:840
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "regexp `%s' non valido: %s"
 
-#: ../src/locate.c:933
+#: src/locate.c:933
 msgid "can not read two databases from standard input"
 msgstr "impossibile leggere due database da standard input"
 
-#: ../src/locate.c:952 ../src/updatedb.c:1015
+#: src/locate.c:952 src/updatedb.c:1015
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "can not stat () `%s'"
 
-#: ../src/locate.c:961
+#: src/locate.c:961
 msgid "can not drop privileges"
 msgstr "impossibile copiare i privilegi"
 
-#: ../src/locate.c:1015 ../src/updatedb.c:1058
+#: src/locate.c:1015 src/updatedb.c:1058
 msgid "I/O error while writing to standard output"
 msgstr "erore di I/O durante la scrittura sullo standard output"
 
-#: ../src/updatedb.c:662 ../src/updatedb.c:760
+#: src/updatedb.c:662 src/updatedb.c:760
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "la lunghezza del nome file %zu è troppo grande"
 
-#: ../src/updatedb.c:971
+#: src/updatedb.c:971
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "impossibile aprire un file temporaneo per `%s'"
 
-#: ../src/updatedb.c:984
+#: src/updatedb.c:984
 msgid "configuration is too large"
 msgstr "la configurazione è troppo grande"
 
-#: ../src/updatedb.c:1012
+#: src/updatedb.c:1012
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "impossibile cambiare la cartella a `%s'"
 
-#: ../src/updatedb.c:1021
+#: src/updatedb.c:1021
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "errore di I/O durante la scrittura su `%s'"
 
-#: ../src/updatedb.c:1029
+#: src/updatedb.c:1029
 #, c-format
 msgid "can not find group `%s'"
 msgstr "impossibile trovare il gruppo `%s'"
 
-#: ../src/updatedb.c:1032
+#: src/updatedb.c:1032
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "impossibile cambiare il gruppo del file `%s' in `%s'"
 
-#: ../src/updatedb.c:1046
+#: src/updatedb.c:1046
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "impossibile cambiare i permessi del file `%s'"
 
-#: ../src/updatedb.c:1049
+#: src/updatedb.c:1049
 #, c-format
 msgid "error replacing `%s'"
 msgstr "errore sostituendo `%s'"
-

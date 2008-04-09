@@ -1,5 +1,8 @@
 2008-04-09  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Version 0.20.
+	* NEWS: Update.
+
 	* po/LINGUAS: Add "bg" (by Alexander Todorov <atodorov@redhat.com>),
 	"fr" (by Robert-André Mauchin <zebob.m@pengzone.org> and Thomas Canniot
 	<mrtom@fedoraproject.org>), "it" (by Silvio Pierro
