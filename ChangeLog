@@ -1,3 +1,9 @@
+2008-06-09  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/lib.c (dir_path_cmp_init): Use the correct character value
+	mapping instead of its inversion.  Resolves ticket:3.
+	* tests/updatedb.at (updatedb: Path sorting): New test.
+
 2008-04-09  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Version 0.20.

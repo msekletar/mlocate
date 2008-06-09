@@ -74,15 +74,17 @@ dir_path_cmp_init (void)
   unsigned char val;
 
   dir_path_cmp_table[0] = 0;
-  dir_path_cmp_table[1] = '/';
-  val = (unsigned char)1;
-  for (i = 2; i < ARRAY_SIZE (dir_path_cmp_table); i++)
+  dir_path_cmp_table['/'] = 1;
+  val = (unsigned char)2;
+  for (i = 1; i < ARRAY_SIZE (dir_path_cmp_table); i++)
     {
-      if (val == '/')
-	val++;
-      dir_path_cmp_table[i] = val;
-      val++;
+      if (i != '/')
+	{
+	  dir_path_cmp_table[i] = val;
+	  val++;
+	}
     }
+  assert (val == 0);
 }
 
 /* Compare two path names using the database directory order. This is not

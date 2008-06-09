@@ -302,3 +302,24 @@ AT_CHECK([sed "s,$(pwd)/,DIR/,; s/': .*$/': /" < error], ,
 chmod 700 out d2
 
 AT_CLEANUP
+
+
+AT_SETUP([updatedb: Path sorting])
+
+mkdir -p d/a/z d/a.b d/a.c
+touch d/a/z/x d/a.b/x d/a.c/x
+# The correct sort order of conf_prunepaths is d/a/z d/a.b.  An incorrect sort
+# order, e.g. d/a.b d/a/z, would prune only d/a/z.
+
+AT_CHECK([updatedb --prunepaths "$(pwd)/d/a.b $(pwd)/d/a/z" -U "$(pwd)/d" \
+	 -o db -l 0])
+AT_CHECK([locate -d db / | sed "s,^$(pwd)/,,"], ,
+[d
+d/a
+d/a.b
+d/a.c
+d/a/z
+d/a.c/x
+])
+
+AT_CLEANUP
