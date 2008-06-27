@@ -938,17 +938,20 @@ unlink_set (const char *path)
 static void
 unlink_init (void)
 {
+  static const int signals[] = { SIGABRT, SIGINT, SIGTERM };
+
   struct sigaction sa;
+  size_t i;
 
   atexit (unlink_db);
   sigemptyset (&unlink_sigset);
-  sigaddset (&unlink_sigset, SIGINT);
-  sigaddset (&unlink_sigset, SIGTERM);
+  for (i = 0; i < ARRAY_SIZE(signals); i++)
+    sigaddset (&unlink_sigset, signals[i]);
   sa.sa_handler = unlink_signal;
   sa.sa_mask = unlink_sigset;
   sa.sa_flags = 0;
-  sigaction (SIGINT, &sa, NULL);
-  sigaction (SIGTERM, &sa, NULL);
+  for (i = 0; i < ARRAY_SIZE(signals); i++)
+    sigaction (signals[i], &sa, NULL);
 }
 
  /* Top level */
