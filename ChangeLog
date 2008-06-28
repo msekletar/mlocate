@@ -1,3 +1,8 @@
+2008-06-28  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/conf.c (conf_prepare): Sort conf_prunefs correctly and remove
+	all duplicates.  Resolves ticket:4.
+
 2008-06-27  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/updatedb.c (unlink_init): Unlink unlink_path on SIGABRT as well.

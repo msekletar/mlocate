@@ -672,7 +672,6 @@ conf_prepare (int argc, char *argv[])
   var_init (&prunepaths_var);
   parse_updatedb_conf ();
   parse_arguments (argc, argv);
-  var_finish (&conf_prunefs);
   for (i = 0; i < conf_prunefs.len; i++)
     {
       char *p;
@@ -681,6 +680,10 @@ conf_prepare (int argc, char *argv[])
       for (p = conf_prunefs.entries[i]; *p != 0; p++)
 	*p = toupper((unsigned char)*p);
     }
+  /* Finish the variable only after converting filesystem names to upper case
+     to avoid keeping duplicates that originally differed in case and to sort
+     them correctly. */
+  var_finish (&conf_prunefs);
   var_finish (&conf_prunepaths);
   gen_conf_block ();
   string_list_dir_path_sort (&conf_prunepaths);
