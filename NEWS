@@ -1,3 +1,20 @@
+Changes in version 0.21:
+- New variable PRUNENAMES, new updatedb options --add-prunenames and
+  --prunenames.  Resolves ticket:2.
+- Fix prunepaths and bind mount pruning in certain cases.
+- Lock the database in updatedb to avoid more than one updatedb running
+  concurrently.
+- Remove the temporary database file if updatedb aborts with an assertion
+  failure.
+- Fix sorting of prunefs if an entry contains uppercase characters.  Resolves
+  ticket:3.
+- New or updated translations:
+  - Brazilian Portuguese by Igor Pires Soares <igor@projetofedora.org> and Ivo
+    Nascimento <iannsp@gmail.com>
+  - Czech
+  - Hungarian by Nagy Enikő <vakegir@gmail.com>
+  - Malay/Bahasa Melayu by Mohd Izhar Firdaus Ismail <izhar@fedoraproject.org>
+
 Changes in version 0.20:
 - Fix more typos in man pages.  Patch by Adeodato Simó <dato@net.com.org.es>.
 - Workaround (make check) failures when running as root.

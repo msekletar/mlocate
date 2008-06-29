@@ -1,5 +1,9 @@
 2008-06-30  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Version 0.21.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
 	* po/cs.po: Update Czech translation.
 
 	* src/updatedb.c (main): Modify an error message to use capitalization

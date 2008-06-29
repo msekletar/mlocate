@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the mlocate package.
 # Alexander Todorov <atodorov@redhat.com>, 2008.
 # , fuzzy
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-03-03 04:14+0100\n"
+"POT-Creation-Date: 2008-06-30 01:35+0200\n"
 "PO-Revision-Date: 2008-03-20 17:32+0100\n"
 "Last-Translator: Alexander Todorov <atodorov@redhat.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -18,62 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/conf.c:235
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "предупреждение: Препълване на номерата на редовете"
 
-#: src/conf.c:253
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "липсва затваряща `\"'"
 
-#: src/conf.c:301 src/locate.c:946 src/updatedb.c:977
+#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "не може да бъде отворен `%s'"
 
-#: src/conf.c:340
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "неизвестна променлива `%s'"
 
-#: src/conf.c:345
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "очаква се име на променлива"
 
-#: src/conf.c:351
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "променливата `%s' вече е дефинирана"
 
-#: src/conf.c:360
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "очаква се знак `=' след името на променливата"
 
-#: src/conf.c:367
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "стойност в кавички се очаква след `='"
 
-#: src/conf.c:375
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "невалидна стойност `%s' за PRUNE_BIND_MOUNTS"
 
-#: src/conf.c:390
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "неочаквани данни след стойността на променлива"
 
-#: src/conf.c:404 src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "Вх/Изх грешка при четене на `%s'"
 
-#: src/conf.c:422
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
 "Update a mlocate database.\n"
 "\n"
 "  -f, --add-prunefs FS           omit also FS\n"
+"  -n, --add-prunenames NAMES     omit also NAMES\n"
 "  -e, --add-prunepaths PATHS     omit also PATHS\n"
 "  -U, --database-root PATH       the subtree to store in database (default "
 "\"/\")\n"
@@ -82,6 +83,7 @@ msgid ""
 "                                 `%s')\n"
 "      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
 "      --prunefs FS               filesystems to omit from database\n"
+"      --prunenames NAMES         directory names to omit from database\n"
 "      --prunepaths PATHS         paths to omit from database\n"
 "  -l, --require-visibility FLAG  check visibility before reporting files\n"
 "                                 (default \"yes\")\n"
@@ -92,7 +94,7 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 
-#: src/conf.c:446 src/locate.c:636
+#: src/conf.c:464 src/locate.c:639
 #, c-format
 msgid ""
 "\n"
@@ -101,27 +103,27 @@ msgstr ""
 "\n"
 "Съобщаване за грешки на %s.\n"
 
-#: src/conf.c:464
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "не може да се определи текущата работна директория"
 
-#: src/conf.c:519 src/conf.c:530 src/conf.c:540 src/locate.c:691
-#: src/locate.c:700 src/locate.c:726 src/locate.c:784
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s·ще презапише предишен аргумент на командния ред"
 
-#: src/conf.c:523 src/conf.c:553 src/conf.c:586 src/locate.c:763
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "невалидна стойност·`%s'·за·--%s"
 
-#: src/conf.c:549 src/conf.c:582 src/conf.c:592 src/locate.c:757
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s е зададен два пъти"
 
-#: src/conf.c:559 src/locate.c:716
+#: src/conf.c:590 src/locate.c:719
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -133,21 +135,21 @@ msgstr ""
 "\n"
 "Тази програма е предоставена БЕЗ ГАРАНЦИИ."
 
-#: src/conf.c:610
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "неочакван операнд на командния ред"
 
-#: src/lib.c:176
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' не изглежда да е база данни на mlocate"
 
-#: src/lib.c:183
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s'·е с неизвестна версия·%u"
 
-#: src/lib.c:190
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s'·е с неизвестен флаг·%u"
@@ -205,7 +207,7 @@ msgstr "невалидно име на празна директория `%s'"
 msgid "file name length %zu in `%s' is too large"
 msgstr "дължина %zu·на името на файл `%s'·е прекалено голяма"
 
-#: src/locate.c:601
+#: src/locate.c:604
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -237,77 +239,87 @@ msgid ""
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
 
-#: src/locate.c:800
+#: src/locate.c:803
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "допълнителни аргументи не са позволени след·--%s"
 
-#: src/locate.c:813
+#: src/locate.c:816
 msgid "no pattern to search for specified"
 msgstr "не е зададен образец за търсене"
 
-#: src/locate.c:840
+#: src/locate.c:843
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "невалиден регулярен израз `%s': %s"
 
-#: src/locate.c:933
+#: src/locate.c:936
 msgid "can not read two databases from standard input"
 msgstr "не е възможно да бъдат прочетени две бази данни от стандартния вход"
 
-#: src/locate.c:952 src/updatedb.c:1015
+#: src/locate.c:955 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не може да се изпълни stat () за `%s'"
 
-#: src/locate.c:961
+#: src/locate.c:964
 msgid "can not drop privileges"
 msgstr "неуспех при опит за работа с по-ниски привилегии"
 
-#: src/locate.c:1015 src/updatedb.c:1058
+#: src/locate.c:1018 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "Вх/Изх грешка при запис на стандартния изход"
 
-#: src/updatedb.c:662 src/updatedb.c:760
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "дължина %zu·на името на файл е прекалено голяма"
 
-#: src/updatedb.c:971
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не може да бъде отворен временен файл за `%s'"
 
-#: src/updatedb.c:984
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "конфигурацията е прекалено голяма"
 
-#: src/updatedb.c:1012
-#, c-format
-msgid "can not change directory to `%s'"
-msgstr "не може да бъде променена директорията на `%s'"
-
-#: src/updatedb.c:1021
-#, c-format
-msgid "I/O error while writing to `%s'"
-msgstr "Вх/Изх грешка при запис до `%s'"
-
-#: src/updatedb.c:1029
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не може да бъде намерена група `%s'"
 
-#: src/updatedb.c:1032
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "не може да бъде променена групата на файл `%s'·на·`%s'"
 
-#: src/updatedb.c:1046
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не могат да бъдат променени позволенията на файл `%s'"
 
-#: src/updatedb.c:1049
+#: src/updatedb.c:1077
+#, c-format
+msgid "`%s' is locked (probably by an earlier updatedb)"
+msgstr ""
+
+#: src/updatedb.c:1080
+#, fuzzy, c-format
+msgid "can not lock `%s'"
+msgstr "не може да бъде отворен `%s'"
+
+#: src/updatedb.c:1087
+#, c-format
+msgid "can not change directory to `%s'"
+msgstr "не може да бъде променена директорията на `%s'"
+
+#: src/updatedb.c:1096
+#, c-format
+msgid "I/O error while writing to `%s'"
+msgstr "Вх/Изх грешка при запис до `%s'"
+
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "грешка при заместване на `%s'"
