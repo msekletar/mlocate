@@ -1,6 +1,6 @@
 .\" A man page for updatedb.conf. -*- nroff -*-
 .\"
-.\" Copyright (C) 2005, 2007 Red Hat, Inc. All rights reserved.
+.\" Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
 .\"
 .\" This copyrighted material is made available to anyone wishing to use,
 .\" modify, copy, or redistribute it subject to the terms and conditions of the
@@ -16,7 +16,7 @@
 .\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 .\"
 .\" Author: Miloslav Trmac <mitr@redhat.com>
-.TH updatedb.conf 5 "Jul 2005" mlocate
+.TH updatedb.conf 5 "Jun 2008" mlocate
 
 .SH NAME
 @updatedb_conf@ \- a configuration file for updatedb(8)
@@ -64,6 +64,16 @@ types are skipped.
 When scanning a file system is skipped,
 all file systems mounted in the subtree are skipped too,
 even if their type does not match any entry in \fBPRUNEFS\fR.
+
+.TP
+\fBPRUNENAMES\fR
+A whitespace-separated list of directory names (without paths) which should not
+be scanned by
+.BR updatedb (8).
+By default, no directory names are skipped.
+
+Note that only directories can be specified, and no pattern mechanism (e.g.
+globbing) is used.
 
 .TP
 \fBPRUNEPATHS\fR

@@ -41,6 +41,9 @@ bool conf_check_visibility = true;
 /* Filesystems to skip, converted to uppercase and sorted by name */
 struct string_list conf_prunefs;
 
+/* Directory names to skip, sorted by name */
+struct string_list conf_prunenames;
+
 /* Paths to skip, sorted by name using dir_path_cmp () */
 struct string_list conf_prunepaths;
 
@@ -94,6 +97,9 @@ struct var
 
 /* PRUNEFS */
 static struct var prunefs_var;
+
+/* PRUNENAMES */
+static struct var prunenames_var;
 
 /* PRUNEPATHS */
 static struct var prunepaths_var;
@@ -187,7 +193,7 @@ static size_t uc_lex_buf_size;
 enum
   {
     UCT_EOF, UCT_EOL, UCT_IDENTIFIER, UCT_EQUAL, UCT_QUOTED, UCT_OTHER,
-    UCT_PRUNE_BIND_MOUNTS, UCT_PRUNEFS, UCT_PRUNEPATHS
+    UCT_PRUNE_BIND_MOUNTS, UCT_PRUNEFS, UCT_PRUNENAMES, UCT_PRUNEPATHS
   };
 
 /* Append C to uc_lex_buf at POS;
@@ -279,6 +285,8 @@ uc_lex (void)
 	  return UCT_PRUNE_BIND_MOUNTS;
 	if (strcmp (uc_lex_buf, "PRUNEFS") == 0)
 	  return UCT_PRUNEFS;
+	if (strcmp (uc_lex_buf, "PRUNENAMES") == 0)
+	  return UCT_PRUNENAMES;
 	if (strcmp (uc_lex_buf, "PRUNEPATHS") == 0)
 	  return UCT_PRUNEPATHS;
 	return UCT_IDENTIFIER;
@@ -292,7 +300,7 @@ parse_updatedb_conf (void)
 {
   int old_error_one_per_line;
   unsigned old_error_message_count;
-  bool had_prune_bind_mounts, had_prunefs, had_prunepaths;
+  bool had_prune_bind_mounts, had_prunefs, had_prunenames, had_prunepaths;
 
   uc_file = fopen (UPDATEDB_CONF, "r");
   if (uc_file == NULL)
@@ -308,6 +316,7 @@ parse_updatedb_conf (void)
   error_one_per_line = 1;
   had_prune_bind_mounts = false;
   had_prunefs = false;
+  had_prunenames = false;
   had_prunepaths = false;
   for (;;)
     {
@@ -329,6 +338,10 @@ parse_updatedb_conf (void)
 
 	case UCT_PRUNEFS:
 	  had_var = &had_prunefs;
+	  break;
+
+	case UCT_PRUNENAMES:
+	  had_var = &had_prunenames;
 	  break;
 
 	case UCT_PRUNEPATHS:
@@ -379,6 +392,8 @@ parse_updatedb_conf (void)
 	}
       else if (var_token == UCT_PRUNEFS)
 	var_add_values (&prunefs_var, &conf_prunefs, uc_lex_buf);
+      else if (var_token == UCT_PRUNENAMES)
+	var_add_values (&prunenames_var, &conf_prunenames, uc_lex_buf);
       else if (var_token == UCT_PRUNEPATHS)
 	var_add_values (&prunepaths_var, &conf_prunepaths, uc_lex_buf);
       else
@@ -423,6 +438,7 @@ help (void)
 	    "Update a mlocate database.\n"
 	    "\n"
 	    "  -f, --add-prunefs FS           omit also FS\n"
+	    "  -n, --add-prunenames NAMES     omit also NAMES\n"
 	    "  -e, --add-prunepaths PATHS     omit also PATHS\n"
 	    "  -U, --database-root PATH       the subtree to store in "
 	    "database (default \"/\")\n"
@@ -432,6 +448,8 @@ help (void)
 	    "      --prune-bind-mounts FLAG   omit bind mounts (default "
 	    "\"no\")\n"
 	    "      --prunefs FS               filesystems to omit from "
+	    "database\n"
+	    "      --prunenames NAMES         directory names to omit from "
 	    "database\n"
 	    "      --prunepaths PATHS         paths to omit from database\n"
 	    "  -l, --require-visibility FLAG  check visibility before "
@@ -479,6 +497,7 @@ parse_arguments (int argc, char *argv[])
   static const struct option options[] =
     {
       { "add-prunefs", required_argument, NULL, 'f' },
+      { "add-prunenames", required_argument, NULL, 'n' },
       { "add-prunepaths", required_argument, NULL, 'e' },
       { "database-root", required_argument, NULL, 'U' },
       { "debug-pruning", no_argument, NULL, OPT_DEBUG_PRUNING },
@@ -486,6 +505,7 @@ parse_arguments (int argc, char *argv[])
       { "output", required_argument, NULL, 'o' },
       { "prune-bind-mounts", required_argument, NULL, 'B' },
       { "prunefs", required_argument, NULL, 'F' },
+      { "prunenames", required_argument, NULL, 'N' },
       { "prunepaths", required_argument, NULL, 'P' },
       { "require-visibility", required_argument, NULL, 'l' },
       { "verbose", no_argument, NULL, 'v' },
@@ -493,10 +513,11 @@ parse_arguments (int argc, char *argv[])
       { NULL, 0, NULL, 0 }
     };
 
-  bool prunefs_changed, prunepaths_changed, got_prune_bind_mounts;
-  bool got_visibility;
+  bool prunefs_changed, prunenames_changed, prunepaths_changed;
+  bool got_prune_bind_mounts, got_visibility;
 
   prunefs_changed = false;
+  prunenames_changed = false;
   prunepaths_changed = false;
   got_prune_bind_mounts = false;
   got_visibility = false;
@@ -504,7 +525,7 @@ parse_arguments (int argc, char *argv[])
     {
       int opt, idx;
 
-      opt = getopt_long (argc, argv, "U:Ve:f:hl:o:v", options, &idx);
+      opt = getopt_long (argc, argv, "U:Ve:f:hl:n:o:v", options, &idx);
       switch (opt)
 	{
 	case -1:
@@ -532,6 +553,16 @@ parse_arguments (int argc, char *argv[])
 	  prunefs_changed = true;
 	  var_clear (&prunefs_var, &conf_prunefs);
 	  var_add_values (&prunefs_var, &conf_prunefs, optarg);
+	  break;
+
+	case 'N':
+	  if (prunenames_changed != false)
+	    error (EXIT_FAILURE, 0,
+		   _("--%s would override earlier command-line argument"),
+		   "prunenames");
+	  prunenames_changed = true;
+	  var_clear (&prunenames_var, &conf_prunenames);
+	  var_add_values (&prunenames_var, &conf_prunenames, optarg);
 	  break;
 
 	case 'P':
@@ -585,6 +616,11 @@ parse_arguments (int argc, char *argv[])
 	  if (parse_bool (&conf_check_visibility, optarg) != 0)
 	    error (EXIT_FAILURE, 0, _("invalid value `%s' of --%s"), optarg,
 		   "require-visibility");
+	  break;
+
+	case 'n':
+	  prunenames_changed = true;
+	  var_add_values (&prunenames_var, &conf_prunenames, optarg);
 	  break;
 
 	case 'o':
@@ -652,6 +688,8 @@ gen_conf_block (void)
   obstack_grow (&obstack, conf_prune_bind_mounts != false ? "1\0" : "0\0", 3);
   CONST ("prunefs");
   gen_conf_block_string_list (&obstack, &conf_prunefs);
+  CONST ("prunenames");
+  gen_conf_block_string_list (&obstack, &conf_prunenames);
   CONST ("prunepaths");
   gen_conf_block_string_list (&obstack, &conf_prunepaths);
   /* scan_root is contained directly in the header */
@@ -669,6 +707,7 @@ conf_prepare (int argc, char *argv[])
   size_t i;
 
   var_init (&prunefs_var);
+  var_init (&prunenames_var);
   var_init (&prunepaths_var);
   parse_updatedb_conf ();
   parse_arguments (argc, argv);
@@ -684,6 +723,7 @@ conf_prepare (int argc, char *argv[])
      to avoid keeping duplicates that originally differed in case and to sort
      them correctly. */
   var_finish (&conf_prunefs);
+  var_finish (&conf_prunenames);
   var_finish (&conf_prunepaths);
   gen_conf_block ();
   string_list_dir_path_sort (&conf_prunepaths);

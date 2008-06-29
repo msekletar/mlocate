@@ -823,6 +823,14 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
 	fprintf (stderr, "Skipping `%s': bind mount\n", path);
       goto err;
     }
+  if (bsearch (relative, conf_prunenames.entries, conf_prunenames.len,
+	       sizeof (*conf_prunenames.entries), cmp_string_pointer) != NULL)
+    {
+      if (conf_debug_pruning != false)
+	/* This is debuging output, don't mark anything for translation */
+	fprintf (stderr, "Skipping `%s': in prunenames\n", path);
+      goto err;
+    }
   if (lstat (relative, &st) != 0)
     goto err;
   if (st.st_dev != st_parent->st_dev && filesystem_is_excluded (path))

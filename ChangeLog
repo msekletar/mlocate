@@ -1,3 +1,20 @@
+2008-06-29  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/updatedb.conf.5.in: Document PRUNENAMES.
+	* doc/updatedb.8.in: Document --add-prunenames and --prunenames.
+	* src/conf.h (conf_prunenames): New declaration.
+	* src/conf.c (conf_prunenames, prunenames_var): New variables.
+	(UCT_PRUNENAMES): New constant.
+	(uc_lex): Recognize PRUNENAMES.
+	(parse_updatedb_conf): Handle PRUNENAMES.
+	(help): Document --add-prunenames and --prunenames.
+	(parse_arguments): Handle --add-prunenames and --prunenames.
+	(gen_conf_block): Store "prunenames".
+	(conf_prepare): Handle prunenames_var and create sorted conf_prunenames.
+	* src/updatedb.c (scan): Handle conf_prunenames.
+	* tests/config.at (config: -h): Update.
+	(config: -n, config: --prunenames): New tests.
+
 2008-06-28  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/conf.c (conf_prepare): Sort conf_prunefs correctly and remove

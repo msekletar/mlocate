@@ -30,6 +30,9 @@ extern bool conf_check_visibility;
 /* Filesystems to skip, converted to uppercase and sorted by name */
 extern struct string_list conf_prunefs;
 
+/* Directory names to skip, sorted by name */
+extern struct string_list conf_prunenames;
+
 /* Paths to skip, sorted by name using dir_path_cmp () */
 extern struct string_list conf_prunepaths;
 

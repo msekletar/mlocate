@@ -57,6 +57,7 @@ AT_DATA([expout],
 Update a mlocate database.
 
   -f, --add-prunefs FS           omit also FS
+  -n, --add-prunenames NAMES     omit also NAMES
   -e, --add-prunepaths PATHS     omit also PATHS
   -U, --database-root PATH       the subtree to store in database (default "/")
   -h, --help                     print this help
@@ -64,6 +65,7 @@ Update a mlocate database.
                                  `PATH')
       --prune-bind-mounts FLAG   omit bind mounts (default "no")
       --prunefs FS               filesystems to omit from database
+      --prunenames NAMES         directory names to omit from database
       --prunepaths PATHS         paths to omit from database
   -l, --require-visibility FLAG  check visibility before reporting files
                                  (default "yes")
@@ -77,6 +79,28 @@ Report bugs to mitr@redhat.com.
 ]])
 AT_CHECK([[updatedb -h | sed "s/\`[^']*'/\`PATH'/g"]], , [expout])
 AT_CHECK([[updatedb --help | sed "s/\`[^']*'/\`PATH'/g"]], , [expout])
+
+AT_CLEANUP
+
+
+AT_SETUP([config: -n])
+AT_KEYWORDS([updatedb])
+
+mkdir d
+for i in 1 2 3; do
+  mkdir d/e$i
+  touch d/e$i/f
+done
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 -n e1 \
+	--add-prunenames "this_doesnt_exist e3"])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[d
+d/e1
+d/e2
+d/e3
+d/e2/f
+])
 
 AT_CLEANUP
 
@@ -227,6 +251,36 @@ AT_CHECK([updatedb -f foo --prunefs bar], 1, ,
 ])
 
 # Functionality untested
+
+AT_CLEANUP
+
+
+AT_SETUP([config: --prunenames])
+AT_KEYWORDS([updatedb])
+
+AT_CHECK([updatedb --prunenames foo --prunenames bar], 1, ,
+[updatedb: --prunenames would override earlier command-line argument
+])
+
+AT_CHECK([updatedb -n foo --prunenames bar], 1, ,
+[updatedb: --prunenames would override earlier command-line argument
+])
+
+mkdir d
+for i in 1 2 3; do
+  mkdir d/e$i
+  touch d/e$i/f
+done
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 \
+	--prunenames "e3 this_doesnt_exist e1"])
+AT_CHECK([locate -d db / | sed "s,$(pwd)/,,"], ,
+[d
+d/e1
+d/e2
+d/e3
+d/e2/f
+])
 
 AT_CLEANUP
 

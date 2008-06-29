@@ -16,7 +16,7 @@
 .\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 .\"
 .\" Author: Miloslav Trmac <mitr@redhat.com>
-.TH updatedb 8 "Jul 2005" mlocate
+.TH updatedb 8 "Jun 2008" mlocate
 
 .SH NAME
 updatedb \- update a database for mlocate
@@ -43,8 +43,8 @@ to update the default database.
 returns with exit status 0 on success, 1 on error.
 
 .SH OPTIONS
-The \fBPRUNE_BIND_MOUNTS\fR,
-.B PRUNEFS
+The \fBPRUNE_BIND_MOUNTS\fR, \fBPRUNEFS\fR,
+.B PRUNENAMES
 and
 .B PRUNEPATHS
 variables, which are modified by some of the options, are documented in detail
@@ -54,6 +54,10 @@ in
 .TP
 \fB\-f\fR, \fB\-\-add-prunefs\fB \fIFS\fR
 Add entries in white-space-separated list \fIFS\fR to \fBPRUNEFS\fR.
+
+.TP
+\fB\-n\fR, \fB\-\-add-prunenames\fB \fINAMES\fR
+Add entries in white-space-separated list \fINAMES\fR to \fBPRUNENAMES\fR.
 
 .TP
 \fB\-e\fR, \fB\-\-add-prunepaths\fB \fIPATHS\fR
@@ -93,6 +97,10 @@ to \fIFLAG\fR, overriding the configuration file.
 .TP
 \fB\-\-prunefs\fR \fIFS\fR
 Set \fBPRUNEFS\fR to \fIFS\fR, overriding the configuration file.
+
+.TP
+\fB\-\-prunenames\fR \fINAMES\fR
+Set \fBPRUNENAMES\fR to \fINAMES\fR, overriding the configuration file.
 
 .TP
 \fB\-\-prunepaths\fR \fIPATHS\fR
