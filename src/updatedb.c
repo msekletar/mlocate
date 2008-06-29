@@ -1077,7 +1077,7 @@ main (int argc, char *argv[])
 		   _("`%s' is locked (probably by an earlier updatedb)"),
 		   conf_output);
 	  fprintf (stderr, "!!%d\n", lock_file_fd);
-	  error (EXIT_FAILURE, errno, _("Can not lock `%s'"), conf_output);
+	  error (EXIT_FAILURE, errno, _("can not lock `%s'"), conf_output);
 	}
     }
   unlink_init ();

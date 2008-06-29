@@ -1,5 +1,8 @@
 2008-06-30  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/updatedb.c (main): Modify an error message to use capitalization
+	consistent with the others.
+
 	* src/lib.c (db_open): Don't close fd on error.
 	* src/locate.c (handle_db): Update for db_open change.
 	* src/updatedb.c (old_db_is_closed): New variable.
