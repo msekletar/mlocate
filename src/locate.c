@@ -522,7 +522,10 @@ handle_db (int fd, const char *database)
   int visible;
 
   if (db_open (&db, &hdr, fd, database, conf_quiet) != 0)
-    goto err;
+    {
+      close(fd);
+      goto err;
+    }
   stats_clear ();
   if (db_read_name (&db, &path_obstack) != 0)
     goto err_path;

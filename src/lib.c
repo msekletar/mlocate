@@ -147,8 +147,7 @@ string_list_dir_path_sort (struct string_list *list)
 
 /* Open FILENAME (already open as FD), as DB, report error on failure if not
    QUIET.  Store database header to *HEADER; return 0 if OK, -1 on error.
-   Takes ownership of FD: it will be closed by db_close () or before return
-   from this function if it fails.
+   If OK, takes ownership of FD: it will be closed by db_close ().
 
    FILENAME must stay valid until db_close (). */
 int
@@ -167,7 +166,7 @@ db_open (struct db *db, struct db_header *header, int fd, const char *filename,
   if (db_read (db, header, sizeof (*header)) != 0)
     {
       db_report_error (db);
-      goto err_fd;
+      goto err;
     }
   {
     verify (sizeof (magic) == sizeof (header->magic));
@@ -177,26 +176,25 @@ db_open (struct db *db, struct db_header *header, int fd, const char *filename,
       if (quiet == 0)
 	error (0, 0, _("`%s' does not seem to be a mlocate database"),
 	       filename);
-      goto err_fd;
+      goto err;
     }
   if (header->version != DB_VERSION_0)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown version %u"), filename,
 	       (unsigned)header->version);
-      goto err_fd;
+      goto err;
     }
   if (header->check_visibility != 0 && header->check_visibility != 1)
     {
       if (quiet == 0)
 	error (0, 0, _("`%s' has unknown visibility flag %u"), filename,
 	       (unsigned)header->check_visibility);
-      goto err_fd;
+      goto err;
     }
   return 0;
 
- err_fd:
-  close (fd);
+ err:
   return -1;
 }
 

@@ -1,3 +1,18 @@
+2008-06-30  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/lib.c (db_open): Don't close fd on error.
+	* src/locate.c (handle_db): Update for db_open change.
+	* src/updatedb.c (old_db_is_closed): New variable.
+	(old_db_close): Set old_db_is_closed instead of closing old_db.
+	(old_dir_next_header, copy_old_dir): Check old_db_is_closed instead of
+	old_db.fd.
+	(old_db_open): Set old_db.fd = -1 if old_db is not initialized.  Set
+	old_db_is_closed instead of closing old_db.  Open conf_output with
+	O_RDWR.  Return the open file descriptor.
+	(new_db_setup_permissions): Split from main ().
+	(main): Exclusively lock the file at conf_output if present.  Close
+	old_db or lock_file_fd before exiting.
+
 2008-06-29  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/updatedb.conf.5.in: Document PRUNENAMES.

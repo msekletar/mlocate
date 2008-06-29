@@ -162,10 +162,14 @@ dir_finish (struct directory *dir, struct dir_state *state)
 
  /* Reading of the existing database */
 
-/* The old database or old_db.fd == -1 */
+/* The old database or old_db_is_closed.  old_db.fd == -1 if the database was
+   never opened. */
 static struct db old_db;
 /* Header for unread directory from the old database or old_dir.path == NULL */
 static struct directory old_dir; /* = { 0, }; */
+/* true if old_db should not be accessed any more.  (old_db.fd cannot be closed
+   immediatelly because that would release the lock on the database). */
+static bool old_db_is_closed; /* = 0; */
 
 /* Obstack for old_dir.path and old_dir_skip () */
 static struct obstack old_dir_obstack;
@@ -175,8 +179,8 @@ static void
 old_db_close (void)
 {
   old_dir.path = NULL;
-  db_close (&old_db);
-  old_db.fd = -1;
+  old_db_is_closed = true;
+  /* The file will really be closed at the end of main (). */
 }
 
 /* Read next directory header, if any, to old_dir */
@@ -185,7 +189,7 @@ old_dir_next_header (void)
 {
   struct db_directory dir;
 
-  if (old_db.fd == -1)
+  if (old_db_is_closed)
     return;
   if (old_dir.path != NULL)
     obstack_free (&old_dir_obstack, old_dir.path);
@@ -244,8 +248,10 @@ old_dir_skip (void)
   old_db_close ();
 }
 
-/* Open the old database and prepare for reading it */
-static void
+/* Open the old database and prepare for reading it.  Return a file descriptor
+   for the database (even if its contents are not valid), -1 on error opening
+   the file. */
+static int
 old_db_open (void)
 {
   struct obstack obstack;
@@ -254,11 +260,18 @@ old_db_open (void)
   const char *src;
   uint32_t size;
 
-  fd = open (conf_output, O_RDONLY);
+  /* Use O_RDWR, not O_RDONLY, to be able to lock the file. */
+  fd = open (conf_output, O_RDWR);
   if (fd == -1)
-    goto err;
+    {
+      old_db.fd = -1;
+      goto err;
+    }
   if (db_open (&old_db, &hdr, fd, conf_output, true) != 0)
-    goto err;
+    {
+      old_db.fd = -1;
+      goto err;
+    }
   size = ntohl (hdr.conf_size);
   if (size != conf_block_size)
     goto err_old_db;
@@ -289,14 +302,15 @@ old_db_open (void)
   obstack_init (&old_dir_obstack);
   obstack_alignment_mask (&old_dir_obstack) = 0;
   old_dir_next_header ();
-  return;
+  return fd;
 
  err_obstack:
   obstack_free (&obstack, NULL);
  err_old_db:
-  db_close (&old_db);
+  old_db_close ();
  err:
-  old_db.fd = -1;
+  old_db_is_closed = true;
+  return fd;
 }
 
  /* Path list handling */
@@ -618,7 +632,7 @@ copy_old_dir (struct directory *dest)
   size_t i;
   void *mark, *p;
 
-  if (old_db.fd == -1 || old_dir.path == NULL)
+  if (old_db_is_closed || old_dir.path == NULL)
     goto err;
   mark = obstack_alloc (&scan_dir_state.data_obstack, 0);
   have_subdir = false;
@@ -1001,36 +1015,12 @@ new_db_open (void)
   fwrite (conf_block, 1, conf_block_size, new_db);
 }
 
-int
-main (int argc, char *argv[])
+/* Set up permissions of new_db_filename.  Exit on error. */
+static void
+new_db_setup_permissions (void)
 {
-  struct stat st;
-  int cwd_fd;
   mode_t mode;
 
-  set_program_name (argv[0]);
-  dir_path_cmp_init ();
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE_NAME, LOCALEDIR);
-  textdomain (PACKAGE_NAME);
-  conf_prepare (argc, argv);
-  init_bind_mount_paths ();
-  old_db_open ();
-  unlink_init ();
-  new_db_open ();
-  dir_state_init (&scan_dir_state);
-  if (chdir (conf_scan_root) != 0)
-    error (EXIT_FAILURE, errno, _("can not change directory to `%s'"),
-	   conf_scan_root);
-  if (lstat (".", &st) != 0)
-    error (EXIT_FAILURE, errno, _("can not stat () `%s'"), conf_scan_root);
-  cwd_fd = -1;
-  scan (conf_scan_root, &cwd_fd, &st, ".");
-  if (cwd_fd != -1)
-    close (cwd_fd);
-  if (fwriteerror (new_db))
-    error (EXIT_FAILURE, errno, _("I/O error while writing to `%s'"),
-	   new_db_filename);
   if (conf_check_visibility != false)
     {
       struct group *grp;
@@ -1056,6 +1046,56 @@ main (int argc, char *argv[])
   if (chmod (new_db_filename, mode) != 0)
     error (EXIT_FAILURE, errno, _("can not change permissions of file `%s'"),
 	   new_db_filename);
+}
+
+int
+main (int argc, char *argv[])
+{
+  struct stat st;
+  int lock_file_fd, cwd_fd;
+
+  set_program_name (argv[0]);
+  dir_path_cmp_init ();
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE_NAME, LOCALEDIR);
+  textdomain (PACKAGE_NAME);
+  conf_prepare (argc, argv);
+  init_bind_mount_paths ();
+  lock_file_fd = old_db_open ();
+  if (lock_file_fd != -1)
+    {
+      struct flock lk;
+
+      lk.l_type = F_WRLCK;
+      lk.l_whence = SEEK_SET;
+      lk.l_start = 0;
+      lk.l_len = 0;
+      if (fcntl (lock_file_fd, F_SETLK, &lk) == -1)
+	{
+	  if (errno == EACCES || errno == EAGAIN)
+	    error (EXIT_FAILURE, 0,
+		   _("`%s' is locked (probably by an earlier updatedb)"),
+		   conf_output);
+	  fprintf (stderr, "!!%d\n", lock_file_fd);
+	  error (EXIT_FAILURE, errno, _("Can not lock `%s'"), conf_output);
+	}
+    }
+  unlink_init ();
+  new_db_open ();
+  dir_state_init (&scan_dir_state);
+  if (chdir (conf_scan_root) != 0)
+    error (EXIT_FAILURE, errno, _("can not change directory to `%s'"),
+	   conf_scan_root);
+  if (lstat (".", &st) != 0)
+    error (EXIT_FAILURE, errno, _("can not stat () `%s'"), conf_scan_root);
+  cwd_fd = -1;
+  scan (conf_scan_root, &cwd_fd, &st, ".");
+  if (cwd_fd != -1)
+    close (cwd_fd);
+  if (fwriteerror (new_db))
+    error (EXIT_FAILURE, errno, _("I/O error while writing to `%s'"),
+	   new_db_filename);
+  new_db_setup_permissions ();
   if (rename (new_db_filename, conf_output) != 0)
     error (EXIT_FAILURE, errno, _("error replacing `%s'"), conf_output);
   /* There is really no race condition in removing other files now: unlink ()
@@ -1064,6 +1104,11 @@ main (int argc, char *argv[])
      attacker can at most remove their own data. */
   unlink_set (NULL);
   free (new_db_filename);
+  if (old_db.fd != -1)
+    db_close(&old_db); /* Releases the lock */
+  else if (lock_file_fd != -1)
+    /* old_db is invalid, but the file was used for locking */
+    close(lock_file_fd); /* Releases the lock */
   if (fwriteerror (stdout))
     error (EXIT_FAILURE, errno,
 	   _("I/O error while writing to standard output"));
