@@ -1,5 +1,7 @@
 2008-06-30  Miloslav Trmač  <mitr@redhat.com>
 
+	* po/cs.po: Update Czech translation.
+
 	* src/updatedb.c (main): Modify an error message to use capitalization
 	consistent with the others.
 
