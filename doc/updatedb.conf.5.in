@@ -100,14 +100,22 @@ even if they are not bind mounts.
 By default, bind mounts are not skipped.
 
 .SH NOTES
-Unlike the traditional behavior of \fBPRUNEFS\fR and \fBPRUNEPATHS\fR,
-which excludes the matched directory (or the root of a matched file system)
-from the created database,
-the matched directory is entered in the created database.
-This allows e.g.
-.B locate /tmp
-to find the standard temporary directories even though their contents are
-excluded from the database.
+When a directory is matched by \fBPRUNEFS\fR, \fBPRUNENAMES\fR or
+\fBPRUNEPATHS\fR,
+.BR updatedb (8)
+does not scan the contents of the directory.
+The path of the directory itself is, however, entered in the created database.
+For example, if
+.I /tmp
+is in \fBPRUNEPATHS\fR,
+.BR locate (1)
+will not show any files stored in \fI/tmp\fR,
+but it can show the
+.I /tmp
+directory.
+This behavior differs from traditional
+.B locate
+implementations.
 
 In some
 .BR updatedb (8)
