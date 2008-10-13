@@ -1,15 +1,15 @@
 # Serbian(Latin) translations for mlocate
 # Copyright (C) 2008 Red Hat, Inc.
 # This file is distributed under the same license as the mlocate package.
-#
 # Nikola Pajtić <salgeras@gmail.com>, 2008.
 # Miloš Komarčević <kmilos@gmail.com>, 2008.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
-"PO-Revision-Date: 2008-04-03 00:22+0100\n"
+"POT-Creation-Date: 2008-10-12 01:38+0000\n"
+"PO-Revision-Date: 2008-10-13 21:33+0100\n"
 "Last-Translator: Miloš Komarčević <kmilos@gmail.com>\n"
 "Language-Team: Serbian (sr) <fedora-trans-sr@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -18,57 +18,57 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/conf.c:241
+#: ../src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "upozorenje: prekoračen broj linija"
 
-#: src/conf.c:259
+#: ../src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "nedostaje završno „\"“"
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: ../src/conf.c:309 ../src/locate.c:949 ../src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "ne mogu da otvorim „%s“"
 
-#: src/conf.c:353
+#: ../src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "nepoznata promenljiva „%s“"
 
-#: src/conf.c:358
+#: ../src/conf.c:358
 msgid "variable name expected"
 msgstr "očekuje se naziv promenljive"
 
-#: src/conf.c:364
+#: ../src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "promenljiva „%s“ je već definisana"
 
-#: src/conf.c:373
+#: ../src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "„=“ se očekuje posle naziva promenljive"
 
-#: src/conf.c:380
+#: ../src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "vrednost u navodnicima je očekivana posle „=“"
 
-#: src/conf.c:388
+#: ../src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "neispravna vrednost „%s“ PRUNE_BIND_MOUNTS promenljive"
 
-#: src/conf.c:405
+#: ../src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "neočekivan podatak posle vrednosti promenljive"
 
-#: src/conf.c:419 src/lib.c:244
+#: ../src/conf.c:419 ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "U/I greška pri čitanju „%s“"
 
-#: src/conf.c:437
-#, fuzzy, c-format
+#: ../src/conf.c:437
+#, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
 "Update a mlocate database.\n"
@@ -96,58 +96,66 @@ msgstr ""
 "Upotreba: updatedb [OPCIJE]...\n"
 "Ažurira mlocate bazu podataka.\n"
 "\n"
-"  -f, --add-prunefs FS           izostavi sistem datoteka\n"
-"  -e, --add-prunepaths PATHS     izostavi PUTANJE\n"
-"  -U, --database-root PATH       podstablo za čuvanje baze podataka "
-"(podrazumevano „/“)\n"
-"  -h, --help                     odštampaj ovu pomoć\n"
-"  -o, --output FILE              baza podataka za ažuriranje (podrazumevano\n"
-"                                 „%s“)\n"
-"      --prune-bind-mounts FLAG   izostavi veznike montiranja (podrazumevano "
-"„ne“)\n"
-"      --prunefs FS               sistemi datoteka koji se izostavljaju iz "
-"baze podataka\n"
-"      --prunepaths PATHS         putanje koje se izostavljaju iz baze "
+"  -f, --add-prunefs SD             izostavi sistem datoteka\n"
+"  -n, --add-prunenames NAZIVI      izostavi NAZIVE\n"
+"  -e, --add-prunepaths PUTANJE     izostavi PUTANJE\n"
+"  -U, --database-root PUTANJA      podstablo za čuvanje baze podataka\n"
+"                                   (podrazumevano „/“)\n"
+"  -h, --help                       odštampaj ovu pomoć\n"
+"  -o, --output DATOTEKA            baza podataka za ažuriranje "
+"(podrazumevano\n"
+"                                   „%s“)\n"
+"      --prune-bind-mounts OZNAKA   izostavi veznike montiranja "
+"(podrazumevano\n"
+"                                   „ne“)\n"
+"      --prunefs SD                 sistemi datoteka koji se izostavljaju iz\n"
+"                                   baze podataka\n"
+"      --prunenames NAZIVI          nazivi direktorijuma koji se izostavljaju "
+"iz\n"
+"                                   baze podataka\n"
+"      --prunepaths PUTANJE         putanje koje se izostavljaju iz baze "
 "podataka\n"
-"  -l, --require-visibility FLAG  proveri vidljivost pre izveštavanju o "
-"datotekama\n"
-"                                 (podrazumevano „da“)\n"
-"  -v, --verbose                  štampa putanje datoteka kako se pronalaze\n"
-"  -V, --version                  štampa informacije o verziji\n"
+"  -l, --require-visibility OZNAKA  proveri vidljivost pre izveštavanju o\n"
+"                                   datotekama\n"
+"                                   (podrazumevano „da“)\n"
+"  -v, --verbose                    štampa putanje datoteka kako se "
+"pronalaze\n"
+"  -V, --version                    štampa informacije o verziji\n"
 "\n"
 "Podrazumevane vrednosti podešavanja pročitane iz\n"
 "„%s“.\n"
 
-#: src/conf.c:464 src/locate.c:639
+#: ../src/conf.c:464 ../src/locate.c:639
 #, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
 "\n"
-"Prijavi greške na %s.\n"
+"Prijavite greške na %s.\n"
 
-#: src/conf.c:482
+#: ../src/conf.c:482
 msgid "can not get current working directory"
 msgstr "ne mogu da dobijem tekući radni direktorijum"
 
-#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
+#: ../src/locate.c:694 ../src/locate.c:703 ../src/locate.c:729
+#: ../src/locate.c:787
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s bi premostilo raniji argument komandne linije"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:766
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "neispravna vrednost „%s“ za --%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:760
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s definisano dva puta"
 
-#: src/conf.c:590 src/locate.c:719
+#: ../src/conf.c:590 ../src/locate.c:719
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -157,43 +165,45 @@ msgstr ""
 "Autorska prava 2007 Red Hat, Inc.  Sva prava zadržana.\n"
 "Ovaj softver se distribuira pod GJL verzije 2.\n"
 "\n"
-"Ovaj program dolazi sa BEZ GARANCIJE, u okviru dozvoljenim zakonom."
+"Ovaj program dolazi BEZ GARANCIJE, u okviru dozvoljenim zakonom."
 
-#: src/conf.c:646
+#: ../src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "neočekivani operator komandne linije"
 
-#: src/lib.c:177
+#: ../src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "„%s“ izgleda da nije mlocate baza podataka"
 
-#: src/lib.c:184
+#: ../src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "„%s“ ima nepoznatu verziju %u"
 
-#: src/lib.c:191
+#: ../src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "„%s“ ima nepoznati indikator vidljivosti %u"
 
-#: src/lib.c:246
+#: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "neočekivani završetak datoteke (EOF ) pri čitanju „%s“"
 
-#: src/lib.c:337
+#: ../src/lib.c:337
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "U/I greška pri traženju u „%s“"
 
-#: src/locate.c:335
+#: ../src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Baza podataka %s:\n"
 
-#: src/locate.c:338
+#. The third argument of ngettext () is unsigned long; it is still better
+#. to have invalid grammar than truncated numbers.
+#: ../src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
@@ -201,7 +211,7 @@ msgstr[0] "\t%'ju direktorijum\n"
 msgstr[1] "\t%'ju direktorijuma\n"
 msgstr[2] "\t%'ju direktorijuma\n"
 
-#: src/locate.c:340
+#: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
@@ -209,7 +219,7 @@ msgstr[0] "\t%'ju datoteka\n"
 msgstr[1] "\t%'ju datoteke\n"
 msgstr[2] "\t%'ju datoteka\n"
 
-#: src/locate.c:342
+#: ../src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
@@ -217,7 +227,7 @@ msgstr[0] "\t%'ju bajt u nazivima datoteke\n"
 msgstr[1] "\t%'ju bajta u nazivima datoteke\n"
 msgstr[2] "\t%'ju bajtova u nazivima datoteke\n"
 
-#: src/locate.c:344
+#: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
@@ -225,17 +235,17 @@ msgstr[0] "\t%'ju bajt upotrebljen za čuvanje baze podataka\n"
 msgstr[1] "\t%'ju bajta upotrebljena za čuvanje baze podataka\n"
 msgstr[2] "\t%'ju bajtova upotrebljeno za čuvanje baze podataka\n"
 
-#: src/locate.c:473
+#: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "neispravan naziv praznog direktorijuma u „%s“"
 
-#: src/locate.c:500
+#: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "dužina naziva datoteke %zu u „%s“ je predugačko"
+msgstr "dužina %zu naziva datoteke u „%s“ je prevelika"
 
-#: src/locate.c:604
+#: ../src/locate.c:604
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -269,115 +279,116 @@ msgstr ""
 "Upotreba: locate [OPCIJA]... [ŠABLON]...\n"
 "Traži zapise u mlocate bazi podataka.\n"
 "\n"
-"  -b, --basename         poredi samo osnovne nazive naziva putanje\n"
-"  -c, --count            samo odštampaj broj pronađenih zapisa\n"
-"  -d, --database DBPATH  koristi DBPATH podrazumevane baze podataka (koja "
-"je\n"
-"                         %s)\n"
-"  -e, --existing         samo štampaj zapise za trenutno postojeće datoteke\n"
-"  -L, --follow           prati simboličke veze kada proveravaš postojanje\n"
-"                         datoteke (podrazumevano)\n"
-"  -h, --help             odštampaj ovu pomoć\n"
-"  -i, --ignore-case      zanemari razlike u veličini karaktera kada porediš "
-"šablone\n"
-"  -l, --limit, -n LIMIT  granica ispisa (ili brojanja) u LIMIT zapisima\n"
-"  -m, --mmap             zanemareno, za povratnu kompatibilnost\n"
-"  -P, --nofollow, -H     nemoj pratiti simboličke veze kada proveravaš "
-"postojanje\n"
-"                         datoteke\n"
-"  -0, --null             odvojeni zapisi sa NUL na izlazu\n"
-"  -S, --statistics       ne traži zapise, odštampaj statistiku o svakoj\n"
-"                         korišćenoj bazi podataka\n"
-"  -q, --quiet            izvesti bez poruka o greškama pri čitanju baze "
+"  -b, --basename            poredi samo osnovne nazive naziva putanje\n"
+"  -c, --count               samo odštampaj broj pronađenih zapisa\n"
+"  -d, --database PUTANJABP  koristi PUTANJUBP umesto podrazumevane baze "
 "podataka\n"
-"  -r, --regexp REGEXP    traži osnovni regularni izraz REGEXP umesto "
+"                            (koja je %s)\n"
+"  -e, --existing            samo štampaj zapise za trenutno postojeće "
+"datoteke\n"
+"  -L, --follow              prati simboličke veze kada proveravaš postojanje\n"
+"                            datoteke (podrazumevano)\n"
+"  -h, --help                odštampaj ovu pomoć\n"
+"  -i, --ignore-case         zanemari razlike u veličini karaktera kada "
+"porediš\n"
+"                            šablone\n"
+"  -l, --limit, -n GRANICA   ograniči ispis (ili brojanje) na GRANICU zapisa\n"
+"  -m, --mmap                zanemareno, za povratnu kompatibilnost\n"
+"  -P, --nofollow, -H        nemoj pratiti simboličke veze kada proveravaš\n"
+"                            postojanje datoteke\n"
+"  -0, --null                odvojeni zapisi sa ničim na izlazu\n"
+"  -S, --statistics          ne traži zapise, odštampaj statistiku o svakoj\n"
+"                            korišćenoj bazi podataka\n"
+"  -q, --quiet               izvesti bez poruka o greškama pri čitanju baze\n"
+"                            podataka\n"
+"  -r, --regexp REGIZ        traži osnovni regularni izraz REGIZ umesto "
 "šablona\n"
-"      --regex            šabloni su prošireni regularni izraz\n"
-"  -s, --stdio            zanemareno, zbog povratne kompatibilnosti\n"
-"  -V, --version          odštampaj informacije o verziji\n"
-"  -w, --wholename        uporedi ceo naziv putanje (podrazumevano)\n"
+"      --regex               šabloni su prošireni regularni izraz\n"
+"  -s, --stdio               zanemareno, zbog povratne kompatibilnosti\n"
+"  -V, --version             odštampaj informacije o verziji\n"
+"  -w, --wholename           uporedi ceo naziv putanje (podrazumevano)\n"
 
-#: src/locate.c:803
+#: ../src/locate.c:803
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argumenti koji nisu opcije nisu dozvoljeni sa --%s"
 
-#: src/locate.c:816
+#: ../src/locate.c:816
 msgid "no pattern to search for specified"
 msgstr "šablon za pretragu nije naveden"
 
-#: src/locate.c:843
+#: ../src/locate.c:843
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "neispravan regularni izraz „%s“: %s"
 
-#: src/locate.c:936
+#: ../src/locate.c:936
 msgid "can not read two databases from standard input"
 msgstr "ne mogu da pročitam dve baze podataka sa standardnog ulaza"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: ../src/locate.c:955 ../src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr "ne mogu da izvršim funkciju stat () „%s“"
+msgstr "ne mogu da izvršim funkciju stat () nad „%s“"
 
-#: src/locate.c:964
+#: ../src/locate.c:964
 msgid "can not drop privileges"
 msgstr "ne mogu da uklonim privilegije"
 
-#: src/locate.c:1018 src/updatedb.c:1114
+#: ../src/locate.c:1018 ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "U/I greška pri čitanju sa standardnog izlaza"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: ../src/updatedb.c:676 ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr "dužina imena datoteke %zu je prevelika"
+msgstr "dužina %zu naziva datoteke je prevelika"
 
-#: src/updatedb.c:996
+#: ../src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "ne mogu da otvorim privremenu datoteku za „%s“"
 
-#: src/updatedb.c:1009
+#: ../src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "podešavanje je preveliko"
 
-#: src/updatedb.c:1030
+#: ../src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "ne mogu da pronađem grupu „%s“"
 
-#: src/updatedb.c:1033
+#: ../src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "ne mogu da promenim grupu datoteke „%s“ u „%s“"
 
-#: src/updatedb.c:1047
+#: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "ne mogu da promenim dozvole datoteka „%s“"
+msgstr "ne mogu da promenim dozvole datoteke „%s“"
 
-#: src/updatedb.c:1077
+#: ../src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
+msgstr "„%s“ je zaključana (verovatno ranijom updatedb radnjom)"
 
-#: src/updatedb.c:1080
-#, fuzzy, c-format
+#: ../src/updatedb.c:1080
+#, c-format
 msgid "can not lock `%s'"
-msgstr "ne mogu da otvorim „%s“"
+msgstr "ne mogu da zaključam „%s“"
 
-#: src/updatedb.c:1087
+#: ../src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "ne mogu da promenim direktorijum na „%s“"
 
-#: src/updatedb.c:1096
+#: ../src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "U/I greška pri pisanju u „%s“"
 
-#: src/updatedb.c:1100
+#: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "greška pri zameni „%s“"
