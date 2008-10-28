@@ -1,3 +1,13 @@
+Changes in version 0.21.1:
+- Clarified updatedb.conf(5) a bit.
+- New or updated translations:
+  - Catalan by Xavier Queralt Mateu <xqueralt@gmail.com>
+  - German by Thomas Spura <tomspur@fedoraproject.org>
+  - Italian by Francesco Tombolini <tombo@adamantio.net>
+  - Polish by Piotr Drąg <piotrdrag@gmail.com>
+  - Brazilian Portuguese by Taylon Silmer <taylonsilva@gmail.com>
+  - Serbian by Miloš Komarčević <kmilos@gmail.com>
+
 Changes in version 0.21:
 - New variable PRUNENAMES, new updatedb options --add-prunenames and
   --prunenames.  Resolves ticket:2.

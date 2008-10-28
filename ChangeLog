@@ -1,3 +1,9 @@
+2008-10-28  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Version 0.21.1
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
 2008-09-08  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/updatedb.conf.5.in: Clarify wording.
