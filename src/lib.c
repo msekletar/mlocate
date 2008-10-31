@@ -321,7 +321,11 @@ db_skip (struct db *db, off_t size)
       size_t run;
 
       run = db->buf_end - db->buf_pos;
-      if (run > size)
+      {
+	/* To make sure the (ssize_t) cast below is safe. */
+	verify (sizeof (db->buffer) <= SSIZE_MAX);
+      }
+      if ((ssize_t)run > size)
 	run = size;
       db->buf_pos += run;
       size -= run;
