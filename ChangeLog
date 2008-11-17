@@ -1,3 +1,10 @@
+2008-11-17  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/locate.c (drop_setgid): Split from handle_dbpath_entry ().
+	(handle_dbpath_entry): Check a database is privileged before opening it
+	as well, in order to consistently fail to open unprivileged databases in
+	$(dbdir).
+
 2008-10-31  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/lib.c (db_skip): Add an explicit cast to avoid a warning on

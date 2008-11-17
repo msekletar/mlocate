@@ -921,6 +921,14 @@ finish_dbpath (void)
   conf_dbpath.entries = dest_path;
 }
 
+/* Drop set-group-ID privileges, if any. */
+static void
+drop_setgid (void)
+{
+  if (setgid (getgid ()) != 0)
+    error (EXIT_FAILURE, errno, _("can not drop privileges"));
+}
+
 /* Handle a conf_dbpath ENTRY, drop privileges when they are no longer
    necessary. */
 static void
@@ -942,6 +950,14 @@ handle_dbpath_entry (const char *entry)
     {
       struct stat st;
 
+      if (stat (entry, &st) != 0)
+	{
+	  if (conf_quiet == false)
+	    error (0, errno, _("can not stat () `%s'"), entry);
+	  goto err;
+	}
+      if (!db_is_privileged (&st))
+	drop_setgid();
       fd = open (entry, O_RDONLY);
       if (fd == -1)
 	{
@@ -959,10 +975,7 @@ handle_dbpath_entry (const char *entry)
       keep_gid = db_is_privileged (&st);
     }
   if (keep_gid == false)
-    {
-      if (setgid (getgid ()) != 0)
-	error (EXIT_FAILURE, errno, _("can not drop privileges"));
-    }
+    drop_setgid();
   handle_db (fd, entry); /* Closes fd */
  err:
   ;
