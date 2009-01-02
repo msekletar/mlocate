@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2008-11-16 01:30+0000\n"
-"PO-Revision-Date: 2008-12-18 22:13+0100\n"
+"PO-Revision-Date: 2009-01-02 18:27+0100\n"
 "Last-Translator: Magnus Glantz <mg@hacka.net>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;"
 
 #: ../src/conf.c:241
 msgid "warning: Line number overflow"
@@ -37,16 +37,16 @@ msgstr "okänd variabel `%s'"
 
 #: ../src/conf.c:358
 msgid "variable name expected"
-msgstr "variabelnamn väntat"
+msgstr "variabelnamn förväntades"
 
 #: ../src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr "variabel `%s' var redan definerad"
+msgstr "variabeln `%s' var redan definerad"
 
 #: ../src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr "`=' förväntat efter variabelnamn"
+msgstr "`=' förväntades efter variabelnamn"
 
 #: ../src/conf.c:380
 msgid "value in quotes expected after `='"
@@ -99,6 +99,7 @@ msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr "\n"
+"Skicka synpunkter på översättningen till <tp-sv@listor.tp-sv.se>\n"
 "Rapportera fel till %s.\n"
 
 #: ../src/conf.c:482
@@ -156,7 +157,7 @@ msgstr ""
 #: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr "oväntad EOF vid läsning av `%s'"
+msgstr "oväntat filslut vid läsning av `%s'"
 
 #: ../src/lib.c:341
 #, c-format
@@ -244,11 +245,11 @@ msgstr ""
 #: ../src/locate.c:843
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr "ogiltig regexp `%s': %s"
+msgstr "ogiltigt reguljärt uttryck `%s': %s"
 
 #: ../src/locate.c:936
 msgid "can not read two databases from standard input"
-msgstr "kan ej läsa två databaser från standard input"
+msgstr "kan inte läsa två databaser från standard in"
 
 #: ../src/locate.c:955 ../src/updatedb.c:1090
 #, c-format
@@ -257,16 +258,16 @@ msgstr ""
 
 #: ../src/locate.c:964
 msgid "can not drop privileges"
-msgstr "kan inte minska behörigheter"
+msgstr "kan inte släppa behörigheter"
 
 #: ../src/locate.c:1018 ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr "I/O-fel vid skrivning till standard output"
+msgstr "I/O-fel vid skrivning till standard ut"
 
 #: ../src/updatedb.c:676 ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr "felnamnslängden %zu är för lång"
+msgstr "filnamnslängden %zu är för lång"
 
 #: ../src/updatedb.c:996
 #, c-format
@@ -290,7 +291,7 @@ msgstr "kan inte byta filens grupp från `%s' till `%s'"
 #: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "kan ej ändra behörigheter på fil `%s'"
+msgstr "kan inte ändra rättigheter på fil `%s'"
 
 #: ../src/updatedb.c:1077
 #, c-format
@@ -315,5 +316,5 @@ msgstr "I/O-fel vid skrivning till `%s'"
 #: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr "ett fel uppstod när `%s' skulle ersättas"
+msgstr "fel vid ersättning av `%s'"
 
