@@ -1,12 +1,18 @@
-# mlocate Chinese Simplieied translation
-# CHAI Zhenhua <watter1985@163.com>, 2009.
+# mlocate Chinese(Simplieied) translation.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Chai Zhenhua <watter1985@163.com>, 2009.
 #
+# 7 fuzzy, 4 not translated
+# 
+
+
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2008-11-16 01:30+0000\n"
-"PO-Revision-Date: 2009-01-15 13:39+0800\n"
+"PO-Revision-Date: 2009-01-17 11:10+0800\n"
 "Last-Translator: CHAI Zhenhua <watter1985@163.com>\n"
 "Language-Team: Chinese Simplified <fedora-trans-zh_cn@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +21,7 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=1;plural=0\n"
 
 #: ../src/conf.c:241
 msgid "warning: Line number overflow"
@@ -61,7 +68,7 @@ msgstr "PRUNE_BIND_MOUNTS 后有无效的值 `%s' "
 
 #: ../src/conf.c:405
 msgid "unexpected data after variable value"
-msgstr ""
+msgstr "变量值后有意外的数据"
 
 #: ../src/conf.c:419
 #: ../src/lib.c:244
@@ -119,7 +126,7 @@ msgstr "无法得到当前的工作目录"
 #: ../src/locate.c:787
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr ""
+msgstr "--%s 将覆盖先前的命令行参数"
 
 #: ../src/conf.c:544
 #: ../src/conf.c:584
@@ -127,7 +134,7 @@ msgstr ""
 #: ../src/locate.c:766
 #, c-format
 msgid "invalid value `%s' of --%s"
-msgstr ""
+msgstr "%s 有无效的值 `%s' "
 
 #: ../src/conf.c:580
 #: ../src/conf.c:613
@@ -135,7 +142,7 @@ msgstr ""
 #: ../src/locate.c:760
 #, c-format
 msgid "--%s specified twice"
-msgstr ""
+msgstr "--%s 指定两次"
 
 #: ../src/conf.c:590
 #: ../src/locate.c:719
@@ -153,17 +160,17 @@ msgstr "命令行包含意外的操作对象"
 #: ../src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr ""
+msgstr "`%s' 不是一个mlocate数据库"
 
 #: ../src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
-msgstr ""
+msgstr "`%s' 具有未知的版本 %u"
 
 #: ../src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr ""
+msgstr "`%s' 有未知的可视性标志 %u"
 
 #: ../src/lib.c:246
 #, c-format
@@ -173,7 +180,7 @@ msgstr "读取 `%s' 时, 出现意外的 EOF "
 #: ../src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr ""
+msgstr "在 `%s' 中搜索时发生 I/O 错误"
 
 #: ../src/locate.c:335
 #, c-format
@@ -186,42 +193,38 @@ msgstr "数据库 %s:\n"
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju 文件夹\n"
 
 #: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju 文件\n"
 
 #: ../src/locate.c:342
-#, c-format
+#, fuzzy, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " 文件名包含\t%'ju 字节\n"
 
 #: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju 字节用于存储数据库\n"
 
 #: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr ""
+msgstr "`%s' 中有无效的空目录名"
 
 #: ../src/locate.c:500
-#, c-format
+#, fuzzy, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr ""
+msgstr "文件名的长度 %zu 过大, 在`%s' 中"
 
 #: ../src/locate.c:604
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
@@ -249,6 +252,31 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
+"用法: locate [OPTION]... [PATTERN]...\n"
+"在mlocate数据库中搜索条目.\n"
+"\n"
+"  -b, --basename         匹配唯一的路径名称的基本文件名\n"
+"  -c, --count            只显示找到条目的号码\n"
+"  -d, --database DBPATH  用 DBPATH 替代默认的\n"
+"数据库(%s)\n"
+"  -e, --existing         只显示当前存在的文件条目\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
 
 #: ../src/locate.c:803
 #, c-format
@@ -257,16 +285,16 @@ msgstr ""
 
 #: ../src/locate.c:816
 msgid "no pattern to search for specified"
-msgstr ""
+msgstr "没有指定任何搜索模式"
 
 #: ../src/locate.c:843
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr ""
+msgstr "无效的 regexp `%s': %s"
 
 #: ../src/locate.c:936
 msgid "can not read two databases from standard input"
-msgstr ""
+msgstr "无法从标准输入读取两个数据库"
 
 #: ../src/locate.c:955
 #: ../src/updatedb.c:1090
