@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-11-16 01:30+0000\n"
-"PO-Revision-Date: 2008-12-15 19:06-0300\n"
-"Last-Translator: H. Daniel Cabrera <h.daniel.cabrera@gmail.com>\n"
+"POT-Creation-Date: 2009-02-21 01:33+0000\n"
+"PO-Revision-Date: 2009-02-21 02:04-0300\n"
+"Last-Translator: Domingo Becker <domingobecker@gmail.com>\n"
 "Language-Team: Fedora Spanish <fedora-trans-es@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,6 +18,7 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: ARGENTINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/conf.c:241
 msgid "warning: Line number overflow"
@@ -28,7 +29,7 @@ msgid "missing closing `\"'"
 msgstr "falta cerrar `\"'"
 
 #: ../src/conf.c:309
-#: ../src/locate.c:949
+#: ../src/locate.c:965
 #: ../src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
@@ -210,22 +211,30 @@ msgstr "Base de datos %s:\n"
 #: ../src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
-msgstr "\t%'ju directorio\n"
+msgid_plural "\t%'ju directories\n"
+msgstr[0] "\t%'ju directorio\n"
+msgstr[1] "\t%'ju directorios\n"
 
 #: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
-msgstr "\t%'ju archivo\n"
+msgid_plural "\t%'ju files\n"
+msgstr[0] "\t%'ju archivo\n"
+msgstr[1] "\t%'ju archivos\n"
 
 #: ../src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
-msgstr "\t%'ju byte en los nombres de archivo\n"
+msgid_plural "\t%'ju bytes in file names\n"
+msgstr[0] "\t%'ju byte en los nombres de archivo\n"
+msgstr[1] "\t%'ju bytes en los nombres de archivo\n"
 
 #: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
-msgstr "\t%'ju byte utilizado para almacenar la base de datos\n"
+msgid_plural "\t%'ju bytes used to store database\n"
+msgstr[0] "\t%'ju byte utilizado para almacenar la base de datos\n"
+msgstr[1] "\t%'ju bytes utilizados para almacenar la base de datos\n"
 
 #: ../src/locate.c:473
 #, c-format
@@ -303,21 +312,22 @@ msgstr "ningún patrón de busqueda especificado"
 msgid "invalid regexp `%s': %s"
 msgstr "expresión regular inválida `%s': %s"
 
-#: ../src/locate.c:936
+#: ../src/locate.c:929
+msgid "can not drop privileges"
+msgstr "no se pudo abandonar privilegios"
+
+#: ../src/locate.c:944
 msgid "can not read two databases from standard input"
 msgstr "no se pudieron leer dos bases de datos con la entrada patrón"
 
-#: ../src/locate.c:955
+#: ../src/locate.c:956
+#: ../src/locate.c:971
 #: ../src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "no se pudo realizar stat () `%s'"
 
-#: ../src/locate.c:964
-msgid "can not drop privileges"
-msgstr "no se pudo abandonar privilegios"
-
-#: ../src/locate.c:1018
+#: ../src/locate.c:1031
 #: ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "error de E/S al intentar escribir sobre la entrada patrón "
