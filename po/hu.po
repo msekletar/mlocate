@@ -10,14 +10,12 @@ msgstr ""
 "Project-Id-Version: MLOCATE 1.0\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2008-06-30 01:35+0200\n"
-"PO-Revision-Date: 2008-05-05 20:49+0100\n"
+"PO-Revision-Date: 2009-03-20 21:20+0100\n"
 "Last-Translator: Nagy Enikő <vakegir@gmail.com>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -25,17 +23,17 @@ msgstr "hiba: Sorszám túlcsordulás"
 
 #: src/conf.c:259
 msgid "missing closing `\"'"
-msgstr "hiányzó bezáró `\"'"
+msgstr "hiányzó bezáró „\"”"
 
 #: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
-msgstr "nem megnyitható `%s'"
+msgstr "„%s” nem nyitható meg"
 
 #: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
-msgstr "ismeretlen változó `%s'"
+msgstr "„%s” ismeretlen változó"
 
 #: src/conf.c:358
 msgid "variable name expected"
@@ -44,7 +42,7 @@ msgstr "hiányzó változónév"
 #: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr " `%s' változó már definiálva"
+msgstr "„%s” változó már definiálva"
 
 #: src/conf.c:373
 msgid "`=' expected after variable name"
@@ -66,10 +64,10 @@ msgstr "nem várt adat a változónév után"
 #: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr "I/O olvasási hiba `%s'"
+msgstr "I/O olvasási hiba „%s”"
 
 #: src/conf.c:437
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
 "Update a mlocate database.\n"
@@ -98,23 +96,25 @@ msgstr ""
 "Az mlocate adatbázis frissítése.\n"
 "\n"
 "  -f, --add-prunefs FS           mellőzi FS-t\n"
-"  -e, --add-prunepaths UTVONALAK     mellőzi az UTVONALAKat\n"
-"  -U, --database-root UTVONAL       the subtree to store in database "
-"(default \"/\")\n"
+"  -n, --add-prunenames NEVEK     mellőzi NEVEKet\n"
+"  -e, --add-prunepaths ÖSVÉNYEK      mellőzi az UTVONALAKat\n"
+"  -U, --database-root ÖSVÉNY        az adatbázisban tárolandó részfa "
+"(alapért \"/\")\n"
 "  -h, --help                     kiírja ez a segítséget\n"
 "  -o, --output FILE              adatbázis frissítése (alapértelmezett\n"
-"                                 `%s')\n"
-"      --prune-bind-mounts FLAG   mellőzi a csatoltakat köteteket "
-"(alapértelmezett \"nem\")\n"
-"      --prunefs FS               filrendszerek mellőzése az adatbázisból\n"
-"      --prunepaths UTVONALAK         útvonalak mellőzése az adatbázisból\n"
+"                                 „%s”)\n"
+"      --prune-bind-mounts FLAG   mellőzi a csatolt köteteket "
+"(alapért „no”)\n"
+"      --prunefs FS               fájlrendszerek mellőzése az adatbázisból\n"
+"      --prunenames NEVEK         mappa nevek mellőzése az adatbázisból\n"
+"      --prunepaths ÖSVÉNYEK           ösvények mellőzése az adatbázisból\n"
 "  -l, --require-visibility FLAG  láthasóg ellenőrzése jelentés előtt\n"
-"                                 (alapértelmezett \"igen\")\n"
+"                                 (alapértelmezett \"yes\")\n"
 "  -v, --verbose                 a fájl kiíratása a megtalált útvonalon\n"
 "  -V, --version                  verzió információk kiírása\n"
 "\n"
 "A konfiguráció alapértelmezett értékeinek olvasása innen:\n"
-"`%s'.\n"
+"„%s”.\n"
 
 #: src/conf.c:464 src/locate.c:639
 #, c-format
@@ -123,7 +123,7 @@ msgid ""
 "Report bugs to %s.\n"
 msgstr ""
 "\n"
-"Bugok jelentése %s.\n"
+"Hibabejelentés: %s.\n"
 
 #: src/conf.c:482
 msgid "can not get current working directory"
@@ -133,12 +133,12 @@ msgstr "nem érhető el a jelenlegi munkakönyvtár"
 #: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr "--%s felülfogja írnia korábbi parancssori argumentumokat"
+msgstr "--%s felülírná korábbi parancssori argumentumokat"
 
 #: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
 #, c-format
 msgid "invalid value `%s' of --%s"
-msgstr "`%s' érvénytelen értéke a --%s parancsnak"
+msgstr "„%s” érvénytelen értéke a --%s parancsnak"
 
 #: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
 #, c-format
@@ -152,6 +152,10 @@ msgid ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
+"Szerzői jog (C) 2007 Red Hat, Inc. Minden jog fenntartva.\n"
+"E szoftvert a GPL v.2 engedéllyel terjesztik.\n"
+"\n"
+"E programot GARANCIA NÉLKÜL adják, amennyire a törvényes keretek engedik."
 
 #: src/conf.c:646
 msgid "unexpected operand on command line"
@@ -160,27 +164,27 @@ msgstr "nem várt operandus a parancssoron"
 #: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr "`%s' nem tünik mlocate adatbázisnak"
+msgstr "„%s” nem tűnik mlocate adatbázisnak"
 
 #: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
-msgstr "`%s' nem ismert verziója %u"
+msgstr "%u „%s” ismeretlen változata"
 
 #: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr "%s' nem ismert láthatósági flag %u"
+msgstr "%u „%s” ismeretlen láthatóság jelzése"
 
 #: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr "nem várt EOF olvasás  `%s'"
+msgstr "nem várt EOF olvasás  „%s”"
 
 #: src/lib.c:337
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr "I/O hiba keresés `%s'"
+msgstr "I/O hiba keresés „%s”"
 
 #: src/locate.c:335
 #, c-format
@@ -190,40 +194,32 @@ msgstr "Adatbázis %s:\n"
 #: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
-msgid_plural "\t%'ju directories\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "\t%'ju mappa\n"
 
 #: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
-msgid_plural "\t%'ju files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "\t%'ju fájl\n"
 
 #: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
-msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "\t%'ju bájt a fájl nevekben\n"
 
 #: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
-msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "\t%'ju bájt tárolva az adatbázisban\n"
 
 #: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr "nem érvényes üres könyvtárnév ebben `%s'"
+msgstr "nem érvényes üres könyvtárnév ebben „%s”"
 
 #: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "fájl név hossza %zu ebben `%s' túl nagy"
+msgstr "fájl név hossza %zu ebben „%s” túl nagy"
 
 #: src/locate.c:604
 #, c-format
@@ -300,7 +296,7 @@ msgstr "nem található minta a keresésre"
 #: src/locate.c:843
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr "nem érvényes reguláris kifejezés `%s': %s"
+msgstr "nem érvényes reguláris kifejezés „%s”: %s"
 
 #: src/locate.c:936
 msgid "can not read two databases from standard input"
@@ -309,7 +305,7 @@ msgstr "nem olvasható két adatbázis a standard inputról"
 #: src/locate.c:955 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr "nem lehet stat() `%s'"
+msgstr "nem lehet stat() „%s”"
 
 #: src/locate.c:964
 msgid "can not drop privileges"
@@ -327,7 +323,7 @@ msgstr "fájl név hossza %zu túl nagy"
 #: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr "nem nyitható meg egy temporális file `%s'-ra"
+msgstr "nem lehet ideiglenes fájlt nyitni „%s”-nek"
 
 #: src/updatedb.c:1009
 msgid "configuration is too large"
@@ -336,7 +332,7 @@ msgstr "a konfiguráció túl nagy"
 #: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
-msgstr "nem található csoport `%s'"
+msgstr "nem található csoport „%s”"
 
 #: src/updatedb.c:1033
 #, c-format
@@ -346,17 +342,17 @@ msgstr "nem lehet megváltoztatni a file csoportját `%s'-ról `%s'-re"
 #: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "nem lehet megváltoztatni a(z) `%s' file jogosultságait"
+msgstr "nem lehet megváltoztatni a(z) „%s” file jogosultságait"
 
 #: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
+msgstr "„%s” lakat alatt (valószínűleg egy korábbi updatedb miatt)"
 
 #: src/updatedb.c:1080
-#, fuzzy, c-format
+#, c-format
 msgid "can not lock `%s'"
-msgstr "nem megnyitható `%s'"
+msgstr "„%s” nem lakatolható"
 
 #: src/updatedb.c:1087
 #, c-format
@@ -366,9 +362,10 @@ msgstr "nem változtatható a könyvtár `%s'-ra"
 #: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "I/O hiba  `%s' írása közben"
+msgstr "I/O hiba  „%s” írása közben"
 
 #: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr "hiba cserekor `%s'"
+msgstr "hiba cserekor „%s”"
+
