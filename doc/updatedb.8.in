@@ -116,6 +116,8 @@ If
 is
 .B 0
 or \fBno\fR,
+or if the database file is readable by "others"
+or it is not owned by \fB@groupname@\fR,
 .BR locate (1)
 outputs the database entries even if the user running
 .BR locate (1)
@@ -139,6 +141,10 @@ and the database permissions prohibit reading the database by users using
 other means than
 .BR locate (1),
 which is set-gid \fB@groupname@\fR.
+
+Note that the visibility flag is checked only if the database is owned by
+.B @groupname@
+and it is not readable by "others".
 
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR

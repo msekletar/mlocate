@@ -1,3 +1,16 @@
+2009-04-14  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/updatedb.8.in: Document that --require-visibility only applies
+	if the database is privileged.
+
+	* src/locate.c (handle_db): Document new parameter, beautify.
+	(handle_dbpath_entry): Rename variable keep_gid to privileged_db.
+
+2009-04-14  Peter Cordes  <peter@cordes.ca>
+
+	* src/locate.c (handle_db, handle_dbpath_entry): Only verify directory
+	read permissions for privileged databases.
+
 2008-11-17  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/locate.c (drop_setgid): Split from handle_dbpath_entry ().

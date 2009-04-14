@@ -511,7 +511,8 @@ handle_directory (struct db *db, const struct db_header *hdr)
   return -1;
 }
 
-/* Read and handle DATABASE, opened as FD */
+/* Read and handle DATABASE, opened as FD;
+   PRIVILEGED is non-zero if db_is_privileged() */
 static void
 handle_db (int fd, const char *database, bool privileged)
 {
@@ -530,7 +531,8 @@ handle_db (int fd, const char *database, bool privileged)
   if (db_read_name (&db, &path_obstack) != 0)
     goto err_path;
   obstack_1grow (&path_obstack, 0);
-  hdr.check_visibility &= privileged;  // don't check visibility if we have read access to the db without set id
+  if (privileged == false)
+    hdr.check_visibility = 0;
   visible = hdr.check_visibility ? -1 : 1;
   p = obstack_finish (&path_obstack);
   if (handle_path (p, &visible) != 0)
@@ -936,7 +938,7 @@ static void
 handle_dbpath_entry (const char *entry)
 {
   int fd;
-  bool keep_gid;
+  bool privileged_db;
 
   if (strcmp (entry, "-") == 0)
     {
@@ -945,7 +947,7 @@ handle_dbpath_entry (const char *entry)
 	       _("can not read two databases from standard input"));
       stdin_used = true;
       fd = STDIN_FILENO;
-      keep_gid = false;
+      privileged_db = false;
     }
   else
     {
@@ -973,11 +975,11 @@ handle_dbpath_entry (const char *entry)
 	  close (fd);
 	  goto err;
 	}
-      keep_gid = db_is_privileged (&st);
+      privileged_db = db_is_privileged (&st);
     }
-  if (keep_gid == false)
+  if (privileged_db == false)
     drop_setgid();
-  handle_db (fd, entry, keep_gid); /* Closes fd */
+  handle_db (fd, entry, privileged_db); /* Closes fd */
  err:
   ;
 }
