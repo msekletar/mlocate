@@ -511,9 +511,9 @@ handle_directory (struct db *db, const struct db_header *hdr)
   return -1;
 }
 
-/* Read and handle DATABASE, open as FD */
+/* Read and handle DATABASE, opened as FD */
 static void
-handle_db (int fd, const char *database)
+handle_db (int fd, const char *database, bool privileged)
 {
   struct db db;
   struct db_header hdr;
@@ -530,6 +530,7 @@ handle_db (int fd, const char *database)
   if (db_read_name (&db, &path_obstack) != 0)
     goto err_path;
   obstack_1grow (&path_obstack, 0);
+  hdr.check_visibility &= privileged;  // don't check visibility if we have read access to the db without set id
   visible = hdr.check_visibility ? -1 : 1;
   p = obstack_finish (&path_obstack);
   if (handle_path (p, &visible) != 0)
@@ -976,7 +977,7 @@ handle_dbpath_entry (const char *entry)
     }
   if (keep_gid == false)
     drop_setgid();
-  handle_db (fd, entry); /* Closes fd */
+  handle_db (fd, entry, keep_gid); /* Closes fd */
  err:
   ;
 }
