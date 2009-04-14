@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2008-05-09 02:56+0800\n"
 "Last-Translator: Mohd Izhar Firdaus Ismail <izhar@fedoraproject.org>\n"
 "Language-Team: Malay/Bahasa Melayu\n"
@@ -27,7 +27,7 @@ msgstr "amaran: Bilangan baris melebihi had"
 msgid "missing closing `\"'"
 msgstr ""
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "tidak dapat membuka `%s'"
@@ -96,7 +96,7 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 
-#: src/conf.c:464 src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -110,22 +110,22 @@ msgid "can not get current working directory"
 msgstr "tidak dapat mendapatkan direktori semasa"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s·akan mengambilalih argumen baris arahan sebelumnya"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "nilai tidak sah %s'·untuk·--%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s·diberi dua kali"
 
-#: src/conf.c:590 src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -157,7 +157,7 @@ msgstr ""
 msgid "unexpected EOF reading `%s'"
 msgstr "EOF·tidak dijangka semasa membaca `%s'"
 
-#: src/lib.c:337
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "Masalah I/O·sewaktu mencari di `%s'"
@@ -205,7 +205,7 @@ msgstr "nama directory kosong yang tidak sah di `%s'"
 msgid "file name length %zu in `%s' is too large"
 msgstr "nama fail %zu di `%s' terlalu panjang"
 
-#: src/locate.c:604
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -237,35 +237,35 @@ msgid ""
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
 
-#: src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr ""
 
-#: src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "tiada paten untuk pencarian diberikan"
 
-#: src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "regexp tidak sah `%s':·%s"
 
-#: src/locate.c:936
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr ""
+
+#: src/locate.c:947
 #, fuzzy
 msgid "can not read two databases from standard input"
 msgstr "tidak dapat membaca dua database dari standard input"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr ""
 
-#: src/locate.c:964
-msgid "can not drop privileges"
-msgstr ""
-
-#: src/locate.c:1018 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "Masalah I/O sewaktu menulis ke standard output"
 

@@ -1,3 +1,15 @@
+Changes in version 0.22:
+- Ignore --require-visibility in locate if the database is not owned by group
+  mlocate or it is readable by others (#7).
+- Refuse to open unprivileged databases in directories only accessible by
+  group mlocate.
+- New or updated translations:
+  - Spanish by H. Daniel Cabrera <h.daniel.cabrera@gmail.com> and Domingo Becker
+    <domingobecker@gmail.com>
+  - Hungarian by Sulyok Péter <peti@fedoraproject.org>
+  - Swedish by Magnus Glantz <mg@hacka.net>
+  - Simplified Chinese by CHAI Zhenhua <watter1985@163.com>
+
 Changes in version 0.21.1:
 - Clarified updatedb.conf(5) a bit.
 - New or updated translations:

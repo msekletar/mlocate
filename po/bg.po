@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2008-03-20 17:32+0100\n"
 "Last-Translator: Alexander Todorov <atodorov@redhat.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -26,7 +26,7 @@ msgstr "предупреждение: Препълване на номерата
 msgid "missing closing `\"'"
 msgstr "липсва затваряща `\"'"
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "не може да бъде отворен `%s'"
@@ -94,7 +94,7 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 
-#: src/conf.c:464 src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -108,22 +108,22 @@ msgid "can not get current working directory"
 msgstr "не може да се определи текущата работна директория"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s·ще презапише предишен аргумент на командния ред"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "невалидна стойност·`%s'·за·--%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s е зададен два пъти"
 
-#: src/conf.c:590 src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -159,7 +159,7 @@ msgstr "`%s'·е с неизвестен флаг·%u"
 msgid "unexpected EOF reading `%s'"
 msgstr "неочакван край на файл при четене на `%s'"
 
-#: src/lib.c:337
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "Вх/Изх грешка при търсене в `%s'"
@@ -207,7 +207,7 @@ msgstr "невалидно име на празна директория `%s'"
 msgid "file name length %zu in `%s' is too large"
 msgstr "дължина %zu·на името на файл `%s'·е прекалено голяма"
 
-#: src/locate.c:604
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -239,34 +239,34 @@ msgid ""
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
 
-#: src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "допълнителни аргументи не са позволени след·--%s"
 
-#: src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "не е зададен образец за търсене"
 
-#: src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "невалиден регулярен израз `%s': %s"
 
-#: src/locate.c:936
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr "неуспех при опит за работа с по-ниски привилегии"
+
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "не е възможно да бъдат прочетени две бази данни от стандартния вход"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не може да се изпълни stat () за `%s'"
 
-#: src/locate.c:964
-msgid "can not drop privileges"
-msgstr "неуспех при опит за работа с по-ниски привилегии"
-
-#: src/locate.c:1018 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "Вх/Изх грешка при запис на стандартния изход"
 

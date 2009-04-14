@@ -4,14 +4,12 @@
 # Chai Zhenhua <watter1985@163.com>, 2009.
 #
 # 7 fuzzy, 4 not translated
-# 
-
-
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-11-16 01:30+0000\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2009-01-17 11:10+0800\n"
 "Last-Translator: CHAI Zhenhua <watter1985@163.com>\n"
 "Language-Team: Chinese Simplified <fedora-trans-zh_cn@redhat.com>\n"
@@ -23,60 +21,57 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "Plural-Forms: nplurals=1;plural=0\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "警告:行数溢出"
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 #, fuzzy
 msgid "missing closing `\"'"
 msgstr "缺少匹配的 `\"'"
 
-#: ../src/conf.c:309
-#: ../src/locate.c:949
-#: ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "无法打开 `%s'"
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "未知的变量 `%s'"
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "需要一个变量名"
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "变量 `%s' 已被定义"
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "变量名后需要一个 `=' "
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "`=' 后需要引号内的值"
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "PRUNE_BIND_MOUNTS 后有无效的值 `%s' "
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "变量值后有意外的数据"
 
-#: ../src/conf.c:419
-#: ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "I/O 读取错误 `%s'"
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -85,7 +80,8 @@ msgid ""
 "  -f, --add-prunefs FS           omit also FS\n"
 "  -n, --add-prunenames NAMES     omit also NAMES\n"
 "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
 "  -h, --help                     print this help\n"
 "  -o, --output FILE              database to update (default\n"
 "                                 `%s')\n"
@@ -102,8 +98,7 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 
-#: ../src/conf.c:464
-#: ../src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -112,40 +107,27 @@ msgstr ""
 "\n"
 "将 bug 报告给 %s.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "无法得到当前的工作目录"
 
-#: ../src/conf.c:540
-#: ../src/conf.c:551
-#: ../src/conf.c:561
-#: ../src/conf.c:571
-#: ../src/locate.c:694
-#: ../src/locate.c:703
-#: ../src/locate.c:729
-#: ../src/locate.c:787
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s 将覆盖先前的命令行参数"
 
-#: ../src/conf.c:544
-#: ../src/conf.c:584
-#: ../src/conf.c:617
-#: ../src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "%s 有无效的值 `%s' "
 
-#: ../src/conf.c:580
-#: ../src/conf.c:613
-#: ../src/conf.c:628
-#: ../src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s 指定两次"
 
-#: ../src/conf.c:590
-#: ../src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -153,77 +135,75 @@ msgid ""
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "命令行包含意外的操作对象"
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' 不是一个mlocate数据库"
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' 具有未知的版本 %u"
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' 有未知的可视性标志 %u"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "读取 `%s' 时, 出现意外的 EOF "
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "在 `%s' 中搜索时发生 I/O 错误"
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "数据库 %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju 文件夹\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju 文件\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, fuzzy, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] " 文件名包含\t%'ju 字节\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju 字节用于存储数据库\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "`%s' 中有无效的空目录名"
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, fuzzy, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "文件名的长度 %zu 过大, 在`%s' 中"
 
-#: ../src/locate.c:604
+#: src/locate.c:607
 #, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -240,10 +220,12 @@ msgid ""
 "  -i, --ignore-case      ignore case distinctions when matching patterns\n"
 "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
 "  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
 "                         existence\n"
 "  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about each\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
 "                         used database\n"
 "  -q, --quiet            report no error messages about reading databases\n"
 "  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
@@ -266,10 +248,12 @@ msgstr ""
 "  -i, --ignore-case      ignore case distinctions when matching patterns\n"
 "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
 "  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
 "                         existence\n"
 "  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about each\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
 "                         used database\n"
 "  -q, --quiet            report no error messages about reading databases\n"
 "  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
@@ -278,93 +262,89 @@ msgstr ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 
-#: ../src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr ""
 
-#: ../src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "没有指定任何搜索模式"
 
-#: ../src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "无效的 regexp `%s': %s"
 
-#: ../src/locate.c:936
-msgid "can not read two databases from standard input"
-msgstr "无法从标准输入读取两个数据库"
-
-#: ../src/locate.c:955
-#: ../src/updatedb.c:1090
-#, c-format
-msgid "can not stat () `%s'"
-msgstr ""
-
-#: ../src/locate.c:964
+#: src/locate.c:932
 #, fuzzy
 msgid "can not drop privileges"
 msgstr "无法释放特权."
 
-#: ../src/locate.c:1018
-#: ../src/updatedb.c:1114
+#: src/locate.c:947
+msgid "can not read two databases from standard input"
+msgstr "无法从标准输入读取两个数据库"
+
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#, c-format
+msgid "can not stat () `%s'"
+msgstr ""
+
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "写入标准输出时发生I/O 错误"
 
-#: ../src/updatedb.c:676
-#: ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "文件名 %zu 过长"
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "无法为 `%s' 打开临时文件"
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 #, fuzzy
 msgid "configuration is too large"
 msgstr "配置过大"
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "无法找到组 `%s'"
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "无法将文件所在的组 `%s'  更改为 `%s'"
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "无法改变文件 `%s' 的权限"
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, fuzzy, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' 被锁定 (可能是由于先前的数据更新)"
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "无法锁定 `%s'"
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "无法改变目录 `%s'"
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "写入 '%s' 时发生 I/O 错误"
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "替换错误 `%s'"
-

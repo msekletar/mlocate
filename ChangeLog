@@ -1,5 +1,11 @@
 2009-04-14  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Version 0.22.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
+	* po/hu.po: Fix errors.
+
 	* tests/locate.at (locate: Invalid source database): Update error
 	message.
 

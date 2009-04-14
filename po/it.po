@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip.it\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2008-09-24 03:30+0200\n"
 "Last-Translator: Francesco Tombolini <tombo@adamantio.net>\n"
 "Language-Team: Italiano <fedora-trans-it@redhat.com>\n"
@@ -27,7 +27,7 @@ msgstr "attenzione: Overflow del numero di linea"
 msgid "missing closing `\"'"
 msgstr "mancata chiusura `\"'"
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "impossibile aprire `%s'"
@@ -119,7 +119,7 @@ msgstr ""
 "La configurazione predefinita si basa sui valori letti da\n"
 "`%s'.\n"
 
-#: src/conf.c:464 src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -133,22 +133,22 @@ msgid "can not get current working directory"
 msgstr "impossibile ottenere la cartella di lavoro"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s sovrascriverebbe un precedente argomento della linea di comando"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "valore `%s' non valido di --%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s specificato due volte"
 
-#: src/conf.c:590 src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -185,7 +185,7 @@ msgstr "`%s' ha un flag di visibilità %u sconosciuto"
 msgid "unexpected EOF reading `%s'"
 msgstr "inaspettato EOF nella lettura di `%s'"
 
-#: src/lib.c:337
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "ricerca di errore I/O in `%s'"
@@ -233,7 +233,7 @@ msgstr "nome di cartella vuota non valida in `%s'"
 msgid "file name length %zu in `%s' is too large"
 msgstr "la lunghezza del nome file %zu in `%s' è troppo larga"
 
-#: src/locate.c:604
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -298,34 +298,34 @@ msgstr ""
 "  -w, --wholename        corrispondenza per l'intero nome del path\n"
 "                         (predefinito)\n"
 
-#: src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argomenti non-opzioni non sono consentiti con --%s"
 
-#: src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "non è stato specificato nessun pattern da cercare"
 
-#: src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "regexp `%s' non valido: %s"
 
-#: src/locate.c:936
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr "impossibile copiare i privilegi"
+
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "impossibile leggere due database da standard input"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "can not stat () `%s'"
 
-#: src/locate.c:964
-msgid "can not drop privileges"
-msgstr "impossibile copiare i privilegi"
-
-#: src/locate.c:1018 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "erore di I/O durante la scrittura sullo standard output"
 

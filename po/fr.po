@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2008-04-05 17:15+0200\n"
 "Last-Translator: Thomas Canniot <mrtom@fedoraproject.org>\n"
 "Language-Team: Français <fedora-trans-fr@redhat.com>\n"
@@ -28,7 +28,7 @@ msgstr "avertissement : dépassement du nombre de lignes"
 msgid "missing closing `\"'"
 msgstr "« \" » fermant manquant"
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "impossible d'ouvrir « %s »"
@@ -120,7 +120,7 @@ msgstr ""
 "La configuration est définie par défaut aux valeurs lues à partir de\n"
 "« %s ».\n"
 
-#: src/conf.c:464 src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -134,22 +134,22 @@ msgid "can not get current working directory"
 msgstr "impossible d'obtenir le répertoire de travail actuel"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s écraserait un paramètre en ligne de commande précédent"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "la valeur « %s » de --%s n'est pas valide"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s indiqué deux fois"
 
-#: src/conf.c:590 src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -185,7 +185,7 @@ msgstr "« %s » a un drapeau de visibilité inconnu %u"
 msgid "unexpected EOF reading `%s'"
 msgstr "fin de fichier inattendue lors de la lecture de « %s »"
 
-#: src/lib.c:337
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "erreur d'E/S durant la recherche dans « %s »"
@@ -233,7 +233,7 @@ msgstr "nom de répertoire vide invalide dans « %s »"
 msgid "file name length %zu in `%s' is too large"
 msgstr "la longueur du nom de fichier %zu dans « %s » est trop grande"
 
-#: src/locate.c:604
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -299,34 +299,34 @@ msgstr ""
 "  -V, --version          affiche les informations de version\n"
 "  -w, --wholename        recherche les noms de chemin complets (par défaut)\n"
 
-#: src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "les paramètres absents des options sont interdits avec --%s"
 
-#: src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "aucun motif à rechercher indiqué"
 
-#: src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "expression régulière « %s » invalide : %s"
 
-#: src/locate.c:936
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr "impossible d'abandonner les privilèges"
+
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "impossible de lire deux bases de données à partir de l'entrée standard"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "impossible de lancer la commande stat () pour « %s »"
 
-#: src/locate.c:964
-msgid "can not drop privileges"
-msgstr "impossible d'abandonner les privilèges"
-
-#: src/locate.c:1018 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "erreur d'E/S lors de l'écriture vers la sortie standard"
 

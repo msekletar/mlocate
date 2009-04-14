@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2008-06-30 01:35+0200\n"
+"POT-Creation-Date: 2009-04-14 12:06+0200\n"
 "PO-Revision-Date: 2008-07-07 04:24+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -23,7 +23,7 @@ msgstr "ostrzeżenie: przepełniono numer wiersza"
 msgid "missing closing `\"'"
 msgstr "brak zamykającego `\"'"
 
-#: src/conf.c:309 src/locate.c:949 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "nie można otworzyć `%s'"
@@ -114,7 +114,7 @@ msgstr ""
 "Domyśla konfiguracja to wartości odczytane z\n"
 "`%s'.\n"
 
-#: src/conf.c:464 src/locate.c:639
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -128,22 +128,22 @@ msgid "can not get current working directory"
 msgstr "nie można uzyskać bieżącego folderu roboczego"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:694 src/locate.c:703 src/locate.c:729 src/locate.c:787
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s zastąpi wcześniejszy argument wiersza poleceń"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:766
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "nieprawidłowa wartość `%s' --%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:760
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s podano dwa razy"
 
-#: src/conf.c:590 src/locate.c:719
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -180,7 +180,7 @@ msgstr "`%s' posiada nieznaną flagę widoczności %u"
 msgid "unexpected EOF reading `%s'"
 msgstr "nieoczekiwany koniec pliku podczas odczytywania `%s'"
 
-#: src/lib.c:337
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "błąd wejścia/wyjścia podczas wyszukiwania w `%s'"
@@ -232,7 +232,7 @@ msgstr "nieprawidłowa pusta nazwa folderu w `%s'"
 msgid "file name length %zu in `%s' is too large"
 msgstr "długość nazwy pliku %zu w `%s' jest za duża"
 
-#: src/locate.c:604
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -294,34 +294,34 @@ msgstr ""
 "  -V, --version          wyświetla informację o wersji\n"
 "  -w, --wholename        dopasowuje całą nazwę (domyślnie)\n"
 
-#: src/locate.c:803
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argumenty nie będące opcjami nie są dozwolone z --%s"
 
-#: src/locate.c:816
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "nie podano wzoru do wyszukiwania"
 
-#: src/locate.c:843
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "nieprawidłowe wyrażenie regularne `%s': %s"
 
-#: src/locate.c:936
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr "nie można opuścić przywilejów"
+
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "nie można odczytać dwóch baz danych ze standardowego wejścia"
 
-#: src/locate.c:955 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nie można wykonać stat () `%s'"
 
-#: src/locate.c:964
-msgid "can not drop privileges"
-msgstr "nie można opuścić przywilejów"
-
-#: src/locate.c:1018 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "błąd wejścia/wyjścia podczas zapisywania do standardowego wyjścia"
 
