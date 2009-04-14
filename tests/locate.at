@@ -586,7 +586,7 @@ AT_KEYWORDS([locate])
 
 AT_CHECK([locate -d db '*' 2>err], 1)
 AT_CHECK([sed "s/': .*/': /" < err], ,
-[locate: can not open `db': @&t@
+[locate: can not stat () `db': @&t@
 ])
 
 > db

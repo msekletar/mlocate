@@ -1,5 +1,8 @@
 2009-04-14  Miloslav Trmač  <mitr@redhat.com>
 
+	* tests/locate.at (locate: Invalid source database): Update error
+	message.
+
 	* doc/updatedb.8.in: Document that --require-visibility only applies
 	if the database is privileged.
 
