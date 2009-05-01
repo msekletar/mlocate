@@ -1,14 +1,14 @@
-# translation of mlocate.tip.mlocate-nl.po to Dutch
+# translation of mlocate.tip.nl.po to Dutch
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # R.E. van der Luit <nippur@fedoraproject.org>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate.tip.mlocate-nl\n"
+"Project-Id-Version: mlocate.tip.nl\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2009-05-01 19:57+0000\n"
-"PO-Revision-Date: 2009-05-02 00:00+0200\n"
+"PO-Revision-Date: 2009-05-02 00:04+0200\n"
 "Last-Translator: R.E. van der Luit <nippur@fedoraproject.org>\n"
 "Language-Team: Dutch <nippur@fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr[1] "\t%'ju directories\n"
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] ""
+msgstr[0] "\t%'ju bestand\n"
 msgstr[1] "\t%'ju bestanden\n"
 
 #: ../src/locate.c:342
