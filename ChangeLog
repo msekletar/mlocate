@@ -1,3 +1,7 @@
+2009-06-14  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Update to gettext 0.17.
+
 2009-04-14  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Version 0.22.
