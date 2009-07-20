@@ -76,6 +76,7 @@ Each directory starts with a header:
 4 bytes for
 .I directory time
 (nanoseconds) in big endian (0 if unknown, less than 1,000,000,000),
+4 bytes padding,
 and a \f(SMNUL\fR-terminated path name of the the directory.
 Directory contents, a sequence of
 .I file entries
