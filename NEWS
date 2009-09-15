@@ -1,3 +1,14 @@
+Changes in version 0.22.1:
+- Fix mlocate.db format documentation.  Patch by Tomas Zellerin
+  <zellerin@gmail.com>.
+- New or updated translations:
+  - Canadian by Xavier Queralt Mateu <xqueralt@gmail.com>
+  - Danish by Kris Thomsen <lakristho@gmail.com>
+  - German by Thomas Spura <tomspur@fedoraproject.org>
+  - French by Charles-Antoine Couret <cacouret@wanadoo.fr>
+  - Japanese by Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>
+  - Dutch by R.E. van der Luit <nippur@fedoraproject.org>
+
 Changes in version 0.22:
 - Ignore --require-visibility in locate if the database is not owned by group
   mlocate or it is readable by others (#7).
