@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2009-09-15 20:02+0200\n"
-"PO-Revision-Date: 2009-09-10 21:45+0900\n"
+"POT-Creation-Date: 2009-09-21 08:56+0000\n"
+"PO-Revision-Date: 2009-09-21 23:26+0900\n"
 "Last-Translator: Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>\n"
 "Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,56 +16,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/conf.c:241
+#: ../src/conf.c:241
 msgid "warning: Line number overflow"
-msgstr ""
+msgstr "警告: 行番号があふれています"
 
-#: src/conf.c:259
+#: ../src/conf.c:259
 msgid "missing closing `\"'"
-msgstr ""
+msgstr "閉じる `\"' がありません"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s' を開けません"
 
-#: src/conf.c:353
+#: ../src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "不明な変数 `%s'"
 
-#: src/conf.c:358
+#: ../src/conf.c:358
 msgid "variable name expected"
-msgstr ""
+msgstr "変数名が期待されています"
 
-#: src/conf.c:364
+#: ../src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr ""
+msgstr "変数 `%s' は既に定義されています"
 
-#: src/conf.c:373
+#: ../src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr ""
+msgstr "変数名の後には  `=' が期待されています"
 
-#: src/conf.c:380
+#: ../src/conf.c:380
 msgid "value in quotes expected after `='"
-msgstr ""
+msgstr "`=' の後には引用符で囲まれた値が期待されています"
 
-#: src/conf.c:388
+#: ../src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr ""
+"PRUNE_BIND_MOUNTS の不当な値 `'%s'"
 
-#: src/conf.c:405
+#: ../src/conf.c:405
 msgid "unexpected data after variable value"
-msgstr ""
+msgstr "変数値の後の期待されていないデータ"
 
-#: src/conf.c:419 src/lib.c:244
+#: ../src/conf.c:419 ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr ""
+msgstr "`%s' 読込みで入出力エラー"
 
-#: src/conf.c:437
+#: ../src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -91,115 +92,142 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
+"利用方法: updatedb [オプション]...\n"
+"mlocate データベースを更新します。\n"
+"\n"
+"  -f, --add-prunefs FS           同じ FS を除外する\n"
+"  -n, --add-prunenames NAMES     同じ NAMES を除外する\n"
+"  -e, --add-prunepaths PATHS     同じ PATHS を除外する\n"
+"  -U, --database-root PATH       データベース中の保存するサブツリー (省略値 "
+"\"/\")\n"
+"  -h, --help                     このヘルプを印刷する\n"
+"  -o, --output FILE              更新するデータベース (省略値\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   bind マウントを除外する (省略値 \"no\")\n"
+"      --prunefs FS               データベースから除外するファイルシステム\n"
+"      --prunenames NAMES         データベースから除外する辞書名\n"
+"      --prunepaths PATHS         データベースから除外するパス\n"
+"  -l, --require-visibility FLAG  ファイルを報告する前に可視性をチェックする\n"
+"                                 (省略値 \"yes\")\n"
+"  -v, --verbose                  見つかったファイルのバスを印刷する\n"
+"  -V, --version                  バージョン情報を印刷する\n"
+"\n"
+"設定はファイル`%s'\n"
+"から読み込んだ値を省略値とします。\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: ../src/conf.c:464 ../src/locate.c:642
 #, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
+"\n"
+"バグを %s へ報告してください。\n"
 
-#: src/conf.c:482
+#: ../src/conf.c:482
 msgid "can not get current working directory"
-msgstr ""
+msgstr "現在の作業ディレクトリーを得られません"
 
-#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
+#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
+#: ../src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr ""
+msgstr "--%s は以前のコマンドラインパラメーターを上書きします"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
-msgstr ""
+msgstr "--%2$s の不当な値 `%1$s'"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
-msgstr ""
+msgstr "--%s が 2 回指定されています"
 
-#: src/conf.c:590 src/locate.c:722
+#: ../src/conf.c:590 ../src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
+"Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+"このソフトウェアは GPL v.2 に基づいて提供されています。\n"
+"\n"
+"このプログラムは法律が許す範囲で無保証で提供されます。"
 
-#: src/conf.c:646
+#: ../src/conf.c:646
 msgid "unexpected operand on command line"
-msgstr ""
+msgstr "コマンドライン上に期待しないオペランド"
 
-#: src/lib.c:177
+#: ../src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr ""
+msgstr "`%s' は mlocate データベースではないようです"
 
-#: src/lib.c:184
+#: ../src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
-msgstr ""
+msgstr "`%s' は不明なバージョン %u です"
 
-#: src/lib.c:191
+#: ../src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr ""
+msgstr "`%s' には不明な可視性フラグ %u があります"
 
-#: src/lib.c:246
+#: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr ""
+msgstr "`%s' を読んでいる時に予期しない EOF"
 
-#: src/lib.c:341
+#: ../src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr ""
+msgstr "`%s' 中をシークしている時に入出力エラー"
 
-#: src/locate.c:335
+#: ../src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
-msgstr ""
+msgstr "データベース %s:\n"
 
-#: src/locate.c:338
+#. The third argument of ngettext () is unsigned long; it is still better
+#. to have invalid grammar than truncated numbers.
+#: ../src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju 辞書\n"
 
-#: src/locate.c:340
+#: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju ファイル\n"
 
-#: src/locate.c:342
+#: ../src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\tファイル名に %'ju バイト\n"
 
-#: src/locate.c:344
+#: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\tデータベースに保存するのに %'ju バイト使いました\n"
 
-#: src/locate.c:473
+#: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr ""
+msgstr "`'%s' 中の不当な空の辞書名"
 
-#: src/locate.c:500
+#: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr ""
+msgstr "`%2$s' 中のファイル名長 %1$zu は大きすぎます"
 
-#: src/locate.c:607
+#: ../src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -230,88 +258,114 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
+"利用方法: locate [オプション]... [パターン]...\n"
+"mlocate データベースで項目を探します。\n"
+"\n"
+"  -b, --basename         バス名のベース名のみに一致\n"
+"  -c, --count            見つかった項目数のみ印刷\n"
+"  -d, --database DBPATH  省略値のデータベース(%s) \n"
+"                         の代わりに DBPATH を使う\n"
+"  -e, --existing         現在存在するファイル用の項目数のみ印刷\n"
+"  -L, --follow           ファイルの存在のチェック(省略値)時に後続する\n"
+"                         シンボリックリンクに従う\n"
+"  -h, --help             このヘルプを印刷\n"
+"  -i, --ignore-case      パターンの照合時に大小文字を区別しない\n"
+"  -l, --limit, -n LIMIT  出力 (又は 計数) を LIMIT 項目に限定\n"
+"  -m, --mmap             無視される、後方互換のため\n"
+"  -P, --nofollow, -H     ファイルの存在チェック時に後続するシンボリックリンク"
+"\n"
+"                         に従わない\n"
+"  -0, --null             出力で項目を NUL で区切る\n"
+"  -S, --statistics       項目を探さず、個々の使用したデータベースの統計情報\n"
+"                         を印刷\n"
+"  -q, --quiet            データベース読込みに関するエラーメッセージを報告しない\n"
+"  -r, --regexp REGEXP    パターンの代わりに基本正規表現 REGEXP で探す\n"
+"      --regex            パターンは拡張正規表現\n"
+"  -s, --stdio            無視される、後方互換のため\n"
+"  -V, --version          バージョン情報を印刷\n"
+"  -w, --wholename        全パス名に一致 (省略値)\n"
 
-#: src/locate.c:806
+#: ../src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr ""
+msgstr "オプションでないパラメーターは --%s と一緒は認められません"
 
-#: src/locate.c:819
+#: ../src/locate.c:819
 msgid "no pattern to search for specified"
-msgstr ""
+msgstr "探すパターンが指定されていません"
 
-#: src/locate.c:846
+#: ../src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr ""
+msgstr "不当な正規表現 `%s': %s"
 
-#: src/locate.c:932
+#: ../src/locate.c:932
 msgid "can not drop privileges"
-msgstr ""
+msgstr "特権を落とすことはできません"
 
-#: src/locate.c:947
+#: ../src/locate.c:947
 msgid "can not read two databases from standard input"
-msgstr ""
+msgstr "標準入力から 2 つのデータベースを読めません"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr ""
+msgstr "stat () `'%s' できません"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: ../src/locate.c:1034 ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr ""
+msgstr "標準出力へ書いている時に入出力エラー"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: ../src/updatedb.c:676 ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr ""
+msgstr "ファイル名長 %zu は大きすぎます"
 
-#: src/updatedb.c:996
+#: ../src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr ""
+msgstr "`%s' 用の一時ファイルを開けません"
 
-#: src/updatedb.c:1009
+#: ../src/updatedb.c:1009
 msgid "configuration is too large"
-msgstr ""
+msgstr "設定が大きすぎます"
 
-#: src/updatedb.c:1030
+#: ../src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
-msgstr ""
+msgstr "グループ `%s' を見つけられません"
 
-#: src/updatedb.c:1033
+#: ../src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr ""
+msgstr "ファイルのグループ `%s' を `%s' へ変更できません"
 
-#: src/updatedb.c:1047
+#: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr ""
+msgstr "ファイル `%s' のパーミッションを変更できません"
 
-#: src/updatedb.c:1077
+#: ../src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
+msgstr "`%s' はロックされています (おそらく以前の updatedb によって)"
 
-#: src/updatedb.c:1080
+#: ../src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
-msgstr ""
+msgstr "`%s' をロックできません"
 
-#: src/updatedb.c:1087
+#: ../src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr ""
+msgstr "辞書を `%s' に変更できません"
 
-#: src/updatedb.c:1096
+#: ../src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr ""
+msgstr "`%s' に書いている時に入出力エラー"
 
-#: src/updatedb.c:1100
+#: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr ""
+msgstr "`%s' の置き換えでエラー"
