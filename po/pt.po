@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2009-09-30 20:59+0000\n"
+"POT-Creation-Date: 2009-10-02 17:09+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rui Gouveia <rui.gouveia@globaltek.pt>\n"
 "Language-Team: pt <fedora-trans-pt@redhat.com>\n"
@@ -13,59 +13,56 @@ msgstr ""
 "X-Poedit-Country: PORTUGAL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "Aviso: Número da linha excede limite"
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "falta fecho `\"'"
 
-#: ../src/conf.c:309
-#: ../src/locate.c:968
-#: ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "incapaz de abrir `%s'"
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "Variável desconhecida `%s'"
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "esperado nome de variável"
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "variável `%s' já está definida"
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "`=' esperado depois do nome de variável"
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "valor entre aspas esperado após `='"
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "valor inválido `%s' de PRUNE_BIND_MOUNTS"
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "dados inesperados depois do valor da variável"
 
-#: ../src/conf.c:419
-#: ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "erro de I/O ao ler `%s'"
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -74,7 +71,8 @@ msgid ""
 "  -f, --add-prunefs FS           omit also FS\n"
 "  -n, --add-prunenames NAMES     omit also NAMES\n"
 "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
 "  -h, --help                     print this help\n"
 "  -o, --output FILE              database to update (default\n"
 "                                 `%s')\n"
@@ -96,24 +94,29 @@ msgstr ""
 "  -f, --add-prunefs FS           omitir também FS\n"
 "  -n, --add-prunenames NOMES     omitir também NOMES\n"
 "  -e, --add-prunepaths CAMINHOS     omitir também CAMINHOS\n"
-"  -U, --database-root CAMINHO       a sub-árvore para armazenar a                                   base de dados (por omissão \"/\")\n"
+"  -U, --database-root CAMINHO       a sub-árvore para armazenar "
+"a                                   base de dados (por omissão \"/\")\n"
 "  -h, --help                     mostrar esta ajuda\n"
 "  -o, --output FILE              base de dados a actualizar (por omissão\n"
 "                                 `%s')\n"
-"      --prune-bind-mounts MARCA   omitir pontos de montagem (por omissão \"no\")\n"
-"      --prunefs FS               sistemas de ficheiros a omitir da base de dados\n"
-"      --prunenames NOMES         nomes de directórios a omitir da base de dados\n"
+"      --prune-bind-mounts MARCA   omitir pontos de montagem (por omissão \"no"
+"\")\n"
+"      --prunefs FS               sistemas de ficheiros a omitir da base de "
+"dados\n"
+"      --prunenames NOMES         nomes de directórios a omitir da base de "
+"dados\n"
 "      --prunepaths CAMINHOS     caminhos a omitir da base de dados\n"
-"  -l, --require-visibility MARCA  verificar visibilidade antes de reportar ficheiros\n"
+"  -l, --require-visibility MARCA  verificar visibilidade antes de reportar "
+"ficheiros\n"
 "                                 (por omissão \"yes\")\n"
-"  -v, --verbose                  mostrar caminhos de ficheiros assim que são encontrados\n"
+"  -v, --verbose                  mostrar caminhos de ficheiros assim que são "
+"encontrados\n"
 "  -V, --version                  mostrar informação da versão\n"
 "\n"
 "Os valores da configuração por omissão são lidos de\n"
 "`%s'.\n"
 
-#: ../src/conf.c:464
-#: ../src/locate.c:642
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -122,40 +125,27 @@ msgstr ""
 "\n"
 "Reporte erros para %s.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "incapaz de obter o directório de trabalho actual"
 
-#: ../src/conf.c:540
-#: ../src/conf.c:551
-#: ../src/conf.c:561
-#: ../src/conf.c:571
-#: ../src/locate.c:697
-#: ../src/locate.c:706
-#: ../src/locate.c:732
-#: ../src/locate.c:790
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s vai sobrepor-se a argumentos de linha de comando anteriores"
 
-#: ../src/conf.c:544
-#: ../src/conf.c:584
-#: ../src/conf.c:617
-#: ../src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "valor inválido `%s' de --%s"
 
-#: ../src/conf.c:580
-#: ../src/conf.c:613
-#: ../src/conf.c:628
-#: ../src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s especificado duas vezes"
 
-#: ../src/conf.c:590
-#: ../src/locate.c:722
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -167,81 +157,79 @@ msgstr ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "operando inesperado na linha de comando"
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' não parece ser uma base de dados mlocate"
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' tem uma versão desconhecida %u"
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' tem uma marca de visibilidade desconhecida %u"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "EOF inesperado ao ler %s"
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "erro de I/O ao pesquisar em `%s'"
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Base de dados %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju directório\n"
 msgstr[1] "\t%'ju directórios\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju ficheiro\n"
 msgstr[1] "\t%'ju ficheiros\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju byte no nome dos ficheiros\n"
 msgstr[1] "\t%'ju bytes no nome dos ficheiros\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju byte utilizado para guardar base de dados\n"
 msgstr[1] "\t%'ju bytes utilizados para guardar base de dados\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "nome de directório vazio inválido em `%s'"
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "tamanho do nome do ficheiro %zu em `%s' é grande demais"
 
-#: ../src/locate.c:607
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -258,10 +246,12 @@ msgid ""
 "  -i, --ignore-case      ignore case distinctions when matching patterns\n"
 "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
 "  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
 "                         existence\n"
 "  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about each\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
 "                         used database\n"
 "  -q, --quiet            report no error messages about reading databases\n"
 "  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
@@ -273,115 +263,122 @@ msgstr ""
 "Utilização: locate [OPÇÂO]... [PADRÃO]...\n"
 "Pesquisar por registos numa base de dados mlocate.\n"
 "\n"
-"  -b, --basename         corresponder apenas com a base do nome dos caminhos\n"
+"  -b, --basename         corresponder apenas com a base do nome dos "
+"caminhos\n"
 "  -c, --count            mostrar apenas o número de entradas encontradas\n"
-"  -d, --database DBPATH  utilizar DBPATH em vez da base de dados standard (que é\n"
+"  -d, --database DBPATH  utilizar DBPATH em vez da base de dados standard "
+"(que é\n"
 "                         %s)\n"
-"  -e, --existing         mostrar apenas registos para ficheiros existentes actualmente\n"
-"  -L, --follow           seguir links simbólicos quando verifica a existência de ficheiros\n"
+"  -e, --existing         mostrar apenas registos para ficheiros existentes "
+"actualmente\n"
+"  -L, --follow           seguir links simbólicos quando verifica a "
+"existência de ficheiros\n"
 "                         (valor por omissão)\n"
 "  -h, --help             mostrar esta ajuda\n"
-"  -i, --ignore-case      ignorar capitalização durante a correspondência com padrões\n"
-"  -l, --limit, -n LIMITE  limitar resultados (ou contadores) a LIMITE registos\n"
+"  -i, --ignore-case      ignorar capitalização durante a correspondência com "
+"padrões\n"
+"  -l, --limit, -n LIMITE  limitar resultados (ou contadores) a LIMITE "
+"registos\n"
 "  -m, --mmap             ignorado, para compatibilidade para trás\n"
-"  -P, --nofollow, -H     não seguir links simbólicos quando verifica a existência de\n"
+"  -P, --nofollow, -H     não seguir links simbólicos quando verifica a "
+"existência de\n"
 "                         ficheiros\n"
 "  -0, --null             separar registos com NUL na saída\n"
-"  -S, --statistics       não pesquisar por registos, mostrar estatísticas acerca de cada\n"
+"  -S, --statistics       não pesquisar por registos, mostrar estatísticas "
+"acerca de cada\n"
 "                         base de dados utilizada\n"
-"  -q, --quiet            não reportar mensagens de erro acerca a leitura de base de dados\n"
-"  -r, --regexp REGEXP    pesquisar pela expressão regular básica REGEXP em vez de padrões\n"
+"  -q, --quiet            não reportar mensagens de erro acerca a leitura de "
+"base de dados\n"
+"  -r, --regexp REGEXP    pesquisar pela expressão regular básica REGEXP em "
+"vez de padrões\n"
 "      --regex            padrões são expressões regulares estendidas\n"
 "  -s, --stdio            ignorado, para compatibilidade para trás\n"
 "  -V, --version          mostrar informação de versão\n"
-"  -w, --wholename        corresponder com caminho completo (valor por omissão)\n"
+"  -w, --wholename        corresponder com caminho completo (valor por "
+"omissão)\n"
 
-#: ../src/locate.c:806
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argumentos extra-opções não são permitidos com --%s"
 
-#: ../src/locate.c:819
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "sem padrão a ser procurado para especificado"
 
-#: ../src/locate.c:846
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "expressão regular inválida `%s': %s"
 
-#: ../src/locate.c:932
+#: src/locate.c:932
 msgid "can not drop privileges"
 msgstr "incapaz de largar privilégios"
 
-#: ../src/locate.c:947
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "incapaz de ler duas bases de dados da entrada standard"
 
-#: ../src/locate.c:959
-#: ../src/locate.c:974
-#: ../src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "incapaz de executar o stat () `%s'"
 
-#: ../src/locate.c:1034
-#: ../src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "erro de I/O ao escrever para a saída por omissão"
 
-#: ../src/updatedb.c:676
-#: ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "tamanho do nome do ficheiro %zu é grande demais"
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "incapaz de abrir ficheiro temporário para `%s'"
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "o ficheiro de configuração é grande demais"
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "incapaz de encontrar grupo `%s'"
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "incapaz de alterar o grupo do ficheiro `%s' para `%s'"
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "incapaz de alterar as permissões do ficheiro `%s'"
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr "`%s' está bloqueado (provavelmente por uma instância do updatedb anterior)"
+msgstr ""
+"`%s' está bloqueado (provavelmente por uma instância do updatedb anterior)"
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "Incapaz de bloquear '%s'"
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "incapaz de alterar directório para `%s'"
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "erro de I/O ao escrever para `%s'"
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "erro ao substituir `%s'"
-

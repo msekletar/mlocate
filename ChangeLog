@@ -1,3 +1,9 @@
+2009-10-02  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Release version 0.22.2.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
 2009-09-15  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Release version 0.22.1.

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2009-09-22 08:50+0000\n"
+"POT-Creation-Date: 2009-10-02 17:09+0200\n"
 "PO-Revision-Date: 2009-09-27 13:16+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <fedora-trans-pl@redhat.com>\n"
@@ -15,56 +15,56 @@ msgstr ""
 "Plural-Forms:  nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "ostrzeżenie: przepełniono numer wiersza"
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "brak zamykającego `\"'"
 
-#: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "nie można otworzyć \"%s\""
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "nieznana zmienna `%s'"
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "oczekiwano nazwę zmiennej"
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "zmienna \"%s\" została już określona"
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "po nazwie zmiennej oczekiwano \"=\""
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "po \"=\" oczekiwano wartości w cudzysłowach"
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "nieprawidłowa wartość \"%s\" PRUNE_BIND_MOUNTS"
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "nieoczekiwane dane po wartości zmiennej"
 
-#: ../src/conf.c:419 ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "błąd wejścia/wyjścia podczas odczytywania \"%s\""
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -114,7 +114,7 @@ msgstr ""
 "Domyśla konfiguracja to wartości odczytane z\n"
 "\"%s\".\n"
 
-#: ../src/conf.c:464 ../src/locate.c:642
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -123,28 +123,27 @@ msgstr ""
 "\n"
 "Proszę zgłaszać błędy do %s.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "nie można uzyskać bieżącego katalogu roboczego"
 
-#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
-#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
-#: ../src/locate.c:790
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s zastąpi wcześniejszy parametr wiersza poleceń"
 
-#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "nieprawidłowa wartość \"%s\" --%s"
 
-#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s podano dwa razy"
 
-#: ../src/conf.c:590 ../src/locate.c:722
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -157,43 +156,41 @@ msgstr ""
 "Ten program dostarczany jest BEZ GWARANCJI, w zakresie dozwolonym przez "
 "prawo."
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "nieoczekiwany parametr w wierszu poleceń"
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "\"%s\" nie wydaje się być bazą danych mlocate"
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "\"%s\" posiada nieznaną wersję %u"
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "\"%s\" posiada nieznaną flagę widoczności %u"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "nieoczekiwany koniec pliku podczas odczytywania \"%s\""
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "błąd wejścia/wyjścia podczas wyszukiwania w \"%s\""
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Baza danych %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
@@ -201,7 +198,7 @@ msgstr[0] "\t%'ju katalog\n"
 msgstr[1] "\t%'ju katalogi\n"
 msgstr[2] "\t%'ju katalogów\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
@@ -209,7 +206,7 @@ msgstr[0] "\t%'ju plik\n"
 msgstr[1] "\t%'ju pliki\n"
 msgstr[2] "\t%'ju plików\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
@@ -217,7 +214,7 @@ msgstr[0] "\t%'ju bajt w nazwach plików\n"
 msgstr[1] "\t%'ju bajty w nazwach plików\n"
 msgstr[2] "\t%'ju bajtów w nazwach plików\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
@@ -225,17 +222,17 @@ msgstr[0] "\t%'ju bajt użyty do przechowywania bazy danych\n"
 msgstr[1] "\t%'ju bajty użyte do przechowywania bazy danych\n"
 msgstr[2] "\t%'ju bajtów użytych do przechowywania bazy danych\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "nieprawidłowa pusta nazwa katalogu w \"%s\""
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "długość nazwy pliku %zu w \"%s\" jest za duża"
 
-#: ../src/locate.c:607
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -297,89 +294,89 @@ msgstr ""
 "  -V, --version          wyświetla informację o wersji\n"
 "  -w, --wholename        dopasowuje całą nazwę (domyślnie)\n"
 
-#: ../src/locate.c:806
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "parametry nie będące opcjami nie są dozwolone z --%s"
 
-#: ../src/locate.c:819
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "nie podano wzoru do wyszukiwania"
 
-#: ../src/locate.c:846
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "nieprawidłowe wyrażenie regularne \"%s\": %s"
 
-#: ../src/locate.c:932
+#: src/locate.c:932
 msgid "can not drop privileges"
 msgstr "nie można porzucić uprawnień"
 
-#: ../src/locate.c:947
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "nie można odczytać dwóch baz danych ze standardowego wejścia"
 
-#: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nie można wykonać stat () \"%s\""
 
-#: ../src/locate.c:1034 ../src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "błąd wejścia/wyjścia podczas zapisywania do standardowego wyjścia"
 
-#: ../src/updatedb.c:676 ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "długość nazwy pliku %zu jest za duża"
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nie można otworzyć pliku tymczasowego dla `%s'"
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "konfiguracja jest za duża"
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nie można odnaleźć grupy \"%s\""
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "nie można zmienić grupy pliku \"%s\" na \"%s\""
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nie można zmienić uprawnień pliku \"%s\""
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr ""
 "\"%s\" jest zablokowane (prawdopodobnie przez wcześniejsze uruchomienie "
 "updatedb)"
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "nie można zablokować \"%s\""
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nie można zmienić katalogu na \"%s\""
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "błąd wejścia/wyjścia podczas zapisywania do \"%s\""
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "błąd podczas zastępowania \"%s\""

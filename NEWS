@@ -1,3 +1,9 @@
+Changes in version 0.22.2:
+- New or updated translations:
+  - Portuguese by Rui Gouveia <rui.gouveia@globaltek.pt>
+  - Japanese by Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>
+  - Polish by Piotr Drąg <piotrdrag@gmail.com>
+
 Changes in version 0.22.1:
 - Fix mlocate.db format documentation.  Patch by Tomas Zellerin
   <zellerin@gmail.com>.
