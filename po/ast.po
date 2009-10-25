@@ -1,0 +1,388 @@
+# Asturian translation of mlocate.
+# This file is distributed under the same license as the mlocate package.
+# Astur <malditoastur@gmail.com>, 2009.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mlocate\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
+"POT-Creation-Date: 2009-10-24 09:54+0000\n"
+"PO-Revision-Date: 2009-10-25 11:40+0100\n"
+"Last-Translator: Marcos Alvarez Costales <marcos.alvarez.costales@gmail.com>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Asturian\n"
+"X-Poedit-Country: spain\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/conf.c:241
+msgid "warning: Line number overflow"
+msgstr "atención: númberu de llinia escedíu"
+
+#: ../src/conf.c:259
+msgid "missing closing `\"'"
+msgstr "falta zarrar `\"'"
+
+#: ../src/conf.c:309
+#: ../src/locate.c:968
+#: ../src/updatedb.c:1002
+#, c-format
+msgid "can not open `%s'"
+msgstr "nun pudo abrise `%s'"
+
+#: ../src/conf.c:353
+#, c-format
+msgid "unknown variable `%s'"
+msgstr "variable desconocida `%s'"
+
+#: ../src/conf.c:358
+msgid "variable name expected"
+msgstr "esperábase'l nome de la variable"
+
+#: ../src/conf.c:364
+#, c-format
+msgid "variable `%s' was already defined"
+msgstr "la variable `%s' ya foi definida"
+
+#: ../src/conf.c:373
+msgid "`=' expected after variable name"
+msgstr "esperábase `=' dempués del nome de la variable"
+
+#: ../src/conf.c:380
+msgid "value in quotes expected after `='"
+msgstr "dempués de `=' esperábase un valor en cuotes"
+
+#: ../src/conf.c:388
+#, c-format
+msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
+msgstr "valor non válidu `%s' de PRUNE_BIND_MOUNTS"
+
+#: ../src/conf.c:405
+msgid "unexpected data after variable value"
+msgstr "datos nun esperaos dempués del valor de la variable"
+
+#: ../src/conf.c:419
+#: ../src/lib.c:244
+#, c-format
+msgid "I/O error reading `%s'"
+msgstr "Fallu E/S al lleer `%s'"
+
+#: ../src/conf.c:437
+#, c-format
+msgid ""
+"Usage: updatedb [OPTION]...\n"
+"Update a mlocate database.\n"
+"\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -n, --add-prunenames NAMES     omit also NAMES\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
+"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
+"  -h, --help                     print this help\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"      --prunenames NAMES         directory names to omit from database\n"
+"      --prunepaths PATHS         paths to omit from database\n"
+"  -l, --require-visibility FLAG  check visibility before reporting files\n"
+"                                 (default \"yes\")\n"
+"  -v, --verbose                  print paths of files as they are found\n"
+"  -V, --version                  print version information\n"
+"\n"
+"The configuration defaults to values read from\n"
+"`%s'.\n"
+msgstr ""
+"Usu: updatedb [OPTION]...\n"
+"Anova la base de datos mlocate.\n"
+"\n"
+"  -f, --add-prunefs FS           tamién omitir FS\n"
+"  -n, --add-prunenames NAMES     tamién omitir NAMES\n"
+"  -e, --add-prunepaths PATHS     tamién omitir PATHS\n"
+"  -U, --database-root PATH       el subárbol p'atroxar la base de datos (default \"/\")\n"
+"  -h, --help                     imprentar esta aida\n"
+"  -o, --output FILE              base de datos p'anovar (por defeutu\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   omitir montaxe mint (por defeutu \"no\")\n"
+"      --prunefs FS               omitir sistema de ficheros dende base de datos\n"
+"      --prunenames NAMES         omitir nomes de direutorios dende base de datos\n"
+"      --prunepaths PATHS         caminos a omitir dende base de datos\n"
+"  -l, --require-visibility FLAG  comprebar visibilidá dempués de informar los ficheros\n"
+"                                 (por defeutu \"yes\")\n"
+"  -v, --verbose                  imprentar caminos de ficheros que foron atopaos\n"
+"  -V, --version                  imprentar información de versión\n"
+"\n"
+"Lleer los valores por defeutu de configuración dende\n"
+"`%s'.\n"
+
+#: ../src/conf.c:464
+#: ../src/locate.c:642
+#, c-format
+msgid ""
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
+"\n"
+"Reportar fallos a %s.\n"
+
+#: ../src/conf.c:482
+msgid "can not get current working directory"
+msgstr "nun foi dable acceder al direutoriu actual de trabayu"
+
+#: ../src/conf.c:540
+#: ../src/conf.c:551
+#: ../src/conf.c:561
+#: ../src/conf.c:571
+#: ../src/locate.c:697
+#: ../src/locate.c:706
+#: ../src/locate.c:732
+#: ../src/locate.c:790
+#, c-format
+msgid "--%s would override earlier command-line argument"
+msgstr "--%s debería sobroescribir aína l'argumentu na llinia de comandos"
+
+#: ../src/conf.c:544
+#: ../src/conf.c:584
+#: ../src/conf.c:617
+#: ../src/locate.c:769
+#, c-format
+msgid "invalid value `%s' of --%s"
+msgstr "valor `%s' nun válidu pa --%s"
+
+#: ../src/conf.c:580
+#: ../src/conf.c:613
+#: ../src/conf.c:628
+#: ../src/locate.c:763
+#, c-format
+msgid "--%s specified twice"
+msgstr "--%s especificáu dos vegaes"
+
+#: ../src/conf.c:590
+#: ../src/locate.c:722
+msgid ""
+"Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+"This software is distributed under the GPL v.2.\n"
+"\n"
+"This program is provided with NO WARRANTY, to the extent permitted by law."
+msgstr ""
+"Copyright (C) 2007 Red Hat, Inc. Tolos drechos reservaos.\n"
+"Esti programa ye provistu ENSIN GARANTÍA, fasta lo que seya permitío pola llei."
+
+#: ../src/conf.c:646
+msgid "unexpected operand on command line"
+msgstr "operador inesperáu en llinia de comandos"
+
+#: ../src/lib.c:177
+#, c-format
+msgid "`%s' does not seem to be a mlocate database"
+msgstr "`%s' nun parez ser una base de datos de mlocate"
+
+#: ../src/lib.c:184
+#, c-format
+msgid "`%s' has unknown version %u"
+msgstr "`%s' tien una version desconocida de %u"
+
+#: ../src/lib.c:191
+#, c-format
+msgid "`%s' has unknown visibility flag %u"
+msgstr "`%s' tien un señalador de visibilidá desconocíu %u"
+
+#: ../src/lib.c:246
+#, c-format
+msgid "unexpected EOF reading `%s'"
+msgstr "final de ficheru inesperáu al lleer `%s'"
+
+#: ../src/lib.c:341
+#, c-format
+msgid "I/O error seeking in `%s'"
+msgstr "fallu d'E/S al guetar en `%s'"
+
+#: ../src/locate.c:335
+#, c-format
+msgid "Database %s:\n"
+msgstr "Base de datos %s:\n"
+
+#. The third argument of ngettext () is unsigned long; it is still better
+#. to have invalid grammar than truncated numbers.
+#: ../src/locate.c:338
+#, c-format
+msgid "\t%'ju directory\n"
+msgid_plural "\t%'ju directories\n"
+msgstr[0] "\t%'ju direutoriu\n"
+msgstr[1] "\t%'ju direutorios\n"
+
+#: ../src/locate.c:340
+#, c-format
+msgid "\t%'ju file\n"
+msgid_plural "\t%'ju files\n"
+msgstr[0] "\t%'ju ficheru\n"
+msgstr[1] "\t%'ju ficheros\n"
+
+#: ../src/locate.c:342
+#, c-format
+msgid "\t%'ju byte in file names\n"
+msgid_plural "\t%'ju bytes in file names\n"
+msgstr[0] "\t%'ju byte nos nomes de ficheru\n"
+msgstr[1] "\t%'ju bytes nos nomes de ficheru\n"
+
+#: ../src/locate.c:344
+#, c-format
+msgid "\t%'ju byte used to store database\n"
+msgid_plural "\t%'ju bytes used to store database\n"
+msgstr[0] "\t%'ju byte usáu p'atroxar la base de datos\n"
+msgstr[1] "\t%'ju bytes usaos p'atroxar la base de datos\n"
+
+#: ../src/locate.c:473
+#, c-format
+msgid "invalid empty directory name in `%s'"
+msgstr "nome de direutoriu ermu nun válidu en `%s'"
+
+#: ../src/locate.c:500
+#, c-format
+msgid "file name length %zu in `%s' is too large"
+msgstr "el tamañu del nome del ficheru %zu en `%s ye abondu llargu"
+
+#: ../src/locate.c:607
+#, c-format
+msgid ""
+"Usage: locate [OPTION]... [PATTERN]...\n"
+"Search for entries in a mlocate database.\n"
+"\n"
+"  -b, --basename         match only the base name of path names\n"
+"  -c, --count            only print number of found entries\n"
+"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"                         %s)\n"
+"  -e, --existing         only print entries for currently existing files\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
+msgstr ""
+"Uso: locate [OPCION]... [PATRON]...\n"
+"Gueta entraes nuna base de datos de mlocate.\n"
+"\n"
+"  -b, --basename         correspuende namái el nome de la base de la direición\n"
+"  -c, --count            amuesa namái'l númberu de les correspondencies llocalizaes\n"
+"  -d, --database DBPATH  usar DBPATH en llugar de la base de datos por defeutu (que ye\n"
+"                        %s)\n"
+"  -e, --existing         amuesa namái les entraes de los ficheros esistentes\n"
+"  -L, --follow           siguir enllaces simbólicos subsiguientes al chequear la esistencia de ficheros (por defeutu)\n"
+"  -h, --help             amuesa esta aida\n"
+"  -i, --ignore-case      inora mayúscules y minúscules na gueta\n"
+"  -l, --limit, -n LIMIT  llimita la salida (o la cuenta) a un determináu númberu d'entraes\n"
+"  -m, --mmap             inoráu, pa compatibilidaes regresives\n"
+"  -P, --nofollow, -H     non siguir enllaces simbólicos subsiguientes cuando se verifica la esistencia de ficheros\n"
+"  -0, --null             dixebrar les entraes con NUL na salida\n"
+"  -S, --statistics       non guetar entraes, amosar estadístiques sobro cada base de datos usada\n"
+"  -q, --quiet            non reportar mensaxes de fallu sobro la lleutura de la base de datos\n"
+"  -r, --regexp REGEXP    guetar regexp básicos en llugar de patrones\n"
+"      --regex            los patrones son regexp estendíes\n"
+"  -s, --stdio            inorando, pa compatibilidaes regresives\n"
+"  -V, --version          amuesa información de la versión\n"
+"  -w, --wholename        amuesa la direición completa del nome (por defeutu)\n"
+
+#: ../src/locate.c:806
+#, c-format
+msgid "non-option arguments are not allowed with --%s"
+msgstr "nun son permitíos argumentos ensin opción con --%s"
+
+#: ../src/locate.c:819
+msgid "no pattern to search for specified"
+msgstr "dengún patrón de gueta especificáu"
+
+#: ../src/locate.c:846
+#, c-format
+msgid "invalid regexp `%s': %s"
+msgstr "espresión regular non válida `%s': %s"
+
+#: ../src/locate.c:932
+msgid "can not drop privileges"
+msgstr "nun pudieron abandonase privilexos"
+
+#: ../src/locate.c:947
+msgid "can not read two databases from standard input"
+msgstr "nun pudieron lleese dos bases de datos cola entrada patrón"
+
+#: ../src/locate.c:959
+#: ../src/locate.c:974
+#: ../src/updatedb.c:1090
+#, c-format
+msgid "can not stat () `%s'"
+msgstr "nun pudo facese stat () `%s'"
+
+#: ../src/locate.c:1034
+#: ../src/updatedb.c:1114
+msgid "I/O error while writing to standard output"
+msgstr "fallu d'E/S al intentar escribir sobro la entrada patrón "
+
+#: ../src/updatedb.c:676
+#: ../src/updatedb.c:774
+#, c-format
+msgid "file name length %zu is too large"
+msgstr "el nome del ficheru %zu ye enforma llargu"
+
+#: ../src/updatedb.c:996
+#, c-format
+msgid "can not open a temporary file for `%s'"
+msgstr "nun pudo abrise un ficheru temporal pa `%s'"
+
+#: ../src/updatedb.c:1009
+msgid "configuration is too large"
+msgstr "la configuración ye mui estensa"
+
+#: ../src/updatedb.c:1030
+#, c-format
+msgid "can not find group `%s'"
+msgstr "nun pudo alcontrase'l grupu `%s'"
+
+#: ../src/updatedb.c:1033
+#, c-format
+msgid "can not change group of file `%s' to `%s'"
+msgstr "nun pudo camudase'l grupu del ficheru `%s' pa `%s'"
+
+#: ../src/updatedb.c:1047
+#, c-format
+msgid "can not change permissions of file `%s'"
+msgstr "nun pudo camudase los permisos del ficheru `%s'"
+
+#: ../src/updatedb.c:1077
+#, c-format
+msgid "`%s' is locked (probably by an earlier updatedb)"
+msgstr "`%s' ta bloquiáu (dablemente a causa d'un updatedb anterior)"
+
+#: ../src/updatedb.c:1080
+#, c-format
+msgid "can not lock `%s'"
+msgstr "nun pudo bloquiase `%s'"
+
+#: ../src/updatedb.c:1087
+#, c-format
+msgid "can not change directory to `%s'"
+msgstr "nun pudo camudase'l direutoriu a `%s'"
+
+#: ../src/updatedb.c:1096
+#, c-format
+msgid "I/O error while writing to `%s'"
+msgstr "fallu d'E/S al escribir sobro `%s'"
+
+#: ../src/updatedb.c:1100
+#, c-format
+msgid "error replacing `%s'"
+msgstr "fallu al camudar `%s'"
+
