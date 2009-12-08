@@ -5,19 +5,19 @@
 #
 # Anatoliy Guskov <anatoliy.guskov@gmail.com>, 2009.
 # Raspopov Sergey <qwerty3456@mail.ru>, 2009.
+# Yulia <ypoyarko@redhat.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2009-11-06 15:55+0000\n"
-"PO-Revision-Date: 2009-11-06 22:46+0300\n"
-"Last-Translator: Raspopov Sergey <qwerty3456@mail.ru>\n"
+"POT-Creation-Date: 2009-12-07 20:19+0000\n"
+"PO-Revision-Date: 2009-12-08 13:36+1100\n"
+"Last-Translator: Yulia <ypoyarko@redhat.com>\n"
 "Language-Team: Russian <fedora-trans-ru@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: UTF-8\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../src/conf.c:241
@@ -31,12 +31,12 @@ msgstr "ошибка закрытия `\"'"
 #: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
-msgstr "не возможно открыть `%s'"
+msgstr "невозможно открыть «%s»"
 
 #: ../src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
-msgstr "не известная переменная `%s'"
+msgstr "неизвестная переменная `%s'"
 
 #: ../src/conf.c:358
 msgid "variable name expected"
@@ -49,25 +49,25 @@ msgstr "переменная `%s' уже определена"
 
 #: ../src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr "`=' предусмотрен после имени переменной"
+msgstr "«=» ожидается после имени переменной"
 
 #: ../src/conf.c:380
 msgid "value in quotes expected after `='"
-msgstr "значение в кавычках ожидается после `='"
+msgstr "значение в кавычках ожидается после «=»"
 
 #: ../src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
-msgstr "не возможное значение `%s' для PRUNE_BIND_MOUNTS"
+msgstr "недопустимое значение «%s» для PRUNE_BIND_MOUNTS"
 
 #: ../src/conf.c:405
 msgid "unexpected data after variable value"
-msgstr "неожиданные данные после значения переменной"
+msgstr "непредвиденные данные после значения переменной"
 
 #: ../src/conf.c:419 ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr "I/O ошибка чтения `%s'"
+msgstr "Ошибка ввода/вывода при чтении «%s»"
 
 #: ../src/conf.c:437
 #, c-format
@@ -95,18 +95,18 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
-"Использовать: updatedb [ОПЦИИ]...\n"
-"Обновление mlocate базы данных.\n"
+"Применение: updatedb [ОПЦИИ]...\n"
+"Обновление базы данные mlocate.\n"
 "\n"
 "  -f, --add-prunefs ФС           пропускать указанные ФС\n"
 "  -n, --add-prunenames ИМЕНА     пропускать ИМЕНА\n"
 "  -e, --add-prunepaths ПУТИ     пропускать ПУТИ\n"
-"  -U, --database-root ПУТЬ       поддерево хранящиеся в базе данных (по "
+"  -U, --database-root ПУТЬ       поддерево, хранящееся в базе данных (по "
 "умолчанию \"/\")\n"
 "  -h, --help                     вывести эту справку\n"
-"  -o, --output FILE              база данный для обновления (по умолчанию\n"
+"  -o, --output FILE              база данных для обновления (по умолчанию\n"
 "                                 `%s')\n"
-"      --prune-bind-mounts ФЛАГ   пропускать примонтированные ФС(по умолчанию "
+"      --prune-bind-mounts ФЛАГ   пропускать точки подключения (по умолчанию "
 "\"нет\")\n"
 "      --prunefs ФС               ФС для исключения из базы данных\n"
 "      --prunenames ИМЕНА         каталог для исключения из базы данных\n"
@@ -114,11 +114,11 @@ msgstr ""
 "  -l, --require-visibility ФЛАГ  проверить существование файлов прежде чем "
 "добавлять\n"
 "                                 (по умолчанию \"да\")\n"
-"  -v, --verbose                  печатать пути до найденных файлов\n"
+"  -v, --verbose                  вывести пути к найденным файлам\n"
 "  -V, --version                  вывести информацию о версии\n"
 "\n"
-"Параметры по умолчанию считаны из\n"
-"`%s'.\n"
+"Используемые по умолчанию параметры получены из\n"
+"«%s».\n"
 
 #: ../src/conf.c:464 ../src/locate.c:642
 #, c-format
@@ -131,19 +131,19 @@ msgstr ""
 
 #: ../src/conf.c:482
 msgid "can not get current working directory"
-msgstr "не возможно получить текущую рабочую директорию"
+msgstr "не удаётся получить текущий рабочий каталог"
 
 #: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
 #: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
 #: ../src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr "--%s вероятно отменен ранним аргументом командной строки"
+msgstr "--%s переопределит заданный ранее аргумент командной строки"
 
 #: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
-msgstr "неверное значение `%s' of --%s"
+msgstr "неверное значение «%s» для --%s"
 
 #: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
 #, c-format
@@ -157,10 +157,10 @@ msgid ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
-"Copyright (C) 2007 Red Hat, Inc. Все права защищены.\n"
-"Это программное обеспечение распространяться по лицензии GPL v.2.\n"
+"(C) 2007 Red Hat, Inc. Все права защищены.\n"
+"Это программное обеспечение распространяется в соответствии с условиями лицензии GPL v.2.\n"
 "\n"
-"Эта программа распространяется БЕЗ ГАРАНТИЙ, в пределах допускаемых законом."
+"Эта программа распространяется БЕЗ ГАРАНТИЙ, в пределах, допускаемых законом."
 
 #: ../src/conf.c:646
 msgid "unexpected operand on command line"
@@ -169,27 +169,27 @@ msgstr "непредвиденный операнд в командной стр
 #: ../src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr "`%s' кажется не является базой данных mlocate"
+msgstr "«%s» не является базой данных mlocate"
 
 #: ../src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
-msgstr "`%s' имеет не известную версию %u"
+msgstr "неизвестная версия «%s»: %u"
 
 #: ../src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr "`%s' имеет не известный видимый флаг %u"
+msgstr "«%s» имеет неизвестный видимый флаг %u"
 
 #: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr "неожиданный EOF чтения `%s'"
+msgstr "неожиданный EOF при чтении «%s»"
 
 #: ../src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr "ошибка I/O поиска в `%s'"
+msgstr "ошибка ввода/вывода при поиске в «%s»"
 
 #: ../src/locate.c:335
 #, c-format
@@ -199,46 +199,46 @@ msgstr "База данных %s:\n"
 #. The third argument of ngettext () is unsigned long; it is still better
 #. to have invalid grammar than truncated numbers.
 #: ../src/locate.c:338
-#, fuzzy, c-format
+#, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] "\t%'ju директория\n"
-msgstr[1] "\t%'ju директории\n"
-msgstr[2] "\t%'ju директория\n"
+msgstr[0] "\t%'ju каталог\n"
+msgstr[1] "\t%'ju каталога\n"
+msgstr[2] "\t%'ju каталогов\n"
 
 #: ../src/locate.c:340
-#, fuzzy, c-format
+#, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju файл\n"
-msgstr[1] "\t%'ju файлы\n"
-msgstr[2] "\t%'ju файл\n"
+msgstr[1] "\t%'ju файла\n"
+msgstr[2] "\t%'ju файлов\n"
 
 #: ../src/locate.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju байт в имени файла\n"
-msgstr[1] "\t%'ju байт в имени файла\n"
+msgstr[1] "\t%'ju байта в имени файла\n"
 msgstr[2] "\t%'ju байт в имени файла\n"
 
 #: ../src/locate.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] "\t%'ju байт использует для сохранения базы данных\n"
-msgstr[1] "\t%'ju байт использует для сохранения базы данных\n"
-msgstr[2] "\t%'ju байт использует для сохранения базы данных\n"
+msgstr[0] "\t%'ju байт используется для хранения базы данных\n"
+msgstr[1] "\t%'ju байта используется для хранения базы данных\n"
+msgstr[2] "\t%'ju байт используется для хранения базы данных\n"
 
 #: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr "не действительное имя пустой директории в `%s'"
+msgstr "недействительное имя пустого каталога в «%s»"
 
 #: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "длинна имени файла %zu в `%s' слишком большое"
+msgstr "слишком длинное имя файла %zu в «%s»"
 
 #: ../src/locate.c:607
 #, c-format
@@ -271,15 +271,15 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
-"Использовать: locate [ОПЦИИ]... [ОБРАЗЕЦ]...\n"
-"Поиск для элементов в базе данных mlocate.\n"
+"Применение: locate [ОПЦИИ]... [ОБРАЗЕЦ]...\n"
+"Поиск элементов в базе данных mlocate.\n"
 "\n"
 "  -b, --basename         только совпадения базового имени в имени пути\n"
-"  -c, --count            печатать только число вхождений\n"
-"  -d, --database DBPATH  используйте DBPATH вместо базы данных по умолчанию "
-"(которая\n"
+"  -c, --count            вывести только число вхождений\n"
+"  -d, --database DBPATH  использовать DBPATH вместо базы данных по умолчанию "
+"(\n"
 "                         %s)\n"
-"  -e, --existing         печатать вхождения только для существующих в данный "
+"  -e, --existing         вывести вхождения только для существующих в данный "
 "момент файлов\n"
 "  -L, --follow           следовать символическим ссылкам при проверке\n"
 "                              файла на существование (значение по "
@@ -299,7 +299,7 @@ msgstr ""
 "шаблонов\n"
 "      --regex            шаблоны расширенных регулярных выражений\n"
 "  -s, --stdio            игнорируется, для обратной совместимости\n"
-"  -V, --version          распечатать информацию о версии\n"
+"  -V, --version          вывести информацию о версии\n"
 "  -w, --wholename        только целые имена пути (по умолчанию)\n"
 
 #: ../src/locate.c:806
@@ -309,39 +309,39 @@ msgstr "не является аргументом опции или не раз
 
 #: ../src/locate.c:819
 msgid "no pattern to search for specified"
-msgstr "образец для поиска не определён"
+msgstr "не определён шаблон для поиска"
 
 #: ../src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr "не возможное regexp `%s': %s"
+msgstr "недопустимое regexp «%s»: %s"
 
 #: ../src/locate.c:932
 msgid "can not drop privileges"
-msgstr "не возможно понизить привилегии"
+msgstr "невозможно понизить привилегии"
 
 #: ../src/locate.c:947
 msgid "can not read two databases from standard input"
-msgstr "не возможно читать две базы данных из стандартного ввода"
+msgstr "невозможно читать две базы данных из стандартного ввода"
 
 #: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr "не может стать () `%s'"
+msgstr "не удалось выполнить stat () «%s»"
 
 #: ../src/locate.c:1034 ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr "ошибка I/O во время записи в стандартный вывод"
+msgstr "ошибка ввода/вывода во время записи в стандартный вывод"
 
 #: ../src/updatedb.c:676 ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr "длинна имени файла %zu очень большая"
+msgstr "слишком длинное имя файла %zu"
 
 #: ../src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr "не возможно открыть временный файл для `%s'"
+msgstr "не удалось открыть временный файл для «%s»"
 
 #: ../src/updatedb.c:1009
 msgid "configuration is too large"
@@ -350,39 +350,40 @@ msgstr "конфигурация очень большая"
 #: ../src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
-msgstr "не возможно найти группу `%s'"
+msgstr "не удалось найти группу «%s»"
 
 #: ../src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr "не возможно изменить группу файла с `%s' на `%s'"
+msgstr "не удалось изменить группу файла с «%s» на «%s»"
 
 #: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "не возможно изменить права файла `%s'"
+msgstr "не удалось изменить права файла «%s»"
 
 #: ../src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr "`%s' заблокирован (возможно более ранним updatedb)"
+msgstr "«%s» заблокирован (возможно более ранним updatedb)"
 
 #: ../src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
-msgstr "не возможно заблокировать `%s'"
+msgstr "не удалось заблокировать «%s»"
 
 #: ../src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr "не возможно изменить на директорию `%s'"
+msgstr "не удалось перейти к каталогу «%s»"
 
 #: ../src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "ошибка I/O во время записи в `%s'"
+msgstr "ошибка ввода/вывода во время записи в «%s»"
 
 #: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr "ошибка замены `%s'"
+msgstr "ошибка замены «%s»"
+
