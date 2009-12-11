@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2009-12-10 20:13+0000\n"
-"PO-Revision-Date: 2009-12-11 16:23+1000\n"
+"PO-Revision-Date: 2009-12-11 17:16+1000\n"
 "Last-Translator: Eunju Kim <eukim@redhat.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -92,6 +92,28 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
+"사용법: updatedb [옵션]...\n"
+"mlocate 데이터베이스 업데이트 사항.\n"
+"\n"
+"  -f, --add-prunefs FS           FS 생략\n"
+"  -n, --add-prunenames NAMES     NAMES 생략\n"
+"  -e, --add-prunepaths PATHS     PATHS 생략\n"
+"  -U, --database-root PATH       데이터베이스에 저장하기 위한 하위 트리 (기본값 "
+"\"/\")\n"
+"  -h, --help                     도움말 인쇄\n"
+"  -o, --output FILE              업데이트할 데이터베이스 (기본값\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   bind 마운트 생략 (기본값 \"no\")\n"
+"      --prunefs FS               데이터베이스에서 생략할 파일 시스템\n"
+"      --prunenames NAMES         데이터베이스에서 생략할 디렉토리 이름\n"
+"      --prunepaths PATHS         데이터베이스에서 생략할 경로\n"
+"  -l, --require-visibility FLAG  파일을 보고하기 전 가시성 확인\n"
+"                                 (기본값 \"yes\")\n"
+"  -v, --verbose                  검색한 파일의 경로 인쇄\n"
+"  -V, --version                  버전 정보 인쇄\n"
+"\n"
+"값으로의 설정 기본값은\n"
+"`%s'에서 읽어옵니다.\n"
 
 #: ../src/conf.c:464 ../src/locate.c:642
 #, c-format
@@ -198,12 +220,12 @@ msgstr[0] "데이터베이스를 저장하기 위해 사용되는 \t%'ju 바이�
 #: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr ""
+msgstr "`%s'에 있는 잘못된 빈 디렉토리 이름  "
 
 #: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr ""
+msgstr "파일 이름의 길이 %zu가 (`%s'에 있는) 너무 큽니다   "
 
 #: ../src/locate.c:607
 #, c-format
@@ -236,89 +258,114 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
+"사용법: locate [옵션]... [패턴]...\n"
+"mlocate 데이터베이스에 있는 항목 검색.\n"
+"\n"
+"  -b, --basename         경로 이름의 기본 이름만 일치\n"
+"  -c, --count            검색된 항목 수만 인쇄\n"
+"  -d, --database DBPATH  기본값 데이터베이스 (%s) 대신\n"
+"                         DBPATH 사용\n"
+"  -e, --existing         현재 존재하는 파일에 대한 항목만을 인쇄\n"
+"  -L, --follow           파일 존재 확인 시 후행 심볼릭 링크를 따름\n"
+"                         (기본값)\n"
+"  -h, --help             도움말 인쇄\n"
+"  -i, --ignore-case      패턴 일치 시 대소문자를 구별하지 않음\n"
+"  -l, --limit, -n LIMIT   출력 결과 (또는 합계)를 LIMIT 항목으로 제한\n"
+"  -m, --mmap             무시, 하위 호환성을 위해\n"
+"  -P, --nofollow, -H     파일 존재 확인시 후행 심볼릭 링크를 따르지\n"
+"                         않음\n"
+"  -0, --null             출력 결과에서 항목을 NUL로 구분\n"
+"  -S, --statistics       항목을 검색하지 않음, 사용된 데이터베이스에\n"
+"                         대한 통계 인쇄\n"
+"  -q, --quiet            데이터베이스 읽기에 대해 오류 메세지가 없음을 보고\n"
+"  -r, --regexp REGEXP    패턴 대신 기본 정규식 REGEXP로 검색\n"
+"      --regex            패턴은 확장 정규식임\n"
+"  -s, --stdio            무시, 하위 호환성을 위해\n"
+"  -V, --version          버전 정보 인쇄\n"
+"  -w, --wholename        전체 경로 이름과 일치 (기본값)\n"
 
 #: ../src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr ""
+msgstr "옵션이 아닌 인수는 --%s와 함께 허용되지 않습니다  "
 
 #: ../src/locate.c:819
 msgid "no pattern to search for specified"
-msgstr ""
+msgstr "검색 패턴이 지정되어 있지 않습니다  "
 
 #: ../src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr ""
+msgstr "잘못된 정규 표현식 `%s': %s  "
 
 #: ../src/locate.c:932
 msgid "can not drop privileges"
-msgstr ""
+msgstr "권한을 삭제할 수 없습니다  "
 
 #: ../src/locate.c:947
 msgid "can not read two databases from standard input"
-msgstr ""
+msgstr "표준 입력에서 두 개의 데이터베이스를 읽을 수 없습니다  "
 
 #: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr ""
+msgstr "stat () `%s' 할 수 없습니다 "
 
 #: ../src/locate.c:1034 ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr ""
+msgstr "표준 출력에 쓰기 도중 I/O 오류 발생  "
 
 #: ../src/updatedb.c:676 ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr ""
+msgstr "파일 이름의 길이 %zu이(가) 너무 큽니다   "
 
 #: ../src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr ""
+msgstr "`%s'에 대한 임시 파일을 열 수 없습니다  "
 
 #: ../src/updatedb.c:1009
 msgid "configuration is too large"
-msgstr ""
+msgstr "설정 사항이 너무 큽니다  "
 
 #: ../src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
-msgstr ""
+msgstr "`%s' 그룹을 찾을 수 없습니다  "
 
 #: ../src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr ""
+msgstr "`%s' 파일의 그룹을 `%s'로 변경할 수 없습니다  "
 
 #: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr ""
+msgstr "`%s' 파일 권한을 변경할 수 없습니다  "
 
 #: ../src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
+msgstr "`%s'은(는) 잠겨있습니다 (이전 updatedb를 통해) "
 
 #: ../src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
-msgstr ""
+msgstr "`%s'을(를) 잠금할 수 없습니다  "
 
 #: ../src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr ""
+msgstr "디렉토리를 `%s'로 변경할 수 없습니다  "
 
 #: ../src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr ""
+msgstr "`%s'에 쓰는 도중 I/O 오류 발생  "
 
 #: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr ""
+msgstr "`%s' 교체 도중 오류 발생   "
 
