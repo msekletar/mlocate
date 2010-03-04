@@ -1,3 +1,11 @@
+2010-03-04  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Release version 0.22.3.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
+	* configure.ac: Use xz for compresssing the distribution tarball.
+
 2009-10-02  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Release version 0.22.2.

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.22.2], [mitr@redhat.com])
+AC_INIT([mlocate], [0.22.3], [mitr@redhat.com])
 AC_COPYRIGHT(
-[Copyright (C) 2005, 2006, 2007, 2009 Red Hat, Inc. All rights reserved.
+[Copyright (C) 2005, 2006, 2007, 2009, 2010 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -20,7 +20,7 @@ AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
 AC_CONFIG_TESTDIR([.], [src])
-AM_INIT_AUTOMAKE([dist-bzip2 no-define subdir-objects -Wall])
+AM_INIT_AUTOMAKE([no-dist-gzip dist-xz no-define subdir-objects -Wall])
 
 # Checks for programs.
 AC_PROG_CC

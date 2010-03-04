@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2009-12-10 20:13+0000\n"
+"POT-Creation-Date: 2010-03-04 18:32+0100\n"
 "PO-Revision-Date: 2009-12-11 17:16+1000\n"
 "Last-Translator: Eunju Kim <eukim@redhat.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -17,56 +17,56 @@ msgstr ""
 "Plural-Forms:  nplurals=1; plural=0;\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "경고: 줄 번호가 초과되어 있습니다   "
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "`\"' 종료 중 부재  "
 
-#: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s'을(를) 열 수 없음  "
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "알 수 없는 변수 `%s' "
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "변수 이름이 예상됩니다  "
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "`%s' 변수는 이미 정의되어 있습니다   "
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "변수 이름 뒤에 `='이 예상됩니다  "
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "`=' 다음에 인용 부호루 묶인 값이 예상됩니다  "
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr " PRUNE_BIND_MOUNTS의 잘못된 값 `%s'  "
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "변수 값 다음에 예상하지 않은 데이터   "
 
-#: ../src/conf.c:419 ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "`%s' 읽는 도중 I/O 오류 발생  "
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -98,8 +98,8 @@ msgstr ""
 "  -f, --add-prunefs FS           FS 생략\n"
 "  -n, --add-prunenames NAMES     NAMES 생략\n"
 "  -e, --add-prunepaths PATHS     PATHS 생략\n"
-"  -U, --database-root PATH       데이터베이스에 저장하기 위한 하위 트리 (기본값 "
-"\"/\")\n"
+"  -U, --database-root PATH       데이터베이스에 저장하기 위한 하위 트리 (기본"
+"값 \"/\")\n"
 "  -h, --help                     도움말 인쇄\n"
 "  -o, --output FILE              업데이트할 데이터베이스 (기본값\n"
 "                                 `%s')\n"
@@ -115,7 +115,7 @@ msgstr ""
 "값으로의 설정 기본값은\n"
 "`%s'에서 읽어옵니다.\n"
 
-#: ../src/conf.c:464 ../src/locate.c:642
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -124,28 +124,27 @@ msgstr ""
 "\n"
 "%s에 버그를 보고합니다.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "현재 작업 중인 디렉토리를 얻을 수 없음  "
 
-#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
-#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
-#: ../src/locate.c:790
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s은(는) 이전 명령행 인수를 덮어 씁니다  "
 
-#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "--%s의 잘못된 값 `%s'  "
 
-#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s이(가) 두 번 지정됨 "
 
-#: ../src/conf.c:590 ../src/locate.c:722
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -157,77 +156,75 @@ msgstr ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "명령행에서 기대하지 않은 피연산자 "
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s'은(는) mlocate 데이터베이스에 있을것 같지 않습니다  "
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s'에는 알 수 없는 버전 %u이(가) 있습니다. "
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s'에는 알 수 없는 가시성 플래그 %u이(가) 있습니다  "
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "`%s'을(를) 읽는 도중 기대하지 않은 EOF "
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "`%s'에서 검색하는 도중 I/O 오류 "
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "데이터베이스 %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju 디렉토리\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju 파일\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "파일 이름에 있는 \t%'ju 바이트\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "데이터베이스를 저장하기 위해 사용되는 \t%'ju 바이트\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "`%s'에 있는 잘못된 빈 디렉토리 이름  "
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "파일 이름의 길이 %zu가 (`%s'에 있는) 너무 큽니다   "
 
-#: ../src/locate.c:607
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -284,88 +281,87 @@ msgstr ""
 "  -V, --version          버전 정보 인쇄\n"
 "  -w, --wholename        전체 경로 이름과 일치 (기본값)\n"
 
-#: ../src/locate.c:806
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "옵션이 아닌 인수는 --%s와 함께 허용되지 않습니다  "
 
-#: ../src/locate.c:819
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "검색 패턴이 지정되어 있지 않습니다  "
 
-#: ../src/locate.c:846
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "잘못된 정규 표현식 `%s': %s  "
 
-#: ../src/locate.c:932
+#: src/locate.c:932
 msgid "can not drop privileges"
 msgstr "권한을 삭제할 수 없습니다  "
 
-#: ../src/locate.c:947
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "표준 입력에서 두 개의 데이터베이스를 읽을 수 없습니다  "
 
-#: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "stat () `%s' 할 수 없습니다 "
 
-#: ../src/locate.c:1034 ../src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "표준 출력에 쓰기 도중 I/O 오류 발생  "
 
-#: ../src/updatedb.c:676 ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "파일 이름의 길이 %zu이(가) 너무 큽니다   "
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "`%s'에 대한 임시 파일을 열 수 없습니다  "
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "설정 사항이 너무 큽니다  "
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "`%s' 그룹을 찾을 수 없습니다  "
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "`%s' 파일의 그룹을 `%s'로 변경할 수 없습니다  "
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "`%s' 파일 권한을 변경할 수 없습니다  "
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s'은(는) 잠겨있습니다 (이전 updatedb를 통해) "
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "`%s'을(를) 잠금할 수 없습니다  "
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "디렉토리를 `%s'로 변경할 수 없습니다  "
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "`%s'에 쓰는 도중 I/O 오류 발생  "
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "`%s' 교체 도중 오류 발생   "
-
