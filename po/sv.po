@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2010-03-12 18:49+0000\n"
-"PO-Revision-Date: 2010-03-12 23:50+0100\n"
+"PO-Revision-Date: 2010-03-13 00:01+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "variabeln `%s' var redan definerad"
 
 #: ../src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr "`=' förväntades efter variabelnamn"
+msgstr "\"=\" förväntades efter variabelnamn"
 
 #: ../src/conf.c:380
 msgid "value in quotes expected after `='"
@@ -152,7 +152,7 @@ msgid ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
-"Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+"Copyright © 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
@@ -197,29 +197,29 @@ msgstr "Databas %s:\n"
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju katalog\n"
+msgstr[1] "\t%'ju kataloger\n"
 
 #: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju fil\n"
+msgstr[1] "\t%'ju filer\n"
 
 #: ../src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju byte i filnamn\n"
+msgstr[1] "\t%'ju byte i filnamn\n"
 
 #: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju byte använd för att lagra databasen\n"
+msgstr[1] "\t%'ju byte använda för att att lagra databasen\n"
 
 #: ../src/locate.c:473
 #, c-format
