@@ -8,65 +8,68 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MLOCATE 1.0\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-04 18:32+0100\n"
-"PO-Revision-Date: 2009-04-14 12:08+0200\n"
-"Last-Translator: Sulyok Péter <peti@fedoraproject.org>\n"
+"POT-Creation-Date: 2010-03-14 18:50+0000\n"
+"PO-Revision-Date: 2010-03-15 02:42+0100\n"
+"Last-Translator: Peter Bojtos <ptr@ulx.hu>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/conf.c:241
+#: ../src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "hiba: Sorszám túlcsordulás"
 
-#: src/conf.c:259
+#: ../src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "hiányzó bezáró „\"”"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: ../src/conf.c:309
+#: ../src/locate.c:968
+#: ../src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "„%s” nem nyitható meg"
 
-#: src/conf.c:353
+#: ../src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "„%s” ismeretlen változó"
 
-#: src/conf.c:358
+#: ../src/conf.c:358
 msgid "variable name expected"
 msgstr "hiányzó változónév"
 
-#: src/conf.c:364
+#: ../src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr "„%s” változó már definiálva"
+msgstr "„%s” változó már definiálva van"
 
-#: src/conf.c:373
+#: ../src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "hiányzó `=' a változónév után "
 
-#: src/conf.c:380
+#: ../src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "értékadás hiányzik `=' jel után"
 
-#: src/conf.c:388
+#: ../src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr " `%s' nem érvényes érték a  PRUNE_BIND_MOUNTS-ra"
 
-#: src/conf.c:405
+#: ../src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "nem várt adat a változónév után"
 
-#: src/conf.c:419 src/lib.c:244
+#: ../src/conf.c:419
+#: ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr "I/O olvasási hiba „%s”"
+msgstr "I/O hiba „%s” olvasásakor"
 
-#: src/conf.c:437
+#: ../src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -75,8 +78,7 @@ msgid ""
 "  -f, --add-prunefs FS           omit also FS\n"
 "  -n, --add-prunenames NAMES     omit also NAMES\n"
 "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -U, --database-root PATH       the subtree to store in database (default "
-"\"/\")\n"
+"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
 "  -h, --help                     print this help\n"
 "  -o, --output FILE              database to update (default\n"
 "                                 `%s')\n"
@@ -92,22 +94,21 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
-"Használat: updatedb [OPTION]...\n"
+"Használat: updatedb [OPCIÓK]...\n"
 "Az mlocate adatbázis frissítése.\n"
 "\n"
 "  -f, --add-prunefs FS           mellőzi FS-t\n"
-"  -n, --add-prunenames NEVEK     mellőzi NEVEKet\n"
-"  -e, --add-prunepaths ÖSVÉNYEK      mellőzi az UTVONALAKat\n"
-"  -U, --database-root ÖSVÉNY        az adatbázisban tárolandó részfa "
-"(alapért \"/\")\n"
-"  -h, --help                     kiírja ez a segítséget\n"
+"  -n, --add-prunenames NEVEK     mellőzi a NEVEKet\n"
+"  -e, --add-prunepaths ÚTVONALAK      mellőzi az ÚTVONALAKat\n"
+"  -U, --database-root ÚTVONAL        az adatbázisban tárolandó részfa (alapértelmezett: \"/\")\n"
+"  -h, --help                     kiírja ezt a segítséget\n"
 "  -o, --output FILE              adatbázis frissítése (alapértelmezett\n"
 "                                 „%s”)\n"
-"      --prune-bind-mounts FLAG   mellőzi a csatolt köteteket (alapért „no”)\n"
+"      --prune-bind-mounts FLAG   mellőzi a csatolt köteteket (alapértelmezett: „no”)\n"
 "      --prunefs FS               fájlrendszerek mellőzése az adatbázisból\n"
 "      --prunenames NEVEK         mappa nevek mellőzése az adatbázisból\n"
-"      --prunepaths ÖSVÉNYEK           ösvények mellőzése az adatbázisból\n"
-"  -l, --require-visibility FLAG  láthasóg ellenőrzése jelentés előtt\n"
+"      --prunepaths ÚTVONALAK           útvonalak mellőzése az adatbázisból\n"
+"  -l, --require-visibility FLAG  láthaság ellenőrzése jelentés előtt\n"
 "                                 (alapértelmezett \"yes\")\n"
 "  -v, --verbose                 a fájl kiíratása a megtalált útvonalon\n"
 "  -V, --version                  verzió információk kiírása\n"
@@ -115,36 +116,50 @@ msgstr ""
 "A konfiguráció alapértelmezett értékeinek olvasása innen:\n"
 "„%s”.\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: ../src/conf.c:464
+#: ../src/locate.c:642
 #, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
 "\n"
-"Hibabejelentés: %s.\n"
+"Hiba bejelentése: %s.\n"
 
-#: src/conf.c:482
+#: ../src/conf.c:482
 msgid "can not get current working directory"
 msgstr "nem érhető el a jelenlegi munkakönyvtár"
 
-#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: ../src/conf.c:540
+#: ../src/conf.c:551
+#: ../src/conf.c:561
+#: ../src/conf.c:571
+#: ../src/locate.c:697
+#: ../src/locate.c:706
+#: ../src/locate.c:732
+#: ../src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr "--%s felülírná korábbi parancssori argumentumokat"
+msgstr "--%s felülírná a korábbi parancssori argumentumokat"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: ../src/conf.c:544
+#: ../src/conf.c:584
+#: ../src/conf.c:617
+#: ../src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "„%s” érvénytelen értéke a --%s parancsnak"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: ../src/conf.c:580
+#: ../src/conf.c:613
+#: ../src/conf.c:628
+#: ../src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s kétszer lett megadva"
 
-#: src/conf.c:590 src/locate.c:722
+#: ../src/conf.c:590
+#: ../src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -152,83 +167,85 @@ msgid ""
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
 "Szerzői jog (C) 2007 Red Hat, Inc. Minden jog fenntartva.\n"
-"E szoftvert a GPL v.2 engedéllyel terjesztik.\n"
+"E szoftvert a GPL v.2 alatt terjesztik.\n"
 "\n"
 "E programot GARANCIA NÉLKÜL adják, amennyire a törvényes keretek engedik."
 
-#: src/conf.c:646
+#: ../src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "nem várt operandus a parancssoron"
 
-#: src/lib.c:177
+#: ../src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "„%s” nem tűnik mlocate adatbázisnak"
 
-#: src/lib.c:184
-#, c-format
+#: ../src/lib.c:184
+#, fuzzy, c-format
 msgid "`%s' has unknown version %u"
 msgstr "%2$u „%1$s” ismeretlen változata"
 
-#: src/lib.c:191
-#, c-format
+#: ../src/lib.c:191
+#, fuzzy, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "%2$u „%1$s” ismeretlen láthatóság jelzése"
 
-#: src/lib.c:246
+#: ../src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr "nem várt EOF olvasás  „%s”"
+msgstr "nem várt EOF „%s” olvasásakor"
 
-#: src/lib.c:341
+#: ../src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr "I/O hiba keresés „%s”"
+msgstr "I/O hiba „%s”-ben kereséskor"
 
-#: src/locate.c:335
+#: ../src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Adatbázis %s:\n"
 
-#: src/locate.c:338
+#. The third argument of ngettext () is unsigned long; it is still better
+#. to have invalid grammar than truncated numbers.
+#: ../src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju mappa\n"
 msgstr[1] "\t%'ju mappa\n"
 
-#: src/locate.c:340
+#: ../src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju fájl\n"
 msgstr[1] "\t%'ju fájl\n"
 
-#: src/locate.c:342
+#: ../src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] "\t%'ju bájt a fájl nevekben\n"
+msgstr[0] "\t%'ju bájt a fájlnevekben\n"
 msgstr[1] "\t%'ju bájt a fájl nevekben\n"
 
-#: src/locate.c:344
+#: ../src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju bájt tárolva az adatbázisban\n"
 msgstr[1] "\t%'ju bájt tárolva az adatbázisban\n"
 
-#: src/locate.c:473
+#: ../src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr "nem érvényes üres könyvtárnév ebben „%s”"
+msgstr "nem érvényes üres könyvtárnév ebben: „%s”"
 
-#: src/locate.c:500
+#: ../src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "fájl név hossza %zu ebben „%s” túl nagy"
+msgstr "a(z) %zu neve túl hosszú itt: %s"
 
-#: src/locate.c:607
+#: ../src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -245,12 +262,10 @@ msgid ""
 "  -i, --ignore-case      ignore case distinctions when matching patterns\n"
 "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
 "  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
-"file\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
 "                         existence\n"
 "  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about "
-"each\n"
+"  -S, --statistics       don't search for entries, print statistics about each\n"
 "                         used database\n"
 "  -q, --quiet            report no error messages about reading databases\n"
 "  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
@@ -259,119 +274,118 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
-"Használat: locate [OPCÍÓ]... [MINTA]...\n"
+"Használat: locate [OPCIÓ]... [MINTA]...\n"
 "Bejegyzések keresése az mlocate adatbázisban.\n"
 "\n"
 "  -b, --basename         csak az útvonal alap nevével egyezik\n"
 "  -c, --count            csak a megtalált bejegyzések kiíratása\n"
-"  -d, --database DBPATH  DBPATH használata, az alapértelmezett helyett "
-"(amelyik\n"
+"  -d, --database DBPATH  DBPATH használata, az alapértelmezett helyett (amelyik\n"
 "                         %s)\n"
 "  -e, --existing         csak a megtalált bejegyzések számának kiíratása\n"
 "  -L, --follow           szimbolikus linkek követése fájl vizsgálatkor\n"
-"                         létezik (alapértelmezett)\n"
+"                          (alapértelmezett)\n"
 "  -h, --help             kiírja ezt a segítséget\n"
 "  -i, --ignore-case      mellőzi az eltérő eseteket mintaillesztésnél\n"
-"  -l, --limit, -n LIMIT  korlátozza a kivitelt(vagy megszámolja) a LIMIT "
-"bejegyzésekig\n"
+"  -l, --limit, -n LIMIT  korlátozza a kivitelt(vagy megszámolja) a LIMIT bejegyzésekig\n"
 "  -m, --mmap             mellőzve, visszafelé kompatibilitás miatt\n"
-"  -P, --nofollow, -H     nem követi a szimbolikus linkeket fájl "
-"vizsgálatkor\n"
-"                         létezik\n"
+"  -P, --nofollow, -H     nem követi a szimbolikus linkeket fájl vizsgálatkor\n"
+"                         \n"
 "  -0, --null             szétválasztja a bejegyzéseket  kivitelkor NULlal\n"
-"  -S, --statistics       nem keres bejegyzéseket, statisztikát ír ki minden "
-"bejegyzésről\n"
-"                         used database\n"
+"  -S, --statistics       nem keres bejegyzéseket, statisztikát ír ki minden bejegyzésről\n"
+"                         \n"
 "  -q, --quiet            nem jelent hibát adatbázis olvasáskor\n"
-"  -r, --regexp REGEXP    REGEXP alap reguláris kijezés keresése a minták "
-"helyett\n"
+"  -r, --regexp REGEXP    REGEXP alapú reguláris keresés a minták helyett\n"
 "      --regex            kiterjedt reguláris kifejezések mintái\n"
 "  -s, --stdio            mellőzve, visszafelé kompatibilátás miatt\n"
 "  -V, --version          verzió információk kiírása\n"
-"  -w, --wholename        az egész keresési útvonalra illeszkedik "
-"(alapértelmezett)\n"
+"  -w, --wholename        az egész keresési útvonalra illeszkedik (alapértelmezett)\n"
 
-#: src/locate.c:806
+#: ../src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr "nem opcionális argumentumok nem engedettek a következővel  --%s"
+msgstr "nem opcionális argumentumok nem megengedettek a következővel  --%s"
 
-#: src/locate.c:819
+#: ../src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "nem található minta a keresésre"
 
-#: src/locate.c:846
+#: ../src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "nem érvényes reguláris kifejezés „%s”: %s"
 
-#: src/locate.c:932
+#: ../src/locate.c:932
 msgid "can not drop privileges"
-msgstr "nem eldobható privilégiumok"
+msgstr "nem eldobható jogosultságok"
 
-#: src/locate.c:947
+#: ../src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "nem olvasható két adatbázis a standard inputról"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
-#, c-format
+#: ../src/locate.c:959
+#: ../src/locate.c:974
+#: ../src/updatedb.c:1090
+#, fuzzy, c-format
 msgid "can not stat () `%s'"
 msgstr "nem lehet stat() „%s”"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: ../src/locate.c:1034
+#: ../src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr "I/O hiba standard kimenetre írás közben"
+msgstr "I/O hiba a standard kimenetre írás közben"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: ../src/updatedb.c:676
+#: ../src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
-msgstr "fájl név hossza %zu túl nagy"
+msgstr "fájlnév túl hosszú:  %zu"
 
-#: src/updatedb.c:996
+#: ../src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nem lehet ideiglenes fájlt nyitni „%s”-nek"
 
-#: src/updatedb.c:1009
+#: ../src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "a konfiguráció túl nagy"
 
-#: src/updatedb.c:1030
+#: ../src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nem található csoport „%s”"
 
-#: src/updatedb.c:1033
+#: ../src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "nem lehet megváltoztatni a file csoportját `%s'-ról `%s'-re"
 
-#: src/updatedb.c:1047
+#: ../src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nem lehet megváltoztatni a(z) „%s” file jogosultságait"
 
-#: src/updatedb.c:1077
+#: ../src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr "„%s” lakat alatt (valószínűleg egy korábbi updatedb miatt)"
+msgstr "„%s” zárolás alatt (valószínűleg egy korábbi updatedb miatt)"
 
-#: src/updatedb.c:1080
+#: ../src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
-msgstr "„%s” nem lakatolható"
+msgstr "„%s” nem zárolható"
 
-#: src/updatedb.c:1087
+#: ../src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr "nem változtatható a könyvtár `%s'-ra"
+msgstr "a(z) `%s' könyvtárba lépés sikertelen"
 
-#: src/updatedb.c:1096
+#: ../src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "I/O hiba  „%s” írása közben"
 
-#: src/updatedb.c:1100
+#: ../src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr "hiba cserekor „%s”"
+msgstr "hiba „%s” cseréjekor"
+
