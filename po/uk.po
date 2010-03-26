@@ -6,69 +6,67 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-09 11:52+0530\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
+"POT-Creation-Date: 2010-03-26 13:29+0100\n"
 "PO-Revision-Date: 2010-03-22 10:30+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "попередження: кількість рядків переповнено"
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "відсутній завершальний символ `\"'"
 
-#: ../src/conf.c:309
-#: ../src/locate.c:968
-#: ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "неможливо відкрити «%s»"
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "невідома змінна `%s'"
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "очікування назви змінної"
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "змінна `%s' вже визначена"
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "«=» очікується після імені змінної"
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "значення у дужках очікується після «=»"
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "неприпустиме значення «%s» для PRUNE_BIND_MOUNTS"
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "неочікувані дані після значення змінної"
 
-#: ../src/conf.c:419
-#: ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "Помилка вводу/виводу при читанні «%s»"
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -77,7 +75,8 @@ msgid ""
 "  -f, --add-prunefs FS           omit also FS\n"
 "  -n, --add-prunenames NAMES     omit also NAMES\n"
 "  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
 "  -h, --help                     print this help\n"
 "  -o, --output FILE              database to update (default\n"
 "                                 `%s')\n"
@@ -99,11 +98,13 @@ msgstr ""
 "  -f, --add-prunefs ФС           пропускати вказані ФС\n"
 "  -n, --add-prunenames ІМЕНА     пропускати ІМЕНА\n"
 "  -e, --add-prunepaths ШЛЯХИ     пропускати ШЛЯХИ\n"
-"  -U, --database-root ШЛЯХ       піддерево, зберігається у базі даних (типово \"/\")\n"
+"  -U, --database-root ШЛЯХ       піддерево, зберігається у базі даних "
+"(типово \"/\")\n"
 "  -h, --help                     вивести цю довідку\n"
 "  -o, --output FILE              база даних для оновлення (типово\n"
 "                                 `%s')\n"
-"      --prune-bind-mounts ПРАПОР пропускати точки підключення (типово \"немає\")\n"
+"      --prune-bind-mounts ПРАПОР пропускати точки підключення (типово \"немає"
+"\")\n"
 "      --prunefs ФС               ФС для виключення з бази даних\n"
 "      --prunenames ІМЕНА         каталог для виключення з баз даних\n"
 "      --prunepaths ШЛЯХИ         шляхи для виключення з бази даних\n"
@@ -115,8 +116,7 @@ msgstr ""
 "Типові параметри отримані з\n"
 "«%s».\n"
 
-#: ../src/conf.c:464
-#: ../src/locate.c:642
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -125,40 +125,27 @@ msgstr ""
 "\n"
 "Звіт про помилки надсилайте до %s.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "не вдається отримати поточний робочий каталог"
 
-#: ../src/conf.c:540
-#: ../src/conf.c:551
-#: ../src/conf.c:561
-#: ../src/conf.c:571
-#: ../src/locate.c:697
-#: ../src/locate.c:706
-#: ../src/locate.c:732
-#: ../src/locate.c:790
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s перевизначить вказаний раніше аргумент командного рядка"
 
-#: ../src/conf.c:544
-#: ../src/conf.c:584
-#: ../src/conf.c:617
-#: ../src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "неправильне значення «%s» для --%s"
 
-#: ../src/conf.c:580
-#: ../src/conf.c:613
-#: ../src/conf.c:628
-#: ../src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s визначено двічі"
 
-#: ../src/conf.c:590
-#: ../src/locate.c:722
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -170,43 +157,41 @@ msgstr ""
 "\n"
 "Програма поширюється БЕЗ ГАРАНТІЙ, у межах, що припускаються законом."
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "неочікуваний операнд у командному рядку"
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "«%s» не є базою даних mlocate"
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "невідома версія «%s»: %u"
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "«%s» має невідомий видиму ознаку %u"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "неочікуваний EOF при читанні «%s»"
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "помилка вводу/виводу під час пошуку у «%s»"
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "База даних %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
@@ -214,7 +199,7 @@ msgstr[0] "\t%'ju каталог\n"
 msgstr[1] "\t%'ju каталоги\n"
 msgstr[2] "\t%'ju каталогів\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
@@ -222,7 +207,7 @@ msgstr[0] "\t%'ju файл\n"
 msgstr[1] "\t%'ju файли\n"
 msgstr[2] "\t%'ju файлів\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
@@ -230,7 +215,7 @@ msgstr[0] "\t%'ju байт у імені файлу\n"
 msgstr[1] "\t%'ju байти у імені файлу\n"
 msgstr[2] "\t%'ju байтів у імені файлу\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
@@ -238,17 +223,17 @@ msgstr[0] "\t%'ju байт використовується для збереж�
 msgstr[1] "\t%'ju байти використовується для збереження бази даних\n"
 msgstr[2] "\t%'ju байтів використовується для збереження бази даних\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "недійсна назва порожнього каталогу у «%s»"
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "надто довга назва файлу %zu у «%s»"
 
-#: ../src/locate.c:607
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -265,10 +250,12 @@ msgid ""
 "  -i, --ignore-case      ignore case distinctions when matching patterns\n"
 "  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
 "  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
 "                         existence\n"
 "  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about each\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
 "                         used database\n"
 "  -q, --quiet            report no error messages about reading databases\n"
 "  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
@@ -282,8 +269,7 @@ msgstr ""
 "\n"
 "  -b, --basename         лише збіг базової назви у шляху\n"
 "  -c, --count            вивести лише число знайдених місць\n"
-"  -d, --database DBPATH  використати DBPATH замість типової бази даних "
-"(\n"
+"  -d, --database DBPATH  використати DBPATH замість типової бази даних (\n"
 "                         %s)\n"
 "  -e, --existing         вивести знайдені лише для наявних наразі файлів\n"
 "  -L, --follow           йти за символічними посиланнями при перевірці\n"
@@ -293,105 +279,101 @@ msgstr ""
 "  -i, --ignore-case      ігнорувати регістр знайдених збігів\n"
 "  -l, --limit, -n LIMIT  обмежити вивід (або підрахунок) LIMIT збігами\n"
 "  -m, --mmap             ігнорується, для зворотної сумісності\n"
-"  -P, --nofollow, -H     не слідувати символічним посиланнями при перевірці \n"
+"  -P, --nofollow, -H     не слідувати символічним посиланнями при "
+"перевірці \n"
 "                         файлу на наявність\n"
 "  -0, --null             розділяти знайдені файли з виводом NUL\n"
 "  -S, --statistics       не шукати знайдені файли, вивід статистики\n"
 "                         за базою даних, що використовується\n"
 "  -q, --quiet            не повідомляти про помилки читання бази даних\n"
-"  -r, --regexp REGEXP    шукати за регулярним виразом REGEXP замість шаблонів\n"
+"  -r, --regexp REGEXP    шукати за регулярним виразом REGEXP замість "
+"шаблонів\n"
 "      --regex            шаблони розширених регулярних виразів\n"
 "  -s, --stdio            ігнорується, для зворотної сумісності\n"
 "  -V, --version          вивести інформацію про версії\n"
 "  -w, --wholename        лише цілі назви шляхів (типово)\n"
 
-#: ../src/locate.c:806
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "не є аргументом параметра або не дозволено з --%s"
 
-#: ../src/locate.c:819
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "не визначено шаблон для пошуку"
 
-#: ../src/locate.c:846
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "неприпустимий regexp «%s»: %s"
 
-#: ../src/locate.c:932
+#: src/locate.c:932
 msgid "can not drop privileges"
 msgstr "неможливо понизити привілеї"
 
-#: ../src/locate.c:947
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "неможливо читати дві бази даних з стандартного вводу"
 
-#: ../src/locate.c:959
-#: ../src/locate.c:974
-#: ../src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не вдається виконати stat () «%s»"
 
-#: ../src/locate.c:1034
-#: ../src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "помилка вводу/виводу під час запису до стандартного виводу"
 
-#: ../src/updatedb.c:676
-#: ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "надто довга назва файлу %zu"
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не вдається відкрити тимчасовий файл для «%s»"
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "конфігурація дуже велика"
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не вдається знайти групу «%s»"
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "не вдається з мінити групу файлу з «%s» на «%s»"
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не вдається змінити права файлу «%s»"
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "«%s» заблоковано (можливо більш раннім updatedb)"
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "не вдається заблокувати «%s»"
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "не вдається змінити каталог на «%s»"
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "помилка вводу/виводу під час запису у «%s»"
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "помилка під час заміни «%s»"
-
-

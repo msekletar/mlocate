@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-12 18:49+0000\n"
+"POT-Creation-Date: 2010-03-26 13:29+0100\n"
 "PO-Revision-Date: 2010-03-13 00:01+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -17,56 +17,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: ../src/conf.c:241
+#: src/conf.c:241
 msgid "warning: Line number overflow"
 msgstr "varning: Spill i radnummer"
 
-#: ../src/conf.c:259
+#: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "saknar avslutande `\"'"
 
-#: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
 #, c-format
 msgid "can not open `%s'"
 msgstr "kan inte öppna `%s'"
 
-#: ../src/conf.c:353
+#: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
 msgstr "okänd variabel `%s'"
 
-#: ../src/conf.c:358
+#: src/conf.c:358
 msgid "variable name expected"
 msgstr "variabelnamn förväntades"
 
-#: ../src/conf.c:364
+#: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
 msgstr "variabeln `%s' var redan definerad"
 
-#: ../src/conf.c:373
+#: src/conf.c:373
 msgid "`=' expected after variable name"
 msgstr "\"=\" förväntades efter variabelnamn"
 
-#: ../src/conf.c:380
+#: src/conf.c:380
 msgid "value in quotes expected after `='"
 msgstr "värde inom citattecken förväntat efter `='"
 
-#: ../src/conf.c:388
+#: src/conf.c:388
 #, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
 msgstr "ogiltigt värde `%s' i PRUNE_BIND_MOUNTS"
 
-#: ../src/conf.c:405
+#: src/conf.c:405
 msgid "unexpected data after variable value"
 msgstr "okänd data efter variabelvärde"
 
-#: ../src/conf.c:419 ../src/lib.c:244
+#: src/conf.c:419 src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "I/O-fel vid inläsning av `%s'"
 
-#: ../src/conf.c:437
+#: src/conf.c:437
 #, c-format
 msgid ""
 "Usage: updatedb [OPTION]...\n"
@@ -98,11 +98,13 @@ msgstr ""
 "  -f, --add-prunefs FS           uteslut även FS\n"
 "  -n, --add-prunenames NAMN      uteslut även NAMN\n"
 "  -e, --add-prunepaths SÖKVÄGAR  uteslut även SÖKVÄGAR\n"
-"  -U, --database-root SÖKVÄG     delträdet att lagra i databasen (standard \"/\")\n"
+"  -U, --database-root SÖKVÄG     delträdet att lagra i databasen (standard "
+"\"/\")\n"
 "  -h, --help                     skriv denna hjälp\n"
 "  -o, --output FIL               databas att uppdatera (standard\n"
 "                                 \"%s\")\n"
-"      --prune-bind-mounts FLAGGA  uteslut bind-monteringar (standard \"no\")\n"
+"      --prune-bind-mounts FLAGGA  uteslut bind-monteringar (standard \"no"
+"\")\n"
 "      --prunefs FS               filsystem att utesluta från databasen\n"
 "      --prunenames NAMN          katalognamn att utesluta från databasen\n"
 "      --prunepaths SÖKVÄGAR      sökvägar att utesluta från databasen\n"
@@ -114,7 +116,7 @@ msgstr ""
 "Konfigurationen har standardvärden som läses ifrån\n"
 "\"%s\".\n"
 
-#: ../src/conf.c:464 ../src/locate.c:642
+#: src/conf.c:464 src/locate.c:642
 #, c-format
 msgid ""
 "\n"
@@ -124,28 +126,27 @@ msgstr ""
 "Skicka synpunkter på översättningen till <tp-sv@listor.tp-sv.se>\n"
 "Rapportera fel till %s.\n"
 
-#: ../src/conf.c:482
+#: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "kan inte hitta aktuell arbetskatalog"
 
-#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
-#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
-#: ../src/locate.c:790
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s skulle åsidosätta föregående argument"
 
-#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "ogiltigt värde \"%s\" till --%s"
 
-#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s angavs två gånger"
 
-#: ../src/conf.c:590 ../src/locate.c:722
+#: src/conf.c:590 src/locate.c:722
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -157,81 +158,79 @@ msgstr ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 
-#: ../src/conf.c:646
+#: src/conf.c:646
 msgid "unexpected operand on command line"
 msgstr "oväntad operand på kommandoraden"
 
-#: ../src/lib.c:177
+#: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' verkar inte vara en mlocate-databas"
 
-#: ../src/lib.c:184
+#: src/lib.c:184
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' har okänd version %u"
 
-#: ../src/lib.c:191
+#: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "\"%s\" har en okänd synlighetsflagga %u"
 
-#: ../src/lib.c:246
+#: src/lib.c:246
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "oväntat filslut vid läsning av `%s'"
 
-#: ../src/lib.c:341
+#: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "I/O-fel vid sökning i `%s'"
 
-#: ../src/locate.c:335
+#: src/locate.c:335
 #, c-format
 msgid "Database %s:\n"
 msgstr "Databas %s:\n"
 
-#. The third argument of ngettext () is unsigned long; it is still better
-#. to have invalid grammar than truncated numbers.
-#: ../src/locate.c:338
+#: src/locate.c:338
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju katalog\n"
 msgstr[1] "\t%'ju kataloger\n"
 
-#: ../src/locate.c:340
+#: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju fil\n"
 msgstr[1] "\t%'ju filer\n"
 
-#: ../src/locate.c:342
+#: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju byte i filnamn\n"
 msgstr[1] "\t%'ju byte i filnamn\n"
 
-#: ../src/locate.c:344
+#: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju byte använd för att lagra databasen\n"
 msgstr[1] "\t%'ju byte använda för att att lagra databasen\n"
 
-#: ../src/locate.c:473
+#: src/locate.c:473
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "ogiltigt tomt katalognamn i `%s'"
 
-#: ../src/locate.c:500
+#: src/locate.c:500
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "filnamnslängden %zu i `%s' är för lång"
 
-#: ../src/locate.c:607
+#: src/locate.c:607
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
@@ -270,10 +269,12 @@ msgstr ""
 "  -d, --database DBSÖKVÄG  använd DBSÖKVÄG istället för standarddatabasen\n"
 "                           (vilken är %s)\n"
 "  -e, --existing         skriv endast poster för filer som finns nu\n"
-"  -L, --follow           följ avslutande symboliska länkar när filers existens\n"
+"  -L, --follow           följ avslutande symboliska länkar när filers "
+"existens\n"
 "                         kontrolleras (standard)\n"
 "  -h, --help             skriv denna hjälp\n"
-"  -i, --ignore-case      ignorera skiftlägesdistinktioner vid mönstermatchning\n"
+"  -i, --ignore-case      ignorera skiftlägesdistinktioner vid "
+"mönstermatchning\n"
 "  -l, --limit, -n GRÄNS  begränsa utdata (eller räknande) till GRÄNS poster\n"
 "  -m, --mmap             ignoreras, för bakåtkompatibilitet\n"
 "  -P, --nofollow, -H     följ inte avslutande symboliska länkar när filers\n"
@@ -289,87 +290,87 @@ msgstr ""
 "  -V, --version          skriv versionsinformation\n"
 "  -w, --wholename        matcha hela sökvägsnamn (standard)\n"
 
-#: ../src/locate.c:806
+#: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "argument som inte är flaggor är inte tillåtna med --%s"
 
-#: ../src/locate.c:819
+#: src/locate.c:819
 msgid "no pattern to search for specified"
 msgstr "inget mönster att söka efter angivet"
 
-#: ../src/locate.c:846
+#: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "ogiltigt reguljärt uttryck `%s': %s"
 
-#: ../src/locate.c:932
+#: src/locate.c:932
 msgid "can not drop privileges"
 msgstr "kan inte släppa behörigheter"
 
-#: ../src/locate.c:947
+#: src/locate.c:947
 msgid "can not read two databases from standard input"
 msgstr "kan inte läsa två databaser från standard in"
 
-#: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "kan inte ta status på \"%s\""
 
-#: ../src/locate.c:1034 ../src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
 msgstr "I/O-fel vid skrivning till standard ut"
 
-#: ../src/updatedb.c:676 ../src/updatedb.c:774
+#: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "filnamnslängden %zu är för lång"
 
-#: ../src/updatedb.c:996
+#: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "kan inte öppna en temporär fil för `%s'"
 
-#: ../src/updatedb.c:1009
+#: src/updatedb.c:1009
 msgid "configuration is too large"
 msgstr "konfiguration är för stor"
 
-#: ../src/updatedb.c:1030
+#: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
 msgstr "kan inte hitta grupp `%s'"
 
-#: ../src/updatedb.c:1033
+#: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "kan inte byta filens grupp från `%s' till `%s'"
 
-#: ../src/updatedb.c:1047
+#: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "kan inte ändra rättigheter på fil `%s'"
 
-#: ../src/updatedb.c:1077
+#: src/updatedb.c:1077
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' är låst (förmodligen av tidigare körd updatedb)"
 
-#: ../src/updatedb.c:1080
+#: src/updatedb.c:1080
 #, c-format
 msgid "can not lock `%s'"
 msgstr "kan inte låsa `%s'"
 
-#: ../src/updatedb.c:1087
+#: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "kan inte byta katalog till `%s'"
 
-#: ../src/updatedb.c:1096
+#: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "I/O-fel vid skrivning till `%s'"
 
-#: ../src/updatedb.c:1100
+#: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
 msgstr "fel vid ersättning av `%s'"

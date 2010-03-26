@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.22.3], [mitr@redhat.com])
+AC_INIT([mlocate], [0.22.4], [mitr@redhat.com])
 AC_COPYRIGHT(
 [Copyright (C) 2005, 2006, 2007, 2009, 2010 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
