@@ -1,5 +1,8 @@
 2010-03-26  Miloslav Trmač  <mitr@redhat.com>
 
+	* gnulib/lib/stat-time.h (get_stat_birthtime_ns)
+	(get_stat_birthtime): Fix a warning.
+
 	* configure.ac: Release version 0.22.4.
 	* NEWS: Update.
 	* po/LINGUAS: Update.
