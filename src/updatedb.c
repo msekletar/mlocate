@@ -370,8 +370,14 @@ rebuild_bind_mount_paths (void)
     {
       if (conf_debug_pruning != false)
 	/* This is debuging output, don't mark anything for translation */
-	fprintf (stderr, " `%s', opts `%s'\n", me->mnt_dir, me->mnt_opts);
-      if (hasmntopt (me, "bind") != NULL)
+	fprintf (stderr, " `%s' on `%s', opts `%s'\n", me->mnt_fsname,
+		 me->mnt_dir, me->mnt_opts);
+      /* Bind mounts "to self" can be used (e.g. by policycoreutils-sandbox) to
+	 create another mount point to which Linux name space privacy flags can
+	 be attached.  Such a bind mount is not duplicating any part of the
+	 directory tree, so it should not be excluded. */
+      if (hasmntopt (me, "bind") != NULL
+	  && strcmp (me->mnt_fsname, me->mnt_dir) != 0)
 	{
 	  char dbuf[PATH_MAX], *dir;
 

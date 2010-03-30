@@ -96,6 +96,7 @@ bind mounts are not scanned by
 .BR updatedb (8).
 All file systems mounted in the subtree of a bind mount are skipped as well,
 even if they are not bind mounts.
+As an exception, bind mounts of a directory on itself are not skipped.
 
 By default, bind mounts are not skipped.
 

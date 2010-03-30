@@ -1,3 +1,9 @@
+2010-03-30  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/updatedb.c (rebuild_bind_mount_paths): Ignore no-op bind mounts.
+	* doc/updatedb.conf.5.in (PRUNE_BIND_MOUNTS): Document that no-op bind
+	mounts are not skipped.
+
 2010-03-26  Miloslav Trmač  <mitr@redhat.com>
 
 	* gnulib/lib/stat-time.h (get_stat_birthtime_ns)
