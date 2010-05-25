@@ -1,3 +1,7 @@
+2010-05-25  Christian Faulhammer  <fauli@gentoo.org>
+
+	* po/de.po: Misc. fixes and updates.
+
 2010-03-30  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/updatedb.c (rebuild_bind_mount_paths): Ignore no-op bind mounts.

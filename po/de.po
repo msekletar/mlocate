@@ -4,15 +4,16 @@
 #
 # Fabian Affolter <fab@fedoraproject.org>, 2008.
 # Thomas Spura <tomspur@fedoraproject.org>, 2008-2009.
+# Christian Faulhammer <fauli@gentoo.org>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
 "POT-Creation-Date: 2010-03-26 13:29+0100\n"
-"PO-Revision-Date: 2009-04-17 11:49+0100\n"
-"Last-Translator: Fabian Affolter <fab@fedoraproject.org>\n"
-"Language-Team: Gernan <fedora-trans-de@redhat.com>\n"
+"PO-Revision-Date: 2010-04-20 20:16+0200\n"
+"Last-Translator: Christian Faulhammer <fauli@gentoo.org>\n"
+"Language-Team: German <fedora-trans-de@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,24 +36,24 @@ msgstr "kann `%s' nicht öffnen"
 #: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
-msgstr "unbekannte Variabel `%s'"
+msgstr "unbekannte Variable `%s'"
 
 #: src/conf.c:358
 msgid "variable name expected"
-msgstr "Variabel-Namen erwartet"
+msgstr "Variablen-Namen erwartet"
 
 #: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr "Variabel `%s' ist schon definiert"
+msgstr "Variable `%s' ist schon definiert"
 
 #: src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr "`=' erwartet nach dem Variabel-Namen"
+msgstr "`=' erwartet nach dem Variablen-Namen"
 
 #: src/conf.c:380
 msgid "value in quotes expected after `='"
-msgstr "Werte in Anführungszeichen erwartet nach `='"
+msgstr "Wert in Anführungszeichen nach `=' erwartet"
 
 #: src/conf.c:388
 #, c-format
@@ -61,7 +62,7 @@ msgstr "ungültiger Wert `%s' von PRUNE_BIND_MOUNTS"
 
 #: src/conf.c:405
 msgid "unexpected data after variable value"
-msgstr "Unerwartete Daten nach dem Variabel-Wert"
+msgstr "Unerwartete Daten nach dem Variablen-Wert"
 
 #: src/conf.c:419 src/lib.c:244
 #, c-format
@@ -97,20 +98,17 @@ msgstr ""
 "Benutzung: updatedb [OPTION]...\n"
 "Aktualisiert eine mlocate-Datenbank.\n"
 "\n"
-"  -f, --add-prunefs FS           lässt FS aus\n"
+"  -f, --add-prunefs FS           lässt Dateisystem FS aus\n"
 "  -n, --add-prunenames NAMEN     lässt NAMEN aus\n"
 "  -e, --add-prunepaths PFADE     lässt PfADE aus\n"
-"  -U, --database-root PATH       das Unterverzeichnis, um die Datenbank zu "
-"speichern (Standard \"/\")\n"
+"  -U, --database-root PATH       das Unterverzeichnis, um die Datenbank zu speichern (Standard \"/\")\n"
 "  -h, --help                     zeigt diese Hilfe\n"
 "  -o, --output FILE              Datenbank FILE wird aktualisiert (Standard\n"
 "                                 `%s')\n"
 "      --prune-bind-mounts FLAG   lässt 'bind mounts' aus (Standard \"no\")\n"
-"      --prunefs FS               lässt Dateisystem FS beim Aktualisieren "
-"aus\n"
+"      --prunefs FS               lässt Dateisystem FS beim Aktualisieren aus\n"
 "      --prunepaths PFADE         lässt PFADE beim Aktualisieren aus\n"
-"  -l, --require-visibility FLAG  überprüft Sichtbarkeit vor Aufnahme in die "
-"Datenbank\n"
+"  -l, --require-visibility FLAG  überprüft Sichtbarkeit vor Aufnahme in die Datenbank\n"
 "                                 (Standard \"yes\")\n"
 "  -v, --verbose                  zeigt Pfade von gefundenen Dateien\n"
 "  -V, --version                  zeigt Versionsinformationen an\n"
@@ -154,11 +152,10 @@ msgid ""
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
-"Copyright (C) 2007 Red Hat, Inc. ALle Rechte vorbehalten.\n"
+"Copyright (C) 2007 Red Hat, Inc. Alle Rechte vorbehalten.\n"
 "Diese Software ist unter GPL v.2. veröffentlicht\n"
 "\n"
-"Dieses Programm wird OHNE GARANTIE bereitgestellt, im Umfang ermöglicht "
-"durch das Gesetz."
+"Dieses Programm wird unter Ausschluss vom Gewährleistung und Garantie bereitgestellt, soweit dies durch Gesetze ermöglicht wird."
 
 #: src/conf.c:646
 msgid "unexpected operand on command line"
@@ -167,7 +164,7 @@ msgstr "unerwarteter Operator auf der Befehlszeile"
 #: src/lib.c:177
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr "`%s' scheint nicht eine mlocate-Datenbank zu sein"
+msgstr "`%s' scheint keine mlocate-Datenbank zu sein"
 
 #: src/lib.c:184
 #, c-format
@@ -177,7 +174,7 @@ msgstr "`%s' hat unbekannte Version %u"
 #: src/lib.c:191
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr "`%s' hat unbekanntes Visualisierungsflag %u"
+msgstr "`%s' hat eine unbekannte Sichtbarkeitsmarkierung %u"
 
 #: src/lib.c:246
 #, c-format
@@ -187,7 +184,7 @@ msgstr "unerwartetes EOF gelesen `%s'"
 #: src/lib.c:341
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr "E/A-Fehlersuche in `%s'"
+msgstr "E/A-Fehler bei Suche in `%s'"
 
 #: src/locate.c:335
 #, c-format
@@ -266,32 +263,24 @@ msgstr ""
 "Benutzung: locate [OPTION]... [PATTERN]...\n"
 "Sucht nach Einträgen in einer mlocate-Datenbank.\n"
 "\n"
-"  -b, --basename         sucht nur in dem Dateinamen nach dem Muster\n"
+"  -b, --basename         sucht nur im Dateinamen nach dem Muster\n"
 "  -c, --count            zeigt nur die Anzahl der gefundenen Einträge an\n"
-"  -d, --database DBPFAD  benutzt DBPFAD anstatt der Standard-Datenbank (die "
-"da wäre\n"
+"  -d, --database DBPFAD  benutzt DBPFAD anstatt der Standard-Datenbank (die da wäre\n"
 "                         %s)\n"
 "  -e, --existing         zeigt nur Einträge von jetzt existierenden Dateien\n"
-"  -L, --follow           folgt symbolischen Links, wenn Dateiexistens "
-"überprüft wird\n"
+"  -L, --follow           folgt symbolischen Links, wenn Dateiexistenz überprüft wird\n"
 "                         (Standard)\n"
 "  -h, --help             zeige diese Hilfe\n"
-"  -i, --ignore-case      ignoriert Groß-, Kleinschreibung bei der Suche nach "
-"Einträgen\n"
+"  -i, --ignore-case      ignoriert Gross-, Kleinschreibung bei der Suche nach Einträgen\n"
 "  -l, --limit, -n LIMIT  zeigt nur LIMIT Einträge an\n"
 "  -m, --mmap             ignoriert, nur für Abwärtskompatibilität\n"
-"  -P, --nofollow, -H     folgt nicht den symbolischen Links, wenn "
-"Dateiexistens überprüft wird\n"
+"  -P, --nofollow, -H     folgt nicht den symbolischen Links, wenn Dateiexistenz überprüft wird\n"
 "  -0, --null             trennt Einträge mit ASCII NUL in der Ausgabe\n"
-"  -S, --statistics       sucht nicht nach Einträgen, zeigt Statistiken über "
-"jede\n"
+"  -S, --statistics       sucht nicht nach Einträgen, zeigt Statistiken über jede\n"
 "                         benutzte Datenbank an\n"
-"  -q, --quiet            zeigt keine Fehlermeldungen beim Lesen der "
-"Datenbank an\n"
-"  -r, --regexp REGEXP    sucht nach dem regulären Ausdruck anstatt der "
-"Zeichenfolge\n"
-"      --regex            die Zeichenfolde ist ein erweiterter regulärer "
-"Ausdruck\n"
+"  -q, --quiet            zeigt keine Fehlermeldungen beim Lesen der Datenbank an\n"
+"  -r, --regexp REGEXP    sucht nach dem regulären Ausdruck anstatt der Zeichenfolge\n"
+"      --regex            die Zeichenfolge ist ein erweiterter regulärer Ausdruck\n"
 "  -s, --stdio            ignoriert, nur für Abwärtskompatibilität\n"
 "  -V, --version          zeigt Versionsinformationen\n"
 "  -w, --wholename        sucht im ganzen Pfad-Namen (Standard)\n"
@@ -299,20 +288,20 @@ msgstr ""
 #: src/locate.c:806
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr "kein-Option-Argumente sind nicht erlaubt mit --%s"
+msgstr "Argumente müssen bei --%s Optionen sein"
 
 #: src/locate.c:819
 msgid "no pattern to search for specified"
-msgstr "Keine Muster zum Suchen für vorgegebene"
+msgstr "Kein Suchmuster angegeben"
 
 #: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr "ungültige regexp `%s': %s"
+msgstr "ungültiger regulärer Ausdruck `%s': %s"
 
 #: src/locate.c:932
 msgid "can not drop privileges"
-msgstr "kann Privilegien nicht fallen lassen"
+msgstr "kann Zugriffsrechte nicht abgeben"
 
 #: src/locate.c:947
 msgid "can not read two databases from standard input"
@@ -321,11 +310,11 @@ msgstr "kann nicht zwei Datenbanken von der Standard-Eingabe lesen"
 #: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
 #, c-format
 msgid "can not stat () `%s'"
-msgstr "kann nicht stat () `%s'"
+msgstr "kann stat () `%s' nicht durchführen"
 
 #: src/locate.c:1034 src/updatedb.c:1114
 msgid "I/O error while writing to standard output"
-msgstr "E/A-Fehler während des Schreibens zur Standard-Ausgabe"
+msgstr "E/A-Fehler während des Schreibens auf Standard-Ausgabe"
 
 #: src/updatedb.c:676 src/updatedb.c:774
 #, c-format
@@ -335,7 +324,7 @@ msgstr "Dateinamen-Länge %zu ist zu lange"
 #: src/updatedb.c:996
 #, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr "kann temporäre Datei nicht öffnen für `%s'"
+msgstr "kann temporäre Datei für `%s' nicht öffnen"
 
 #: src/updatedb.c:1009
 msgid "configuration is too large"
@@ -344,17 +333,17 @@ msgstr "Konfiguration ist zu lang"
 #: src/updatedb.c:1030
 #, c-format
 msgid "can not find group `%s'"
-msgstr "kann Gruppe nicht finden `%s'"
+msgstr "kann Gruppe `%s' nicht finden"
 
 #: src/updatedb.c:1033
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr "kann Dateigruppe nicht ändern von `%s' zu `%s'"
+msgstr "kann Dateigruppe von `%s' zu `%s' nicht ändern"
 
 #: src/updatedb.c:1047
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "kann Berechtigungen nicht ändern von Datei `%s'"
+msgstr "kann Berechtigungen von Datei `%s' nicht ändern"
 
 #: src/updatedb.c:1077
 #, c-format
@@ -369,14 +358,14 @@ msgstr "kann `%s' nicht blockieren"
 #: src/updatedb.c:1087
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr "kann Verzeichnis nicht ändern auf `%s'"
+msgstr "kann Verzeichnis nicht auf `%s' ändern"
 
 #: src/updatedb.c:1096
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "E/A-Fehler während Schreiben zu `%s'"
+msgstr "E/A-Fehler während des Schreibens auf `%s'"
 
 #: src/updatedb.c:1100
 #, c-format
 msgid "error replacing `%s'"
-msgstr "Fehler beim Ersetzen `%s'"
+msgstr "Fehler beim Ersetzen von `%s'"
