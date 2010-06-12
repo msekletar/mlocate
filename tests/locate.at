@@ -452,9 +452,9 @@ AT_CHECK([locate -d db --regexp '.*foo' -i | sed "s,$(pwd)/,,"], ,
 d/foo
 ])
 
-AT_CHECK([locate -d db --regexp '\(' 2> err], 1)
+AT_CHECK([locate -d db --regexp '\@{:@' 2> err], 1)
 AT_CHECK([sed "s/': .*/': /" < err], ,
-[locate: invalid regexp `\(': @&t@
+[locate: invalid regexp `\@{:@': @&t@
 ])
 
 AT_CLEANUP
@@ -557,9 +557,9 @@ d/fOo
 d/foo
 ])
 
-AT_CHECK([locate -d db --regex '(' 2> err], 1)
+AT_CHECK([locate -d db --regex '@{:@' 2> err], 1)
 AT_CHECK([sed "s/': .*/': /" < err], ,
-[locate: invalid regexp `(': @&t@
+[locate: invalid regexp `@{:@': @&t@
 ])
 
 AT_CLEANUP

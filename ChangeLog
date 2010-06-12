@@ -1,3 +1,8 @@
+2010-06-12  Miloslav Trmač  <mitr@redhat.com>
+
+	* tests/locate.at (locate: -r, locate: --regex): Replace `(' by a
+	quadrigraph to avoid m4 quoting problems.
+
 2010-05-25  Christian Faulhammer  <fauli@gentoo.org>
 
 	* po/de.po: Misc. fixes and updates.
