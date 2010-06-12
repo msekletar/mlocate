@@ -95,6 +95,7 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure.ac
 	  echo 'm4_define([AT_PACKAGE_VERSION],   [@PACKAGE_VERSION@])';   \
 	  echo 'm4_define([AT_PACKAGE_STRING],    [@PACKAGE_STRING@])';	   \
 	  echo 'm4_define([AT_PACKAGE_BUGREPORT], [@PACKAGE_BUGREPORT@])'; \
+	  echo 'm4_define([AT_PACKAGE_URL],       [@PACKAGE_URL@])';	   \
 	} >$(top_srcdir)/tests/package.m4
 
 $(top_srcdir)/tests/testsuite: tests/package.m4 tests/testsuite.at $(TESTFILES)

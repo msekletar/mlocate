@@ -1,5 +1,8 @@
 2010-06-12  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Define PACKAGE_URL.
+	* Makefile.am (tests/package.m4): Define AT_PACKAGE_URL.
+
 	* tests/locate.at (locate: -r, locate: --regex): Replace `(' by a
 	quadrigraph to avoid m4 quoting problems.
 
