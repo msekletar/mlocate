@@ -1,3 +1,14 @@
+Changes in version 0.23:
+- Don't prune no-op bind mounts (mounting a directory over itself)
+- New or updated translations:
+  - Arabic by Amjad Saad <moltaheb@hotmail.com> and Munzir Taha (منذر طه)
+    <munzirtaha@gmail.com>
+  - Bosnian by Nikola Pajtić <salgeras@gmail.com>, Miloš Komarčević
+    <kmilos@gmail.com> and Edmon Begoli <ebegoli@fedoraproject.org>
+  - German by Christian Faulhammer <fauli@gentoo.org>
+  - Persian by Mostafa <info@mostafadaneshvar.com>
+  - Dutch by Geert Warrink <geert.warrink@onsnet.nu>
+
 Changes in version 0.22.4:
 - New or updated translations:
   - Hungarian by Peter Bojtos <ptr@ulx.hu>

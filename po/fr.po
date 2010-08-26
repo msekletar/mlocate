@@ -11,10 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-26 13:29+0100\n"
+"POT-Creation-Date: 2010-08-26 22:01+0200\n"
 "PO-Revision-Date: 2009-04-15 22:53+0200\n"
 "Last-Translator: Charles-Antoine Couret <cacouret@wanadoo.fr>\n"
 "Language-Team: French <fedora-trans-fr@redhat.com>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +30,7 @@ msgstr "avertissement : dépassement du nombre de lignes"
 msgid "missing closing `\"'"
 msgstr "« \" » fermant manquant"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
 #, c-format
 msgid "can not open `%s'"
 msgstr "impossible d'ouvrir « %s »"
@@ -322,65 +323,65 @@ msgstr "impossible d'abandonner les privilèges"
 msgid "can not read two databases from standard input"
 msgstr "impossible de lire deux bases de données à partir de l'entrée standard"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "impossible de lancer la commande stat () pour « %s »"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1120
 msgid "I/O error while writing to standard output"
 msgstr "erreur d'E/S lors de l'écriture vers la sortie standard"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: src/updatedb.c:682 src/updatedb.c:780
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "la longueur du nom de fichier %zu est trop grande"
 
-#: src/updatedb.c:996
+#: src/updatedb.c:1002
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "impossible d'ouvrir un fichier temporaire pour « %s »"
 
-#: src/updatedb.c:1009
+#: src/updatedb.c:1015
 msgid "configuration is too large"
 msgstr "la configuration est trop grande"
 
-#: src/updatedb.c:1030
+#: src/updatedb.c:1036
 #, c-format
 msgid "can not find group `%s'"
 msgstr "impossible de trouver le groupe « %s »"
 
-#: src/updatedb.c:1033
+#: src/updatedb.c:1039
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "impossible de modifier le groupe du fichier de « %s » en « %s »"
 
-#: src/updatedb.c:1047
+#: src/updatedb.c:1053
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "impossible de modifier les permissions du fichier « %s »"
 
-#: src/updatedb.c:1077
+#: src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "« %s » est verrouillé (probablement par un updatedb précédemment)"
 
-#: src/updatedb.c:1080
+#: src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "impossible de verrouiller « %s »"
 
-#: src/updatedb.c:1087
+#: src/updatedb.c:1093
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "impossible de changer le répertoire pour « %s »"
 
-#: src/updatedb.c:1096
+#: src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "erreur d'E/S lors de l'écriture de « %s »"
 
-#: src/updatedb.c:1100
+#: src/updatedb.c:1106
 #, c-format
 msgid "error replacing `%s'"
 msgstr "erreur lors du remplacement de « %s »"

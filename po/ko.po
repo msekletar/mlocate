@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-26 13:29+0100\n"
+"POT-Creation-Date: 2010-08-26 22:01+0200\n"
 "PO-Revision-Date: 2009-12-11 17:16+1000\n"
 "Last-Translator: Eunju Kim <eukim@redhat.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +26,7 @@ msgstr "경고: 줄 번호가 초과되어 있습니다   "
 msgid "missing closing `\"'"
 msgstr "`\"' 종료 중 부재  "
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s'을(를) 열 수 없음  "
@@ -303,65 +304,65 @@ msgstr "권한을 삭제할 수 없습니다  "
 msgid "can not read two databases from standard input"
 msgstr "표준 입력에서 두 개의 데이터베이스를 읽을 수 없습니다  "
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "stat () `%s' 할 수 없습니다 "
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1120
 msgid "I/O error while writing to standard output"
 msgstr "표준 출력에 쓰기 도중 I/O 오류 발생  "
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: src/updatedb.c:682 src/updatedb.c:780
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "파일 이름의 길이 %zu이(가) 너무 큽니다   "
 
-#: src/updatedb.c:996
+#: src/updatedb.c:1002
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "`%s'에 대한 임시 파일을 열 수 없습니다  "
 
-#: src/updatedb.c:1009
+#: src/updatedb.c:1015
 msgid "configuration is too large"
 msgstr "설정 사항이 너무 큽니다  "
 
-#: src/updatedb.c:1030
+#: src/updatedb.c:1036
 #, c-format
 msgid "can not find group `%s'"
 msgstr "`%s' 그룹을 찾을 수 없습니다  "
 
-#: src/updatedb.c:1033
+#: src/updatedb.c:1039
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "`%s' 파일의 그룹을 `%s'로 변경할 수 없습니다  "
 
-#: src/updatedb.c:1047
+#: src/updatedb.c:1053
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "`%s' 파일 권한을 변경할 수 없습니다  "
 
-#: src/updatedb.c:1077
+#: src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s'은(는) 잠겨있습니다 (이전 updatedb를 통해) "
 
-#: src/updatedb.c:1080
+#: src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "`%s'을(를) 잠금할 수 없습니다  "
 
-#: src/updatedb.c:1087
+#: src/updatedb.c:1093
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "디렉토리를 `%s'로 변경할 수 없습니다  "
 
-#: src/updatedb.c:1096
+#: src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "`%s'에 쓰는 도중 I/O 오류 발생  "
 
-#: src/updatedb.c:1100
+#: src/updatedb.c:1106
 #, c-format
 msgid "error replacing `%s'"
 msgstr "`%s' 교체 도중 오류 발생   "

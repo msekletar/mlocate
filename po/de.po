@@ -10,10 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-26 13:29+0100\n"
+"POT-Creation-Date: 2010-08-26 22:01+0200\n"
 "PO-Revision-Date: 2010-04-20 20:16+0200\n"
 "Last-Translator: Christian Faulhammer <fauli@gentoo.org>\n"
 "Language-Team: German <fedora-trans-de@redhat.com>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +29,7 @@ msgstr "Warnung: Zeilen-Nummern-Überlauf"
 msgid "missing closing `\"'"
 msgstr "fehlendes schliessendes `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
 #, c-format
 msgid "can not open `%s'"
 msgstr "kann `%s' nicht öffnen"
@@ -101,14 +102,17 @@ msgstr ""
 "  -f, --add-prunefs FS           lässt Dateisystem FS aus\n"
 "  -n, --add-prunenames NAMEN     lässt NAMEN aus\n"
 "  -e, --add-prunepaths PFADE     lässt PfADE aus\n"
-"  -U, --database-root PATH       das Unterverzeichnis, um die Datenbank zu speichern (Standard \"/\")\n"
+"  -U, --database-root PATH       das Unterverzeichnis, um die Datenbank zu "
+"speichern (Standard \"/\")\n"
 "  -h, --help                     zeigt diese Hilfe\n"
 "  -o, --output FILE              Datenbank FILE wird aktualisiert (Standard\n"
 "                                 `%s')\n"
 "      --prune-bind-mounts FLAG   lässt 'bind mounts' aus (Standard \"no\")\n"
-"      --prunefs FS               lässt Dateisystem FS beim Aktualisieren aus\n"
+"      --prunefs FS               lässt Dateisystem FS beim Aktualisieren "
+"aus\n"
 "      --prunepaths PFADE         lässt PFADE beim Aktualisieren aus\n"
-"  -l, --require-visibility FLAG  überprüft Sichtbarkeit vor Aufnahme in die Datenbank\n"
+"  -l, --require-visibility FLAG  überprüft Sichtbarkeit vor Aufnahme in die "
+"Datenbank\n"
 "                                 (Standard \"yes\")\n"
 "  -v, --verbose                  zeigt Pfade von gefundenen Dateien\n"
 "  -V, --version                  zeigt Versionsinformationen an\n"
@@ -155,7 +159,8 @@ msgstr ""
 "Copyright (C) 2007 Red Hat, Inc. Alle Rechte vorbehalten.\n"
 "Diese Software ist unter GPL v.2. veröffentlicht\n"
 "\n"
-"Dieses Programm wird unter Ausschluss vom Gewährleistung und Garantie bereitgestellt, soweit dies durch Gesetze ermöglicht wird."
+"Dieses Programm wird unter Ausschluss vom Gewährleistung und Garantie "
+"bereitgestellt, soweit dies durch Gesetze ermöglicht wird."
 
 #: src/conf.c:646
 msgid "unexpected operand on command line"
@@ -265,22 +270,30 @@ msgstr ""
 "\n"
 "  -b, --basename         sucht nur im Dateinamen nach dem Muster\n"
 "  -c, --count            zeigt nur die Anzahl der gefundenen Einträge an\n"
-"  -d, --database DBPFAD  benutzt DBPFAD anstatt der Standard-Datenbank (die da wäre\n"
+"  -d, --database DBPFAD  benutzt DBPFAD anstatt der Standard-Datenbank (die "
+"da wäre\n"
 "                         %s)\n"
 "  -e, --existing         zeigt nur Einträge von jetzt existierenden Dateien\n"
-"  -L, --follow           folgt symbolischen Links, wenn Dateiexistenz überprüft wird\n"
+"  -L, --follow           folgt symbolischen Links, wenn Dateiexistenz "
+"überprüft wird\n"
 "                         (Standard)\n"
 "  -h, --help             zeige diese Hilfe\n"
-"  -i, --ignore-case      ignoriert Gross-, Kleinschreibung bei der Suche nach Einträgen\n"
+"  -i, --ignore-case      ignoriert Gross-, Kleinschreibung bei der Suche "
+"nach Einträgen\n"
 "  -l, --limit, -n LIMIT  zeigt nur LIMIT Einträge an\n"
 "  -m, --mmap             ignoriert, nur für Abwärtskompatibilität\n"
-"  -P, --nofollow, -H     folgt nicht den symbolischen Links, wenn Dateiexistenz überprüft wird\n"
+"  -P, --nofollow, -H     folgt nicht den symbolischen Links, wenn "
+"Dateiexistenz überprüft wird\n"
 "  -0, --null             trennt Einträge mit ASCII NUL in der Ausgabe\n"
-"  -S, --statistics       sucht nicht nach Einträgen, zeigt Statistiken über jede\n"
+"  -S, --statistics       sucht nicht nach Einträgen, zeigt Statistiken über "
+"jede\n"
 "                         benutzte Datenbank an\n"
-"  -q, --quiet            zeigt keine Fehlermeldungen beim Lesen der Datenbank an\n"
-"  -r, --regexp REGEXP    sucht nach dem regulären Ausdruck anstatt der Zeichenfolge\n"
-"      --regex            die Zeichenfolge ist ein erweiterter regulärer Ausdruck\n"
+"  -q, --quiet            zeigt keine Fehlermeldungen beim Lesen der "
+"Datenbank an\n"
+"  -r, --regexp REGEXP    sucht nach dem regulären Ausdruck anstatt der "
+"Zeichenfolge\n"
+"      --regex            die Zeichenfolge ist ein erweiterter regulärer "
+"Ausdruck\n"
 "  -s, --stdio            ignoriert, nur für Abwärtskompatibilität\n"
 "  -V, --version          zeigt Versionsinformationen\n"
 "  -w, --wholename        sucht im ganzen Pfad-Namen (Standard)\n"
@@ -307,65 +320,65 @@ msgstr "kann Zugriffsrechte nicht abgeben"
 msgid "can not read two databases from standard input"
 msgstr "kann nicht zwei Datenbanken von der Standard-Eingabe lesen"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "kann stat () `%s' nicht durchführen"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1120
 msgid "I/O error while writing to standard output"
 msgstr "E/A-Fehler während des Schreibens auf Standard-Ausgabe"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: src/updatedb.c:682 src/updatedb.c:780
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "Dateinamen-Länge %zu ist zu lange"
 
-#: src/updatedb.c:996
+#: src/updatedb.c:1002
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "kann temporäre Datei für `%s' nicht öffnen"
 
-#: src/updatedb.c:1009
+#: src/updatedb.c:1015
 msgid "configuration is too large"
 msgstr "Konfiguration ist zu lang"
 
-#: src/updatedb.c:1030
+#: src/updatedb.c:1036
 #, c-format
 msgid "can not find group `%s'"
 msgstr "kann Gruppe `%s' nicht finden"
 
-#: src/updatedb.c:1033
+#: src/updatedb.c:1039
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "kann Dateigruppe von `%s' zu `%s' nicht ändern"
 
-#: src/updatedb.c:1047
+#: src/updatedb.c:1053
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "kann Berechtigungen von Datei `%s' nicht ändern"
 
-#: src/updatedb.c:1077
+#: src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' ist blockiert (wahrscheinlich durch ein früheres updatedb)"
 
-#: src/updatedb.c:1080
+#: src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "kann `%s' nicht blockieren"
 
-#: src/updatedb.c:1087
+#: src/updatedb.c:1093
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "kann Verzeichnis nicht auf `%s' ändern"
 
-#: src/updatedb.c:1096
+#: src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "E/A-Fehler während des Schreibens auf `%s'"
 
-#: src/updatedb.c:1100
+#: src/updatedb.c:1106
 #, c-format
 msgid "error replacing `%s'"
 msgstr "Fehler beim Ersetzen von `%s'"

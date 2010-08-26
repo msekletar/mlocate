@@ -1,3 +1,9 @@
+2010-08-26  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Release version 0.23.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
 2010-06-12  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Define PACKAGE_URL.

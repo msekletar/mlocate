@@ -8,15 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-26 13:29+0100\n"
+"POT-Creation-Date: 2010-08-26 22:01+0200\n"
 "PO-Revision-Date: 2008-10-13 21:33+0100\n"
 "Last-Translator: Miloš Komarčević <kmilos@gmail.com>\n"
 "Language-Team: Serbian (sr) <fedora-trans-sr@redhat.com>\n"
+"Language: sr@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -26,7 +27,7 @@ msgstr "upozorenje: prekoračen broj linija"
 msgid "missing closing `\"'"
 msgstr "nedostaje završno „\"“"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
 #, c-format
 msgid "can not open `%s'"
 msgstr "ne mogu da otvorim „%s“"
@@ -328,65 +329,65 @@ msgstr "ne mogu da uklonim privilegije"
 msgid "can not read two databases from standard input"
 msgstr "ne mogu da pročitam dve baze podataka sa standardnog ulaza"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "ne mogu da izvršim funkciju stat () nad „%s“"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1120
 msgid "I/O error while writing to standard output"
 msgstr "U/I greška pri čitanju sa standardnog izlaza"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: src/updatedb.c:682 src/updatedb.c:780
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "dužina %zu naziva datoteke je prevelika"
 
-#: src/updatedb.c:996
+#: src/updatedb.c:1002
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "ne mogu da otvorim privremenu datoteku za „%s“"
 
-#: src/updatedb.c:1009
+#: src/updatedb.c:1015
 msgid "configuration is too large"
 msgstr "podešavanje je preveliko"
 
-#: src/updatedb.c:1030
+#: src/updatedb.c:1036
 #, c-format
 msgid "can not find group `%s'"
 msgstr "ne mogu da pronađem grupu „%s“"
 
-#: src/updatedb.c:1033
+#: src/updatedb.c:1039
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "ne mogu da promenim grupu datoteke „%s“ u „%s“"
 
-#: src/updatedb.c:1047
+#: src/updatedb.c:1053
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "ne mogu da promenim dozvole datoteke „%s“"
 
-#: src/updatedb.c:1077
+#: src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "„%s“ je zaključana (verovatno ranijom updatedb radnjom)"
 
-#: src/updatedb.c:1080
+#: src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "ne mogu da zaključam „%s“"
 
-#: src/updatedb.c:1087
+#: src/updatedb.c:1093
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "ne mogu da promenim direktorijum na „%s“"
 
-#: src/updatedb.c:1096
+#: src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "U/I greška pri pisanju u „%s“"
 
-#: src/updatedb.c:1100
+#: src/updatedb.c:1106
 #, c-format
 msgid "error replacing `%s'"
 msgstr "greška pri zameni „%s“"

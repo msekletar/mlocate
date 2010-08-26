@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MLOCATE 1.0\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-03-26 13:29+0100\n"
+"POT-Creation-Date: 2010-08-26 22:01+0200\n"
 "PO-Revision-Date: 2010-03-15 02:42+0100\n"
 "Last-Translator: Peter Bojtos <ptr@ulx.hu>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +26,7 @@ msgstr "hiba: Sorszám túlcsordulás"
 msgid "missing closing `\"'"
 msgstr "hiányzó bezáró „\"”"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1002
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
 #, c-format
 msgid "can not open `%s'"
 msgstr "„%s” nem nyitható meg"
@@ -313,65 +314,65 @@ msgstr "nem eldobható jogosultságok"
 msgid "can not read two databases from standard input"
 msgstr "nem olvasható két adatbázis a standard inputról"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1090
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nem lehet stat() '%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1114
+#: src/locate.c:1034 src/updatedb.c:1120
 msgid "I/O error while writing to standard output"
 msgstr "I/O hiba a standard kimenetre írás közben"
 
-#: src/updatedb.c:676 src/updatedb.c:774
+#: src/updatedb.c:682 src/updatedb.c:780
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "fájlnév túl hosszú:  %zu"
 
-#: src/updatedb.c:996
+#: src/updatedb.c:1002
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nem lehet ideiglenes fájlt nyitni „%s”-nek"
 
-#: src/updatedb.c:1009
+#: src/updatedb.c:1015
 msgid "configuration is too large"
 msgstr "a konfiguráció túl nagy"
 
-#: src/updatedb.c:1030
+#: src/updatedb.c:1036
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nem található csoport „%s”"
 
-#: src/updatedb.c:1033
+#: src/updatedb.c:1039
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "nem lehet megváltoztatni a file csoportját `%s'-ról `%s'-re"
 
-#: src/updatedb.c:1047
+#: src/updatedb.c:1053
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nem lehet megváltoztatni a(z) „%s” file jogosultságait"
 
-#: src/updatedb.c:1077
+#: src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "„%s” zárolás alatt (valószínűleg egy korábbi updatedb miatt)"
 
-#: src/updatedb.c:1080
+#: src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "„%s” nem zárolható"
 
-#: src/updatedb.c:1087
+#: src/updatedb.c:1093
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "a(z) `%s' könyvtárba lépés sikertelen"
 
-#: src/updatedb.c:1096
+#: src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "I/O hiba  „%s” írása közben"
 
-#: src/updatedb.c:1100
+#: src/updatedb.c:1106
 #, c-format
 msgid "error replacing `%s'"
 msgstr "hiba „%s” cseréjekor"
