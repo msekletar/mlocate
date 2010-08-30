@@ -17,19 +17,6 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/conf.c:380
-msgid "value in quotes expected after `='"
-msgstr ""
-
-#: ../src/conf.c:388
-#, c-format
-msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
-msgstr ""
-
-#: ../src/conf.c:405
-msgid "unexpected data after variable value"
-msgstr ""
-
 #: ../src/conf.c:419 ../src/lib.c:244
 #, c-format
 msgid "I/O error reading `%s'"
@@ -59,34 +46,6 @@ msgid ""
 "\n"
 "The configuration defaults to values read from\n"
 "`%s'.\n"
-msgstr ""
-
-#: ../src/conf.c:464 ../src/locate.c:642
-#, c-format
-msgid ""
-"\n"
-"Report bugs to %s.\n"
-msgstr ""
-
-#: ../src/conf.c:482
-msgid "can not get current working directory"
-msgstr ""
-
-#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
-#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
-#: ../src/locate.c:790
-#, c-format
-msgid "--%s would override earlier command-line argument"
-msgstr ""
-
-#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
-#, c-format
-msgid "invalid value `%s' of --%s"
-msgstr ""
-
-#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
-#, c-format
-msgid "--%s specified twice"
 msgstr ""
 
 #: ../src/conf.c:590 ../src/locate.c:722
@@ -320,3 +279,49 @@ msgstr "δεν μπορεί να βρεθεί η ομάδα `%s'"
 #, c-format, fuzzy
 msgid "can not change permissions of file `%s'"
 msgstr "δεν μπορούν να αλλάξουν τα δικαιώματα του αρχείου `%s'"
+
+#: ../src/conf.c:380
+#, fuzzy
+msgid "value in quotes expected after `='"
+msgstr "Αναμενόταν τιμή σε εισαγωγικά μετά το `='"
+
+#: ../src/conf.c:405
+#, fuzzy
+msgid "unexpected data after variable value"
+msgstr "μη αναμενόμενα δεδομένα μετά την τιμή της μεταβλητής"
+
+#: ../src/conf.c:388
+#, c-format, fuzzy
+msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
+msgstr "εσφαλμένη τιμή `%s' του PRUNE_BIND_MOUNTS"
+
+#: ../src/conf.c:482
+#, fuzzy
+msgid "can not get current working directory"
+msgstr "δεν μπορεί να βρεθεί ο τρέχων κατάλογος εργασίας"
+
+#: ../src/conf.c:464 ../src/locate.c:642
+#, c-format, fuzzy
+msgid ""
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
+"\n"
+"Αναφέρετε σφάλματα στο %s.\n"
+
+#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
+#, c-format, fuzzy
+msgid "invalid value `%s' of --%s"
+msgstr "λανθασμένη τιμή `%s' του --%s"
+
+#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
+#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
+#: ../src/locate.c:790
+#, c-format, fuzzy
+msgid "--%s would override earlier command-line argument"
+msgstr "--%s θα προσπεράσει προηγούμενο όρισμα της γραμμής εντολών"
+
+#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
+#, c-format, fuzzy
+msgid "--%s specified twice"
+msgstr "--%s ορισμένο διπλή φορά"
