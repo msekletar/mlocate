@@ -17,11 +17,6 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/conf.c:419 ../src/lib.c:244
-#, c-format
-msgid "I/O error reading `%s'"
-msgstr ""
-
 #: ../src/conf.c:437
 #, c-format
 msgid ""
@@ -54,25 +49,6 @@ msgid ""
 "This software is distributed under the GPL v.2.\n"
 "\n"
 "This program is provided with NO WARRANTY, to the extent permitted by law."
-msgstr ""
-
-#: ../src/conf.c:646
-msgid "unexpected operand on command line"
-msgstr ""
-
-#: ../src/lib.c:177
-#, c-format
-msgid "`%s' does not seem to be a mlocate database"
-msgstr ""
-
-#: ../src/lib.c:184
-#, c-format
-msgid "`%s' has unknown version %u"
-msgstr ""
-
-#: ../src/lib.c:191
-#, c-format
-msgid "`%s' has unknown visibility flag %u"
 msgstr ""
 
 #: ../src/lib.c:246
@@ -119,11 +95,6 @@ msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] ""
 msgstr[1] ""
-
-#: ../src/locate.c:473
-#, c-format
-msgid "invalid empty directory name in `%s'"
-msgstr ""
 
 #: ../src/locate.c:500
 #, c-format
@@ -178,17 +149,9 @@ msgstr ""
 msgid "can not drop privileges"
 msgstr ""
 
-#: ../src/locate.c:947
-msgid "can not read two databases from standard input"
-msgstr ""
-
 #: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1096
 #, c-format
 msgid "can not stat () `%s'"
-msgstr ""
-
-#: ../src/locate.c:1034 ../src/updatedb.c:1120
-msgid "I/O error while writing to standard output"
 msgstr ""
 
 #: ../src/updatedb.c:682 ../src/updatedb.c:780
@@ -325,3 +288,43 @@ msgstr "--%s θα προσπεράσει προηγούμενο όρισμα τ�
 #, c-format, fuzzy
 msgid "--%s specified twice"
 msgstr "--%s ορισμένο διπλή φορά"
+
+#: ../src/conf.c:419 ../src/lib.c:244
+#, c-format, fuzzy
+msgid "I/O error reading `%s'"
+msgstr "σφάλμα εισόδου/εξόδου στο διάβασμα του `%s'"
+
+#: ../src/lib.c:177
+#, c-format, fuzzy
+msgid "`%s' does not seem to be a mlocate database"
+msgstr "`%s' δεν φαίνεται να είναι mlocate βάση δεδομένων"
+
+#: ../src/conf.c:646
+#, fuzzy
+msgid "unexpected operand on command line"
+msgstr "μη αναμενόμενος τελεστής στην γραμμή εντολών"
+
+#: ../src/lib.c:191
+#, c-format, fuzzy
+msgid "`%s' has unknown visibility flag %u"
+msgstr "`%s' έχει άγνωστη σημαία ορατότητας %u"
+
+#: ../src/lib.c:184
+#, c-format, fuzzy
+msgid "`%s' has unknown version %u"
+msgstr "`%s' έχει άγνωστη έκδοση %u"
+
+#: ../src/locate.c:473
+#, c-format, fuzzy
+msgid "invalid empty directory name in `%s'"
+msgstr "λανθασμένο όνομα άδειου καταλόγου μέσα στο `%s'"
+
+#: ../src/locate.c:1034 ../src/updatedb.c:1120
+#, fuzzy
+msgid "I/O error while writing to standard output"
+msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στην προκαθορισμένη έξοδο"
+
+#: ../src/locate.c:947
+#, fuzzy
+msgid "can not read two databases from standard input"
+msgstr "δεν μπορεί να διαβάσει δύο βάσεις δεδομένων από την προκαθορισμένη είσοδο"
