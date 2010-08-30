@@ -246,21 +246,6 @@ msgstr ""
 msgid "configuration is too large"
 msgstr ""
 
-#: ../src/updatedb.c:1036
-#, c-format
-msgid "can not find group `%s'"
-msgstr ""
-
-#: ../src/updatedb.c:1039
-#, c-format
-msgid "can not change group of file `%s' to `%s'"
-msgstr ""
-
-#: ../src/updatedb.c:1053
-#, c-format
-msgid "can not change permissions of file `%s'"
-msgstr ""
-
 #: ../src/updatedb.c:1083
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
@@ -271,19 +256,9 @@ msgstr ""
 msgid "can not lock `%s'"
 msgstr "αδυναμία κλειδώματος του `%s'"
 
-#: ../src/updatedb.c:1093
-#, c-format
-msgid "can not change directory to `%s'"
-msgstr ""
-
 #: ../src/updatedb.c:1102
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr ""
-
-#: ../src/updatedb.c:1106
-#, c-format
-msgid "error replacing `%s'"
 msgstr ""
 
 #: ../src/conf.c:241
@@ -320,3 +295,28 @@ msgstr "Αναμενόταν `=' μετά το όνομα της μεταβλη�
 #, c-format, fuzzy
 msgid "variable `%s' was already defined"
 msgstr "Η μεταβλητή `%s' ήταν ήδη ορισμένη"
+
+#: ../src/updatedb.c:1106
+#, c-format, fuzzy
+msgid "error replacing `%s'"
+msgstr "σφάλμα κατά την αντικατάσταση του `%s'"
+
+#: ../src/updatedb.c:1093
+#, c-format, fuzzy
+msgid "can not change directory to `%s'"
+msgstr "δεν μπορεί να αλλάξει ο κατάλογος σε `%s'"
+
+#: ../src/updatedb.c:1039
+#, c-format, fuzzy
+msgid "can not change group of file `%s' to `%s'"
+msgstr "δεν μπορεί να αλλάξει η ομάδα του αρχείου `%s' σε `%s'"
+
+#: ../src/updatedb.c:1036
+#, c-format, fuzzy
+msgid "can not find group `%s'"
+msgstr "δεν μπορεί να βρεθεί η ομάδα `%s'"
+
+#: ../src/updatedb.c:1053
+#, c-format, fuzzy
+msgid "can not change permissions of file `%s'"
+msgstr "δεν μπορούν να αλλάξουν τα δικαιώματα του αρχείου `%s'"
