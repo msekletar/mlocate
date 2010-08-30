@@ -51,21 +51,6 @@ msgid ""
 "This program is provided with NO WARRANTY, to the extent permitted by law."
 msgstr ""
 
-#: ../src/lib.c:246
-#, c-format
-msgid "unexpected EOF reading `%s'"
-msgstr ""
-
-#: ../src/lib.c:341
-#, c-format
-msgid "I/O error seeking in `%s'"
-msgstr ""
-
-#: ../src/locate.c:335
-#, c-format
-msgid "Database %s:\n"
-msgstr ""
-
 #. The third argument of ngettext () is unsigned long; it is still better
 #. to have invalid grammar than truncated numbers.
 #: ../src/locate.c:338
@@ -95,11 +80,6 @@ msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] ""
 msgstr[1] ""
-
-#: ../src/locate.c:500
-#, c-format
-msgid "file name length %zu in `%s' is too large"
-msgstr ""
 
 #: ../src/locate.c:607
 #, c-format
@@ -154,34 +134,10 @@ msgstr ""
 msgid "can not stat () `%s'"
 msgstr ""
 
-#: ../src/updatedb.c:682 ../src/updatedb.c:780
-#, c-format
-msgid "file name length %zu is too large"
-msgstr ""
-
-#: ../src/updatedb.c:1002
-#, c-format
-msgid "can not open a temporary file for `%s'"
-msgstr ""
-
-#: ../src/updatedb.c:1015
-msgid "configuration is too large"
-msgstr ""
-
-#: ../src/updatedb.c:1083
-#, c-format
-msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
-
 #: ../src/updatedb.c:1086
 #, c-format
 msgid "can not lock `%s'"
 msgstr "αδυναμία κλειδώματος του `%s'"
-
-#: ../src/updatedb.c:1102
-#, c-format
-msgid "I/O error while writing to `%s'"
-msgstr ""
 
 #: ../src/conf.c:241
 #, fuzzy
@@ -328,3 +284,48 @@ msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή 
 #, fuzzy
 msgid "can not read two databases from standard input"
 msgstr "δεν μπορεί να διαβάσει δύο βάσεις δεδομένων από την προκαθορισμένη είσοδο"
+
+#: ../src/lib.c:246
+#, c-format, fuzzy
+msgid "unexpected EOF reading `%s'"
+msgstr "μη αναμενόμενο διάβασμα τέλους αρχείου από το `%s'"
+
+#: ../src/locate.c:335
+#, c-format, fuzzy
+msgid "Database %s:\n"
+msgstr "Βάση δεδομένων %s:\n"
+
+#: ../src/lib.c:341
+#, c-format
+msgid "I/O error seeking in `%s'"
+msgstr "σφάλμα εισόδου/εξόδου κατά την αναζήτηση μέσα στο `%s'"
+
+#: ../src/updatedb.c:1015
+#, fuzzy
+msgid "configuration is too large"
+msgstr "η ρύθμιση είναι πολύ μεγάλη"
+
+#: ../src/updatedb.c:1002
+#, c-format, fuzzy
+msgid "can not open a temporary file for `%s'"
+msgstr "δεν μπορεί να ανοιχτεί προσωρινό αρχείο για το `%s'"
+
+#: ../src/locate.c:500
+#, c-format, fuzzy
+msgid "file name length %zu in `%s' is too large"
+msgstr "το μήκος του ονόματος του αρχείου %zu στο `%s' είναι πολύ μεγάλο"
+
+#: ../src/updatedb.c:682 ../src/updatedb.c:780
+#, c-format, fuzzy
+msgid "file name length %zu is too large"
+msgstr "το μήκος του ονόματος του αρχείου %zu είναι πολύ μεγάλο"
+
+#: ../src/updatedb.c:1083
+#, c-format, fuzzy
+msgid "`%s' is locked (probably by an earlier updatedb)"
+msgstr "`%s' είναι κλειδωμένο(πιθανόν από προηγούμενο updatedb)"
+
+#: ../src/updatedb.c:1102
+#, c-format, fuzzy
+msgid "I/O error while writing to `%s'"
+msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στο `%s'"
