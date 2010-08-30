@@ -1,0 +1,8 @@
+To set up a build environment from this repository, run:
+	mkdir $gldir; cd $gldir
+	git clone git://git.savannah.gnu.org/gnulib.git
+	git checkout 5861339993f3014cfad1b94fc7fe366fc2573598
+	cd $mlocate_dir
+	$gldir/gnulib/gnulib-tool --import
+	hg revert --all
+	autoreconf -is
