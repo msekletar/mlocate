@@ -1,0 +1,353 @@
+# mlocate Chinese(Traditional) translation.
+# Copyright (C) 2010 The mlocate Project (msgids)
+# This file is distributed under the same license as the mlocate package.
+# Chai Zhenhua <watter1985@163.com>, 2009.
+# Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mlocate 0.23\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
+"POT-Creation-Date: 2010-09-12 01:55+0000\n"
+"PO-Revision-Date: 2010-09-12 23:22+0800\n"
+"Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../src/conf.c:241
+msgid "warning: Line number overflow"
+msgstr "警告:列數溢出"
+
+#: ../src/conf.c:259
+msgid "missing closing `\"'"
+msgstr "缺少匹配的「\"」"
+
+#: ../src/conf.c:309 ../src/locate.c:968 ../src/updatedb.c:1008
+#, c-format
+msgid "can not open `%s'"
+msgstr "無法開啟「%s」"
+
+#: ../src/conf.c:353
+#, c-format
+msgid "unknown variable `%s'"
+msgstr "不明的變數「%s」"
+
+#: ../src/conf.c:358
+msgid "variable name expected"
+msgstr "需要一個變數名稱"
+
+#: ../src/conf.c:364
+#, c-format
+msgid "variable `%s' was already defined"
+msgstr "變數「%s」已被定義"
+
+#: ../src/conf.c:373
+msgid "`=' expected after variable name"
+msgstr "變數名稱之後需要一個「=」"
+
+#: ../src/conf.c:380
+msgid "value in quotes expected after `='"
+msgstr "「=」之後需要引號內的值"
+
+#: ../src/conf.c:388
+#, c-format
+msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
+msgstr "PRUNE_BIND_MOUNTS 之後的值「%s」無效"
+
+#: ../src/conf.c:405
+msgid "unexpected data after variable value"
+msgstr "變數值之後有未預期的資料"
+
+#: ../src/conf.c:419 ../src/lib.c:244
+#, c-format
+msgid "I/O error reading `%s'"
+msgstr "I/O 讀取錯誤「%s」"
+
+#: ../src/conf.c:437
+#, c-format
+msgid ""
+"Usage: updatedb [OPTION]...\n"
+"Update a mlocate database.\n\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -n, --add-prunenames NAMES     omit also NAMES\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
+"  -U, --database-root PATH       the subtree to store in database (default \"/\")\n"
+"  -h, --help                     print this help\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"      --prunenames NAMES         directory names to omit from database\n"
+"      --prunepaths PATHS         paths to omit from database\n"
+"  -l, --require-visibility FLAG  check visibility before reporting files\n"
+"                                 (default \"yes\")\n"
+"  -v, --verbose                  print paths of files as they are found\n"
+"  -V, --version                  print version information\n\n"
+"The configuration defaults to values read from\n"
+"`%s'.\n"
+msgstr ""
+"用法: updatedb [選項]…\n"
+"更新 mlocate 資料庫。\n\n"
+"  -f, --add-prunefs FS           也忽略 FS\n"
+"  -n, --add-prunenames NAMES     也忽略 NAMES\n"
+"  -e, --add-prunepaths PATHS     也忽略 PATHS\n"
+"  -U, --database-root PATH       向資料庫中儲存的子樹 (預設 \"/\")\n"
+"  -h, --help                     顯示這份說明\n"
+"  -o, --output FILE              要升級的資料庫 (預設\n"
+"                                 「%s」)\n"
+"      --prune-bind-mounts FLAG   忽略繫結載入 (預設 \"no\")\n"
+"      --prunefs FS               從資料庫中忽略的檔案系統\n"
+"      --prunenames NAMES         從資料庫中忽略的目錄名稱\n"
+"      --prunepaths PATHS         從資料庫中忽略的路徑\n"
+"  -l, --require-visibility FLAG  在報告檔案之前檢查可見性\n"
+"                                 (預設 \"yes\")\n"
+"  -v, --verbose                  當檔案被找到時顯示其路徑\n"
+"  -V, --version                  顯示版本資訊\n"
+"配置預設為從檔案「%s」讀取的值。\n"
+
+#: ../src/conf.c:464 ../src/locate.c:642
+#, c-format
+msgid ""
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
+"\n"
+"將程式錯誤報告給 %s。\n"
+
+#: ../src/conf.c:482
+msgid "can not get current working directory"
+msgstr "無法得到目前的工作目錄"
+
+#: ../src/conf.c:540 ../src/conf.c:551 ../src/conf.c:561 ../src/conf.c:571
+#: ../src/locate.c:697 ../src/locate.c:706 ../src/locate.c:732
+#: ../src/locate.c:790
+#, c-format
+msgid "--%s would override earlier command-line argument"
+msgstr "--%s 將覆寫先前的命令列參數"
+
+#: ../src/conf.c:544 ../src/conf.c:584 ../src/conf.c:617 ../src/locate.c:769
+#, c-format
+msgid "invalid value `%s' of --%s"
+msgstr "%s 有無效的值「%s」"
+
+#: ../src/conf.c:580 ../src/conf.c:613 ../src/conf.c:628 ../src/locate.c:763
+#, c-format
+msgid "--%s specified twice"
+msgstr "--%s 被指定兩次"
+
+#: ../src/conf.c:590 ../src/locate.c:722
+msgid ""
+"Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+"This software is distributed under the GPL v.2.\n\n"
+"This program is provided with NO WARRANTY, to the extent permitted by law."
+msgstr ""
+"著作權 (C) 2007 Red Hat, Inc。保留所有權利。\n"
+"本軟體在 GPL v.2 下發布。\n\n"
+"本程式不提供任何擔保，在法律允許的範圍內予以排除。"
+
+#: ../src/conf.c:646
+msgid "unexpected operand on command line"
+msgstr "命令列包含未預期的作業物件"
+
+#: ../src/lib.c:177
+#, c-format
+msgid "`%s' does not seem to be a mlocate database"
+msgstr "「%s」不是一個 mlocate 資料庫"
+
+#: ../src/lib.c:184
+#, c-format
+msgid "`%s' has unknown version %u"
+msgstr "「%s」具有不明的版本 %u"
+
+#: ../src/lib.c:191
+#, c-format
+msgid "`%s' has unknown visibility flag %u"
+msgstr "「%s」有不明的可視性旗標 %u"
+
+#: ../src/lib.c:246
+#, c-format
+msgid "unexpected EOF reading `%s'"
+msgstr "讀取「%s」時，出現未預期的檔案結束"
+
+#: ../src/lib.c:341
+#, c-format
+msgid "I/O error seeking in `%s'"
+msgstr "在「%s」中搜尋時發生 I/O 錯誤"
+
+#: ../src/locate.c:335
+#, c-format
+msgid "Database %s:\n"
+msgstr "資料庫 %s：\n"
+
+#. The third argument of ngettext () is unsigned long; it is still better
+#. to have invalid grammar than truncated numbers.
+#: ../src/locate.c:338
+#, c-format
+msgid "\t%'ju directory\n"
+msgid_plural "\t%'ju directories\n"
+msgstr[0] "\t%'ju 目錄\n"
+
+#: ../src/locate.c:340
+#, c-format
+msgid "\t%'ju file\n"
+msgid_plural "\t%'ju files\n"
+msgstr[0] "\t%'ju 檔案\n"
+
+#: ../src/locate.c:342
+#, c-format
+msgid "\t%'ju byte in file names\n"
+msgid_plural "\t%'ju bytes in file names\n"
+msgstr[0] "\t%'ju 檔案名稱中的位元組數\n"
+
+#: ../src/locate.c:344
+#, c-format
+msgid "\t%'ju byte used to store database\n"
+msgid_plural "\t%'ju bytes used to store database\n"
+msgstr[0] "\t%'ju 位元組用於儲存資料庫\n"
+
+#: ../src/locate.c:473
+#, c-format
+msgid "invalid empty directory name in `%s'"
+msgstr "「%s」中有無效的空目錄名稱"
+
+#: ../src/locate.c:500
+#, c-format
+msgid "file name length %zu in `%s' is too large"
+msgstr "檔案名稱的長度 %zu 在「%s」中過大"
+
+#: ../src/locate.c:607
+#, c-format
+msgid ""
+"Usage: locate [OPTION]... [PATTERN]...\n"
+"Search for entries in a mlocate database.\n\n"
+"  -b, --basename         match only the base name of path names\n"
+"  -c, --count            only print number of found entries\n"
+"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"                         %s)\n"
+"  -e, --existing         only print entries for currently existing files\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
+msgstr ""
+"用法: locate [選項]… [樣式]…\n"
+"在 mlocate 資料庫中搜尋條目。\n\n"
+"  -b，--basename         只匹配路徑中的主檔名\n"
+"  -c，--count            只顯示找到的條目數\n"
+"  -d，--database DBPATH  用 DBPATH 替代預設的資料庫(%s)\n"
+"  -e，--existing         只顯示目前存在檔案的條目\n"
+"  -L，--follow           當檔案存在時跟隨相連的符號連結 (預設)\n"
+"  -h，--help             顯示本說明\n"
+"  -i，--ignore-case      匹配樣式時忽略大小寫區別\n"
+"  -l，--limit，-n LIMIT  限制為 LIMIT 項目的輸出 (或計數) \n"
+"  -m，--mmap             忽略向後相容性\n"
+"  -P，--nofollow，-H     檢查檔案時不跟隨相連的符號連結\n"
+"  -0，--null             輸出時以 NUL 分隔項目\n"
+"  -S，--statistics       不搜尋項目，而是顯示有關每個已用資料庫的統計資訊\n"
+"  -q，--quiet            不報告關於讀取資料庫的錯誤訊息\n"
+"  -r，--regexp REGEXP    搜尋基本正規表示式 REGEXP 來代替樣式\n"
+"      --regex            樣式是擴充的正規表示式\n"
+"  -s，--stdio            忽略，為了向後相容性\n"
+"  -V，--version          顯示版本資訊\n"
+"  -w，--wholename        匹配完整路徑名稱 (預設)\n"
+
+#: ../src/locate.c:806
+#, c-format
+msgid "non-option arguments are not allowed with --%s"
+msgstr "沒有選項的參數不允許與 --%s 一起使用"
+
+#: ../src/locate.c:819
+msgid "no pattern to search for specified"
+msgstr "沒有指定任何搜尋樣式"
+
+#: ../src/locate.c:846
+#, c-format
+msgid "invalid regexp `%s': %s"
+msgstr "無效的正規表示式 `%s': %s"
+
+#: ../src/locate.c:932
+msgid "can not drop privileges"
+msgstr "無法釋放特權"
+
+#: ../src/locate.c:947
+msgid "can not read two databases from standard input"
+msgstr "無法從標準輸入讀取兩個資料庫"
+
+#: ../src/locate.c:959 ../src/locate.c:974 ../src/updatedb.c:1096
+#, c-format
+msgid "can not stat () `%s'"
+msgstr "無法執行 stat()「%s」"
+
+#: ../src/locate.c:1034 ../src/updatedb.c:1120
+msgid "I/O error while writing to standard output"
+msgstr "寫入標準輸出時發生 I/O 錯誤"
+
+#: ../src/updatedb.c:682 ../src/updatedb.c:780
+#, c-format
+msgid "file name length %zu is too large"
+msgstr "檔案名稱 %zu 過長"
+
+#: ../src/updatedb.c:1002
+#, c-format
+msgid "can not open a temporary file for `%s'"
+msgstr "無法為「%s」開啟暫時檔案"
+
+#: ../src/updatedb.c:1015
+msgid "configuration is too large"
+msgstr "配置過大"
+
+#: ../src/updatedb.c:1036
+#, c-format
+msgid "can not find group `%s'"
+msgstr "無法找到群組「%s」"
+
+#: ../src/updatedb.c:1039
+#, c-format
+msgid "can not change group of file `%s' to `%s'"
+msgstr "無法將檔案所在群組「%s」變更為「%s」"
+
+#: ../src/updatedb.c:1053
+#, c-format
+msgid "can not change permissions of file `%s'"
+msgstr "無法變更檔案「%s」的權限"
+
+#: ../src/updatedb.c:1083
+#, c-format
+msgid "`%s' is locked (probably by an earlier updatedb)"
+msgstr "「%s」已被鎖定 (可能是由於先前的 updatedb)"
+
+#: ../src/updatedb.c:1086
+#, c-format
+msgid "can not lock `%s'"
+msgstr "無法鎖定「%s」"
+
+#: ../src/updatedb.c:1093
+#, c-format
+msgid "can not change directory to `%s'"
+msgstr "無法變更目錄到「%s」"
+
+#: ../src/updatedb.c:1102
+#, c-format
+msgid "I/O error while writing to `%s'"
+msgstr "寫入「%s」時發生 I/O 錯誤"
+
+#: ../src/updatedb.c:1106
+#, c-format
+msgid "error replacing `%s'"
+msgstr "替換「%s」時發生錯誤"
