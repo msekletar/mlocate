@@ -1,3 +1,9 @@
+Changes in version 0.23.1:
+- New or updated translations:
+  - Greek by Pierros Papadeas <pierros@papadeas.gr>
+  - Traditional Chinese by Chai Zhenhua <watter1985@163.com> and
+    Wei-Lun Chao <chaoweilun@gmail.com>
+
 Changes in version 0.23:
 - Don't prune no-op bind mounts (mounting a directory over itself)
 - New or updated translations:

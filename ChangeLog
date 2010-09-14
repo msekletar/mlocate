@@ -1,3 +1,9 @@
+2010-09-14  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Release version 0.23.1.
+	* NEWS: Update.
+	* po/LINGUAS: Update.
+
 2010-08-30  Miloslav Trmač  <mitr@redhat.com>
 
 	* HACKING: New file.
