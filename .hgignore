@@ -14,7 +14,6 @@
 ^po/en@boldquot\.header$
 ^po/en@quot\.header$
 ^po/insert-header\.sin$
-^po/mlocate\.pot$
 ^po/quot\.sed$
 ^po/remove-potcdate\.sin$
 ^ABOUT-NLS$

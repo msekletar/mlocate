@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.net
+
+[mlocate.default]
+file_filter = po/<lang>.po
+source_file = po/mlocate.pot
+source_lang = en
+

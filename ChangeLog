@@ -1,3 +1,8 @@
+2011-03-04  Miloslav Trmač  <mitr@redhat.com>
+
+	* .tx/config: New file.
+	* po/libuser.pot: Add to prepare for Transifex.
+
 2011-02-04  John Bradshaw  <john@johnbradshaw.org>
 
 	* doc/locate.1.in: Fix a typo.
