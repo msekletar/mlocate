@@ -1,3 +1,7 @@
+2011-03-10  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/updatedb.8.in: Fix a typo.
+
 2011-03-04  Miloslav Trmač  <mitr@redhat.com>
 
 	* .tx/config: New file.

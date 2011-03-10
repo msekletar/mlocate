@@ -152,7 +152,7 @@ Output path names of files to standard output, as soon as they are found.
 
 .TP
 \fB\-V\fR, \fB\-\-version\fR
-Write information about the version and licence of
+Write information about the version and license of
 .B locate
 on standard output and exit successfully.
 
