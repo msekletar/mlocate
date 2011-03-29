@@ -42,10 +42,10 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "obstack.h"
 #include "progname.h"
 #include "stat-time.h"
-#include "timespec.h"
 #include "verify.h"
 #include "xalloc.h"
 
+#include "bind-mount.h"
 #include "conf.h"
 #include "db.h"
 #include "lib.h"
@@ -311,132 +311,6 @@ old_db_open (void)
  err:
   old_db_is_closed = true;
   return fd;
-}
-
- /* Path list handling */
-
-/* Is PATH included in LIST?  Update *IDX to move within LIST.
-
-   LIST is assumed to be sorted using dir_path_cmp (), successive calls to this
-   function are assumed to use PATH values increasing in dir_path_cmp (). */
-static bool
-path_is_in_list (const struct string_list *list, size_t *idx, const char *path)
-{
-  int cmp;
-
-  cmp = 0;
-  while (*idx < list->len
-	 && (cmp = dir_path_cmp (list->entries[*idx], path)) < 0)
-    (*idx)++;
-  if (*idx < list->len && cmp == 0)
-    {
-      (*idx)++;
-      return true;
-    }
-  return false;
-}
-
- /* $PRUNE_BIND_MOUNTS handling */
-
-/* Known bind mount paths */
-static struct string_list bind_mount_paths; /* = { 0, }; */
-
-/* Next bind_mount_paths entry */
-static size_t bind_mount_paths_index; /* = 0; */
-
-/* _PATH_MOUNTED mtime at the time of last rebuild_bind_mount_paths () call */
-static struct timespec last_path_mounted_mtime; /* = { 0, }; */
-
-static struct obstack bind_mount_paths_obstack;
-static void *bind_mount_paths_mark;
-
-/* Rebuild bind_mount_paths */
-static void
-rebuild_bind_mount_paths (void)
-{
-  FILE *f;
-  struct mntent *me;
-
-  if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
-    fprintf (stderr, "Rebuilding bind_mount_paths:\n");
-  obstack_free (&bind_mount_paths_obstack, bind_mount_paths_mark);
-  bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
-  bind_mount_paths.len = 0;
-  f = setmntent (_PATH_MOUNTED, "r");
-  if (f == NULL)
-    goto err;
-  while ((me = getmntent (f)) != NULL)
-    {
-      if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
-	fprintf (stderr, " `%s' on `%s', opts `%s'\n", me->mnt_fsname,
-		 me->mnt_dir, me->mnt_opts);
-      /* Bind mounts "to self" can be used (e.g. by policycoreutils-sandbox) to
-	 create another mount point to which Linux name space privacy flags can
-	 be attached.  Such a bind mount is not duplicating any part of the
-	 directory tree, so it should not be excluded. */
-      if (hasmntopt (me, "bind") != NULL
-	  && strcmp (me->mnt_fsname, me->mnt_dir) != 0)
-	{
-	  char dbuf[PATH_MAX], *dir;
-
-	  dir = realpath (me->mnt_dir, dbuf);
-	  if (dir == NULL)
-	    dir = me->mnt_dir;
-	  if (conf_debug_pruning != false)
-	    /* This is debuging output, don't mark anything for translation */
-	    fprintf (stderr, " => adding `%s'\n", dir);
-	  dir = obstack_copy (&bind_mount_paths_obstack, dir, strlen (dir) + 1);
-	  string_list_append (&bind_mount_paths, dir);
-	}
-    }
-  endmntent (f);
-  /* Fall through */
- err:
-  if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
-    fprintf (stderr, "...done\n");
-  string_list_dir_path_sort (&bind_mount_paths);
-}
-
-/* Return true if PATH is a destination of a bind mount. */
-static bool
-is_bind_mount (const char *path)
-{
-  struct timespec path_mounted_mtime;
-  struct stat st;
-
-  /* Unfortunately (mount --bind $path $path/subdir) would leave st_dev
-     unchanged between $path and $path/subdir, so we must keep reparsing
-     _PATH_MOUNTED (not PROC_MOUNTS_PATH) each time it changes. */
-  if (stat (_PATH_MOUNTED, &st) != 0)
-    return false;
-  path_mounted_mtime = get_stat_mtime (&st);
-  if (timespec_cmp (last_path_mounted_mtime, path_mounted_mtime) < 0)
-    {
-      rebuild_bind_mount_paths ();
-      last_path_mounted_mtime = path_mounted_mtime;
-      bind_mount_paths_index = 0;
-    }
-  return path_is_in_list (&bind_mount_paths, &bind_mount_paths_index, path);
-}
-
-/* Initialize $PRUNE_BIND_MOUNTS state */
-static void
-init_bind_mount_paths (void)
-{
-  struct stat st;
-
-  if (conf_prune_bind_mounts == false)
-    return;
-  obstack_init (&bind_mount_paths_obstack);
-  obstack_alignment_mask (&bind_mount_paths_obstack) = 0;
-  bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
-  if (stat (_PATH_MOUNTED, &st) != 0)
-    return;
-  rebuild_bind_mount_paths ();
-  last_path_mounted_mtime = get_stat_mtime (&st);
 }
 
  /* $PRUNEFS handling */
@@ -829,7 +703,8 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   int cmp, res;
   bool have_subdir, did_chdir;
 
-  if (path_is_in_list (&conf_prunepaths, &conf_prunepaths_index, path))
+  if (string_list_contains_dir_path (&conf_prunepaths, &conf_prunepaths_index,
+				     path))
     {
       if (conf_debug_pruning != false)
 	/* This is debuging output, don't mark anything for translation */
@@ -1066,7 +941,8 @@ main (int argc, char *argv[])
   bindtextdomain (PACKAGE_NAME, LOCALEDIR);
   textdomain (PACKAGE_NAME);
   conf_prepare (argc, argv);
-  init_bind_mount_paths ();
+  if (conf_prune_bind_mounts != false)
+    bind_mount_init ();
   lock_file_fd = old_db_open ();
   if (lock_file_fd != -1)
     {

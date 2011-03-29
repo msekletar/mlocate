@@ -143,6 +143,28 @@ string_list_dir_path_sort (struct string_list *list)
 	 cmp_dir_path_pointers);
 }
 
+/* Is PATH included in LIST?  Update *IDX to move within LIST.
+
+   LIST is assumed to be sorted using dir_path_cmp (), successive calls to this
+   function are assumed to use PATH values increasing in dir_path_cmp (). */
+bool
+string_list_contains_dir_path (const struct string_list *list, size_t *idx,
+			       const char *path)
+{
+  int cmp;
+
+  cmp = 0;
+  while (*idx < list->len
+	 && (cmp = dir_path_cmp (list->entries[*idx], path)) < 0)
+    (*idx)++;
+  if (*idx < list->len && cmp == 0)
+    {
+      (*idx)++;
+      return true;
+    }
+  return false;
+}
+
  /* Reading of existing databases */
 
 /* Open FILENAME (already open as FD), as DB, report error on failure if not

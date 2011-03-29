@@ -1,3 +1,21 @@
+2011-03-30  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/bind-mount.c (bind_mount_paths, bind_mount_paths_index)
+	(last_path_mounted_mtime, bind_mount_paths_obstack)
+	(bind_mount_paths_mark, rebuild_bind_mount_paths, is_bind_mount): Move
+	from ...
+	* src/updatedb.c: ... here.
+	* src/bind-mount.c (bind_mount_init): Rename and move from ...
+	* src/updatedb.c (init_bind_mount_paths): ... here, and move
+	conf_prune_bind_mounts handling to the caller.
+	* src/bind-mount.h: New file.
+	* Makefile.am (src_updatedb_SOURCES): Add src/bind-mount.c and
+	src/bind-mount.h.
+
+	* src/lib.c (string_list_contains_dir_path): Rename and move from...
+	* src/updatedb.c (path_is_in-list): ... here.  All callers updated.
+	* src/lib.h (string_list_contains_dir_path): New declaration.
+
 2011-03-10  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/updatedb.8.in: Fix a typo.
