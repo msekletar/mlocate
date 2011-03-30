@@ -21,6 +21,7 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <poll.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -33,9 +34,6 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "lib.h"
 
 #define MOUNTINFO_PATH "/proc/self/mountinfo"
-
-/* Forward declaration. */
-static void add_bind_mount_path (const char *dir);
 
  /* MOUNTINFO_PATH handling */
 
@@ -195,8 +193,8 @@ read_mount_entry (FILE *f)
   if (f == NULL)
     return NULL;
   me = obstack_alloc (&mount_data_obstack, sizeof (*me));
-  if (sscanf(line, "%d %d %u:%u%zn", &me->id, &me->parent_id, &me->dev_major,
-	     &me->dev_minor, &offset) != 4)
+  if (sscanf (line, "%d %d %u:%u%zn", &me->id, &me->parent_id, &me->dev_major,
+	      &me->dev_minor, &offset) != 4)
     goto error;
   line += offset;
   if (parse_mount_string (&me->root, &line) != 0
@@ -274,19 +272,6 @@ static size_t bind_mount_paths_index; /* = 0; */
 
 static struct obstack bind_mount_paths_obstack;
 static void *bind_mount_paths_mark;
-
-/* Record DIR as a bind mount path. */
-static void
-add_bind_mount_path (const char *dir)
-{
-  char *copy;
-
-  if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
-    fprintf (stderr, " => adding `%s'\n", dir);
-  copy = obstack_copy (&bind_mount_paths_obstack, dir, strlen (dir) + 1);
-  string_list_append (&bind_mount_paths, copy);
-}
 
 /* Return a result of comparing A and B suitable for qsort () or bsearch () */
 static int
@@ -368,7 +353,17 @@ rebuild_bind_mount_paths (void)
 	      || strncmp (me->root, parent->root, p_root_len) != 0
 	      || strcmp (me->mount_point + p_mount_len,
 			 me->root + p_root_len) != 0)
-	    add_bind_mount_path (me->mount_point);
+	    {
+	      char *copy;
+
+	      if (conf_debug_pruning != false)
+		/* This is debuging output, don't mark anything for
+		   translation */
+		fprintf (stderr, " => adding `%s'\n", me->mount_point);
+	      copy = obstack_copy (&bind_mount_paths_obstack, me->mount_point,
+				   strlen (me->mount_point) + 1);
+	      string_list_append (&bind_mount_paths, copy);
+	    }
 	}
     }
   if (conf_debug_pruning != false)
