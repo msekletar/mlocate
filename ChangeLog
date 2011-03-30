@@ -1,5 +1,7 @@
 2011-03-31  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/bind-mount.c: Update copyright year.
+
 	* src/bind-mount.c: Note that tmpwatch uses a related implementation.
 
 	* src/bind-mount.c (MOUNTINFO_PATH, struct mount, mount_entries)
