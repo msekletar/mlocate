@@ -86,9 +86,7 @@ static char *
 read_mount_line (FILE *f)
 {
   char *line;
-  size_t line_length;
 
-  line_length = 0;
   for (;;)
     {
       char buf[LINE_MAX];

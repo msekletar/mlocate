@@ -1,5 +1,7 @@
 2011-03-31  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/bind-mount.c (read_mount_line): Remove an unused variable.
+
 	* src/bind-mount.c (add_bind_mount_path): Fold it into the caller again.
 
 	* src/bind-mount.c: Update copyright year.
