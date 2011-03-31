@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2009-02-21 02:04-0300\n"
 "Last-Translator: Domingo Becker <domingobecker@gmail.com>\n"
 "Language-Team: Fedora Spanish <fedora-trans-es@redhat.com>\n"
@@ -29,7 +29,7 @@ msgstr "atención: número de linea excedido"
 msgid "missing closing `\"'"
 msgstr "falta cerrar `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "no se puede abrir `%s'"
@@ -65,7 +65,7 @@ msgstr "valor invalido `%s' de PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "datos no esperados luego del valor de la variable"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "I/O error al leer `%s'"
@@ -163,27 +163,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "operador inesperado en línea de comando"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' no parece ser una base de datos de mlocate"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' posee una version desconocida de %u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' posee un señalador de visibilidad desconocido %u"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "fin de archivo inespereado al leer `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "error de E/S al buscar en `%s'"
@@ -317,65 +317,65 @@ msgstr "no se pudo abandonar privilegios"
 msgid "can not read two databases from standard input"
 msgstr "no se pudieron leer dos bases de datos con la entrada patrón"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "no se pudo realizar stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "error de E/S al intentar escribir sobre la entrada patrón "
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "el nombre del archivo %zu es demasiado largo"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "no se puede abrir un archivo temporal para `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "la configuración es demasiado extensa"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "no se pudo encontrar el grupo `%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "no se pudo cambiar el grupo del archivo `%s' hacia `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "no se pudieron cambiar los permisos del archivo `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' está bloqueado (probablemente a causa de un updatedb anterior)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "no se pudo bloquear `%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "no se pudo cambiar el directorio a `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "error de E/S al escribir sobre `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "error al reemplazar  `%s'"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2009-12-11 17:16+1000\n"
 "Last-Translator: Eunju Kim <eukim@redhat.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "경고: 줄 번호가 초과되어 있습니다   "
 msgid "missing closing `\"'"
 msgstr "`\"' 종료 중 부재  "
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s'을(를) 열 수 없음  "
@@ -62,7 +62,7 @@ msgstr " PRUNE_BIND_MOUNTS의 잘못된 값 `%s'  "
 msgid "unexpected data after variable value"
 msgstr "변수 값 다음에 예상하지 않은 데이터   "
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "`%s' 읽는 도중 I/O 오류 발생  "
@@ -161,27 +161,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "명령행에서 기대하지 않은 피연산자 "
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s'은(는) mlocate 데이터베이스에 있을것 같지 않습니다  "
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s'에는 알 수 없는 버전 %u이(가) 있습니다. "
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s'에는 알 수 없는 가시성 플래그 %u이(가) 있습니다  "
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "`%s'을(를) 읽는 도중 기대하지 않은 EOF "
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "`%s'에서 검색하는 도중 I/O 오류 "
@@ -304,65 +304,65 @@ msgstr "권한을 삭제할 수 없습니다  "
 msgid "can not read two databases from standard input"
 msgstr "표준 입력에서 두 개의 데이터베이스를 읽을 수 없습니다  "
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "stat () `%s' 할 수 없습니다 "
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "표준 출력에 쓰기 도중 I/O 오류 발생  "
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "파일 이름의 길이 %zu이(가) 너무 큽니다   "
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "`%s'에 대한 임시 파일을 열 수 없습니다  "
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "설정 사항이 너무 큽니다  "
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "`%s' 그룹을 찾을 수 없습니다  "
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "`%s' 파일의 그룹을 `%s'로 변경할 수 없습니다  "
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "`%s' 파일 권한을 변경할 수 없습니다  "
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s'은(는) 잠겨있습니다 (이전 updatedb를 통해) "
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "`%s'을(를) 잠금할 수 없습니다  "
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "디렉토리를 `%s'로 변경할 수 없습니다  "
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "`%s'에 쓰는 도중 I/O 오류 발생  "
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "`%s' 교체 도중 오류 발생   "

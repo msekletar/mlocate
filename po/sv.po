@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2010-03-13 00:01+0100\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -26,7 +26,7 @@ msgstr "varning: Spill i radnummer"
 msgid "missing closing `\"'"
 msgstr "saknar avslutande `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "kan inte öppna `%s'"
@@ -62,7 +62,7 @@ msgstr "ogiltigt värde `%s' i PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "okänd data efter variabelvärde"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "I/O-fel vid inläsning av `%s'"
@@ -163,27 +163,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "oväntad operand på kommandoraden"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' verkar inte vara en mlocate-databas"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' har okänd version %u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "\"%s\" har en okänd synlighetsflagga %u"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "oväntat filslut vid läsning av `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "I/O-fel vid sökning i `%s'"
@@ -313,65 +313,65 @@ msgstr "kan inte släppa behörigheter"
 msgid "can not read two databases from standard input"
 msgstr "kan inte läsa två databaser från standard in"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "kan inte ta status på \"%s\""
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "I/O-fel vid skrivning till standard ut"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "filnamnslängden %zu är för lång"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "kan inte öppna en temporär fil för `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "konfiguration är för stor"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "kan inte hitta grupp `%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "kan inte byta filens grupp från `%s' till `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "kan inte ändra rättigheter på fil `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' är låst (förmodligen av tidigare körd updatedb)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "kan inte låsa `%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "kan inte byta katalog till `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "I/O-fel vid skrivning till `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "fel vid ersättning av `%s'"

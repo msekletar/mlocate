@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate VERSION\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2008-03-20 17:32+0100\n"
 "Last-Translator: Alexander Todorov <atodorov@redhat.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -27,7 +27,7 @@ msgstr "предупреждение: Препълване на номерата
 msgid "missing closing `\"'"
 msgstr "липсва затваряща `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "не може да бъде отворен `%s'"
@@ -63,7 +63,7 @@ msgstr "невалидна стойност `%s' за PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "неочаквани данни след стойността на променлива"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "Вх/Изх грешка при четене на `%s'"
@@ -140,27 +140,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "неочакван операнд на командния ред"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' не изглежда да е база данни на mlocate"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s'·е с неизвестна версия·%u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s'·е с неизвестен флаг·%u"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "неочакван край на файл при четене на `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "Вх/Изх грешка при търсене в `%s'"
@@ -262,65 +262,65 @@ msgstr "неуспех при опит за работа с по-ниски пр
 msgid "can not read two databases from standard input"
 msgstr "не е възможно да бъдат прочетени две бази данни от стандартния вход"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не може да се изпълни stat () за `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "Вх/Изх грешка при запис на стандартния изход"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "дължина %zu·на името на файл е прекалено голяма"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не може да бъде отворен временен файл за `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "конфигурацията е прекалено голяма"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не може да бъде намерена група `%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "не може да бъде променена групата на файл `%s'·на·`%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не могат да бъдат променени позволенията на файл `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr ""
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, fuzzy, c-format
 msgid "can not lock `%s'"
 msgstr "не може да бъде отворен `%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "не може да бъде променена директорията на `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Вх/Изх грешка при запис до `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "грешка при заместване на `%s'"

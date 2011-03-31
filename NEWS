@@ -1,3 +1,9 @@
+Changes in version 0.24:
+- Use /proc/self/mountinfo for bind mount detection; recent distributions
+  symlink /etc/mtab to /proc/self/mounts, losing information we need.
+- Fix a man page typo.  Patch by John Bradshaw <john@johnbradshaw.org>.
+- Updated translations.
+
 Changes in version 0.23.1:
 - New or updated translations:
   - Greek by Pierros Papadeas <pierros@papadeas.gr>

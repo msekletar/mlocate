@@ -1,0 +1,374 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mlocate\n"
+"Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
+"PO-Revision-Date: 2011-03-29 16:06+0000\n"
+"Last-Translator: ngoswami <ngoswami@redhat.com>\n"
+"Language-Team: Assamese <None>\n"
+"Language: as\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: src/conf.c:241
+msgid "warning: Line number overflow"
+msgstr "সতৰ্কবাৰ্তা: শাৰী নম্বৰ উপচি পৰিছে"
+
+#: src/conf.c:259
+msgid "missing closing `\"'"
+msgstr "বন্ধ কৰা `\"' সন্ধানহীন"
+
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#, c-format
+msgid "can not open `%s'"
+msgstr "`%s' খুলিব নোৱাৰি"
+
+#: src/conf.c:353
+#, c-format
+msgid "unknown variable `%s'"
+msgstr "অজ্ঞাত চলক `%s'"
+
+#: src/conf.c:358
+msgid "variable name expected"
+msgstr "চলক নাম আশা কৰা হৈছে"
+
+#: src/conf.c:364
+#, c-format
+msgid "variable `%s' was already defined"
+msgstr "চলক `%s' ইতিমধ্যে বৰ্ণিত"
+
+#: src/conf.c:373
+msgid "`=' expected after variable name"
+msgstr "চলক নামৰ পিচত `=' আশা কৰা হৈছে"
+
+#: src/conf.c:380
+msgid "value in quotes expected after `='"
+msgstr "`=' -ৰ পিছত কৌট্চত মান আশা কৰা হৈছে"
+
+#: src/conf.c:388
+#, c-format
+msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
+msgstr "PRUNE_BIND_MOUNTS -ৰ অবৈধ মান `%s'"
+
+#: src/conf.c:405
+msgid "unexpected data after variable value"
+msgstr "চলক মানৰ পিছত অপ্ৰত্যাশিত তথ্য"
+
+#: src/conf.c:419 src/lib.c:266
+#, c-format
+msgid "I/O error reading `%s'"
+msgstr "I/O পঢ়া ত্ৰুটি `%s'"
+
+#: src/conf.c:437
+#, c-format
+msgid ""
+"Usage: updatedb [OPTION]...\n"
+"Update a mlocate database.\n"
+"\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -n, --add-prunenames NAMES     omit also NAMES\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
+"  -h, --help                     print this help\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"      --prunenames NAMES         directory names to omit from database\n"
+"      --prunepaths PATHS         paths to omit from database\n"
+"  -l, --require-visibility FLAG  check visibility before reporting files\n"
+"                                 (default \"yes\")\n"
+"  -v, --verbose                  print paths of files as they are found\n"
+"  -V, --version                  print version information\n"
+"\n"
+"The configuration defaults to values read from\n"
+"`%s'.\n"
+msgstr ""
+"ব্যৱহাৰ: updatedb [বিকল্প]...\n"
+"এটা mlocate ডাটাবেইচ আপডেইট কৰক\n"
+"\n"
+"  -f, --add-prunefs FS           FS -কো বাদ দিয়ক\n"
+"  -n, --add-prunenames NAMES     NAMES -কো বাদ দিয়ক\n"
+"  -e, --add-prunepaths PATHS     PATHS -কো বাদ দিয়ক\n"
+"  -U, --database-root PATH       ডাটাবেইচত সঞ্চয় কৰিব লগিয়া সাবট্ৰি (default "
+"\"/\")\n"
+"  -h, --help                     এই সহায় প্ৰিন্ট কৰক\n"
+"  -o, --output FILE              আপডেইট কৰিবলে ডাটাবেইচ (default\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   বন্দা মাউন্টসমূহ বাদ দিয়ক (অবিকল্পিত \"no\")\n"
+"      --prunefs FS               ডাটাবেইচৰ পৰা বাদ দিব লগা নথিপত্ৰপ্ৰণালী\n"
+"      --prunenames NAMES         ডাটাবেইচৰ পৰা বাদ দিব লগা ডাইৰেকটৰি নামসমূহ\n"
+"      --prunepaths PATHS         ডাটাবেইচৰ পৰা বাদ দিব লগা পথসমূহ\n"
+"  -l, --require-visibility FLAG  নথিপত্ৰসমূহ সংবাদন কৰাৰ আগতে দৃশ্যমানতা নিৰিক্ষণ "
+"কৰক\n"
+"                                 (অবিকল্পিত \"yes\")\n"
+"  -v, --verbose                  নথিপত্ৰসমূহৰ পথ প্ৰিন্ট কৰে যেতিয়া পোৱা যায়\n"
+"  -V, --version                  সংস্কৰণ তথ্য প্ৰিন্ট কৰিব\n"
+"\n"
+"মানসমূহ পঢ়িবলে সংৰূপ অবিকল্পিতসমূহ\n"
+"`%s'.\n"
+
+#: src/conf.c:464 src/locate.c:642
+#, c-format
+msgid ""
+"\n"
+"Report bugs to %s.\n"
+msgstr ""
+"\n"
+"বাগসমূহ %s লে সংবাদন কৰক.\n"
+
+#: src/conf.c:482
+msgid "can not get current working directory"
+msgstr "বৰ্তমান কাৰ্যৰত ডাইৰেকটৰি পোৱা নগল"
+
+#: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
+#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#, c-format
+msgid "--%s would override earlier command-line argument"
+msgstr "--%s -এ পুৰ্বৰ কমান্ড-লাইন তৰ্ক পুনৰ লিখি দিব"
+
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#, c-format
+msgid "invalid value `%s' of --%s"
+msgstr "--%s -ৰ অবৈধ মান `%s'"
+
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#, c-format
+msgid "--%s specified twice"
+msgstr "--%s দুবাৰ ধাৰ্য্য কৰা হৈছে"
+
+#: src/conf.c:590 src/locate.c:722
+msgid ""
+"Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+"This software is distributed under the GPL v.2.\n"
+"\n"
+"This program is provided with NO WARRANTY, to the extent permitted by law."
+msgstr ""
+"স্বত্বাধিকাৰ (C) 2007 Red Hat, Inc. সকলো অধিকাৰ সংৰক্ষীত।\n"
+"এই চফ্টওৱেৰ GPL v.2 -ৰ অন্তৰ্গত বিলোৱা হৈছে।\n"
+"\n"
+"এই প্ৰগ্ৰামৰ লগত কোনো ওৱাৰেন্টি নাহে, আইন অনুমোদিত বিস্তাৰ লৈকে।"
+
+#: src/conf.c:646
+msgid "unexpected operand on command line"
+msgstr "কমান্ড লাইনত অপ্ৰত্যাশীত কাৰ্য্যকাৰক"
+
+#: src/lib.c:199
+#, c-format
+msgid "`%s' does not seem to be a mlocate database"
+msgstr "`%s' এটা mlocate ডাটাবেইচ যেন নালাগে"
+
+#: src/lib.c:206
+#, c-format
+msgid "`%s' has unknown version %u"
+msgstr "`%s' -ৰ এটা অজ্ঞাত সংস্কৰণ %u আছে"
+
+#: src/lib.c:213
+#, c-format
+msgid "`%s' has unknown visibility flag %u"
+msgstr "`%s' -ৰ এটা অজ্ঞাত দৃশ্যমান ফ্লেগ %u আছে"
+
+#: src/lib.c:268
+#, c-format
+msgid "unexpected EOF reading `%s'"
+msgstr "`%s' পঢ়ি থাকোতে এটা অপ্ৰত্যাশীত EOFষ "
+
+#: src/lib.c:363
+#, c-format
+msgid "I/O error seeking in `%s'"
+msgstr "`%s' বিচাৰোতে এটা I/O ত্ৰুটি"
+
+#: src/locate.c:335
+#, c-format
+msgid "Database %s:\n"
+msgstr "ডাটাবেইচ %s:\n"
+
+#: src/locate.c:338
+#, c-format
+msgid "\t%'ju directory\n"
+msgid_plural "\t%'ju directories\n"
+msgstr[0] "\t%'ju ডাইৰেকটৰি\n"
+msgstr[1] "\t%'ju ডাইৰেকটৰিসমূহ\n"
+
+#: src/locate.c:340
+#, c-format
+msgid "\t%'ju file\n"
+msgid_plural "\t%'ju files\n"
+msgstr[0] "\t%'ju নথিপত্ৰ\n"
+msgstr[1] "\t%'ju নথিপত্ৰসমূহ\n"
+
+#: src/locate.c:342
+#, c-format
+msgid "\t%'ju byte in file names\n"
+msgid_plural "\t%'ju bytes in file names\n"
+msgstr[0] "\t নথিপত্ৰৰ নামসমূহত %'ju বাইট\n"
+msgstr[1] "\tনথিপত্ৰৰ নামসমূহত %'ju বাইটসমূহ\n"
+
+#: src/locate.c:344
+#, c-format
+msgid "\t%'ju byte used to store database\n"
+msgid_plural "\t%'ju bytes used to store database\n"
+msgstr[0] "\tডাটাবেইচ সঞ্চয় কৰিবলে ব্যৱহৃত %'ju বাইট\n"
+msgstr[1] "\tডাটাবেইচ সঞ্চয় কৰিবলে ব্যৱহৃত %'ju বাইটসমূহ\n"
+
+#: src/locate.c:473
+#, c-format
+msgid "invalid empty directory name in `%s'"
+msgstr "`%s' -ত অবৈধ ৰিক্ত ডাইৰেকটৰি নাম"
+
+#: src/locate.c:500
+#, c-format
+msgid "file name length %zu in `%s' is too large"
+msgstr "নথিপত্ৰ নামৰ দৈৰ্ঘ  %zu `%s' -ৰ বাবে  অতি ডাঙৰ"
+
+#: src/locate.c:607
+#, c-format
+msgid ""
+"Usage: locate [OPTION]... [PATTERN]...\n"
+"Search for entries in a mlocate database.\n"
+"\n"
+"  -b, --basename         match only the base name of path names\n"
+"  -c, --count            only print number of found entries\n"
+"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"                         %s)\n"
+"  -e, --existing         only print entries for currently existing files\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
+msgstr ""
+"ব্যৱহাৰ: locate [বিকল্প]... [বিন্যাস]...\n"
+"এটা mlocate ডাটাবেইচত প্ৰবিষ্টিসমূহ বিচাৰক।\n"
+"\n"
+"  -b, --basename         পথসমূহৰ নামৰ ভিত্তি নাম মিলাই চাব\n"
+"  -c, --count            কেৱল বিচাৰি পোৱা প্ৰবিষ্টিৰ সংখ্যা প্ৰিন্ট কৰিব\n"
+"  -d, --database DBPATH  অবিকল্পিত ডাটাবেইচৰ সলনি DBPATH ব্যৱহাৰ কৰক (যোনটো\n"
+"                         %s)\n"
+"  -e, --existing         কেৱল বৰ্তমানে স্থায়ী নথিপত্ৰৰ বাবে অহা প্ৰবিষ্টকে প্ৰিন্ট "
+"কৰিব\n"
+"  -L, --follow           নথিপত্ৰৰ অস্তিত্ব বিচাৰোতে সাংকেতিক লিংকসমূহ অনুসৰন কৰক\n"
+"                          (অবিকল্পিত)\n"
+"  -h, --help             এই সহায় প্ৰিন্ট কৰক\n"
+"  -i, --ignore-case      বিন্যাস মিলাওতে কেইস ভিন্নতা উপেক্সা কৰক\n"
+"  -l, --limit, -n LIMIT  আউটপুট সীমিত কৰক (অথবা গণীত) সীমিত প্ৰবিষ্টিসমূহলে\n"
+"  -m, --mmap             পিছহোৱা সংগতিৰ কাৰণে উপেক্ষীত\n"
+"  -P, --nofollow, -H    নথিপত্ৰৰ অস্তিত্ব বিচাৰোতে সাংকেতিক লিংকসমূহ অনুসৰন "
+"নকৰিব\n"
+"                          (অবিকল্পিত)\n"
+"  -0, --null             NUL থকা প্ৰবিষ্টিসমূহ আউটপুটত বেলেগ কৰে\n"
+"  -S, --statistics       প্ৰবিষ্টিসমূহ নিবিচাৰিব, প্ৰতিটো ব্যৱহৃত ডাটাবেইচৰ কাৰণে\n"
+"                         পৰিসংখ্যা প্ৰিন্ট কৰক\n"
+"  -q, --quiet            ডাটাবেইচসমূহ পঢ়োতে কোনো ত্ৰুটি বাৰ্তা পোৱা নগল\n"
+"  -r, --regexp REGEXP    বিন্যাসসমূহৰ পৰিৱৰ্তে সাধাৰন regexp REGEXP বিচাৰক\n"
+"      --regex            বিন্যাসসমূহ প্ৰসাৰীত regexps\n"
+"  -s, --stdio            পিছহোৱা সংগতিৰ কাৰণে উপেক্ষীত\n"
+"  -V, --version          সংস্কৰণ তথ্য প্ৰিন্ট কৰক\n"
+"  -w, --wholename        সমপূৰ্ণ পথৰ নাম মিলাই চাওক (অবিকল্পিত)\n"
+
+#: src/locate.c:806
+#, c-format
+msgid "non-option arguments are not allowed with --%s"
+msgstr "--%s -ৰ সৈতে বিকল্প নোহোৱা তৰ্কসমূহৰ অনুমতি আছে"
+
+#: src/locate.c:819
+msgid "no pattern to search for specified"
+msgstr "ধাৰ্য্য কৰাৰ কাৰণে বিচাৰিবলে কোনো বিন্যাস নাই"
+
+#: src/locate.c:846
+#, c-format
+msgid "invalid regexp `%s': %s"
+msgstr "অবৈধ regexp `%s': %s"
+
+#: src/locate.c:932
+msgid "can not drop privileges"
+msgstr "সুবিধাসমূহ এৰিব নোৱাৰি"
+
+#: src/locate.c:947
+msgid "can not read two databases from standard input"
+msgstr "প্ৰামানিক ইনপুটৰ পৰা দুটা ডাটাবেইচ পঢ়িব নোৱাৰি"
+
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#, c-format
+msgid "can not stat () `%s'"
+msgstr "stat () `%s' কৰিব নোৱাৰি"
+
+#: src/locate.c:1034 src/updatedb.c:996
+msgid "I/O error while writing to standard output"
+msgstr "প্ৰামানিক ইনপুটলে লিখতে I/O ত্ৰুটি"
+
+#: src/updatedb.c:556 src/updatedb.c:654
+#, c-format
+msgid "file name length %zu is too large"
+msgstr "নথিপত্ৰ নাম দৈৰ্ঘ %zu অতি ডাঙৰ"
+
+#: src/updatedb.c:877
+#, c-format
+msgid "can not open a temporary file for `%s'"
+msgstr "`%s' -ৰ বাবে এটা অস্থায়ী নথিপত্ৰ খুলিব নোৱাৰি"
+
+#: src/updatedb.c:890
+msgid "configuration is too large"
+msgstr "সংৰূপ অতি ডাঙৰ"
+
+#: src/updatedb.c:911
+#, c-format
+msgid "can not find group `%s'"
+msgstr "দল `%s' বিচাৰি পোৱা নাযায়"
+
+#: src/updatedb.c:914
+#, c-format
+msgid "can not change group of file `%s' to `%s'"
+msgstr "নথিপত্ৰ `%s' -ৰ দল `%s' লে সলাব নোৱাৰি"
+
+#: src/updatedb.c:928
+#, c-format
+msgid "can not change permissions of file `%s'"
+msgstr "নথিপত্ৰ `%s' -ৰ অনুমতিসমূহ সলাব নোৱাৰি"
+
+#: src/updatedb.c:959
+#, c-format
+msgid "`%s' is locked (probably by an earlier updatedb)"
+msgstr "`%s' লক্ড (সম্ভবত এটা পুৰ্বৰ updatedb দ্বাৰা)"
+
+#: src/updatedb.c:962
+#, c-format
+msgid "can not lock `%s'"
+msgstr "`%s' লক কৰিব নোৱাৰি"
+
+#: src/updatedb.c:969
+#, c-format
+msgid "can not change directory to `%s'"
+msgstr "ডাইৰেকটৰিক `%s' লে সলাব নোৱাৰি"
+
+#: src/updatedb.c:978
+#, c-format
+msgid "I/O error while writing to `%s'"
+msgstr "`%s' -লে লিখোতে এটা I/O ত্ৰুটি"
+
+#: src/updatedb.c:982
+#, c-format
+msgid "error replacing `%s'"
+msgstr "`%s' সলাওতে ত্ৰুটি"

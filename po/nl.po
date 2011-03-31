@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip.nl\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2010-06-25 16:32+0200\n"
 "Last-Translator: Geert Warrink <geert.warrink@onsnet.nu>\n"
 "Language-Team: Fedora\n"
@@ -26,7 +26,7 @@ msgstr "Waarschuwing: Regel nummer overflow"
 msgid "missing closing `\"'"
 msgstr "afsluitende `\"' ontbreekt"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "kan`%s' niet openen"
@@ -62,7 +62,7 @@ msgstr "ongeldige waarde `%s' van PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "onverwachte data na variabele waarde"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "I/O fout bij lezen `%s'"
@@ -164,27 +164,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "onverwachte operand op commando-regel"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' lijkt geen mlocate database te zijn"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' heeft een onbekende versie %u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' heeft onbekende zichtbaarheid vlag %u"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "onverwacht EOF bij lezen van `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "I/O fout tijdens zoeken in `%s'"
@@ -318,65 +318,65 @@ msgstr "kan rechten niet laten vallen"
 msgid "can not read two databases from standard input"
 msgstr "kan niet twee databases lezen vanuit standaard input"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "kan niet stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "I/O fout tijdens schrijven naar standaard output"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "bestandsnaam %zu is te lang"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "kan geen tijdelijk bestand openen voor `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "configuratie is te groot"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "kan groep `%s' niet vinden"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "kan groep van bestand `%s' niet veranderen in `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "kan de bestand rechten van bestand `%s' niet veranderen"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' is geblokkeerd (waarschijnlijk door een eerdere updatedb)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "kan `%s' niet blokkeren"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "kan map niet veranderen naar `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "I/O fout tijdens schrijven naar `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "fout bij vervangen `%s'"

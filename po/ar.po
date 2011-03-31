@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2010-07-21 14:57+0300\n"
 "Last-Translator: Munzir Taha (منذر طه) <munzirtaha@gmail.com>\n"
 "Language-Team: Arabic <trans-ar@lists.fedoraproject.org.>\n"
@@ -27,7 +27,7 @@ msgstr "تحذير: تجاوز عدد السطر"
 msgid "missing closing `\"'"
 msgstr "علامة تنصيص الإغلاق مفقودة `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "غير قادر على فتح `%s'"
@@ -63,7 +63,7 @@ msgstr "القيمة غير صالحة `%s' لـ PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "بيانات غير متوقعة بعد قيمة المتغير"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "خطأ في قراءة وحدة الإدخال والإخراج  `%s'"
@@ -162,27 +162,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "عامل غير متوقع على  سطر الأوامر"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' لا تبدوا أنها قاعدة بيانات من نوع mlocate"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' لديها إصدار غير معروف %u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' إشارة الوضوح %u غير معروفة"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "نهاية ملف غير متوقعة`%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "بحث خاطئ في وحدة الإدخال والإخراج`%s'"
@@ -328,65 +328,65 @@ msgstr "لا يمكن حذف الامتيازات"
 msgid "can not read two databases from standard input"
 msgstr "لا يمكن قراءة قاعدتي بيانات من الإدخال القياسي"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "لا يمكن  stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "خطأ في المدخلات والمخرجات بجميع الكتابة في المخرجات الأساسية"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "طول الاسم %zu طويل جداً"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "لا يمكن فتح الملف المؤقت لـ `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "التهيئة كبيرة جداً"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "لا يستطيع إيجاد مجموعة`%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "لا يستطيع تغيير ملف مجموعة `%s' to `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "لا تستطيع تغيير الصلاحيات للملف `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' مغلق (احتمال بيواسطة التحديث الحالي)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "لا تستطيع قفل`%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "لا تستطيع تغيير المجلد لـ  `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "حدث خطأ في وسيلة الإدخال والإخراج أثناء الكتابة في `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "خطأ  استبدال%s'"

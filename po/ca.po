@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate \n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2009-09-12 13:12+0200\n"
 "Last-Translator: Xavier Queralt Mateu <xqueralt@gmail.com>\n"
 "Language-Team: Catalan <fedora@llistes.softcatala.org>\n"
@@ -37,7 +37,7 @@ msgstr "avís: Desbordament del nombre de línies"
 msgid "missing closing `\"'"
 msgstr "falta el caràcter `\"' de tancament"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, c-format
 msgid "can not open `%s'"
 msgstr "no s'ha pogut obrir `%s'"
@@ -73,7 +73,7 @@ msgstr "valor `%s' invàlid per a PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "dades no esperades després del nom de la variable"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
 msgstr "S'ha produït un error d'E/S en llegir `%s'"
@@ -177,27 +177,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "operador invàlid en la línia d'ordres"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' no sembla ser una base de dades del mlocate"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' té una versió %u desconeguda"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' té un senyalador de visibilitat %u desconegut"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "Fi de fitxer inesperat en llegir `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "error d'E/S mentre es cercava en `%s'"
@@ -335,65 +335,65 @@ msgstr "no s'han pogut alliberar els privilegis"
 msgid "can not read two databases from standard input"
 msgstr "no es poden llegir dues bases de dades des de l'entrada estàndard"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "ha fallat la crida stat() a %s"
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 msgid "I/O error while writing to standard output"
 msgstr "error d'E/S quan s'escrivia a la sortida estàndard"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "la longitud %zu del nom de fitxer és massa llarga"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "no es pot obrir un fitxer temporal per a `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 msgid "configuration is too large"
 msgstr "la configuració és massa gran"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, c-format
 msgid "can not find group `%s'"
 msgstr "no s'ha trobat el grup `%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "no s'ha pogut canviar el grup del fitxer `%s' a `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "no s'han pogut canviar els permisos del fitxer `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "«%s» està blocat (probablement per un updatedb anterior)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "no s'ha pogut blocar `%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "no s'ha pogut canviar el directori a `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "error d'E/S quan s'escrivia a `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, c-format
 msgid "error replacing `%s'"
 msgstr "error en substituir `%s'"

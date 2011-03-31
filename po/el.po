@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate.tip\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2010-09-14 15:56+0200\n"
+"POT-Creation-Date: 2011-03-31 20:39+0200\n"
 "PO-Revision-Date: 2010-02-17 00:23+0200\n"
 "Last-Translator: Pierros Papadeas <pierros@papadeas.gr>\n"
 "Language-Team: Greek <fedora-trans-el@redhat.com>\n"
@@ -27,7 +27,7 @@ msgstr "Προειδοποίηση: Υπερχείληση αριθμών γρα
 msgid "missing closing `\"'"
 msgstr "Λείπει το tag κλεισίματος `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:1008
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
 #, fuzzy, c-format
 msgid "can not open `%s'"
 msgstr "δεν μπορεί να ανοίξει το `%s'"
@@ -67,7 +67,7 @@ msgstr "εσφαλμένη τιμή `%s' του PRUNE_BIND_MOUNTS"
 msgid "unexpected data after variable value"
 msgstr "μη αναμενόμενα δεδομένα μετά την τιμή της μεταβλητής"
 
-#: src/conf.c:419 src/lib.c:244
+#: src/conf.c:419 src/lib.c:266
 #, fuzzy, c-format
 msgid "I/O error reading `%s'"
 msgstr "σφάλμα εισόδου/εξόδου στο διάβασμα του `%s'"
@@ -142,27 +142,27 @@ msgstr ""
 msgid "unexpected operand on command line"
 msgstr "μη αναμενόμενος τελεστής στην γραμμή εντολών"
 
-#: src/lib.c:177
+#: src/lib.c:199
 #, fuzzy, c-format
 msgid "`%s' does not seem to be a mlocate database"
 msgstr "`%s' δεν φαίνεται να είναι mlocate βάση δεδομένων"
 
-#: src/lib.c:184
+#: src/lib.c:206
 #, fuzzy, c-format
 msgid "`%s' has unknown version %u"
 msgstr "`%s' έχει άγνωστη έκδοση %u"
 
-#: src/lib.c:191
+#: src/lib.c:213
 #, fuzzy, c-format
 msgid "`%s' has unknown visibility flag %u"
 msgstr "`%s' έχει άγνωστη σημαία ορατότητας %u"
 
-#: src/lib.c:246
+#: src/lib.c:268
 #, fuzzy, c-format
 msgid "unexpected EOF reading `%s'"
 msgstr "μη αναμενόμενο διάβασμα τέλους αρχείου από το `%s'"
 
-#: src/lib.c:341
+#: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
 msgstr "σφάλμα εισόδου/εξόδου κατά την αναζήτηση μέσα στο `%s'"
@@ -266,67 +266,67 @@ msgid "can not read two databases from standard input"
 msgstr ""
 "δεν μπορεί να διαβάσει δύο βάσεις δεδομένων από την προκαθορισμένη είσοδο"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:1096
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
 #, c-format
 msgid "can not stat () `%s'"
 msgstr ""
 
-#: src/locate.c:1034 src/updatedb.c:1120
+#: src/locate.c:1034 src/updatedb.c:996
 #, fuzzy
 msgid "I/O error while writing to standard output"
 msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στην προκαθορισμένη έξοδο"
 
-#: src/updatedb.c:682 src/updatedb.c:780
+#: src/updatedb.c:556 src/updatedb.c:654
 #, fuzzy, c-format
 msgid "file name length %zu is too large"
 msgstr "το μήκος του ονόματος του αρχείου %zu είναι πολύ μεγάλο"
 
-#: src/updatedb.c:1002
+#: src/updatedb.c:877
 #, fuzzy, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "δεν μπορεί να ανοιχτεί προσωρινό αρχείο για το `%s'"
 
-#: src/updatedb.c:1015
+#: src/updatedb.c:890
 #, fuzzy
 msgid "configuration is too large"
 msgstr "η ρύθμιση είναι πολύ μεγάλη"
 
-#: src/updatedb.c:1036
+#: src/updatedb.c:911
 #, fuzzy, c-format
 msgid "can not find group `%s'"
 msgstr "δεν μπορεί να βρεθεί η ομάδα `%s'"
 
-#: src/updatedb.c:1039
+#: src/updatedb.c:914
 #, fuzzy, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "δεν μπορεί να αλλάξει η ομάδα του αρχείου `%s' σε `%s'"
 
-#: src/updatedb.c:1053
+#: src/updatedb.c:928
 #, fuzzy, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "δεν μπορούν να αλλάξουν τα δικαιώματα του αρχείου `%s'"
 
-#: src/updatedb.c:1083
+#: src/updatedb.c:959
 #, fuzzy, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' είναι κλειδωμένο(πιθανόν από προηγούμενο updatedb)"
 
-#: src/updatedb.c:1086
+#: src/updatedb.c:962
 #, c-format
 msgid "can not lock `%s'"
 msgstr "αδυναμία κλειδώματος του `%s'"
 
-#: src/updatedb.c:1093
+#: src/updatedb.c:969
 #, fuzzy, c-format
 msgid "can not change directory to `%s'"
 msgstr "δεν μπορεί να αλλάξει ο κατάλογος σε `%s'"
 
-#: src/updatedb.c:1102
+#: src/updatedb.c:978
 #, fuzzy, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στο `%s'"
 
-#: src/updatedb.c:1106
+#: src/updatedb.c:982
 #, fuzzy, c-format
 msgid "error replacing `%s'"
 msgstr "σφάλμα κατά την αντικατάσταση του `%s'"
