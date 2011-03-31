@@ -36,7 +36,7 @@
 	src/bind-mount.h.
 
 	* src/lib.c (string_list_contains_dir_path): Rename and move from...
-	* src/updatedb.c (path_is_in-list): ... here.  All callers updated.
+	* src/updatedb.c (path_is_in_list): ... here.  All callers updated.
 	* src/lib.h (string_list_contains_dir_path): New declaration.
 
 2011-03-10  Miloslav Trmač  <mitr@redhat.com>
