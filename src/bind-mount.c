@@ -188,7 +188,7 @@ read_mount_entry (FILE *f)
   bool separator_found;
 
   line = read_mount_line (f);
-  if (f == NULL)
+  if (line == NULL)
     return NULL;
   me = obstack_alloc (&mount_data_obstack, sizeof (*me));
   if (sscanf (line, "%d %d %u:%u%zn", &me->id, &me->parent_id, &me->dev_major,

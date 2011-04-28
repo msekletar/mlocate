@@ -1,3 +1,7 @@
+2011-04-28  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/bind-mount.c (read_mount_entry): Fix an EOF check.
+
 2011-03-31  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Release 0.24.
