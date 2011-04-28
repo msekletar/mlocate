@@ -232,10 +232,10 @@ db_close (struct db *db)
 static size_t
 db_refill (struct db *db)
 {
-  ssize_t size;
+  size_t size;
 
   {
-    verify (sizeof (db->buffer) <= SSIZE_MAX);
+    verify (sizeof (db->buffer) < SAFE_READ_ERROR);
   }
   size = safe_read (db->fd, db->buffer, sizeof (db->buffer));
   switch (size)
