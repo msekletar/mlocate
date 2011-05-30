@@ -1,3 +1,7 @@
+2011-05-30  Miloslav Trmač  <mitr@redhat.com>
+
+	* Makefile.am (installcheck-local): Fix AUTOTEST_PATH.
+
 2011-04-28  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/lib.c (db_refill): Use the correct type for return value of

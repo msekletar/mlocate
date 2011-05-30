@@ -76,8 +76,7 @@ check-local: atconfig $(top_srcdir)/tests/testsuite
 	$(SHELL) $(top_srcdir)/tests/testsuite
 
 installcheck-local:
-	$(SHELL) $(top_srcdir)/tests/testsuite \
-		AUTOTEST_PATH=$(exec_prefix)/bin:$(exec_prefix)/libexec
+	$(SHELL) $(top_srcdir)/tests/testsuite AUTOTEST_PATH=$(bindir)
 
 install-exec-local:
 	$(MKDIR_P) "$(DESTDIR)$(dbdir)"
