@@ -1,5 +1,7 @@
 2011-08-24  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/updatedb.c (main): Remove a debugging fprintf ().
+
 	* doc/locate.1.in: Document that parent directories must exist for
 	permission checking.  Suggested by Alexandre Oberlin <alxobr@yahoo.fr>.
 

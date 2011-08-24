@@ -958,7 +958,6 @@ main (int argc, char *argv[])
 	    error (EXIT_FAILURE, 0,
 		   _("`%s' is locked (probably by an earlier updatedb)"),
 		   conf_output);
-	  fprintf (stderr, "!!%d\n", lock_file_fd);
 	  error (EXIT_FAILURE, errno, _("can not lock `%s'"), conf_output);
 	}
     }
