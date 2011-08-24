@@ -1,3 +1,8 @@
+2011-08-24  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/locate.1.in: Document that parent directories must exist for
+	permission checking.  Suggested by Alexandre Oberlin <alxobr@yahoo.fr>.
+
 2011-05-30  Miloslav Trmač  <mitr@redhat.com>
 
 	* Makefile.am (installcheck-local): Fix AUTOTEST_PATH.
