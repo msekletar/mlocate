@@ -647,6 +647,15 @@ scan_cwd (struct directory *dest)
       if (strcmp (de->d_name, ".") == 0 || strcmp (de->d_name, "..") == 0)
 	continue;
       name_size = strlen (de->d_name) + 1;
+      if (name_size == 1)
+	{
+	  /* Unfortunately, this does happen, and mere assert() does not give
+	     users enough information to complain to the right people. */
+	  error (0, 0,
+		 _("file system error: zero-length file name in directory %s"),
+		 dest->path);
+	  continue;
+	}
       assert (name_size > 1);
       entry_size = offsetof (struct entry, name) + name_size;
       if (entry_size > OBSTACK_SIZE_MAX)

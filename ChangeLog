@@ -1,3 +1,10 @@
+2011-11-16  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/updatedb.c (scan_cwd): Don't trust the kernel to never return
+	a zero-length file name, it unfortunately does happen.  In such a case,
+	instead of aborting, report it to stderr, including the path, and
+	continue.
+
 2011-08-24  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/updatedb.c (main): Remove a debugging fprintf ().
