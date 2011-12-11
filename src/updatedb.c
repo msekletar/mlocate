@@ -362,10 +362,9 @@ filesystem_is_excluded (const char *path)
 		   sizeof (*conf_prunefs.entries), cmp_string_pointer) != NULL)
 	{
 	  char *dir;
-#ifndef PROC_MOUNTS_PATH
-	  char dbuf[PATH_MAX];
 
-	  dir = realpath (me->mnt_dir, dbuf);
+#ifndef PROC_MOUNTS_PATH
+	  dir = canonicalize_file_name (me->mnt_dir);
 	  if (dir == NULL)
 	    dir = me->mnt_dir;
 #else
@@ -378,10 +377,11 @@ filesystem_is_excluded (const char *path)
 	    /* This is debuging output, don't mark anything for translation */
 	    fprintf (stderr, " => type matches, dir `%s'\n", dir);
 	  if (strcmp (path, dir) == 0)
-	    {
-	      res = true;
-	      goto err_f;
-	    }
+	    res = true;
+	  if (dir != me->mnt_dir)
+	    free(dir);
+	  if (res != false)
+	    goto err_f;
 	}
     }
  err_f:

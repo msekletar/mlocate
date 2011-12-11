@@ -1,3 +1,10 @@
+2011-12-12  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/conf.c (prepend_cwd): Don't use PATH_MAX, it may not be defined.
+	* src/updatedb.c (filesystem_is_excluded): Don't use PATH_MAX, it
+	may not be defined.  canonicalize_file_name() allocates memory, so
+	it is more costly, but Linux is unaffected.
+
 2011-11-16  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/updatedb.c (scan_cwd): Don't trust the kernel to never return

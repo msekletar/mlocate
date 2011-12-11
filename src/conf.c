@@ -474,7 +474,7 @@ prepend_cwd (const char *path)
   size_t size, len1, size2;
 
   buf = NULL;
-  size = PATH_MAX;
+  size = BUFSIZ; /* Not PATH_MAX because it is not defined on some platforms. */
   do
     buf = x2realloc (buf, &size);
   while ((res = getcwd (buf, size)) == NULL && errno == ERANGE);
