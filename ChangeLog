@@ -1,3 +1,7 @@
+2012-02-10  Miloslav Trmač  <mitr@redhat.com>
+
+	* po/mlocate.pot: Update for Transifex.
+
 2011-12-12  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/conf.c (prepend_cwd): Don't use PATH_MAX, it may not be defined.
