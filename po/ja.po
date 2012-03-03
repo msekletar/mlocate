@@ -1,21 +1,25 @@
-# mlocate.
-# Copyright (C) 2009
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
 # This file is distributed under the same license as the PACKAGE package.
-# Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>, 2009.
 #
+# Translators:
+# Hajime Taira <htaira@redhat.com>, 2011.
+# Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>, 2009.
+# mitr <mitr@volny.cz>, 2011.
+# Tomoyuki KATO <tomo@dream.daynight.jp>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2009-09-21 23:26+0900\n"
-"Last-Translator: Hyu_gabaru Ryu_ichi <hyu_gabaru@yahoo.co.jp>\n"
-"Language-Team: Japanese <fedora-trans-ja@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Tomoyuki KATO <tomo@dream.daynight.jp>\n"
+"Language-Team: Japanese <trans-ja@lists.fedoraproject.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -25,7 +29,7 @@ msgstr "警告: 行番号があふれています"
 msgid "missing closing `\"'"
 msgstr "閉じる `\"' がありません"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s' を開けません"
@@ -42,7 +46,7 @@ msgstr "変数名が期待されています"
 #: src/conf.c:364
 #, c-format
 msgid "variable `%s' was already defined"
-msgstr "変数 `%s' は既に定義されています"
+msgstr "変数 `%s' は、すでに定義されています"
 
 #: src/conf.c:373
 msgid "`=' expected after variable name"
@@ -108,7 +112,7 @@ msgstr ""
 "      --prunenames NAMES         データベースから除外する辞書名\n"
 "      --prunepaths PATHS         データベースから除外するパス\n"
 "  -l, --require-visibility FLAG  ファイルを報告する前に可視性をチェックする\n"
-"                                 (省略値 \"yes\")\n"
+"                                 (デフォルト値 \"yes\")\n"
 "  -v, --verbose                  見つかったファイルのバスを印刷する\n"
 "  -V, --version                  バージョン情報を印刷する\n"
 "\n"
@@ -305,65 +309,70 @@ msgstr "特権を落とすことはできません"
 msgid "can not read two databases from standard input"
 msgstr "標準入力から 2 つのデータベースを読めません"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "stat () `'%s' できません"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "標準出力へ書いている時に入出力エラー"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "ファイル名長 %zu は大きすぎます"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr "ファイルシステムエラー: ディレクトリ %s に長さ０のファイル名があります"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "`%s' 用の一時ファイルを開けません"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "設定が大きすぎます"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "グループ `%s' を見つけられません"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr "ファイルのグループ `%s' を `%s' へ変更できません"
+msgstr "ファイルのグループを `%s' から `%s' へ変更できません"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "ファイル `%s' のパーミッションを変更できません"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' はロックされています (おそらく以前の updatedb によって)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "`%s' をロックできません"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "辞書を `%s' に変更できません"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "`%s' に書いている時に入出力エラー"
+msgstr "`%s' へ書き込み中に入出力エラー"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "`%s' の置き換えでエラー"

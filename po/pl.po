@@ -1,20 +1,25 @@
-# translation of pl.po to Polish
-# Piotr Drąg <piotrdrag@gmail.com>, 2008.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
+# Piotr Drąg <piotrdrag@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: pl\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2009-09-27 13:16+0200\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish <fedora-trans-pl@redhat.com>\n"
+"Language-Team: Polish (http://www.transifex.net/projects/p/fedora/language/"
+"pl/)\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -24,7 +29,7 @@ msgstr "ostrzeżenie: przepełniono numer wiersza"
 msgid "missing closing `\"'"
 msgstr "brak zamykającego `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "nie można otworzyć \"%s\""
@@ -317,67 +322,72 @@ msgstr "nie można porzucić uprawnień"
 msgid "can not read two databases from standard input"
 msgstr "nie można odczytać dwóch baz danych ze standardowego wejścia"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nie można wykonać stat () \"%s\""
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "błąd wejścia/wyjścia podczas zapisywania do standardowego wyjścia"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "długość nazwy pliku %zu jest za duża"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr "błąd systemu plików: nazwa pliku o zerowej długości w katalogu %s"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nie można otworzyć pliku tymczasowego dla `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "konfiguracja jest za duża"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nie można odnaleźć grupy \"%s\""
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "nie można zmienić grupy pliku \"%s\" na \"%s\""
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nie można zmienić uprawnień pliku \"%s\""
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr ""
 "\"%s\" jest zablokowane (prawdopodobnie przez wcześniejsze uruchomienie "
 "updatedb)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "nie można zablokować \"%s\""
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nie można zmienić katalogu na \"%s\""
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "błąd wejścia/wyjścia podczas zapisywania do \"%s\""
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "błąd podczas zastępowania \"%s\""

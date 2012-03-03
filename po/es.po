@@ -1,25 +1,23 @@
-# Spanish translation of mlocate.
-# This file is distributed under the same license as the mlocate package.
-# H. Daniel Cabrera <h.daniel.cabrera@gmail.com>, 2008,
-# Domingo Becker <domingobecker@gmail.com>, 2008.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
-#
+# Translators:
+# Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>, 2012.
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2009-02-21 02:04-0300\n"
-"Last-Translator: Domingo Becker <domingobecker@gmail.com>\n"
-"Language-Team: Fedora Spanish <fedora-trans-es@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 18:43+0000\n"
+"Last-Translator: Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>\n"
+"Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: ARGENTINA\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -29,7 +27,7 @@ msgstr "atención: número de linea excedido"
 msgid "missing closing `\"'"
 msgstr "falta cerrar `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "no se puede abrir `%s'"
@@ -317,65 +315,72 @@ msgstr "no se pudo abandonar privilegios"
 msgid "can not read two databases from standard input"
 msgstr "no se pudieron leer dos bases de datos con la entrada patrón"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "no se pudo realizar stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "error de E/S al intentar escribir sobre la entrada patrón "
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "el nombre del archivo %zu es demasiado largo"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+"error del sistema de archivos: nombre de archivo con longitud cero en el "
+"directorio %s"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "no se puede abrir un archivo temporal para `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "la configuración es demasiado extensa"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "no se pudo encontrar el grupo `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "no se pudo cambiar el grupo del archivo `%s' hacia `%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "no se pudieron cambiar los permisos del archivo `%s'"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' está bloqueado (probablemente a causa de un updatedb anterior)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "no se pudo bloquear `%s'"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "no se pudo cambiar el directorio a `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "error de E/S al escribir sobre `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "error al reemplazar  `%s'"

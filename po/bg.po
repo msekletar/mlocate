@@ -1,23 +1,23 @@
-# Bulgarian translation of mlocate.
-# Copyright (C) 2008 THE mlocate'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the mlocate package.
-# Alexander Todorov <atodorov@redhat.com>, 2008.
-# , fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
-#
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
+# Valentin Laskov <laskov@festa.bg>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate VERSION\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2008-03-20 17:32+0100\n"
-"Last-Translator: Alexander Todorov <atodorov@redhat.com>\n"
-"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: Bulgarian <trans-bg@lists.fedoraproject.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -27,7 +27,7 @@ msgstr "предупреждение: Препълване на номерата
 msgid "missing closing `\"'"
 msgstr "липсва затваряща `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "не може да бъде отворен `%s'"
@@ -94,6 +94,28 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
+"Usage: updatedb [OPTION]...\n"
+"Update a mlocate database.\n"
+"\n"
+"  -f, --add-prunefs FS           omit also FS\n"
+"  -n, --add-prunenames NAMES     omit also NAMES\n"
+"  -e, --add-prunepaths PATHS     omit also PATHS\n"
+"  -U, --database-root PATH       the subtree to store in database (default "
+"\"/\")\n"
+"  -h, --help                     print this help\n"
+"  -o, --output FILE              database to update (default\n"
+"                                 `%s')\n"
+"      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
+"      --prunefs FS               filesystems to omit from database\n"
+"      --prunenames NAMES         directory names to omit from database\n"
+"      --prunepaths PATHS         paths to omit from database\n"
+"  -l, --require-visibility FLAG  check visibility before reporting files\n"
+"                                 (default \"yes\")\n"
+"  -v, --verbose                  print paths of files as they are found\n"
+"  -V, --version                  print version information\n"
+"\n"
+"The configuration defaults to values read from\n"
+"`%s'.\n"
 
 #: src/conf.c:464 src/locate.c:642
 #, c-format
@@ -239,6 +261,33 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
+"Usage: locate [OPTION]... [PATTERN]...\n"
+"Search for entries in a mlocate database.\n"
+"\n"
+"  -b, --basename         match only the base name of path names\n"
+"  -c, --count            only print number of found entries\n"
+"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"                         %s)\n"
+"  -e, --existing         only print entries for currently existing files\n"
+"  -L, --follow           follow trailing symbolic links when checking file\n"
+"                         existence (default)\n"
+"  -h, --help             print this help\n"
+"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
+"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
+"  -m, --mmap             ignored, for backward compatibility\n"
+"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
+"file\n"
+"                         existence\n"
+"  -0, --null             separate entries with NUL on output\n"
+"  -S, --statistics       don't search for entries, print statistics about "
+"each\n"
+"                         used database\n"
+"  -q, --quiet            report no error messages about reading databases\n"
+"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
+"      --regex            patterns are extended regexps\n"
+"  -s, --stdio            ignored, for backward compatibility\n"
+"  -V, --version          print version information\n"
+"  -w, --wholename        match whole path name (default)\n"
 
 #: src/locate.c:806
 #, c-format
@@ -262,65 +311,70 @@ msgstr "неуспех при опит за работа с по-ниски пр
 msgid "can not read two databases from standard input"
 msgstr "не е възможно да бъдат прочетени две бази данни от стандартния вход"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не може да се изпълни stat () за `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "Вх/Изх грешка при запис на стандартния изход"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "дължина %zu·на името на файл е прекалено голяма"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не може да бъде отворен временен файл за `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "конфигурацията е прекалено голяма"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не може да бъде намерена група `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "не може да бъде променена групата на файл `%s'·на·`%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не могат да бъдат променени позволенията на файл `%s'"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr ""
+msgstr "`%s' е заключен (вероятно от друг updatedb процес)"
 
-#: src/updatedb.c:962
-#, fuzzy, c-format
+#: src/updatedb.c:970
+#, c-format
 msgid "can not lock `%s'"
-msgstr "не може да бъде отворен `%s'"
+msgstr "не мога да заключа `%s'"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "не може да бъде променена директорията на `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Вх/Изх грешка при запис до `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "грешка при заместване на `%s'"

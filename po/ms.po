@@ -1,34 +1,32 @@
-# Malay/Bahasa Melayu translation of mlocate.
-# Copyright (C) 2008 THE mlocate'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the mlocate package.
-# Mohd Izhar Firdaus Ismail <izhar@fedoraproject.org>, 2008.
-# , fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
-#
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2008-05-09 02:56+0800\n"
-"Last-Translator: Mohd Izhar Firdaus Ismail <izhar@fedoraproject.org>\n"
-"Language-Team: Malay/Bahasa Melayu\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: src/conf.c:241
-#, fuzzy
 msgid "warning: Line number overflow"
-msgstr "amaran: Bilangan baris melebihi had"
+msgstr ""
 
 #: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr ""
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "tidak dapat membuka `%s'"
@@ -39,9 +37,8 @@ msgid "unknown variable `%s'"
 msgstr "pembulehubah tidak diketahui: `%s'"
 
 #: src/conf.c:358
-#, fuzzy
 msgid "variable name expected"
-msgstr "nama pembolehubah dijangka"
+msgstr ""
 
 #: src/conf.c:364
 #, c-format
@@ -173,28 +170,24 @@ msgstr "Database %s:\n"
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/locate.c:473
 #, c-format
@@ -257,69 +250,73 @@ msgid "can not drop privileges"
 msgstr ""
 
 #: src/locate.c:947
-#, fuzzy
 msgid "can not read two databases from standard input"
-msgstr "tidak dapat membaca dua database dari standard input"
+msgstr ""
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr ""
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "Masalah I/O sewaktu menulis ke standard output"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "nama fail %zu terlalu panjang"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "tidak dapat membuka fail sementara untuk `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "konfigurasi terlalu besar"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "tidak jumpa kumpulan `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "tidak dapat tukar kumpulan fail dari `%s'·ke·`%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr ""
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr ""
 
-#: src/updatedb.c:962
-#, fuzzy, c-format
+#: src/updatedb.c:970
+#, c-format
 msgid "can not lock `%s'"
-msgstr "tidak dapat membuka `%s'"
+msgstr ""
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "tidak dapat tukar directori ke `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Masalah I/O sewaktu menulis ke `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "masalah semasa menukar `%s'"

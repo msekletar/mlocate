@@ -1,76 +1,71 @@
-# Greek translation of mlocate package.
-# Copyright (C) 2010 the Greek Fedora Translation Team
-# This file is distributed under the same license as the mlocate package.
-# Pierros Papadeas <pierros@papadeas.gr>, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate.tip\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2010-02-17 00:23+0200\n"
-"Last-Translator: Pierros Papadeas <pierros@papadeas.gr>\n"
-"Language-Team: Greek <fedora-trans-el@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: Greek <trans-el@lists.fedoraproject.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/conf.c:241
-#, fuzzy
 msgid "warning: Line number overflow"
-msgstr "Προειδοποίηση: Υπερχείληση αριθμών γραμμής"
+msgstr ""
 
 #: src/conf.c:259
-#, fuzzy
 msgid "missing closing `\"'"
-msgstr "Λείπει το tag κλεισίματος `\"'"
+msgstr ""
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
-#, fuzzy, c-format
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#, c-format
 msgid "can not open `%s'"
-msgstr "δεν μπορεί να ανοίξει το `%s'"
+msgstr ""
 
 #: src/conf.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "unknown variable `%s'"
-msgstr "Άγνωστη μεταβλητή `%s'"
+msgstr ""
 
 #: src/conf.c:358
-#, fuzzy
 msgid "variable name expected"
-msgstr "Αναμενόταν όνομα μεταβλητής"
+msgstr ""
 
 #: src/conf.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "variable `%s' was already defined"
-msgstr "Η μεταβλητή `%s' ήταν ήδη ορισμένη"
+msgstr ""
 
 #: src/conf.c:373
-#, fuzzy
 msgid "`=' expected after variable name"
-msgstr "Αναμενόταν `=' μετά το όνομα της μεταβλητής"
+msgstr ""
 
 #: src/conf.c:380
-#, fuzzy
 msgid "value in quotes expected after `='"
-msgstr "Αναμενόταν τιμή σε εισαγωγικά μετά το `='"
+msgstr ""
 
 #: src/conf.c:388
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value `%s' of PRUNE_BIND_MOUNTS"
-msgstr "εσφαλμένη τιμή `%s' του PRUNE_BIND_MOUNTS"
+msgstr ""
 
 #: src/conf.c:405
-#, fuzzy
 msgid "unexpected data after variable value"
-msgstr "μη αναμενόμενα δεδομένα μετά την τιμή της μεταβλητής"
+msgstr ""
 
 #: src/conf.c:419 src/lib.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "I/O error reading `%s'"
-msgstr "σφάλμα εισόδου/εξόδου στο διάβασμα του `%s'"
+msgstr ""
 
 #: src/conf.c:437
 #, c-format
@@ -100,34 +95,31 @@ msgid ""
 msgstr ""
 
 #: src/conf.c:464 src/locate.c:642
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
-"\n"
-"Αναφέρετε σφάλματα στο %s.\n"
 
 #: src/conf.c:482
-#, fuzzy
 msgid "can not get current working directory"
-msgstr "δεν μπορεί να βρεθεί ο τρέχων κατάλογος εργασίας"
+msgstr ""
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
 #: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
-#, fuzzy, c-format
+#, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr "--%s θα προσπεράσει προηγούμενο όρισμα της γραμμής εντολών"
+msgstr ""
 
 #: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "invalid value `%s' of --%s"
-msgstr "λανθασμένη τιμή `%s' του --%s"
+msgstr ""
 
 #: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
-#, fuzzy, c-format
+#, c-format
 msgid "--%s specified twice"
-msgstr "--%s ορισμένο διπλή φορά"
+msgstr ""
 
 #: src/conf.c:590 src/locate.c:722
 msgid ""
@@ -138,29 +130,28 @@ msgid ""
 msgstr ""
 
 #: src/conf.c:646
-#, fuzzy
 msgid "unexpected operand on command line"
-msgstr "μη αναμενόμενος τελεστής στην γραμμή εντολών"
+msgstr ""
 
 #: src/lib.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr "`%s' δεν φαίνεται να είναι mlocate βάση δεδομένων"
+msgstr ""
 
 #: src/lib.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' has unknown version %u"
-msgstr "`%s' έχει άγνωστη έκδοση %u"
+msgstr ""
 
 #: src/lib.c:213
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr "`%s' έχει άγνωστη σημαία ορατότητας %u"
+msgstr ""
 
 #: src/lib.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr "μη αναμενόμενο διάβασμα τέλους αρχείου από το `%s'"
+msgstr ""
 
 #: src/lib.c:363
 #, c-format
@@ -168,9 +159,9 @@ msgid "I/O error seeking in `%s'"
 msgstr "σφάλμα εισόδου/εξόδου κατά την αναζήτηση μέσα στο `%s'"
 
 #: src/locate.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "Database %s:\n"
-msgstr "Βάση δεδομένων %s:\n"
+msgstr ""
 
 #: src/locate.c:338
 #, c-format
@@ -201,14 +192,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/locate.c:473
-#, fuzzy, c-format
+#, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr "λανθασμένο όνομα άδειου καταλόγου μέσα στο `%s'"
+msgstr ""
 
 #: src/locate.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "το μήκος του ονόματος του αρχείου %zu στο `%s' είναι πολύ μεγάλο"
+msgstr ""
 
 #: src/locate.c:607
 #, c-format
@@ -261,72 +252,73 @@ msgid "can not drop privileges"
 msgstr ""
 
 #: src/locate.c:947
-#, fuzzy
 msgid "can not read two databases from standard input"
 msgstr ""
-"δεν μπορεί να διαβάσει δύο βάσεις δεδομένων από την προκαθορισμένη είσοδο"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr ""
 
-#: src/locate.c:1034 src/updatedb.c:996
-#, fuzzy
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
-msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στην προκαθορισμένη έξοδο"
+msgstr ""
 
-#: src/updatedb.c:556 src/updatedb.c:654
-#, fuzzy, c-format
+#: src/updatedb.c:556 src/updatedb.c:663
+#, c-format
 msgid "file name length %zu is too large"
-msgstr "το μήκος του ονόματος του αρχείου %zu είναι πολύ μεγάλο"
+msgstr ""
 
-#: src/updatedb.c:877
-#, fuzzy, c-format
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
+#, c-format
 msgid "can not open a temporary file for `%s'"
-msgstr "δεν μπορεί να ανοιχτεί προσωρινό αρχείο για το `%s'"
+msgstr ""
 
-#: src/updatedb.c:890
-#, fuzzy
+#: src/updatedb.c:899
 msgid "configuration is too large"
-msgstr "η ρύθμιση είναι πολύ μεγάλη"
+msgstr ""
 
-#: src/updatedb.c:911
-#, fuzzy, c-format
+#: src/updatedb.c:920
+#, c-format
 msgid "can not find group `%s'"
-msgstr "δεν μπορεί να βρεθεί η ομάδα `%s'"
+msgstr ""
 
-#: src/updatedb.c:914
-#, fuzzy, c-format
+#: src/updatedb.c:923
+#, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr "δεν μπορεί να αλλάξει η ομάδα του αρχείου `%s' σε `%s'"
+msgstr ""
 
-#: src/updatedb.c:928
-#, fuzzy, c-format
+#: src/updatedb.c:937
+#, c-format
 msgid "can not change permissions of file `%s'"
-msgstr "δεν μπορούν να αλλάξουν τα δικαιώματα του αρχείου `%s'"
+msgstr ""
 
-#: src/updatedb.c:959
-#, fuzzy, c-format
+#: src/updatedb.c:968
+#, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
-msgstr "`%s' είναι κλειδωμένο(πιθανόν από προηγούμενο updatedb)"
+msgstr ""
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "αδυναμία κλειδώματος του `%s'"
 
-#: src/updatedb.c:969
-#, fuzzy, c-format
+#: src/updatedb.c:977
+#, c-format
 msgid "can not change directory to `%s'"
-msgstr "δεν μπορεί να αλλάξει ο κατάλογος σε `%s'"
+msgstr ""
 
-#: src/updatedb.c:978
-#, fuzzy, c-format
+#: src/updatedb.c:986
+#, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "σφάλμα εισόδου/εξόδου κατά την εγγραφή στο `%s'"
+msgstr ""
 
-#: src/updatedb.c:982
-#, fuzzy, c-format
+#: src/updatedb.c:990
+#, c-format
 msgid "error replacing `%s'"
-msgstr "σφάλμα κατά την αντικατάσταση του `%s'"
+msgstr ""

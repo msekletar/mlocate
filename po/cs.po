@@ -1,22 +1,23 @@
-# Czech translation of mlocate.
-# Copyright (C) 2005, 2006, 2007, 2008 Red Hat, Inc.
-# Copyright (C) 2005, 2006, 2007, 2008 Miloslav Trmač <mitr@volny.cz>
-# This file is distributed under the same license as the mlocate package.
-# Miloslav Trmač <mitr@volny.cz>, 2005, 2006, 2007, 2008.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate VERSION\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2008-06-30 01:37+0200\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-03-03 05:54+0100\n"
 "Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"Language-Team: Czech (http://www.transifex.net/projects/p/fedora/language/"
+"cs/)\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -26,7 +27,7 @@ msgstr "varování: Číslo řádku přeteklo"
 msgid "missing closing `\"'"
 msgstr "chybí uzavírající `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "nemohu otevřít `%s'"
@@ -320,77 +321,70 @@ msgstr "nemohu se vzdát oprávnění"
 msgid "can not read two databases from standard input"
 msgstr "nemohu číst dvě databáze ze standardního vstupu"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "nemohu stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "chyba I/O při zápisu na standardní výstup"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "délka názvu souboru %zu je příliš velká"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr "chyba systému souborů: soubor s názvem nulové délky v adresáři %s"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "nemohu otevřít dočasný soubor pro `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "nastavení je příliš velké"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "nemohu najít skupinu `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "nemohu změnit skupinu souboru `%s' na `%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "nemohu změnit oprávnění souboru `%s'"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' je uzamčen (pravděpodobně dřívejším updatedb)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "nemohu zamknout `%s'"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "nemohu změnit adresář na `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "chyba I/O při zápisu do `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "chyba při nahrazování `%s'"
-
-#~ msgid "the argument to --database-root must be an absolute path name"
-#~ msgstr "parametr --database-root musí být absolutní cesta"
-
-#~ msgid "path name length %zu is too large"
-#~ msgstr "délka názvu cesty %zu je příliš velká"
-
-#~ msgid "can not allocate memory"
-#~ msgstr "nemohu alokovat paměť"
-
-#~ msgid "I/O error closing `%s'"
-#~ msgstr "chyba I/O při zavírání `%s'"

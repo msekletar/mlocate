@@ -1,27 +1,22 @@
-# translation of mlocate.tip.po to Brazilian Portuguese
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the mlocate package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
-# Diego Búrigo Zacarão <diegobz@projetofedora.org>, 2008.
-# Igor Pires Soares <igor@projetofedora.org>, 2008.
-# Ivo Nascimento <iannsp@gmail.com>, 2008.
-# Taylon Silmer <taylonsilva@gmail.com>, 2008.
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2008-08-15 18:39-0300\n"
-"Last-Translator: Taylon <taylonsilva@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <fedora-trans-pt_br@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: Portuguese (Brazil) <trans-pt_br@lists.fedoraproject.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: KBabel 1.11.4\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -31,7 +26,7 @@ msgstr "Aviso: Número de linhas excedido "
 msgid "missing closing `\"'"
 msgstr "falta fechar `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "não foi possível abrir `%s'"
@@ -322,65 +317,70 @@ msgstr "não foi possível retirar privilégios"
 msgid "can not read two databases from standard input"
 msgstr "Não foi possível ler duas bases de dados da entrada padrão"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "Não foi possível realizar stat () de `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "erro de E/S ao escrever na saída padrão"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "o nome do arquivo %zu é muito grande"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "não foi possível abrir um arquivo temporário para `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "a configuração é muito grande"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "não foi possível localizar o grupo `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "não foi possível alterar o grupo do arquivo `%s' para `%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "não foi possível alterar as permissões do arquivo `%s'"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' está bloqueado (provavelmente devido a um updatedb anterior)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "Não foi possível bloquear `%s'"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "não foi possível alterar o diretório para `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "Erro de E/S ao gravar em `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "erro ao substituir `%s'"

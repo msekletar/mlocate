@@ -1,18 +1,23 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
+# Rui Gouveia <rui.gouveia@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate.tip\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Rui Gouveia <rui.gouveia@globaltek.pt>\n"
-"Language-Team: pt <fedora-trans-pt@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-15 00:52+0000\n"
+"Last-Translator: Rui Gouveia <rui.gouveia@gmail.com>\n"
+"Language-Team: Portuguese <trans-pt@lists.fedoraproject.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -22,7 +27,7 @@ msgstr "Aviso: Número da linha excede limite"
 msgid "missing closing `\"'"
 msgstr "falta fecho `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "incapaz de abrir `%s'"
@@ -320,66 +325,72 @@ msgstr "incapaz de largar privilégios"
 msgid "can not read two databases from standard input"
 msgstr "incapaz de ler duas bases de dados da entrada standard"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "incapaz de executar o stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "erro de I/O ao escrever para a saída por omissão"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "tamanho do nome do ficheiro %zu é grande demais"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+"erro sistema ficheiros: nome de ficheiro com tamanho zero no directório %s"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "incapaz de abrir ficheiro temporário para `%s'"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "o ficheiro de configuração é grande demais"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "incapaz de encontrar grupo `%s'"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "incapaz de alterar o grupo do ficheiro `%s' para `%s'"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "incapaz de alterar as permissões do ficheiro `%s'"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr ""
 "`%s' está bloqueado (provavelmente por uma instância do updatedb anterior)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "Incapaz de bloquear '%s'"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "incapaz de alterar directório para `%s'"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "erro de I/O ao escrever para `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "erro ao substituir `%s'"

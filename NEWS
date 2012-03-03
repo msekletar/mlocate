@@ -1,3 +1,10 @@
+Changes in version 0.25:
+- Handle zero-length file names (a kernel bug) more gracefully.
+- Avoid PATH_MAX to hopefully support Hurd better.
+- Document that parent directories must exist for permission checking.
+- Minor bug fixes.
+- Updated translations.
+
 Changes in version 0.24:
 - Use /proc/self/mountinfo for bind mount detection; recent distributions
   symlink /etc/mtab to /proc/self/mounts, losing information we need.

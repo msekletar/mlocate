@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([mlocate], [0.24], [mitr@redhat.com], ,
+AC_INIT([mlocate], [0.25], [mitr@redhat.com], ,
         [https://fedorahosted.org/mlocate/])
 AC_COPYRIGHT(
 [Copyright (C) 2005, 2006, 2007, 2009, 2010 Red Hat, Inc. All rights reserved.

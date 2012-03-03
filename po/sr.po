@@ -1,23 +1,23 @@
-# Serbian translations for mlocate
-# Copyright (C) 2008 Red Hat, Inc.
-# This file is distributed under the same license as the mlocate package.
-# Nikola Pajtić <salgeras@gmail.com>, 2008.
-# Miloš Komarčević <kmilos@gmail.com>, 2008.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2008-10-13 21:33+0100\n"
-"Last-Translator: Miloš Komarčević <kmilos@gmail.com>\n"
-"Language-Team: Serbian (sr) <fedora-trans-sr@redhat.com>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: Serbian <trans-sr@lists.fedoraproject.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -27,7 +27,7 @@ msgstr "упозорење: прекорачен број линија"
 msgid "missing closing `\"'"
 msgstr "недостаје завршно „\"“"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "не могу да отворим „%s“"
@@ -204,33 +204,33 @@ msgstr "База података %s:\n"
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] "\t%'ju директоријум\n"
-msgstr[1] "\t%'ju директоријума\n"
-msgstr[2] "\t%'ju директоријума\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/locate.c:340
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] "\t%'ju датотека\n"
-msgstr[1] "\t%'ju датотеке\n"
-msgstr[2] "\t%'ju датотека\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/locate.c:342
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] "\t%'ju бајт у називима датотеке\n"
-msgstr[1] "\t%'ju бајта у називима датотеке\n"
-msgstr[2] "\t%'ju бајтова у називима датотеке\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/locate.c:344
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] "\t%'ju бајт употребљен за чување базе података\n"
-msgstr[1] "\t%'ju бајта употребљена за чување базе података\n"
-msgstr[2] "\t%'ju бајтова употребљено за чување базе података\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/locate.c:473
 #, c-format
@@ -327,65 +327,70 @@ msgstr "не могу да уклоним привилегије"
 msgid "can not read two databases from standard input"
 msgstr "не могу да прочитам две базе података са стандардног улаза"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не могу да извршим функцију stat () над „%s“"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "У/И грешка при читању са стандардног излаза"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "дужина %zu назива датотеке је превелика"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не могу да отворим привремену датотеку за „%s“"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "подешавање је превелико"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не могу да пронађем групу „%s“"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "не могу да променим групу датотеке „%s“ у „%s“"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не могу да променим дозволе датотеке „%s“"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "„%s“ је закључана (вероватно ранијом updatedb радњом)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "не могу да закључам „%s“"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "не могу да променим директоријум на „%s“"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "У/И грешка при писању у „%s“"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "грешка при замени „%s“"

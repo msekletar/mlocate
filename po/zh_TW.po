@@ -1,32 +1,34 @@
-# mlocate Chinese(Traditional) translation.
-# Copyright (C) 2010 The mlocate Project (msgids)
-# This file is distributed under the same license as the mlocate package.
-# Chai Zhenhua <watter1985@163.com>, 2009.
-# Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Red Hat, Inc
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Translators:
+# Cheng-Chia Tseng <pswo10680@gmail.com>, 2011.
+# Chester Cheng <ccheng@redhat.com>, 2012.
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: mlocate 0.23\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2010-09-12 23:22+0800\n"
-"Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
-"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-03-02 04:46+0000\n"
+"Last-Translator: Chester Cheng <ccheng@redhat.com>\n"
+"Language-Team: Chinese (Taiwan) <trans-zh_TW@lists.fedoraproject.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
-msgstr "警告:列數溢出"
+msgstr "警告：列數溢出"
 
 #: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "缺少匹配的「\"」"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "無法開啟「%s」"
@@ -93,7 +95,7 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
-"用法: updatedb [選項]…\n"
+"用法：updatedb [選項]…\n"
 "更新 mlocate 資料庫。\n"
 "\n"
 "  -f, --add-prunefs FS           也忽略 FS\n"
@@ -253,27 +255,27 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
-"用法: locate [選項]… [樣式]…\n"
+"用法：locate [選項]… [樣式]…\n"
 "在 mlocate 資料庫中搜尋條目。\n"
 "\n"
-"  -b，--basename         只匹配路徑中的主檔名\n"
-"  -c，--count            只顯示找到的條目數\n"
-"  -d，--database DBPATH  用 DBPATH 替代預設的資料庫(%s)\n"
-"  -e，--existing         只顯示目前存在檔案的條目\n"
-"  -L，--follow           當檔案存在時跟隨相連的符號連結 (預設)\n"
-"  -h，--help             顯示本說明\n"
-"  -i，--ignore-case      匹配樣式時忽略大小寫區別\n"
-"  -l，--limit，-n LIMIT  限制為 LIMIT 項目的輸出 (或計數) \n"
-"  -m，--mmap             忽略向後相容性\n"
-"  -P，--nofollow，-H     檢查檔案時不跟隨相連的符號連結\n"
-"  -0，--null             輸出時以 NUL 分隔項目\n"
-"  -S，--statistics       不搜尋項目，而是顯示有關每個已用資料庫的統計資訊\n"
-"  -q，--quiet            不報告關於讀取資料庫的錯誤訊息\n"
-"  -r，--regexp REGEXP    搜尋基本正規表示式 REGEXP 來代替樣式\n"
+"  -b, --basename         只匹配路徑中的主檔名\n"
+"  -c, --count            只顯示找到的條目數\n"
+"  -d, --database DBPATH  用 DBPATH 替代預設的資料庫(%s)\n"
+"  -e, --existing         只顯示目前存在檔案的條目\n"
+"  -L, --follow           當檔案存在時跟隨相連的符號連結 (預設)\n"
+"  -h, --help             顯示本說明\n"
+"  -i, --ignore-case      匹配樣式時忽略大小寫區別\n"
+"  -l, --limit，-n LIMIT  限制為 LIMIT 項目的輸出 (或計數) \n"
+"  -m, --mmap             忽略向後相容性\n"
+"  -P, --nofollow，-H     檢查檔案時不跟隨相連的符號連結\n"
+"  -0, --null             輸出時以 NUL 分隔項目\n"
+"  -S, --statistics       不搜尋項目，而是顯示有關每個已用資料庫的統計資訊\n"
+"  -q, --quiet            不報告關於讀取資料庫的錯誤訊息\n"
+"  -r, --regexp REGEXP    搜尋基本正規表示式 REGEXP 來代替樣式\n"
 "      --regex            樣式是擴充的正規表示式\n"
-"  -s，--stdio            忽略，為了向後相容性\n"
-"  -V，--version          顯示版本資訊\n"
-"  -w，--wholename        匹配完整路徑名稱 (預設)\n"
+"  -s, --stdio            忽略，為了向後相容性\n"
+"  -V, --version          顯示版本資訊\n"
+"  -w, --wholename        匹配完整路徑名稱 (預設)\n"
 
 #: src/locate.c:806
 #, c-format
@@ -287,7 +289,7 @@ msgstr "沒有指定任何搜尋樣式"
 #: src/locate.c:846
 #, c-format
 msgid "invalid regexp `%s': %s"
-msgstr "無效的正規表示式 `%s': %s"
+msgstr "無效的正規表示式「%s」: %s"
 
 #: src/locate.c:932
 msgid "can not drop privileges"
@@ -297,65 +299,70 @@ msgstr "無法釋放特權"
 msgid "can not read two databases from standard input"
 msgstr "無法從標準輸入讀取兩個資料庫"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "無法執行 stat()「%s」"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "寫入標準輸出時發生 I/O 錯誤"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "檔案名稱 %zu 過長"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr "檔案系統錯誤：目錄 %s 中的檔案名稱長度為零"
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "無法為「%s」開啟暫時檔案"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "配置過大"
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "無法找到群組「%s」"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "無法將檔案所在群組「%s」變更為「%s」"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "無法變更檔案「%s」的權限"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "「%s」已被鎖定 (可能是由於先前的 updatedb)"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "無法鎖定「%s」"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "無法變更目錄到「%s」"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "寫入「%s」時發生 I/O 錯誤"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "替換「%s」時發生錯誤"

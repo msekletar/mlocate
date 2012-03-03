@@ -1,23 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) YEAR Red Hat, Inc
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Translators:
+# mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: 1\n"
+"Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2011-03-31 20:39+0200\n"
-"PO-Revision-Date: 2010-08-24 22:29+0330\n"
-"Last-Translator: Mostafa <info@mostafadaneshvar.com>\n"
-"Language-Team: Persian <trans-fa@lists.fedoraproject.org>\n"
+"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"PO-Revision-Date: 2012-02-14 08:16+0000\n"
+"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"Language-Team: Persian (http://www.transifex.net/projects/p/fedora/language/"
+"fa/)\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-Language: Persian\n"
-"X-Poedit-Country: Ira\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -27,7 +27,7 @@ msgstr "هشدار: شماره خط اضافی است"
 msgid "missing closing `\"'"
 msgstr "گم کردن بستن `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:883
+#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
 #, c-format
 msgid "can not open `%s'"
 msgstr "نمی‌توان پرونده `%s' را باز کرد"
@@ -307,65 +307,70 @@ msgstr "نمی توان اجازه ها را برداشت"
 msgid "can not read two databases from standard input"
 msgstr "نمی تواند دو پایگاه داده از خروجی استاندارد بخواند"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:972
+#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "تعیین وضعیت () `%s' ممکن نیست"
 
-#: src/locate.c:1034 src/updatedb.c:996
+#: src/locate.c:1034 src/updatedb.c:1004
 msgid "I/O error while writing to standard output"
 msgstr "خطای I/O هنگام نوشتن بر خروجی استاندارد"
 
-#: src/updatedb.c:556 src/updatedb.c:654
+#: src/updatedb.c:556 src/updatedb.c:663
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "طول نام فایل %zu بسیار طولانی است"
 
-#: src/updatedb.c:877
+#: src/updatedb.c:655
+#, c-format
+msgid "file system error: zero-length file name in directory %s"
+msgstr ""
+
+#: src/updatedb.c:886
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "نمی‌توان  پروندهٔ موقتی برای فایل `%s' باز کرد"
 
-#: src/updatedb.c:890
+#: src/updatedb.c:899
 msgid "configuration is too large"
 msgstr "پیکره بندی خیلی بزرگ است."
 
-#: src/updatedb.c:911
+#: src/updatedb.c:920
 #, c-format
 msgid "can not find group `%s'"
 msgstr "گروه `%s' یافت نشد"
 
-#: src/updatedb.c:914
+#: src/updatedb.c:923
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "نمی توان گروه فایل `%s' را به `%s' تغییر داد"
 
-#: src/updatedb.c:928
+#: src/updatedb.c:937
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "نمی تواند مجوزه های فایل `%s' تغییر دهد"
 
-#: src/updatedb.c:959
+#: src/updatedb.c:968
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s'  updatedbقفل است. (شاید با )"
 
-#: src/updatedb.c:962
+#: src/updatedb.c:970
 #, c-format
 msgid "can not lock `%s'"
 msgstr "قفل کردن '%s' ممکن نبود"
 
-#: src/updatedb.c:969
+#: src/updatedb.c:977
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "نمی تواند به شاخه ی `%s' تغییر دهد"
 
-#: src/updatedb.c:978
+#: src/updatedb.c:986
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "خطای I/O در حین نوشتن در‌ `%s'"
 
-#: src/updatedb.c:982
+#: src/updatedb.c:990
 #, c-format
 msgid "error replacing `%s'"
 msgstr "خطای جایگزینی  `%s'"

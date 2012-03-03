@@ -1,3 +1,10 @@
+2012-03-03  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Release 0.25.
+	* NEWS: Update.
+	* po/*: Update.
+	* po/LINGUAS: Update.
+
 2012-02-10  Miloslav Trmač  <mitr@redhat.com>
 
 	* po/mlocate.pot: Update for Transifex.
