@@ -1,5 +1,7 @@
 2012-03-03  Miloslav Trmač  <mitr@redhat.com>
 
+	* COPYING: Update (new FSF address, s/Library GPL/Lesser GPL/).
+
 	* configure.ac: Release 0.25.
 	* NEWS: Update.
 	* po/*: Update.
