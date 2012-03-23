@@ -1,6 +1,6 @@
 /* Bind mount detection.  Note: if you change this, change tmpwatch as well.
 
-Copyright (C) 2005, 2007, 2008, 2011 Red Hat, Inc. All rights reserved.
+Copyright (C) 2005, 2007, 2008, 2012 Red Hat, Inc. All rights reserved.
 This copyrighted material is made available to anyone wishing to use, modify,
 copy, or redistribute it subject to the terms and conditions of the GNU General
 Public License v.2.
@@ -33,11 +33,9 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include "conf.h"
 #include "lib.h"
 
-#define MOUNTINFO_PATH "/proc/self/mountinfo"
+ /* mountinfo handling */
 
- /* MOUNTINFO_PATH handling */
-
-/* A single MOUNTINFO_PATH entry */
+/* A single mountinfo entry */
 struct mount
 {
   int id, parent_id;
@@ -47,6 +45,9 @@ struct mount
   char *fs_type;
   char *source;
 };
+
+/* Path to mountinfo */
+static const char *mountinfo_path;
 
 /* Pointers to struct mount. */
 static void **mount_entries;
@@ -61,7 +62,7 @@ static void *mount_string_mark;
 /* Obstack of 'void *' (struct mount *) pointers, for mount_entries */
 static struct obstack mount_list_obstack;
 
-/* Obstack used for a MOUNTINFO_PATH line buffer */
+/* Obstack used for a mountinfo line buffer */
 static struct obstack mountinfo_line_obstack;
 
 /* Initialize state for read_mount_entries () */
@@ -223,7 +224,7 @@ read_mount_entry (FILE *f)
   return NULL;
 }
 
-/* Read mount information from MOUNTINFO_PATH, update mount_entries and
+/* Read mount information from mountinfo_path, update mount_entries and
    num_mount_entries.
    Return 0 if OK, -1 on error. */
 static int
@@ -232,7 +233,7 @@ read_mount_entries (void)
   FILE *f;
   struct mount *me;
 
-  f = fopen (MOUNTINFO_PATH, "r");
+  f = fopen (mountinfo_path, "r");
   if (f == NULL)
     return -1;
   obstack_free (&mount_data_obstack, mount_data_mark);
@@ -259,7 +260,7 @@ read_mount_entries (void)
 
  /* Bind mount path list maintenace and top-level interface. */
 
-/* MOUNTINFO_PATH file descriptor, or -1 */
+/* mountinfo_path file descriptor, or -1 */
 static int mountinfo_fd;
 
 /* Known bind mount paths */
@@ -379,7 +380,7 @@ is_bind_mount (const char *path)
 
   /* Unfortunately (mount --bind $path $path/subdir) would leave st_dev
      unchanged between $path and $path/subdir, so we must keep reparsing
-     MOUNTINFO_PATH each time it changes. */
+     mountinfo_path each time it changes. */
   pfd.fd = mountinfo_fd;
   pfd.events = POLLPRI;
   if (poll (&pfd, 1, 0) < 0)
@@ -393,15 +394,16 @@ is_bind_mount (const char *path)
 					&bind_mount_paths_index, path);
 }
 
-/* Initialize state for is_bind_mount(). */
+/* Initialize state for is_bind_mount(), to read data from MOUNTINFO. */
 void
-bind_mount_init (void)
+bind_mount_init (const char *mountinfo)
 {
+  mountinfo_path = mountinfo;
   init_mount_entries ();
   obstack_init (&bind_mount_paths_obstack);
   obstack_alignment_mask (&bind_mount_paths_obstack) = 0;
   bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
-  mountinfo_fd = open (MOUNTINFO_PATH, O_RDONLY);
+  mountinfo_fd = open (mountinfo_path, O_RDONLY);
   if (mountinfo_fd == -1)
     return;
   rebuild_bind_mount_paths ();

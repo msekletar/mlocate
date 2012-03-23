@@ -1,5 +1,21 @@
 2012-03-23  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/bind-mount.c (MOUNTINFO_PATH): Move to bind-mount.h.
+	(mountinfo_path): New variable.  All users changed to use the variable.
+	(bind_mount_init): New parameter mountinfo.  Initialize mountinfo_path.
+	* src/bind-mount.h (MOUNTINFO_PATH): Moved from bind-mount.c.
+	(bind_mount_init): Update declaration.
+	* src/updatedb.c (main): Update for changed bind_mount_init ().
+	* tests/bind-mount.at
+	* tests/bind-mount-helper.c: New files.
+	* tests/testsuite.at: Include bind-mount.at.
+	* configure.ac: Add tests to PATH.
+	* Makefile.am (check_PROGRAMS, tests_bind_mount_helper_LDADD): New
+	definitions.
+	(TESTFILES): Add tests/bind-mount.at.
+	(src_updatedb_SOURCES): Move src/bind-mount.c src/bind-mount.h ...
+	(src_liblib_a_SOURCES): ... here.
+
 	* src/updatedb.c (time_is_current): Use "struct time" as input.  Add
 	>3 seconds margin to account for low timestamp precision on FAT and for
 	Linux kernel races.

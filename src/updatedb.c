@@ -980,7 +980,7 @@ main (int argc, char *argv[])
   textdomain (PACKAGE_NAME);
   conf_prepare (argc, argv);
   if (conf_prune_bind_mounts != false)
-    bind_mount_init ();
+    bind_mount_init (MOUNTINFO_PATH);
   lock_file_fd = old_db_open ();
   if (lock_file_fd != -1)
     {

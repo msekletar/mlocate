@@ -20,7 +20,7 @@ AC_PREREQ([2.63b])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/locate.c])
 AC_CONFIG_AUX_DIR([admin])
-AC_CONFIG_TESTDIR([.], [src])
+AC_CONFIG_TESTDIR([.], [src:tests])
 AM_INIT_AUTOMAKE([no-dist-gzip dist-xz no-define subdir-objects -Wall])
 
 # Checks for programs.

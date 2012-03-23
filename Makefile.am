@@ -37,22 +37,27 @@ man_MANS = doc/locate.1 doc/updatedb.conf.5 doc/updatedb.8
 
 noinst_LIBRARIES = src/liblib.a
 
+check_PROGRAMS = tests/bind-mount-helper
+
 ## Rules
 CLEANFILES = $(man_MANS)
 DISTCLEANFILES = atconfig
 EXTRA_DIST = doc/locate.1.in doc/updatedb.conf.5.in doc/updatedb.8.in \
 	tests/testsuite tests/package.m4 tests/testsuite.at $(TESTFILES)
-TESTFILES = tests/config.at tests/locate.at tests/updatedb.at
+TESTFILES = tests/bind-mount.at tests/config.at tests/locate.at \
+	tests/updatedb.at
 
-src_liblib_a_SOURCES = src/db.h src/lib.c src/lib.h
+src_liblib_a_SOURCES = src/bind-mount.c src/bind-mount.h src/db.h \
+	src/lib.c src/lib.h
 
 src_locate_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS)
 src_locate_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
 
-src_updatedb_SOURCES = src/bind-mount.c src/bind-mount.h src/conf.c src/conf.h \
-	src/updatedb.c
+src_updatedb_SOURCES = src/conf.c src/conf.h src/updatedb.c
 src_updatedb_CPPFLAGS = $(AM_CPPFLAGS) $(COMMON_CPPFLAGS) $(CONF_CPPFLAGS)
 src_updatedb_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
+
+tests_bind_mount_helper_LDADD = src/liblib.a gnulib/lib/libgnu.a $(LIBINTL)
 
 doc/locate.1: $(srcdir)/doc/locate.1.in Makefile
 	$(MKDIR_P) doc

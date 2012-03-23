@@ -22,11 +22,14 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 
 #include <stdbool.h>
 
+/* System mount information file */
+#define MOUNTINFO_PATH "/proc/self/mountinfo"
+
 /* Return true if PATH is a destination of a bind mount.
    (Bind mounts "to self" are ignored.) */
 extern bool is_bind_mount (const char *path);
 
-/* Initialize state for is_bind_mount(). */
-extern void bind_mount_init (void);
+/* Initialize state for is_bind_mount(), to read data from MOUNTINFO. */
+extern void bind_mount_init (const char *mountinfo);
 
 #endif
