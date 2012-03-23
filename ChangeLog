@@ -1,3 +1,8 @@
+2012-03-23  Miloslav Trmač  <mitr@redhat.com>
+
+	* tests/updatedb.at (updatedb: Concurrent modification): Use `wait'
+	instead of `sleep', removing a race and making the test suite faster.
+
 2012-03-03  Miloslav Trmač  <mitr@redhat.com>
 
 	* COPYING: Update (new FSF address, s/Library GPL/Lesser GPL/).

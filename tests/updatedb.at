@@ -228,7 +228,7 @@ bgpid=$!
 AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
 
 kill -KILL $bgpid
-sleep 1 # Wait for the background process to terminate
+wait $bgpid
 
 AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
 AT_CHECK([locate -d db / -c], ,
