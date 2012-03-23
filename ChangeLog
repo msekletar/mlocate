@@ -1,5 +1,13 @@
 2012-03-23  Miloslav Trmač  <mitr@redhat.com>
 
+	* src/updatedb.c (time_is_current): Use "struct time" as input.  Add
+	>3 seconds margin to account for low timestamp precision on FAT and for
+	Linux kernel races.
+	(scan): Check whether the timestamp needs invalidating even if the
+	nanosecond field is non-zero.
+	* tests/config.at (config: -v): Wait longer than the timestamp
+	margin in time_is_current ().
+
 	* tests/updatedb.at (updatedb: Concurrent modification): Use `wait'
 	instead of `sleep', removing a race and making the test suite faster.
 

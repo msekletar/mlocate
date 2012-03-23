@@ -128,17 +128,41 @@ time_compare (const struct time *a, const struct time *b)
   return 0;
 }
 
-/* Is SEC equal to the current second? */
+/* Is T recent enough that the filesystem could be changed without changing the
+   timestamp again? */
 static bool
-time_is_current (uint64_t sec)
+time_is_current (const struct time *t)
 {
-  static struct timeval cache; /* = { 0, } */
+  static struct time cache; /* = { 0, } */
 
-  /* Cache gettimeofday () results to rule out obviously old time stamps */
-  if ((time_t)sec < cache.tv_sec)
+  struct timeval tv;
+
+  /* This is more difficult than it should be because Linux uses a cheaper time
+     source for filesystem timestamps than for gettimeofday() and they can get
+     slightly out of sync, see
+     https://bugzilla.redhat.com/show_bug.cgi?id=244697 .  This affects even
+     nanosecond timestamps (and don't forget that tv_nsec existence doesn't
+     guarantee that the underlying filesystem has such resolution - it might be
+     microseconds or even coarser).
+
+     The worst case is probably FAT timestamps with 2-second resolution
+     (although using such a filesystem violates POSIX file times requirements).
+
+     So, to be on the safe side, require a >3.0 second difference (2 seconds to
+     make sure the FAT timestamp changed, 1 more to account for the Linux
+     timestamp races).  This large margin might make updatedb marginally more
+     expensive, but it only makes a difference if the directory was very
+     recently updated _and_ is will not be updated again until the next
+     updatedb run; this is not likely to happen for most directories. */
+
+  /* Cache gettimeofday () results to rule out obviously old time stamps;
+     CACHE contains the earliest time we reject as too current. */
+  if (time_compare (t, &cache) < 0)
     return false;
-  gettimeofday (&cache, NULL);
-  return (time_t)sec >= cache.tv_sec;
+  gettimeofday (&tv, NULL);
+  cache.sec = tv.tv_sec - 3;
+  cache.nsec = tv.tv_usec * 1000;
+  return time_compare (t, &cache) >= 0;
 }
 
  /* Directory obstack handling */
@@ -771,10 +795,15 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
 	  goto have_dir;
 	}
     }
-  if (dir.time.nsec == 0 && time_is_current (dir.time.sec))
-    /* The directory might be changing right now and we can't be sure the
-       timestamp will yet change, mark the timestamp invalid */
-    dir.time.sec = 0;
+  if (time_is_current (&dir.time))
+    {
+      /* The directory might be changing right now and we can't be sure the
+	 timestamp will be changed again if more changes happen very soon, mark
+	 the timestamp as invalid to force rescanning the directory next time
+	 updatedb is run. */
+      dir.time.sec = 0;
+      dir.time.nsec = 0;
+    }
   did_chdir = true;
   if (safe_chdir (cwd_fd, relative, &st) != 0)
     goto err_chdir;

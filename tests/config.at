@@ -177,7 +177,7 @@ mkdir -p d/d1
 touch d/f1 d/d1/f
 
 # Let updatedb consider $(pwd)/d stable
-sleep 2
+sleep 4
 
 AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0 -v | sed "s,$(pwd)/,," | sort], ,
 [d/d1
