@@ -17,7 +17,7 @@
 AT_SETUP([bind-mount: Empty mountinfo])
 AT_KEYWORDS([bind-mount])
 
-AT_CHECK([bind-mount-helper /dev/null /foo], ,
+AT_CHECK([$abs_builddir/tests/bind-mount-helper /dev/null /foo], ,
 [no  /foo
 ])
 

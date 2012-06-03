@@ -1,3 +1,8 @@
+2012-06-03  Miloslav Trmač  <mitr@redhat.com>
+
+	* tests/bind-mount.at (bind-mount: Empty mountinfo): Fix the test
+	when run in (make installcheck).
+
 2012-03-23  Miloslav Trmač  <mitr@redhat.com>
 
 	* src/bind-mount.c (MOUNTINFO_PATH): Move to bind-mount.h.
