@@ -80,7 +80,7 @@ clean-local:
 check-local: atconfig $(top_srcdir)/tests/testsuite
 	$(SHELL) $(top_srcdir)/tests/testsuite
 
-installcheck-local:
+installcheck-local: atconfig $(top_srcdir)/tests/testsuite
 	$(SHELL) $(top_srcdir)/tests/testsuite AUTOTEST_PATH=$(bindir)
 
 install-exec-local:

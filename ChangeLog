@@ -1,3 +1,8 @@
+2012-06-25  Miloslav Trmač  <mitr@redhat.com>
+
+	* Makefile.am (installcheck-local): Make sure the test suite is
+	up-to-date before running it.
+
 2012-06-03  Miloslav Trmač  <mitr@redhat.com>
 
 	* tests/bind-mount.at (bind-mount: Empty mountinfo): Fix the test
