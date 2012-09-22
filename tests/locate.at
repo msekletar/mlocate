@@ -57,6 +57,33 @@ AT_CHECK([locate -d db], 1, ,
 AT_CLEANUP
 
 
+AT_SETUP([locate: -A])
+AT_KEYWORDS([locate])
+
+mkdir -p d/
+touch d/{a,b}{a,b}
+
+AT_CHECK([updatedb -U "$(pwd)/d" -o db -l 0])
+
+# Only one pattern needs to match by default
+AT_CHECK([locate -d db '*/a?' '*/?a' | sed "s,$(pwd)/,,"], ,
+[d/aa
+d/ab
+d/ba
+])
+
+# With -A, all patterns need to match
+AT_CHECK([locate -d db -A '*/a?' '*/?a' | sed "s,$(pwd)/,,"], ,
+[d/aa
+])
+
+AT_CHECK([locate -d db --all '*/a?' '*/?a' | sed "s,$(pwd)/,,"], ,
+[d/aa
+])
+
+AT_CLEANUP
+
+
 AT_SETUP([locate: -b])
 AT_KEYWORDS([locate])
 
@@ -196,6 +223,7 @@ AT_DATA([expout],
 [[Usage: locate [OPTION]... [PATTERN]...
 Search for entries in a mlocate database.
 
+  -A, --all              only print entries that match all patterns
   -b, --basename         match only the base name of path names
   -c, --count            only print number of found entries
   -d, --database DBPATH  use DBPATH instead of default database (which is

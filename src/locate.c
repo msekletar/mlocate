@@ -60,6 +60,9 @@ static struct string_list conf_dbpath; /* = { 0, }; */
 /* Ignore case when matching patterns */
 static bool conf_ignore_case; /* = false; */
 
+/* Return only files that match all patterns */
+static bool conf_match_all_patterns; /* = false; */
+
 /* Match only the basename against patterns */
 static bool conf_match_basename; /* = false; */
 
@@ -364,7 +367,7 @@ string_matches_pattern (const char *string)
 {
   size_t i;
   wchar_t *wstring;
-  bool matched;
+  bool matched, break_matching_on;
 
   if (conf_match_regexp == false && conf_ignore_case != false
       && conf_have_simple_pattern != false)
@@ -376,6 +379,13 @@ string_matches_pattern (const char *string)
   else
     wstring = NULL;
   matched = false;
+  if (conf_match_all_patterns != false)
+    /* Any pattern doesn't match => result is false.  If all patterns match,
+       return the value of the last match, which is true. */
+    break_matching_on = false;
+  else
+    /* Any pattern matches => result is true. */
+    break_matching_on = true;
   for (i = 0; i < conf_patterns.len; i++)
     {
       if (conf_match_regexp != false)
@@ -394,7 +404,7 @@ string_matches_pattern (const char *string)
 				conf_ignore_case != false ? FNM_CASEFOLD : 0)
 		       == 0);
 	}
-      if (matched != false)
+      if (matched == break_matching_on)
 	break;
     }
   return matched;
@@ -607,6 +617,8 @@ help (void)
   printf (_("Usage: locate [OPTION]... [PATTERN]...\n"
 	    "Search for entries in a mlocate database.\n"
 	    "\n"
+	    "  -A, --all              only print entries that match all "
+	    "patterns\n"
 	    "  -b, --basename         match only the base name of path names\n"
 	    "  -c, --count            only print number of found entries\n"
 	    "  -d, --database DBPATH  use DBPATH instead of default database "
@@ -649,6 +661,7 @@ parse_options (int argc, char *argv[])
 {
   static const struct option options[] =
     {
+      { "all", no_argument, NULL, 'A' },
       { "basename", no_argument, NULL, 'b' },
       { "count", no_argument, NULL, 'c' },
       { "database", required_argument, NULL, 'd' },
@@ -678,7 +691,7 @@ parse_options (int argc, char *argv[])
     {
       int opt, idx;
 
-      opt = getopt_long (argc, argv, "0HPLSVbcd:ehil:mn:qr:sw", options, &idx);
+      opt = getopt_long (argc, argv, "0AHPLSVbcd:ehil:mn:qr:sw", options, &idx);
       switch (opt)
 	{
 	case -1:
@@ -689,6 +702,10 @@ parse_options (int argc, char *argv[])
 
 	case '0':
 	  conf_output_separator = 0;
+	  break;
+
+	case 'A':
+	  conf_match_all_patterns = true;
 	  break;
 
 	case 'H': case 'P':

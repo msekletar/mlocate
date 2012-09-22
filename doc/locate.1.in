@@ -1,6 +1,6 @@
 .\" A man page for locate(1). -*- nroff -*-
 .\"
-.\" Copyright (C) 2011 Red Hat, Inc. All rights reserved.
+.\" Copyright (C) 2012 Red Hat, Inc. All rights reserved.
 .\"
 .\" This copyrighted material is made available to anyone wishing to use,
 .\" modify, copy, or redistribute it subject to the terms and conditions of the
@@ -16,7 +16,7 @@
 .\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 .\"
 .\" Author: Miloslav Trmac <mitr@redhat.com>
-.TH locate 1 "Aug 2011" mlocate
+.TH locate 1 "Sep 2012" mlocate
 
 .SH NAME
 locate \- find files by name
@@ -68,6 +68,11 @@ Errors encountered while reading a database are not fatal,
 search continues in other specified databases, if any.
 
 .SH OPTIONS
+.TP
+\fB\-A\fR, \fB\-\-all\fR
+Print only entries that match all \fIPATTERN\fRs
+instead of requiring only one of them to match.
+
 .TP
 \fB\-b\fR, \fB\-\-basename\fR
 Match only the base name against the specified patterns.
