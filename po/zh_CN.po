@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Christopher Meng <cickumqt@gmail.com>, 2012.
 #   <lovenemesis@gmail.com>, 2012.
 # mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2012-03-03 06:10+0100\n"
-"PO-Revision-Date: 2012-02-29 18:00+0000\n"
-"Last-Translator: Tommy He <lovenemesis@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/fedora/"
-"language/zh_CN/)\n"
+"POT-Creation-Date: 2012-09-22 04:14+0200\n"
+"PO-Revision-Date: 2012-09-19 02:59+0000\n"
+"Last-Translator: Christopher Meng <cickumqt@gmail.com>\n"
+"Language-Team: Chinese (China) <trans-zh_cn@lists.fedoraproject.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -28,7 +28,7 @@ msgstr "警告:行数溢出"
 msgid "missing closing `\"'"
 msgstr "缺少匹配的 '\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#: src/conf.c:309 src/locate.c:985 src/updatedb.c:921
 #, c-format
 msgid "can not open `%s'"
 msgstr "无法打开 `%s'"
@@ -96,7 +96,7 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 "用法: updatedb [OPTION]...\n"
-"更新mlocate数据库。\n"
+"更新 mlocate 数据库。\n"
 "\n"
 "  -f, --add-prunefs FS           也忽略 FS\n"
 "  -n, --add-prunenames NAMES     也忽略 NAMES\n"
@@ -116,7 +116,7 @@ msgstr ""
 "配置默认为从文件`%s' 读取的值。\n"
 ".\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: src/conf.c:464 src/locate.c:654
 #, c-format
 msgid ""
 "\n"
@@ -130,22 +130,22 @@ msgid "can not get current working directory"
 msgstr "无法得到当前的工作目录"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: src/locate.c:714 src/locate.c:723 src/locate.c:749 src/locate.c:807
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s 将覆盖先前的命令行参数"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:786
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "%s 有无效的值 `%s' "
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:780
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s 指定两次"
 
-#: src/conf.c:590 src/locate.c:722
+#: src/conf.c:590 src/locate.c:739
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -155,7 +155,7 @@ msgstr ""
 "Copyright (C) 2007 Red Hat, Inc. 保留所有权利。\n"
 "本软件在 GPL v.2 下发布。\n"
 "\n"
-"本程序不提供任何担保，在法法律允许的范围内予以排除。"
+"本程序不提供任何担保，在法律允许的范围内予以排除。"
 
 #: src/conf.c:646
 msgid "unexpected operand on command line"
@@ -164,7 +164,7 @@ msgstr "命令行包含意外的操作对象"
 #: src/lib.c:199
 #, c-format
 msgid "`%s' does not seem to be a mlocate database"
-msgstr "`%s' 不是一个mlocate数据库"
+msgstr "`%s' 不是一个 mlocate 数据库"
 
 #: src/lib.c:206
 #, c-format
@@ -186,51 +186,52 @@ msgstr "读取 `%s' 时, 出现意外的 EOF "
 msgid "I/O error seeking in `%s'"
 msgstr "在 `%s' 中搜索时发生 I/O 错误"
 
-#: src/locate.c:335
+#: src/locate.c:338
 #, c-format
 msgid "Database %s:\n"
 msgstr "数据库 %s:\n"
 
-#: src/locate.c:338
+#: src/locate.c:341
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju 文件夹\n"
 
-#: src/locate.c:340
+#: src/locate.c:343
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju 文件\n"
 
-#: src/locate.c:342
+#: src/locate.c:345
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju 文件名中的字节数\n"
 
-#: src/locate.c:344
+#: src/locate.c:347
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju 字节用于存储数据库\n"
 
-#: src/locate.c:473
+#: src/locate.c:483
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "`%s' 中有无效的空目录名"
 
-#: src/locate.c:500
+#: src/locate.c:510
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "文件名的长度 %zu 在`%s' 中 过大"
 
-#: src/locate.c:607
-#, c-format
+#: src/locate.c:617
+#, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
 "\n"
+"  -A, --all              only print entries that match all patterns\n"
 "  -b, --basename         match only the base name of path names\n"
 "  -c, --count            only print number of found entries\n"
 "  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
@@ -257,7 +258,7 @@ msgid ""
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
 "用法: locate [OPTION]... [PATTERN]...\n"
-"在mlocate数据库中搜索条目.\n"
+"在 mlocate 数据库中搜索条目.\n"
 "\n"
 "  -b, --basename         匹配唯一的路径名称的基本文件名\n"
 "  -c, --count            只显示找到条目的号码\n"
@@ -279,92 +280,92 @@ msgstr ""
 "  -V, --version          显示版本信息\n"
 "  -w, --wholename        匹配完整路径名 (默认)\n"
 
-#: src/locate.c:806
+#: src/locate.c:823
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "非选项参数不允许 --%s 一起使用"
 
-#: src/locate.c:819
+#: src/locate.c:836
 msgid "no pattern to search for specified"
 msgstr "没有指定任何搜索模式"
 
-#: src/locate.c:846
+#: src/locate.c:863
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "无效的 regexp `%s': %s"
 
-#: src/locate.c:932
+#: src/locate.c:949
 msgid "can not drop privileges"
 msgstr "无法释放特权"
 
-#: src/locate.c:947
+#: src/locate.c:964
 msgid "can not read two databases from standard input"
 msgstr "无法从标准输入读取两个数据库"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
+#: src/locate.c:976 src/locate.c:991 src/updatedb.c:1009
 #, c-format
 msgid "can not stat () `%s'"
-msgstr "无法执行stat () `%s'"
+msgstr "无法执行 stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1004
+#: src/locate.c:1051 src/updatedb.c:1033
 msgid "I/O error while writing to standard output"
-msgstr "写入标准输出时发生I/O 错误"
+msgstr "写入标准输出时发生 I/O 错误"
 
-#: src/updatedb.c:556 src/updatedb.c:663
+#: src/updatedb.c:580 src/updatedb.c:687
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "文件名 %zu 过长"
 
-#: src/updatedb.c:655
+#: src/updatedb.c:679
 #, c-format
 msgid "file system error: zero-length file name in directory %s"
-msgstr "文件系统错误：在目录 %s 下文件名长度为零"
+msgstr "文件系统错误:在目录 %s 下文件名长度为零"
 
-#: src/updatedb.c:886
+#: src/updatedb.c:915
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "无法为 `%s' 打开临时文件"
 
-#: src/updatedb.c:899
+#: src/updatedb.c:928
 msgid "configuration is too large"
 msgstr "配置过大"
 
-#: src/updatedb.c:920
+#: src/updatedb.c:949
 #, c-format
 msgid "can not find group `%s'"
 msgstr "无法找到组 `%s'"
 
-#: src/updatedb.c:923
+#: src/updatedb.c:952
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "无法将文件所在的组 `%s'  更改为 `%s'"
 
-#: src/updatedb.c:937
+#: src/updatedb.c:966
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "无法改变文件 `%s' 的权限"
 
-#: src/updatedb.c:968
+#: src/updatedb.c:997
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' 被锁定 (可能是由于先前的数据库更新)"
 
-#: src/updatedb.c:970
+#: src/updatedb.c:999
 #, c-format
 msgid "can not lock `%s'"
 msgstr "无法锁定 `%s'"
 
-#: src/updatedb.c:977
+#: src/updatedb.c:1006
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "无法改变目录 `%s'"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:1015
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "写入 '%s' 时发生 I/O 错误"
 
-#: src/updatedb.c:990
+#: src/updatedb.c:1019
 #, c-format
 msgid "error replacing `%s'"
 msgstr "替换错误 `%s'"

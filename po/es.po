@@ -4,20 +4,21 @@
 #
 # Translators:
 # Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>, 2012.
+#   <gguerrer@redhat.com>, 2012.
 # mitr <mitr@volny.cz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2012-03-03 06:10+0100\n"
-"PO-Revision-Date: 2012-02-14 18:43+0000\n"
-"Last-Translator: Claudio Rodrigo Pereyra Diaz <elsupergomez@gmail.com>\n"
-"Language-Team: Spanish (Castilian) <trans-es@lists.fedoraproject.org>\n"
+"POT-Creation-Date: 2012-09-22 04:14+0200\n"
+"PO-Revision-Date: 2012-03-09 00:29+0000\n"
+"Last-Translator: Gladys Guerrero <gguerrer@redhat.com>\n"
+"Language-Team: Spanish <trans-es@lists.fedoraproject.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -27,7 +28,7 @@ msgstr "atención: número de linea excedido"
 msgid "missing closing `\"'"
 msgstr "falta cerrar `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#: src/conf.c:309 src/locate.c:985 src/updatedb.c:921
 #, c-format
 msgid "can not open `%s'"
 msgstr "no se puede abrir `%s'"
@@ -117,7 +118,7 @@ msgstr ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: src/conf.c:464 src/locate.c:654
 #, c-format
 msgid ""
 "\n"
@@ -131,22 +132,22 @@ msgid "can not get current working directory"
 msgstr "no se puede acceder al directorio actual de trabajo"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: src/locate.c:714 src/locate.c:723 src/locate.c:749 src/locate.c:807
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s rr"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:786
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "valor `%s' inválido para --%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:780
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s especificado dos veces"
 
-#: src/conf.c:590 src/locate.c:722
+#: src/conf.c:590 src/locate.c:739
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -186,55 +187,56 @@ msgstr "fin de archivo inespereado al leer `%s'"
 msgid "I/O error seeking in `%s'"
 msgstr "error de E/S al buscar en `%s'"
 
-#: src/locate.c:335
+#: src/locate.c:338
 #, c-format
 msgid "Database %s:\n"
 msgstr "Base de datos %s:\n"
 
-#: src/locate.c:338
+#: src/locate.c:341
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju directorio\n"
 msgstr[1] "\t%'ju directorios\n"
 
-#: src/locate.c:340
+#: src/locate.c:343
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju archivo\n"
 msgstr[1] "\t%'ju archivos\n"
 
-#: src/locate.c:342
+#: src/locate.c:345
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t%'ju byte en los nombres de archivo\n"
 msgstr[1] "\t%'ju bytes en los nombres de archivo\n"
 
-#: src/locate.c:344
+#: src/locate.c:347
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\t%'ju byte utilizado para almacenar la base de datos\n"
 msgstr[1] "\t%'ju bytes utilizados para almacenar la base de datos\n"
 
-#: src/locate.c:473
+#: src/locate.c:483
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "nombre de directorio vacío inválido en `%s'"
 
-#: src/locate.c:500
+#: src/locate.c:510
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "el tamaño del nombre del archivo %zu en `%s es demasiado largo"
 
-#: src/locate.c:607
-#, c-format
+#: src/locate.c:617
+#, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
 "\n"
+"  -A, --all              only print entries that match all patterns\n"
 "  -b, --basename         match only the base name of path names\n"
 "  -c, --count            only print number of found entries\n"
 "  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
@@ -267,120 +269,120 @@ msgstr ""
 "dirección\n"
 "  -c, --count            muestra solamente el número de las correspondencias "
 "localizadas\n"
-"  -d, --database DBPATH  usar DBPATH en lugar de la base de datos por "
-"defecto (que es\n"
+"  -d, --database DBPATH  usa DBPATH en lugar de la base de datos por defecto "
+"(que es\n"
 "                        %s)\n"
 "  -e, --existing         muestra solamente las entradas de los archivos "
 "existentes\n"
-"  -L, --follow           seguir enlaces simbólicos subsiguientes al chequear "
+"  -L, --follow           sigue enlaces simbólicos subsiguientes al chequear "
 "la existencia de archivos (por defecto)\n"
 "  -h, --help             muestra esta ayuda\n"
 "  -i, --ignore-case      ignora mayúsulas y minúsculas en la búsqueda\n"
 "  -l, --limit, -n LIMIT  limita la salida (o la cuenta) a un determinado "
 "número de entradas\n"
 "  -m, --mmap             ignorado, para compatibilades regresivas\n"
-"  -P, --nofollow, -H     no seguir enlaces simbólicos subsiguientes cuando "
-"se verifica la existencia de archivos\n"
-"  -0, --null             separar las entradas con NUL en la salida\n"
-"  -S, --statistics       no buscar entradas, mostrar estadísticas sobre cada "
+"  -P, --nofollow, -H     no sigue enlaces simbólicos subsiguientes cuando se "
+"verifica la existencia de archivos\n"
+"  -0, --null             separa las entradas con NUL en la salida\n"
+"  -S, --statistics       no busca entradas, mostrar estadísticas sobre cada "
 "base de datos usada\n"
-"  -q, --quiet            no reportar mensajes de error sobre la lectura de "
-"la base de datos\n"
-"  -r, --regexp REGEXP    buscar regexp básicos en lugar de patrones\n"
+"  -q, --quiet            no reporta mensajes de error sobre la lectura de la "
+"base de datos\n"
+"  -r, --regexp REGEXP    busca regexp básicos en lugar de patrones\n"
 "      --regex            los patrones son regexp extendidas\n"
-"  -s, --stdio            ignoraddo, para compatibilidades regresivas\n"
-"  -V, --version          mostrar información de la versión\n"
+"  -s, --stdio            ignorado, para compatibilidades regresivas\n"
+"  -V, --version          muestra información de la versión\n"
 "  -w, --wholename        muestra la dirección completa del nombre (por "
 "defecto)\n"
 
-#: src/locate.c:806
+#: src/locate.c:823
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "no son permitidos argumentos sin opción con --%s"
 
-#: src/locate.c:819
+#: src/locate.c:836
 msgid "no pattern to search for specified"
 msgstr "ningún patrón de busqueda especificado"
 
-#: src/locate.c:846
+#: src/locate.c:863
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "expresión regular inválida `%s': %s"
 
-#: src/locate.c:932
+#: src/locate.c:949
 msgid "can not drop privileges"
 msgstr "no se pudo abandonar privilegios"
 
-#: src/locate.c:947
+#: src/locate.c:964
 msgid "can not read two databases from standard input"
 msgstr "no se pudieron leer dos bases de datos con la entrada patrón"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
+#: src/locate.c:976 src/locate.c:991 src/updatedb.c:1009
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "no se pudo realizar stat () `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1004
+#: src/locate.c:1051 src/updatedb.c:1033
 msgid "I/O error while writing to standard output"
 msgstr "error de E/S al intentar escribir sobre la entrada patrón "
 
-#: src/updatedb.c:556 src/updatedb.c:663
+#: src/updatedb.c:580 src/updatedb.c:687
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "el nombre del archivo %zu es demasiado largo"
 
-#: src/updatedb.c:655
+#: src/updatedb.c:679
 #, c-format
 msgid "file system error: zero-length file name in directory %s"
 msgstr ""
 "error del sistema de archivos: nombre de archivo con longitud cero en el "
 "directorio %s"
 
-#: src/updatedb.c:886
+#: src/updatedb.c:915
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "no se puede abrir un archivo temporal para `%s'"
 
-#: src/updatedb.c:899
+#: src/updatedb.c:928
 msgid "configuration is too large"
 msgstr "la configuración es demasiado extensa"
 
-#: src/updatedb.c:920
+#: src/updatedb.c:949
 #, c-format
 msgid "can not find group `%s'"
 msgstr "no se pudo encontrar el grupo `%s'"
 
-#: src/updatedb.c:923
+#: src/updatedb.c:952
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "no se pudo cambiar el grupo del archivo `%s' hacia `%s'"
 
-#: src/updatedb.c:937
+#: src/updatedb.c:966
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "no se pudieron cambiar los permisos del archivo `%s'"
 
-#: src/updatedb.c:968
+#: src/updatedb.c:997
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' está bloqueado (probablemente a causa de un updatedb anterior)"
 
-#: src/updatedb.c:970
+#: src/updatedb.c:999
 #, c-format
 msgid "can not lock `%s'"
 msgstr "no se pudo bloquear `%s'"
 
-#: src/updatedb.c:977
+#: src/updatedb.c:1006
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "no se pudo cambiar el directorio a `%s'"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:1015
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "error de E/S al escribir sobre `%s'"
 
-#: src/updatedb.c:990
+#: src/updatedb.c:1019
 #, c-format
 msgid "error replacing `%s'"
 msgstr "error al reemplazar  `%s'"

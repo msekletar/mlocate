@@ -1,3 +1,12 @@
+Changes in version 0.26:
+- New option -A, --all, that requires all patterns to match.
+  Based on a patch by Carlos J. G. Duarte <carlos.j.g.duarte@gmail.com>.
+- Add a >3-second margin when checking whether a directory is being
+  currently modified, to account for low timestamp precision on FAT and for
+  Linux kernel races.
+- Make the test suite more reliable and a little faster.
+- Updated translations.
+
 Changes in version 0.25:
 - Handle zero-length file names (a kernel bug) more gracefully.
 - Avoid PATH_MAX to hopefully support Hurd better.

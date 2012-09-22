@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2012-03-03 06:10+0100\n"
+"POT-Creation-Date: 2012-09-22 04:14+0200\n"
 "PO-Revision-Date: 2012-02-15 12:54+0000\n"
 "Last-Translator: ngoswami <ngoswami@redhat.com>\n"
-"Language-Team: Assamese (http://www.transifex.net/projects/p/fedora/language/"
+"Language-Team: Assamese (http://www.transifex.com/projects/p/fedora/language/"
 "as/)\n"
 "Language: as\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -28,7 +28,7 @@ msgstr "সতৰ্কবাৰ্তা: শাৰী নম্বৰ উপ�
 msgid "missing closing `\"'"
 msgstr "বন্ধ কৰা `\"' সন্ধানহীন"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#: src/conf.c:309 src/locate.c:985 src/updatedb.c:921
 #, c-format
 msgid "can not open `%s'"
 msgstr "`%s' খুলিব নোৱাৰি"
@@ -119,7 +119,7 @@ msgstr ""
 "মানসমূহ পঢ়িবলে সংৰূপ অবিকল্পিতসমূহ\n"
 "`%s'.\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: src/conf.c:464 src/locate.c:654
 #, c-format
 msgid ""
 "\n"
@@ -133,22 +133,22 @@ msgid "can not get current working directory"
 msgstr "বৰ্তমান কাৰ্যৰত ডাইৰেকটৰি পোৱা নগল"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: src/locate.c:714 src/locate.c:723 src/locate.c:749 src/locate.c:807
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr "--%s -এ পুৰ্বৰ কমান্ড-লাইন তৰ্ক পুনৰ লিখি দিব"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:786
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "--%s -ৰ অবৈধ মান `%s'"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:780
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s দুবাৰ ধাৰ্য্য কৰা হৈছে"
 
-#: src/conf.c:590 src/locate.c:722
+#: src/conf.c:590 src/locate.c:739
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -189,55 +189,56 @@ msgstr "`%s' পঢ়ি থাকোতে এটা অপ্ৰত্যাশ�
 msgid "I/O error seeking in `%s'"
 msgstr "`%s' বিচাৰোতে এটা I/O ত্ৰুটি"
 
-#: src/locate.c:335
+#: src/locate.c:338
 #, c-format
 msgid "Database %s:\n"
 msgstr "ডাটাবেইচ %s:\n"
 
-#: src/locate.c:338
+#: src/locate.c:341
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju ডাইৰেকটৰি\n"
 msgstr[1] "\t%'ju ডাইৰেকটৰিসমূহ\n"
 
-#: src/locate.c:340
+#: src/locate.c:343
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju নথিপত্ৰ\n"
 msgstr[1] "\t%'ju নথিপত্ৰসমূহ\n"
 
-#: src/locate.c:342
+#: src/locate.c:345
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
 msgstr[0] "\t নথিপত্ৰৰ নামসমূহত %'ju বাইট\n"
 msgstr[1] "\tনথিপত্ৰৰ নামসমূহত %'ju বাইটসমূহ\n"
 
-#: src/locate.c:344
+#: src/locate.c:347
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
 msgstr[0] "\tডাটাবেইচ সঞ্চয় কৰিবলে ব্যৱহৃত %'ju বাইট\n"
 msgstr[1] "\tডাটাবেইচ সঞ্চয় কৰিবলে ব্যৱহৃত %'ju বাইটসমূহ\n"
 
-#: src/locate.c:473
+#: src/locate.c:483
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr "`%s' -ত অবৈধ ৰিক্ত ডাইৰেকটৰি নাম"
 
-#: src/locate.c:500
+#: src/locate.c:510
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr "নথিপত্ৰ নামৰ দৈৰ্ঘ  %zu `%s' -ৰ বাবে  অতি ডাঙৰ"
 
-#: src/locate.c:607
-#, c-format
+#: src/locate.c:617
+#, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
 "\n"
+"  -A, --all              only print entries that match all patterns\n"
 "  -b, --basename         match only the base name of path names\n"
 "  -c, --count            only print number of found entries\n"
 "  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
@@ -291,92 +292,92 @@ msgstr ""
 "  -V, --version          সংস্কৰণ তথ্য প্ৰিন্ট কৰক\n"
 "  -w, --wholename        সমপূৰ্ণ পথৰ নাম মিলাই চাওক (অবিকল্পিত)\n"
 
-#: src/locate.c:806
+#: src/locate.c:823
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr "--%s -ৰ সৈতে বিকল্প নোহোৱা তৰ্কসমূহৰ অনুমতি আছে"
 
-#: src/locate.c:819
+#: src/locate.c:836
 msgid "no pattern to search for specified"
 msgstr "ধাৰ্য্য কৰাৰ কাৰণে বিচাৰিবলে কোনো বিন্যাস নাই"
 
-#: src/locate.c:846
+#: src/locate.c:863
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "অবৈধ regexp `%s': %s"
 
-#: src/locate.c:932
+#: src/locate.c:949
 msgid "can not drop privileges"
 msgstr "সুবিধাসমূহ এৰিব নোৱাৰি"
 
-#: src/locate.c:947
+#: src/locate.c:964
 msgid "can not read two databases from standard input"
 msgstr "প্ৰামানিক ইনপুটৰ পৰা দুটা ডাটাবেইচ পঢ়িব নোৱাৰি"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
+#: src/locate.c:976 src/locate.c:991 src/updatedb.c:1009
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "stat () `%s' কৰিব নোৱাৰি"
 
-#: src/locate.c:1034 src/updatedb.c:1004
+#: src/locate.c:1051 src/updatedb.c:1033
 msgid "I/O error while writing to standard output"
 msgstr "প্ৰামানিক ইনপুটলে লিখতে I/O ত্ৰুটি"
 
-#: src/updatedb.c:556 src/updatedb.c:663
+#: src/updatedb.c:580 src/updatedb.c:687
 #, c-format
 msgid "file name length %zu is too large"
 msgstr "নথিপত্ৰ নাম দৈৰ্ঘ %zu অতি ডাঙৰ"
 
-#: src/updatedb.c:655
+#: src/updatedb.c:679
 #, c-format
 msgid "file system error: zero-length file name in directory %s"
 msgstr "নথিপত্ৰ প্ৰনালী ত্ৰুটি: ডাইৰেকটৰি %s ত শূন্য-দৈৰ্ঘ্য নথিপত্ৰ নাম"
 
-#: src/updatedb.c:886
+#: src/updatedb.c:915
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "`%s' -ৰ বাবে এটা অস্থায়ী নথিপত্ৰ খুলিব নোৱাৰি"
 
-#: src/updatedb.c:899
+#: src/updatedb.c:928
 msgid "configuration is too large"
 msgstr "সংৰূপ অতি ডাঙৰ"
 
-#: src/updatedb.c:920
+#: src/updatedb.c:949
 #, c-format
 msgid "can not find group `%s'"
 msgstr "দল `%s' বিচাৰি পোৱা নাযায়"
 
-#: src/updatedb.c:923
+#: src/updatedb.c:952
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr "নথিপত্ৰ `%s' -ৰ দল `%s' লে সলাব নোৱাৰি"
 
-#: src/updatedb.c:937
+#: src/updatedb.c:966
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "নথিপত্ৰ `%s' -ৰ অনুমতিসমূহ সলাব নোৱাৰি"
 
-#: src/updatedb.c:968
+#: src/updatedb.c:997
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' লক্ড (সম্ভবত এটা পুৰ্বৰ updatedb দ্বাৰা)"
 
-#: src/updatedb.c:970
+#: src/updatedb.c:999
 #, c-format
 msgid "can not lock `%s'"
 msgstr "`%s' লক কৰিব নোৱাৰি"
 
-#: src/updatedb.c:977
+#: src/updatedb.c:1006
 #, c-format
 msgid "can not change directory to `%s'"
 msgstr "ডাইৰেকটৰিক `%s' লে সলাব নোৱাৰি"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:1015
 #, c-format
 msgid "I/O error while writing to `%s'"
 msgstr "`%s' -লে লিখোতে এটা I/O ত্ৰুটি"
 
-#: src/updatedb.c:990
+#: src/updatedb.c:1019
 #, c-format
 msgid "error replacing `%s'"
 msgstr "`%s' সলাওতে ত্ৰুটি"

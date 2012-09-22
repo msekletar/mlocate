@@ -1,5 +1,9 @@
 2012-09-22  Miloslav Trmač  <mitr@redhat.com>
 
+	* configure.ac: Relase 0.26.
+	* NEWS: Update.
+	* po/*: Update.
+
 	* src/locate.c (conf_match_all_patterns): New variable.
 	(string_matches_pattern): Implement conf_match_all_patterns.
 	(help): Document -A.

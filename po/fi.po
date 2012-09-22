@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Juhani Numminen <juhaninumminen0@gmail.com>, 2012.
 # Ville Skyttä <ville.skytta@iki.fi>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2012-03-03 06:10+0100\n"
-"PO-Revision-Date: 2012-02-14 08:16+0000\n"
-"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
-"Language-Team: Finnish (http://www.transifex.net/projects/p/fedora/language/"
+"POT-Creation-Date: 2012-09-22 04:14+0200\n"
+"PO-Revision-Date: 2012-04-21 14:38+0000\n"
+"Last-Translator: Juhani Numminen <juhaninumminen0@gmail.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/fedora/language/"
 "fi/)\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
@@ -27,10 +28,10 @@ msgstr ""
 msgid "missing closing `\"'"
 msgstr "puuttuva sulkeva `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#: src/conf.c:309 src/locate.c:985 src/updatedb.c:921
 #, c-format
 msgid "can not open `%s'"
-msgstr ""
+msgstr "tiedostoa \"%s\" ei voi avata"
 
 #: src/conf.c:353
 #, c-format
@@ -39,7 +40,7 @@ msgstr "tuntematon muuttuja `%s'"
 
 #: src/conf.c:358
 msgid "variable name expected"
-msgstr ""
+msgstr "odotettiin muuttujan nimeä"
 
 #: src/conf.c:364
 #, c-format
@@ -48,7 +49,7 @@ msgstr "muuttuja `%s' oli jo määritelty"
 
 #: src/conf.c:373
 msgid "`=' expected after variable name"
-msgstr ""
+msgstr "odotettiin merkkiä \"=\" muuttujan nimen jälkeen"
 
 #: src/conf.c:380
 msgid "value in quotes expected after `='"
@@ -66,7 +67,7 @@ msgstr ""
 #: src/conf.c:419 src/lib.c:266
 #, c-format
 msgid "I/O error reading `%s'"
-msgstr ""
+msgstr "I/O-virhe luettaessa tiedostoa \"%s\""
 
 #: src/conf.c:437
 #, c-format
@@ -95,34 +96,36 @@ msgid ""
 "`%s'.\n"
 msgstr ""
 
-#: src/conf.c:464 src/locate.c:642
+#: src/conf.c:464 src/locate.c:654
 #, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
+"\n"
+"Ilmoita ohjelmistovioista osoitteeseen %s.\n"
 
 #: src/conf.c:482
 msgid "can not get current working directory"
-msgstr ""
+msgstr "työkansiota ei saada selville"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: src/locate.c:714 src/locate.c:723 src/locate.c:749 src/locate.c:807
 #, c-format
 msgid "--%s would override earlier command-line argument"
 msgstr ""
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:786
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "virheellinen arvo `%s' --%s:lle"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:780
 #, c-format
 msgid "--%s specified twice"
-msgstr ""
+msgstr "--%s määritetty kahdesti"
 
-#: src/conf.c:590 src/locate.c:722
+#: src/conf.c:590 src/locate.c:739
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -132,7 +135,7 @@ msgstr ""
 
 #: src/conf.c:646
 msgid "unexpected operand on command line"
-msgstr ""
+msgstr "odottamaton operandi komentorivillä"
 
 #: src/lib.c:199
 #, c-format
@@ -152,62 +155,63 @@ msgstr ""
 #: src/lib.c:268
 #, c-format
 msgid "unexpected EOF reading `%s'"
-msgstr ""
+msgstr "odottamaton loppumerkki luettaessa tiedostoa \"%s\""
 
 #: src/lib.c:363
 #, c-format
 msgid "I/O error seeking in `%s'"
-msgstr ""
+msgstr "I/O-virhe etsittäessä tiedostossa \"%s\""
 
-#: src/locate.c:335
+#: src/locate.c:338
 #, c-format
 msgid "Database %s:\n"
 msgstr "Tietokanta %s:\n"
 
-#: src/locate.c:338
+#: src/locate.c:341
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju kansio\n"
+msgstr[1] "\t%'ju kansiota\n"
 
-#: src/locate.c:340
+#: src/locate.c:343
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju tiedosto\n"
+msgstr[1] "\t%'ju tiedostoa\n"
 
-#: src/locate.c:342
+#: src/locate.c:345
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju tavu tiedostonimissä\n"
+msgstr[1] "\t%'ju tavua tiedostonimissä\n"
 
-#: src/locate.c:344
+#: src/locate.c:347
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\t%'ju tavu käytetty tietokannan säilyttämiseen\n"
+msgstr[1] "\t%'ju tavua käytetty tietokannan säilyttämiseen\n"
 
-#: src/locate.c:473
+#: src/locate.c:483
 #, c-format
 msgid "invalid empty directory name in `%s'"
 msgstr ""
 
-#: src/locate.c:500
+#: src/locate.c:510
 #, c-format
 msgid "file name length %zu in `%s' is too large"
 msgstr ""
 
-#: src/locate.c:607
+#: src/locate.c:617
 #, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
 "\n"
+"  -A, --all              only print entries that match all patterns\n"
 "  -b, --basename         match only the base name of path names\n"
 "  -c, --count            only print number of found entries\n"
 "  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
@@ -234,92 +238,92 @@ msgid ""
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
 
-#: src/locate.c:806
+#: src/locate.c:823
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
 msgstr ""
 
-#: src/locate.c:819
+#: src/locate.c:836
 msgid "no pattern to search for specified"
-msgstr ""
+msgstr "etsittävää kaavaa ei määritetty"
 
-#: src/locate.c:846
+#: src/locate.c:863
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "epäkelpo säännöllinen lauseke `%s': %s"
 
-#: src/locate.c:932
+#: src/locate.c:949
 msgid "can not drop privileges"
-msgstr ""
+msgstr "ei voida pudottaa oikeuksia"
 
-#: src/locate.c:947
+#: src/locate.c:964
 msgid "can not read two databases from standard input"
 msgstr ""
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
+#: src/locate.c:976 src/locate.c:991 src/updatedb.c:1009
 #, c-format
 msgid "can not stat () `%s'"
-msgstr ""
+msgstr "stat() ei onnistu tiedostolle \"%s\""
 
-#: src/locate.c:1034 src/updatedb.c:1004
+#: src/locate.c:1051 src/updatedb.c:1033
 msgid "I/O error while writing to standard output"
-msgstr ""
+msgstr "I/O-virhe kirjoitettaessa standarditulosteeseen"
 
-#: src/updatedb.c:556 src/updatedb.c:663
+#: src/updatedb.c:580 src/updatedb.c:687
 #, c-format
 msgid "file name length %zu is too large"
-msgstr ""
+msgstr "tiedostonimen pituus %zu on liian suuri"
 
-#: src/updatedb.c:655
+#: src/updatedb.c:679
 #, c-format
 msgid "file system error: zero-length file name in directory %s"
 msgstr ""
 
-#: src/updatedb.c:886
+#: src/updatedb.c:915
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr ""
 
-#: src/updatedb.c:899
+#: src/updatedb.c:928
 msgid "configuration is too large"
 msgstr ""
 
-#: src/updatedb.c:920
+#: src/updatedb.c:949
 #, c-format
 msgid "can not find group `%s'"
-msgstr ""
+msgstr "ryhmää \"%s\" ei löydy"
 
-#: src/updatedb.c:923
+#: src/updatedb.c:952
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
 msgstr ""
 
-#: src/updatedb.c:937
+#: src/updatedb.c:966
 #, c-format
 msgid "can not change permissions of file `%s'"
-msgstr ""
+msgstr "tiedoston \"%s\" oikeuksia ei voi muuttaa"
 
-#: src/updatedb.c:968
+#: src/updatedb.c:997
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' on lukittu (luultavasti aiemman updatedb:n toimesta)"
 
-#: src/updatedb.c:970
+#: src/updatedb.c:999
 #, c-format
 msgid "can not lock `%s'"
-msgstr ""
+msgstr "tiedostoa \"%s\" ei voi lukita"
 
-#: src/updatedb.c:977
+#: src/updatedb.c:1006
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr ""
+msgstr "kansioon \"%s\" ei voi siirtyä"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:1015
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr ""
+msgstr "I/O-virhe kirjoitettaessa tiedostoon \"%s\""
 
-#: src/updatedb.c:990
+#: src/updatedb.c:1019
 #, c-format
 msgid "error replacing `%s'"
 msgstr "virhe korvattaessa `%s'"

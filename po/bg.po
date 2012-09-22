@@ -4,30 +4,30 @@
 #
 # Translators:
 # mitr <mitr@volny.cz>, 2011.
-# Valentin Laskov <laskov@festa.bg>, 2011.
+# Valentin Laskov <laskov@festa.bg>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: mlocate\n"
 "Report-Msgid-Bugs-To: https://fedorahosted.org/mlocate/\n"
-"POT-Creation-Date: 2012-03-03 06:10+0100\n"
-"PO-Revision-Date: 2012-02-14 08:16+0000\n"
-"Last-Translator: Miloslav Trmač <mitr@volny.cz>\n"
+"POT-Creation-Date: 2012-09-22 04:14+0200\n"
+"PO-Revision-Date: 2012-03-13 15:32+0000\n"
+"Last-Translator: Valentin Laskov <laskov@festa.bg>\n"
 "Language-Team: Bulgarian <trans-bg@lists.fedoraproject.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/conf.c:241
 msgid "warning: Line number overflow"
-msgstr "предупреждение: Препълване на номерата на редовете"
+msgstr "внимание: Препълване на броя редове"
 
 #: src/conf.c:259
 msgid "missing closing `\"'"
 msgstr "липсва затваряща `\"'"
 
-#: src/conf.c:309 src/locate.c:968 src/updatedb.c:892
+#: src/conf.c:309 src/locate.c:985 src/updatedb.c:921
 #, c-format
 msgid "can not open `%s'"
 msgstr "не може да бъде отворен `%s'"
@@ -35,7 +35,7 @@ msgstr "не може да бъде отворен `%s'"
 #: src/conf.c:353
 #, c-format
 msgid "unknown variable `%s'"
-msgstr "неизвестна променлива `%s'"
+msgstr "непозната променлива `%s'"
 
 #: src/conf.c:358
 msgid "variable name expected"
@@ -94,59 +94,62 @@ msgid ""
 "The configuration defaults to values read from\n"
 "`%s'.\n"
 msgstr ""
-"Usage: updatedb [OPTION]...\n"
-"Update a mlocate database.\n"
+"Употреба: updatedb [OPTION]...\n"
+"Обновява базата данни на mlocate.\n"
 "\n"
-"  -f, --add-prunefs FS           omit also FS\n"
-"  -n, --add-prunenames NAMES     omit also NAMES\n"
-"  -e, --add-prunepaths PATHS     omit also PATHS\n"
-"  -U, --database-root PATH       the subtree to store in database (default "
-"\"/\")\n"
-"  -h, --help                     print this help\n"
-"  -o, --output FILE              database to update (default\n"
+"  -f, --add-prunefs FS           пропусни и FS\n"
+"  -n, --add-prunenames NAMES     пропусни и NAMES\n"
+"  -e, --add-prunepaths PATHS     пропусни и PATHS\n"
+"  -U, --database-root PATH       поддървото за запис в базата данни (по "
+"подразбиране \"/\")\n"
+"  -h, --help                     отпечатва този помощен текст\n"
+"  -o, --output FILE              база данни за обновяване (по подразбиране\n"
 "                                 `%s')\n"
-"      --prune-bind-mounts FLAG   omit bind mounts (default \"no\")\n"
-"      --prunefs FS               filesystems to omit from database\n"
-"      --prunenames NAMES         directory names to omit from database\n"
-"      --prunepaths PATHS         paths to omit from database\n"
-"  -l, --require-visibility FLAG  check visibility before reporting files\n"
-"                                 (default \"yes\")\n"
-"  -v, --verbose                  print paths of files as they are found\n"
-"  -V, --version                  print version information\n"
+"      --prune-bind-mounts FLAG   пропуска bind mounts (по подразбиране \"no"
+"\")\n"
+"      --prunefs FS               пропусни файловата система FS от БД\n"
+"      --prunenames NAMES         пропусни директориите с имена NAMES от БД\n"
+"      --prunepaths PATHS         пропусни пътищата от базата данни\n"
+"  -l, --require-visibility FLAG  провери видимостта преди да докладваш "
+"файлове\n"
+"                                 (по подразлиране \"yes\")\n"
+"  -v, --verbose                  отпечатвай пътищата на файловете така, "
+"както са намерени\n"
+"  -V, --version                  отпечатай информация за версията\n"
 "\n"
-"The configuration defaults to values read from\n"
+"Подразбиращите се настройки са в\n"
 "`%s'.\n"
 
-#: src/conf.c:464 src/locate.c:642
+#: src/conf.c:464 src/locate.c:654
 #, c-format
 msgid ""
 "\n"
 "Report bugs to %s.\n"
 msgstr ""
 "\n"
-"Съобщаване за грешки на %s.\n"
+"Съобщавайте за грешки на %s.\n"
 
 #: src/conf.c:482
 msgid "can not get current working directory"
 msgstr "не може да се определи текущата работна директория"
 
 #: src/conf.c:540 src/conf.c:551 src/conf.c:561 src/conf.c:571
-#: src/locate.c:697 src/locate.c:706 src/locate.c:732 src/locate.c:790
+#: src/locate.c:714 src/locate.c:723 src/locate.c:749 src/locate.c:807
 #, c-format
 msgid "--%s would override earlier command-line argument"
-msgstr "--%s·ще презапише предишен аргумент на командния ред"
+msgstr "--%s·ще пренебрегне предишен аргумент на командния ред"
 
-#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:769
+#: src/conf.c:544 src/conf.c:584 src/conf.c:617 src/locate.c:786
 #, c-format
 msgid "invalid value `%s' of --%s"
 msgstr "невалидна стойност·`%s'·за·--%s"
 
-#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:763
+#: src/conf.c:580 src/conf.c:613 src/conf.c:628 src/locate.c:780
 #, c-format
 msgid "--%s specified twice"
 msgstr "--%s е зададен два пъти"
 
-#: src/conf.c:590 src/locate.c:722
+#: src/conf.c:590 src/locate.c:739
 msgid ""
 "Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
 "This software is distributed under the GPL v.2.\n"
@@ -170,12 +173,12 @@ msgstr "`%s' не изглежда да е база данни на mlocate"
 #: src/lib.c:206
 #, c-format
 msgid "`%s' has unknown version %u"
-msgstr "`%s'·е с неизвестна версия·%u"
+msgstr "`%s' е с неизвестна версия %u"
 
 #: src/lib.c:213
 #, c-format
 msgid "`%s' has unknown visibility flag %u"
-msgstr "`%s'·е с неизвестен флаг·%u"
+msgstr "`%s' е с неизвестен флаг за видимост %u"
 
 #: src/lib.c:268
 #, c-format
@@ -187,55 +190,56 @@ msgstr "неочакван край на файл при четене на `%s'"
 msgid "I/O error seeking in `%s'"
 msgstr "Вх/Изх грешка при търсене в `%s'"
 
-#: src/locate.c:335
+#: src/locate.c:338
 #, c-format
 msgid "Database %s:\n"
 msgstr "База данни %s:\n"
 
-#: src/locate.c:338
+#: src/locate.c:341
 #, c-format
 msgid "\t%'ju directory\n"
 msgid_plural "\t%'ju directories\n"
 msgstr[0] "\t%'ju·директория\n"
 msgstr[1] "\t%'ju·директории\n"
 
-#: src/locate.c:340
+#: src/locate.c:343
 #, c-format
 msgid "\t%'ju file\n"
 msgid_plural "\t%'ju files\n"
 msgstr[0] "\t%'ju файл\n"
 msgstr[1] "\t%'ju файла\n"
 
-#: src/locate.c:342
+#: src/locate.c:345
 #, c-format
 msgid "\t%'ju byte in file names\n"
 msgid_plural "\t%'ju bytes in file names\n"
-msgstr[0] "\t%'ju байт имена на файлове\n"
-msgstr[1] "\t%'ju байта имена на файлове\n"
+msgstr[0] "\t%'ju байт в имена на файлове\n"
+msgstr[1] "\t%'ju байта в имена на файлове\n"
 
-#: src/locate.c:344
+#: src/locate.c:347
 #, c-format
 msgid "\t%'ju byte used to store database\n"
 msgid_plural "\t%'ju bytes used to store database\n"
-msgstr[0] "\t%'ju байт използван за базата данни\n"
-msgstr[1] "\t%'ju байта използвани за базата данни\n"
+msgstr[0] "\t%'ju байт, използван за базата данни\n"
+msgstr[1] "\t%'ju байта, използвани за базата данни\n"
 
-#: src/locate.c:473
+#: src/locate.c:483
 #, c-format
 msgid "invalid empty directory name in `%s'"
-msgstr "невалидно име на празна директория `%s'"
+msgstr "невалидно празно име на директория в `%s'"
 
-#: src/locate.c:500
+#: src/locate.c:510
 #, c-format
 msgid "file name length %zu in `%s' is too large"
-msgstr "дължина %zu·на името на файл `%s'·е прекалено голяма"
+msgstr "прекалено голяма дължина %zu на името на файл в `%s'"
 
-#: src/locate.c:607
-#, c-format
+#: src/locate.c:617
+#, fuzzy, c-format
 msgid ""
 "Usage: locate [OPTION]... [PATTERN]...\n"
 "Search for entries in a mlocate database.\n"
 "\n"
+"  -A, --all              only print entries that match all patterns\n"
 "  -b, --basename         match only the base name of path names\n"
 "  -c, --count            only print number of found entries\n"
 "  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
@@ -261,120 +265,124 @@ msgid ""
 "  -V, --version          print version information\n"
 "  -w, --wholename        match whole path name (default)\n"
 msgstr ""
-"Usage: locate [OPTION]... [PATTERN]...\n"
-"Search for entries in a mlocate database.\n"
+"Употреба: locate [OPTION]... [PATTERN]...\n"
+"Търси за съвпадащи записи в mlocate база данни.\n"
 "\n"
-"  -b, --basename         match only the base name of path names\n"
-"  -c, --count            only print number of found entries\n"
-"  -d, --database DBPATH  use DBPATH instead of default database (which is\n"
+"  -b, --basename         съвпадение на основното име само от пътя на файла\n"
+"  -c, --count            само отпечатва броя намерени записи\n"
+"  -d, --database DBPATH  ползва DBPATH вместо подразбиращата се база данни "
+"(която е\n"
 "                         %s)\n"
-"  -e, --existing         only print entries for currently existing files\n"
-"  -L, --follow           follow trailing symbolic links when checking file\n"
-"                         existence (default)\n"
-"  -h, --help             print this help\n"
-"  -i, --ignore-case      ignore case distinctions when matching patterns\n"
-"  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries\n"
-"  -m, --mmap             ignored, for backward compatibility\n"
-"  -P, --nofollow, -H     don't follow trailing symbolic links when checking "
-"file\n"
-"                         existence\n"
-"  -0, --null             separate entries with NUL on output\n"
-"  -S, --statistics       don't search for entries, print statistics about "
-"each\n"
-"                         used database\n"
-"  -q, --quiet            report no error messages about reading databases\n"
-"  -r, --regexp REGEXP    search for basic regexp REGEXP instead of patterns\n"
-"      --regex            patterns are extended regexps\n"
-"  -s, --stdio            ignored, for backward compatibility\n"
-"  -V, --version          print version information\n"
-"  -w, --wholename        match whole path name (default)\n"
+"  -e, --existing         отпечатва записи само на съществуващи в момента "
+"файлове\n"
+"  -L, --follow           следвай символните връзки при проверка за "
+"съществуването\n"
+"                         на файловете (по подразбиране)\n"
+"  -h, --help             отпечатва този помощен текст\n"
+"  -i, --ignore-case      игнорирай разликата малки/ГОЛЕМИ букви при "
+"съвпаденията\n"
+"  -l, --limit, -n LIMIT  ограничи изхода (или броенето) до LIMIT записа\n"
+"  -m, --mmap             игнорира се, за обратна съвместимост\n"
+"  -P, --nofollow, -H     не следвай символните връзки при проверка за "
+"съществуването\n"
+"                         на файловете\n"
+"  -0, --null             отделяй записите с NUL на изхода\n"
+"  -S, --statistics       не търси записи, отпечатай статистика за всяка "
+"използвана\n"
+"                         база данни\n"
+"  -q, --quiet            не съобщавай грешките при четенето на базите данни\n"
+"  -r, --regexp REGEXP    търсене на основен regexp REGEXP вместо шаблон\n"
+"      --regex            шаблоните са разширени regexp\n"
+"  -s, --stdio            игнорира се, за обратна съвместимост\n"
+"  -V, --version          отпечатва информация за версията\n"
+"  -w, --wholename        съвпадение на пълния път и име (по подразбиране)\n"
 
-#: src/locate.c:806
+#: src/locate.c:823
 #, c-format
 msgid "non-option arguments are not allowed with --%s"
-msgstr "допълнителни аргументи не са позволени след·--%s"
+msgstr "аргументи не-опции не са позволени след·--%s"
 
-#: src/locate.c:819
+#: src/locate.c:836
 msgid "no pattern to search for specified"
-msgstr "не е зададен образец за търсене"
+msgstr "не е зададен шаблон за търсене"
 
-#: src/locate.c:846
+#: src/locate.c:863
 #, c-format
 msgid "invalid regexp `%s': %s"
 msgstr "невалиден регулярен израз `%s': %s"
 
-#: src/locate.c:932
+#: src/locate.c:949
 msgid "can not drop privileges"
 msgstr "неуспех при опит за работа с по-ниски привилегии"
 
-#: src/locate.c:947
+#: src/locate.c:964
 msgid "can not read two databases from standard input"
 msgstr "не е възможно да бъдат прочетени две бази данни от стандартния вход"
 
-#: src/locate.c:959 src/locate.c:974 src/updatedb.c:980
+#: src/locate.c:976 src/locate.c:991 src/updatedb.c:1009
 #, c-format
 msgid "can not stat () `%s'"
 msgstr "не може да се изпълни stat () за `%s'"
 
-#: src/locate.c:1034 src/updatedb.c:1004
+#: src/locate.c:1051 src/updatedb.c:1033
 msgid "I/O error while writing to standard output"
 msgstr "Вх/Изх грешка при запис на стандартния изход"
 
-#: src/updatedb.c:556 src/updatedb.c:663
+#: src/updatedb.c:580 src/updatedb.c:687
 #, c-format
 msgid "file name length %zu is too large"
-msgstr "дължина %zu·на името на файл е прекалено голяма"
+msgstr "дължина %zu на името на файл е прекалено голяма"
 
-#: src/updatedb.c:655
+#: src/updatedb.c:679
 #, c-format
 msgid "file system error: zero-length file name in directory %s"
-msgstr ""
+msgstr "грешка във файловата система: файл с нулева дължина в директория %s"
 
-#: src/updatedb.c:886
+#: src/updatedb.c:915
 #, c-format
 msgid "can not open a temporary file for `%s'"
 msgstr "не може да бъде отворен временен файл за `%s'"
 
-#: src/updatedb.c:899
+#: src/updatedb.c:928
 msgid "configuration is too large"
 msgstr "конфигурацията е прекалено голяма"
 
-#: src/updatedb.c:920
+#: src/updatedb.c:949
 #, c-format
 msgid "can not find group `%s'"
 msgstr "не може да бъде намерена група `%s'"
 
-#: src/updatedb.c:923
+#: src/updatedb.c:952
 #, c-format
 msgid "can not change group of file `%s' to `%s'"
-msgstr "не може да бъде променена групата на файл `%s'·на·`%s'"
+msgstr "не може да бъде променена групата на файл `%s' на `%s'"
 
-#: src/updatedb.c:937
+#: src/updatedb.c:966
 #, c-format
 msgid "can not change permissions of file `%s'"
 msgstr "не могат да бъдат променени позволенията на файл `%s'"
 
-#: src/updatedb.c:968
+#: src/updatedb.c:997
 #, c-format
 msgid "`%s' is locked (probably by an earlier updatedb)"
 msgstr "`%s' е заключен (вероятно от друг updatedb процес)"
 
-#: src/updatedb.c:970
+#: src/updatedb.c:999
 #, c-format
 msgid "can not lock `%s'"
 msgstr "не мога да заключа `%s'"
 
-#: src/updatedb.c:977
+#: src/updatedb.c:1006
 #, c-format
 msgid "can not change directory to `%s'"
-msgstr "не може да бъде променена директорията на `%s'"
+msgstr "не мога да променя директорията на `%s'"
 
-#: src/updatedb.c:986
+#: src/updatedb.c:1015
 #, c-format
 msgid "I/O error while writing to `%s'"
-msgstr "Вх/Изх грешка при запис до `%s'"
+msgstr "Вх/Изх грешка при запис в `%s'"
 
-#: src/updatedb.c:990
+#: src/updatedb.c:1019
 #, c-format
 msgid "error replacing `%s'"
 msgstr "грешка при заместване на `%s'"
