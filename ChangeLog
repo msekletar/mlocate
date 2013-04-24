@@ -1,3 +1,7 @@
+2013-04-24  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Call AM_PROG_AR as automake wants us to.
+
 2012-09-22  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Relase 0.26.

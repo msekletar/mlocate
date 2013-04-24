@@ -28,6 +28,7 @@ AM_INIT_AUTOMAKE([no-dist-gzip dist-xz no-define subdir-objects -Wall])
 AC_PROG_CC
 gl_EARLY
 AM_PROG_CC_C_O
+AM_PROG_AR
 AC_PROG_RANLIB
 # This interface seems to be undocumented, but bison uses it ;-)
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
