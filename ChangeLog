@@ -1,3 +1,9 @@
+2013-06-18  Miloslav Trmač  <mitr@redhat.com>
+
+	* doc/mlocate.db.5
+	* doc/updatedb.conf.5.in: Fix typos in roff directives.  Patch by
+	Eric S. Raymond <esr@thyrsus.com>.
+
 2013-04-24  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Call AM_PROG_AR as automake wants us to.
