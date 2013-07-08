@@ -1,3 +1,8 @@
+2013-07-08  Miloslav Trmač  <mitr@redhat.com>
+
+	* configure.ac: Update gettext version, which silences some autotools
+	warnings.
+
 2013-06-18  Miloslav Trmač  <mitr@redhat.com>
 
 	* doc/mlocate.db.5
