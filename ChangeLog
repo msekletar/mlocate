@@ -1,3 +1,8 @@
+2013-12-05  Miloslav Trmač  <mitr@redhat.com>
+
+	* src/updatedb.c (new_db_setup_permissions): Fix a typo in the temporary
+	umask value.
+
 2013-07-08  Miloslav Trmač  <mitr@redhat.com>
 
 	* configure.ac: Update gettext version, which silences some autotools

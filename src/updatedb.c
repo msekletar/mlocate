@@ -957,7 +957,7 @@ new_db_setup_permissions (void)
     {
       mode_t mask;
 
-      mask = umask (S_IRWXU | S_IRWXG | S_IRWXG);
+      mask = umask (S_IRWXU | S_IRWXG | S_IRWXO);
       umask (mask);
       mode = ((S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 	      & ~mask);
