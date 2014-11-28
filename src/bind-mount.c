@@ -273,14 +273,10 @@ static struct obstack bind_mount_paths_obstack;
 static void *bind_mount_paths_mark;
 
 /* Return a result of comparing A and B suitable for qsort () or bsearch () */
-static int
+static inline int
 cmp_ints (int a, int b)
 {
-  if (a > b)
-    return 1;
-  if (a < b)
-    return -1;
-  return 0;
+  return a > b ? 1 : a < b ? -1 : 0;
 }
 
 static int
