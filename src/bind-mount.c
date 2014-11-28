@@ -26,12 +26,17 @@ Author: Miloslav Trmac <mitr@redhat.com> */
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <sys/vfs.h>
 
 #include "obstack.h"
 
 #include "bind-mount.h"
 #include "conf.h"
 #include "lib.h"
+
+#ifndef BTRFS_SUPER_MAGIC
+#define BTRFS_SUPER_MAGIC 0x9123683e
+#endif
 
  /* mountinfo handling */
 
@@ -367,12 +372,51 @@ rebuild_bind_mount_paths (void)
   string_list_dir_path_sort (&bind_mount_paths);
 }
 
+bool
+is_btrfs_subvolume(const char * const path)
+{
+  int r;
+  struct statfs st;
+  struct stat st_path, st_parent;
+  char *parent, *s;
+
+  if (!path)
+    return false;
+
+  r = statfs(path, &st);
+  if (r < 0)
+    return false;
+
+  if (st.f_type != BTRFS_SUPER_MAGIC)
+    return false;
+
+  parent = strdupa(path);
+  if (!parent)
+    return false;
+
+  s = strrchr(parent, '/');
+  if (!s || s == parent)
+    return false;
+  *s = '\0';
+
+  r = stat(path, &st_path);
+  if (r < 0)
+    return false;
+
+  r = stat(parent, &st_parent);
+  if (r < 0)
+    return false;
+
+  return st_parent.st_dev != st_path.st_dev;
+}
+
 /* Return true if PATH is a destination of a bind mount.
    (Bind mounts "to self" are ignored.) */
 bool
 is_bind_mount (const char *path)
 {
   struct pollfd pfd;
+  bool r;
 
   /* Unfortunately (mount --bind $path $path/subdir) would leave st_dev
      unchanged between $path and $path/subdir, so we must keep reparsing
@@ -386,8 +430,16 @@ is_bind_mount (const char *path)
       rebuild_bind_mount_paths ();
       bind_mount_paths_index = 0;
     }
-  return string_list_contains_dir_path (&bind_mount_paths,
-					&bind_mount_paths_index, path);
+
+  r = string_list_contains_dir_path (&bind_mount_paths,
+                                     &bind_mount_paths_index, path);
+  if (!r)
+    return r;
+
+  /* We possibly have a bind mount, now let's check if we haven't been fooled
+     by btrfs mountinfo semantics, i.e. btrfs uses same devno in mountinfo for
+     all volumes related to single filesystem (see RHBZ #711881) */
+  return !is_btrfs_subvolume(path);
 }
 
 /* Initialize state for is_bind_mount(), to read data from MOUNTINFO. */
