@@ -1,0 +1,13 @@
+[Unit]
+Description=Update a database for mlocate
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/run-updatedb.sh
+Nice=19
+IOSchedulingClass=2
+IOSchedulingPriority=7
+PrivateTmp=true
+PrivateDevices=true
+PrivateNetwork=true
+ProtectSystem=true
