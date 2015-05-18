@@ -134,6 +134,76 @@ var_add_values (struct var *var, struct string_list *list, const char *val)
     }
 }
 
+static void
+prune_nodev_fs(struct string_list *list) {
+  FILE *f = NULL;
+  char line[LINE_MAX];
+  int r;
+
+  f = fopen("/proc/filesystems", "re");
+  if (!f)
+    goto out;
+
+  for (;;)
+    {
+      char *l;
+
+      if (!fgets (line, sizeof(line), f))
+        {
+          if (ferror (f))
+            goto out;
+          else if (feof (f))
+            break;
+        }
+
+      l = strrchr(line, '\n');
+      if (l)
+        *l = '\0';
+
+      l = line;
+
+      while (isspace (*l))
+        ++l;
+
+      if (l == '\0')
+        {
+          continue;
+        }
+
+      if (l == strstr (l, "nodev"))
+        {
+          l += strlen("nodev");
+
+          while (isspace (*l))
+            ++l;
+
+          if (!isalnum (*l))
+            continue;
+
+          if (strcmp (l, "zfs") != 0
+              && strcmp (l, "rootfs") != 0)
+            {
+              char *t = l;
+
+              while (*t)
+                {
+                  *t = toupper(*t);
+                  ++t;
+                }
+
+              l = strdup(l);
+              if (!l)
+                continue;
+
+              string_list_append (list, l);
+            }
+        }
+    }
+ out:
+  if (f)
+    fclose(f);
+}
+
 /* Clear contents of VAR and LIST */
 static void
 var_clear (struct var *var, struct string_list *list)
@@ -496,6 +566,7 @@ parse_arguments (int argc, char *argv[])
 
   static const struct option options[] =
     {
+      { "prune-nodev-fs", no_argument,  NULL, 'd' },
       { "add-prunefs", required_argument, NULL, 'f' },
       { "add-prunenames", required_argument, NULL, 'n' },
       { "add-prunepaths", required_argument, NULL, 'e' },
@@ -525,7 +596,7 @@ parse_arguments (int argc, char *argv[])
     {
       int opt, idx;
 
-      opt = getopt_long (argc, argv, "U:Ve:f:hl:n:o:v", options, &idx);
+      opt = getopt_long (argc, argv, "U:Vde:f:hl:n:o:v", options, &idx);
       switch (opt)
 	{
 	case -1:
@@ -593,6 +664,10 @@ parse_arguments (int argc, char *argv[])
 		  "This program is provided with NO WARRANTY, to the extent "
 		  "permitted by law."));
 	  exit (EXIT_SUCCESS);
+
+        case 'd':
+          prune_nodev_fs(&conf_prunefs);
+          break;
 
 	case 'e':
 	  prunepaths_changed = true;

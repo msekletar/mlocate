@@ -52,6 +52,10 @@ in
 .BR updatedb.conf (5).
 
 .TP
+\fB\-d\fR, \fB\-\-prune-nodev-fs
+Add all filesystems which are marked as nodev in /proc/filesystems to \fBPRUNEFS\fR.
+
+.TP
 \fB\-f\fR, \fB\-\-add-prunefs\fB \fIFS\fR
 Add entries in white-space-separated list \fIFS\fR to \fBPRUNEFS\fR.
 
