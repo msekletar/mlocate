@@ -362,7 +362,7 @@ filesystem_is_excluded (const char *path)
   bool res;
 
   if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
+    /* This is debugging output, don't mark anything for translation */
     fprintf (stderr, "Checking whether filesystem `%s' is excluded:\n", path);
   res = false;
   f = setmntent (MOUNT_TABLE_PATH, "r");
@@ -374,7 +374,7 @@ filesystem_is_excluded (const char *path)
       size_t size;
 
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr, " `%s', type `%s'\n", me->mnt_dir, me->mnt_type);
       size = strlen (me->mnt_type) + 1;
       while (size > type_size)
@@ -398,7 +398,7 @@ filesystem_is_excluded (const char *path)
 	  dir = me->mnt_dir;
 #endif
 	  if (conf_debug_pruning != false)
-	    /* This is debuging output, don't mark anything for translation */
+	    /* This is debugging output, don't mark anything for translation */
 	    fprintf (stderr, " => type matches, dir `%s'\n", dir);
 	  if (strcmp (path, dir) == 0)
 	    res = true;
@@ -412,7 +412,7 @@ filesystem_is_excluded (const char *path)
   endmntent (f);
  err:
   if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
+    /* This is debugging output, don't mark anything for translation */
     fprintf (stderr, "...done\n");
   return res;
 }
@@ -740,14 +740,14 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
 				     path))
     {
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr, "Skipping `%s': in prunepaths\n", path);
       goto err;
     }
   if (conf_prune_bind_mounts != false && is_bind_mount (path))
     {
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr, "Skipping `%s': bind mount\n", path);
       goto err;
     }
@@ -755,7 +755,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
 	       sizeof (*conf_prunenames.entries), cmp_string_pointer) != NULL)
     {
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr, "Skipping `%s': in prunenames\n", path);
       goto err;
     }
@@ -764,7 +764,7 @@ scan (char *path, int *cwd_fd, const struct stat *st_parent,
   if (st.st_dev != st_parent->st_dev && filesystem_is_excluded (path))
     {
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr, "Skipping `%s': in prunefs\n", path);
       goto err;
     }

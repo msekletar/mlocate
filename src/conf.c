@@ -731,7 +731,7 @@ conf_prepare (int argc, char *argv[])
     {
       const char *p;
 
-      /* This is debuging output, don't mark anything for translation */
+      /* This is debugging output, don't mark anything for translation */
       fprintf (stderr, "conf_block:\n");
       for (p = conf_block; p < conf_block + conf_block_size; p++)
 	{
