@@ -244,7 +244,7 @@ read_mount_entries (void)
   while ((me = read_mount_entry (f)) != NULL)
     {
       if (conf_debug_pruning != false)
-	/* This is debuging output, don't mark anything for translation */
+	/* This is debugging output, don't mark anything for translation */
 	fprintf (stderr,
 		 " `%s' (%d on %d) is `%s' of `%s' (%u:%u), type `%s'\n",
 		 me->mount_point, me->id, me->parent_id, me->root, me->source,
@@ -311,12 +311,12 @@ rebuild_bind_mount_paths (void)
   size_t i;
 
   if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
+    /* This is debugging output, don't mark anything for translation */
     fprintf (stderr, "Rebuilding bind_mount_paths:\n");
   if (read_mount_entries () != 0)
     return;
   if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
+    /* This is debugging output, don't mark anything for translation */
     fprintf (stderr, "Matching bind_mount_paths:\n");
   obstack_free (&bind_mount_paths_obstack, bind_mount_paths_mark);
   bind_mount_paths_mark = obstack_alloc (&bind_mount_paths_obstack, 0);
@@ -356,7 +356,7 @@ rebuild_bind_mount_paths (void)
 	      char *copy;
 
 	      if (conf_debug_pruning != false)
-		/* This is debuging output, don't mark anything for
+		/* This is debugging output, don't mark anything for
 		   translation */
 		fprintf (stderr, " => adding `%s'\n", me->mount_point);
 	      copy = obstack_copy (&bind_mount_paths_obstack, me->mount_point,
@@ -366,7 +366,7 @@ rebuild_bind_mount_paths (void)
 	}
     }
   if (conf_debug_pruning != false)
-    /* This is debuging output, don't mark anything for translation */
+    /* This is debugging output, don't mark anything for translation */
     fprintf (stderr, "...done\n");
   string_list_dir_path_sort (&bind_mount_paths);
 }

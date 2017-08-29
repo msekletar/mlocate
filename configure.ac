@@ -51,6 +51,7 @@ AM_GNU_GETTEXT_VERSION([0.18.2])
 ## getopt_long () availability should be checked here
 AC_CHECK_FUNCS_ONCE([fdopendir])
 AC_FUNC_GETMNTENT
+AC_FUNC_ALLOCA
 
 # Checks for system services.
 AC_SYS_LARGEFILE
